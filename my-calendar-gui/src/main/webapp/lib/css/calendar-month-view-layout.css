@@ -18,3 +18,52 @@
 	display: block;
 	background: #0000FF;
 }
+
+#calendar-month-grid-container{
+	display: table;
+	width: 100%;
+	right: 0px;
+}
+
+#calendar-week-grid-container{
+	display: table;
+	width: 100%;
+	right: 0px;
+}
+
+.calendar-week-container{
+	display: table-row-group;
+}
+
+.calendar-week-day-container{
+	border: 1px solid #0000FF;
+	display: table-cell;
+	width: 14%;
+}
+
+.calendar-day-container{
+	border: 1px solid #F2F2F2;
+	display: table-cell;
+	width: 14%;
+}
+
+.calendar-week-day{
+	display:block;
+	text-align: center;
+	background: #0000FF;
+}
+
+.calendar-day{
+	//display: block;
+	background: #FCFCFC;
+}
+
+.calendar-date{
+	display: block;
+	text-align: right;
+}
+
+.calendar-day-summary{
+	display: block;
+	padding: 5px;
+}

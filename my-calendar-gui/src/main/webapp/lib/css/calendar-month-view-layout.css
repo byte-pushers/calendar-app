@@ -1,0 +1,20 @@
+#calendar-container{
+	border: 1px solid black;
+	display: block;
+	background: #F0F8FF;
+}
+
+#calendar-menu-container{
+	display: block;
+	background: #D2E9FF;
+}
+
+#calendar-nav-container{
+	display: block;
+	background: #F0FFFF;
+}
+
+#calendar-header-container{
+	display: block;
+	background: #0000FF;
+}

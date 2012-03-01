@@ -1,0 +1,27 @@
+#my-calendar-web-ui-menu-container {
+	background: #D2E9FF;
+	display: block;
+}
+
+#my-calendar-web-ui nav {
+	width: 100%;
+	display: block;
+	background: #87CEEB;
+}
+
+#my-calendar-web-ui-week-days {
+	width: 100%;
+}
+
+#my-calendar-web-ui-month {
+	width: 100%;
+	border-collapse:collapse;
+}
+
+#my-calendar-web-ui-month td {
+	text-align: right;
+}
+
+#my-calendar-web-ui-month table, tr, td {
+	border: 1px solid gray;
+}

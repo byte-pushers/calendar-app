@@ -10,13 +10,15 @@
 }
 
 #calendar-nav-container{
-	display: block;
+	display: table;
+	width: 100%;
 	background: #F0FFFF;
+	//border: 1px solid;
 }
 
 #calendar-header-container{
-	display: block;
-	background: #0000FF;
+	display: table-cell;
+	
 }
 
 #calendar-month-grid-container{
@@ -29,6 +31,12 @@
 	display: table;
 	width: 100%;
 	right: 0px;
+}
+
+.calendar-month-nav-container{
+	display: table-cell;
+	right: 0px;
+	text-align: right;
 }
 
 .calendar-week-container{

@@ -13,7 +13,7 @@
 	<build>
 		<resources>
 			<resource>
-				<directory>src/main/javascript</directory>
+				<directory>src/main/webapp/lib/js</directory>
 				<filtering>true</filtering>
 			</resource>
 		</resources>
@@ -30,8 +30,8 @@
 					</execution>
 				</executions>
 				<configuration>
-					<jsSrcDir>${project.basedir}/src/main/webapp/js</jsSrcDir>
-					<jsTestSrcDir>${project.basedir}/src/test/jasmine</jsTestSrcDir>
+					<jsSrcDir>${project.basedir}/src/main/webapp/lib/js</jsSrcDir>
+					<jsTestSrcDir>${project.basedir}/src/test/webapp/lib/js</jsTestSrcDir>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -81,7 +81,7 @@
 				<artifactId>maven-jstools-plugin</artifactId>
 				<version>0.7</version>
 				<configuration>
-					<jsDir>src/main/javascript</jsDir>
+					<jsDir>src/main/webapp/lib/js</jsDir>
 					<includePrivate>true</includePrivate>
 					<includeUndocumented>true</includeUndocumented>
 				</configuration>

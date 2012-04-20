@@ -1,6 +1,3 @@
-
-
-
 function createStaticWeekForFebruary(){
 	var weeks = Array();
 	

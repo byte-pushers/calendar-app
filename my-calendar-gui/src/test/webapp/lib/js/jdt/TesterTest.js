@@ -3,5 +3,5 @@
 
 var t = (new Tester()).getInstance(TestClass);
 var type = t._privates.doTest();
-t._privates["xdoTest"];
+t._privates["doTest"];
 

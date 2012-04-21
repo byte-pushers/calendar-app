@@ -1,4 +1,4 @@
-function Day(date, weekIndex){
+function Day(date, weekIndex){       
 	this.date = date;
 	this.weekIndex = (weekIndex === undefined)? -1: weekIndex;
 	
@@ -89,7 +89,7 @@ function Month(){
 	var that = this;
 	this.TOTAL_WEEKDAYS = 7;
 	this.weeks = getWeeksInMonth(new Date());
-	this.name = this.getMonthName((new Date()).getMonth(), false);
+	//this.name = this.getMonthName((new Date()).getMonth(), false);
 	
 	function getWeek(date){
 		var weekdays = new Array();

@@ -1,18 +1,19 @@
 <!doctype html>
-<html xmlns:ng="http://angularjs.org/">
+<html ng-app>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>HTML5 tabs</title>
+    <title><html ng-app></title>
     <link rel="stylesheet" href="lib/css/calendar-month-view-layout.css">
-    <script src="../../test/webapp/lib/js/web/static-calendar.js"></script>
-    <script src="lib/js/calendar-app.js"></script>
+    <script src="http://code.angularjs.org/angular-1.0.0rc5.min.js"></script>
+    <script src="lib/js/CalendarAPI.js"></script>
+	<script src="lib/js/CalendarController.js"></script>
 </head>
-<body ng:controller="CalendarCtrl">
+<body>
     <!-- HTML5 TABS CODE -->
-	<div id="calendar-container">Container
+	<div id="calendar-container" ng-controller="CalendarCtrl">Container
 		<div id="calendar-menu-container">Menu</div>
 		<div id="calendar-nav-container">
-			<div id="calendar-header-container">February</div>
+			<div id="calendar-header-container">{{month.name}}</div>
 			<div class="calendar-month-nav-container">&nbsp; &nbsp;</div>
 		</div>
 		<div id="calendar-week-grid-container">
@@ -41,46 +42,46 @@
 			</div>
 		</div>
 		<div id="calendar-month-grid-container">
-			<div class="calendar-week-container" ng:repeat="week in weeks">
+			<div class="calendar-week-container" ng-repeat="week in weeks">
 				<div class="calendar-day-container">
 					<div class="calendar-day">
-						<div class="calendar-date">{{week.getDate("Sunday")}}</div>
+						<div class="calendar-date">{{week.sunday.getWeekDate()}}</div>
 						<div class="calendar-day-summary"></div>
 					</div>
 				</div>
 				<div class="calendar-day-container">
 					<div class="calendar-day">
-						<div class="calendar-date">{{week.monday.weekday}}</div>
+						<div class="calendar-date">{{week.monday.getWeekDate()}}</div>
 						<div class="calendar-day-summary"></div>
 					</div>
 				</div>
 				<div class="calendar-day-container">
 					<div class="calendar-day">
-						<div class="calendar-date">{{week.tuesday.weekday}}</div>
+						<div class="calendar-date">{{week.tuesday.getWeekDate()}}</div>
 						<div class="calendar-day-summary"></div>
 					</div>
 				</div>
 				<div class="calendar-day-container">
 					<div class="calendar-day">
-						<div class="calendar-date">{{week.wednesday.weekday}}</div>
+						<div class="calendar-date">{{week.wednesday.getWeekDate()}}</div>
 						<div class="calendar-day-summary"></div>
 					</div>
 				</div>
 				<div class="calendar-day-container">
 					<div class="calendar-day">
-						<div class="calendar-date">{{week.thursday.weekday}}</div>
+						<div class="calendar-date">{{week.thursday.getWeekDate()}}</div>
 						<div class="calendar-day-summary"></div>
 					</div>
 				</div>
 				<div class="calendar-day-container">
 					<div class="calendar-day">
-						<div class="calendar-date">{{week.friday.weekday}}</div>
+						<div class="calendar-date">{{week.friday.getWeekDate()}}</div>
 						<div class="calendar-day-summary"></div>
 					</div>
 				</div>
 				<div class="calendar-day-container">
 					<div class="calendar-day">
-						<div class="calendar-date">{{week.saturday.weekday}}</div>
+						<div class="calendar-date">{{week.saturday.getWeekDate()}}</div>
 						<div class="calendar-day-summary"></div>
 					</div>
 				</div>
@@ -91,8 +92,5 @@
 		</div>
 	</div>
     <!-- /HTML5 TABS CODE -->
-    
-    <script src="lib/js/angular/angular.js" ng:autobind></script>
-  	<script src="lib/js/CalendarControllers.js"></script>
 </body>
 </html>

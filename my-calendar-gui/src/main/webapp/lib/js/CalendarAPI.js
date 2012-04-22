@@ -1,3 +1,16 @@
+var monthNames = [{"name": "January", "abbr": "Jan", "getTotalDays": function(year){return 31;}},
+                  {"name": "February", "abbr": "Feb", "getTotalDays": function(year){if(year){return (year%4 == 0)?29:28;}else{throw exception("Expected parameter(Year) is not defined.");}}},
+                  {"name": "March", "abbr": "Mar", "getTotalDays": function(year){return 31;}},
+                  {"name": "April", "abbr": "Apr", "getTotalDays": function(year){return 30;}},
+                  {"name": "May", "abbr": "May", "getTotalDays": function(year){return 31;}},
+                  {"name": "June", "abbr": "Jun", "getTotalDays": function(year){return 30;}},
+                  {"name": "July", "abbr": "Jul", "getTotalDays": function(year){return 31;}},
+                  {"name": "August", "abbr": "Aug", "getTotalDays": function(year){return 31;}},
+                  {"name": "September", "abbr": "Sept", "getTotalDays": function(year){return 30;}},
+                  {"name": "October", "abbr": "Oct", "getTotalDays": function(year){return 31;}},
+                  {"name": "November", "abbr": "Nov", "getTotalDays": function(year){return 30;}},
+                  {"name": "December", "abbr": "Dec", "getTotalDays": function(year){return 31;}}];
+
 function Day(date, weekIndex){       
 	this.date = date;
 	this.weekIndex = (weekIndex === undefined)? -1: weekIndex;
@@ -72,24 +85,17 @@ function Week(weekdays){
 	};
 }
 
-Week.prototype.monthNames = [{"name": "January", "abbr": "Jan", "getTotalDays": function(year){return 31;}},
-                                              {"name": "February", "abbr": "Feb", "getTotalDays": function(year){if(year){return (year%4 == 0)?29:28;}else{throw exception("Expected parameter(Year) is not defined.");}}},
-                                              {"name": "March", "abbr": "Mar", "getTotalDays": function(year){return 31;}},
-                                              {"name": "April", "abbr": "Apr", "getTotalDays": function(year){return 30;}},
-                                              {"name": "May", "abbr": "May", "getTotalDays": function(year){return 31;}},
-                                              {"name": "June", "abbr": "Jun", "getTotalDays": function(year){return 30;}},
-                                              {"name": "July", "abbr": "Jul", "getTotalDays": function(year){return 31;}},
-                                              {"name": "August", "abbr": "Aug", "getTotalDays": function(year){return 31;}},
-                                              {"name": "September", "abbr": "Sept", "getTotalDays": function(year){return 30;}},
-                                              {"name": "October", "abbr": "Oct", "getTotalDays": function(year){return 31;}},
-                                              {"name": "November", "abbr": "Nov", "getTotalDays": function(year){return 30;}},
-                                              {"name": "December", "abbr": "Dec", "getTotalDays": function(year){return 31;}}];
-
+Week.prototype.monthNames = monthNames;
 function Month(){
 	var that = this;
 	this.TOTAL_WEEKDAYS = 7;
 	this.weeks = getWeeksInMonth(new Date());
-	//this.name = this.getMonthName((new Date()).getMonth(), false);
+	this.name = getMonthName((new Date()).getMonth(), false);
+	
+	function getMonthName(monthIndex, getAbbr){
+		if(getAbbr) return monthNames[monthIndex].abbr;
+		else return monthNames[monthIndex].name;
+	};
 	
 	function getWeek(date){
 		var weekdays = new Array();
@@ -192,18 +198,7 @@ function Month(){
 	};
 }
 
-Month.prototype.monthNames = [{"name": "January", "abbr": "Jan", "getTotalDays": function(year){return 31;}},
-            	                   {"name": "February", "abbr": "Feb", "getTotalDays": function(year){if(year){return (year%4 == 0)?29:28;}else{throw exception("Expected parameter(Year) is not defined.");}}},
-            	                   {"name": "March", "abbr": "Mar", "getTotalDays": function(year){return 31;}},
-            	                   {"name": "April", "abbr": "Apr", "getTotalDays": function(year){return 30;}},
-            	                   {"name": "May", "abbr": "May", "getTotalDays": function(year){return 31;}},
-            	                   {"name": "June", "abbr": "Jun", "getTotalDays": function(year){return 30;}},
-            	                   {"name": "July", "abbr": "Jul", "getTotalDays": function(year){return 31;}},
-            	                   {"name": "August", "abbr": "Aug", "getTotalDays": function(year){return 31;}},
-            	                   {"name": "September", "abbr": "Sept", "getTotalDays": function(year){return 30;}},
-            	                   {"name": "October", "abbr": "Oct", "getTotalDays": function(year){return 31;}},
-            	                   {"name": "November", "abbr": "Nov", "getTotalDays": function(year){return 30;}},
-            	                   {"name": "December", "abbr": "Dec", "getTotalDays": function(year){return 31;}}];
+Month.prototype.monthNames = monthNames;
 
 Month.prototype.getPreviousMonthTotalDays = function(date){
 	if(date.getMonth() == 0){
@@ -222,7 +217,4 @@ Month.prototype.getNextMonthTotalDays = function(date){
 	}
 };
 
-Month.prototype.getMonthName = function(monthIndex, getAbbr){
-	if(getAbbr) return this.monthNames[monthIndex].abbr;
-	else return this.monthNames[monthIndex].name;
-};
+

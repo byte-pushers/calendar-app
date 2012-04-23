@@ -13,14 +13,28 @@
 	<build>
 		<plugins>
 			<plugin>
+				<groupId>nl.windgazer</groupId>
+				<artifactId>jsdoctk-plugin</artifactId>
+				<version>2.3.2</version>
+				<configuration>
+					<srcDir>${basedir}/src/main/webapp/lib/js</srcDir>
+					<recurse>5</recurse><!-- This is the *level of recursion*, not a boolean -->
+					<allfunctions>true</allfunctions>
+                	<Allfunctions>true</Allfunctions>
+                	<exclude><!-- Since jsdoctk 2.3.2 -->
+                        <param>angular</param><!--Multiple param entries allowed-->
+                </exclude>
+				</configuration>
+			</plugin>
+			<plugin>
 				<groupId>com.googlecode.jstd-maven-plugin</groupId>
 				<artifactId>jstd-maven-plugin</artifactId>
 				<version>1.3.2.5</version>
 				<configuration>
 					<verbose>true</verbose>
-                    <!--You might need to adjust this depending on your OS.  On Mac,
-                         this will launch your default browser-->
-                    <browser>open</browser>
+					<!--You might need to adjust this depending on your OS. On Mac, this 
+						will launch your default browser -->
+					<browser>open</browser>
 					<port>9876</port>
 				</configuration>
 				<executions>
@@ -32,33 +46,6 @@
 					</execution>
 				</executions>
 			</plugin>
-			<!--plugin>
-				<groupId>com.github.searls</groupId>
-				<artifactId>jasmine-maven-plugin</artifactId>
-				<version>1.1.0</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>test</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<jsSrcDir>${project.basedir}/src/main/webapp/lib/js</jsSrcDir>
-					<jsTestSrcDir>${project.basedir}/src/test/webapp/lib/js</jsTestSrcDir>
-
-					<sourceExcludes>
-						<exclude>**/angular/*.js</exclude>
-					</sourceExcludes>
-					
-					<sourceIncludes-->
-					  <!--include>vendor/**/*.js</include>
-					  <include>myBootstrapFile.js</include-->
-					  <!--include>**/*.js</include-->
-					  <!--include>**/*.coffee</include-->
-					<!--/sourceIncludes>
-				</configuration>
-			</plugin-->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
@@ -80,22 +67,6 @@
 					</execution>
 				</executions>
 			</plugin>
-			<plugin>
-				<groupId>net.alchim31.maven</groupId>
-				<artifactId>yuicompressor-maven-plugin</artifactId>
-				<version>1.1</version>
-				<executions>
-					<execution>
-						<configuration></configuration>
-						<goals>
-							<goal>compress</goal>
-						</goals>
-						<id>compress-js</id>
-						<inherited></inherited>
-						<phase></phase>
-					</execution>
-				</executions>
-			</plugin>
 		</plugins>
 	</build>
 
@@ -113,44 +84,24 @@
 		</dependency>
 	</dependencies>
 
-	<reporting>
-		<plugins>
-			<plugin>
-				<groupId>gr.abiss.mvn.plugins</groupId>
-				<artifactId>maven-jstools-plugin</artifactId>
-				<version>0.7</version>
-				<configuration>
-					<jsDir>src/main/webapp/lib/js</jsDir>
-					<includePrivate>true</includePrivate>
-					<includeUndocumented>true</includeUndocumented>
-				</configuration>
-				<reportSets>
-					<reportSet>
-						<reports>
-							<report>jslint</report>
-							<report>jsdoc</report>
-						</reports>
-					</reportSet>
-				</reportSets>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-report-plugin</artifactId>
-				<version>2.6</version>
-			</plugin>
-		</plugins>
-	</reporting>
-
 	<repositories>
 		<repository>
 			<id>jstd-maven-plugin google code repo</id>
 			<url>http://jstd-maven-plugin.googlecode.com/svn/maven2</url>
+		</repository>
+		<repository>
+			<id>jsdoctk1</id>
+			<url>http://jsdoctk-plugin.googlecode.com/svn/repo</url>
 		</repository>
 	</repositories>
 	<pluginRepositories>
 		<pluginRepository>
 			<id>jstd-maven-plugin google code repo</id>
 			<url>http://jstd-maven-plugin.googlecode.com/svn/maven2</url>
+		</pluginRepository>
+		<pluginRepository>
+			<id>jsdoctk2</id>
+			<url>http://jsdoctk-plugin.googlecode.com/svn/repo</url>
 		</pluginRepository>
 	</pluginRepositories>
 </project>

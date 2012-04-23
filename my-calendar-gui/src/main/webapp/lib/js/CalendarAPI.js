@@ -11,26 +11,70 @@ var monthNames = [{"name": "January", "abbr": "Jan", "getTotalDays": function(ye
                   {"name": "November", "abbr": "Nov", "getTotalDays": function(year){return 30;}},
                   {"name": "December", "abbr": "Dec", "getTotalDays": function(year){return 31;}}];
 
-function Day(date, weekIndex){       
+
+/**
+ * Creates a Day object that represents the day of the {@link Week}.
+ * 
+ * @class Represents a Day of the week or month.
+ * @param date The date of the day.
+ * @param weekIndex The week index of the month for this day.
+ * 
+ * @returns An instance of the Day class.
+ * 
+ * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
+*/
+function Day(/**<a href="http://www.w3schools.com/jsref/jsref_obj_date.asp">Date</a>}*/date, 
+			 /**<a href="http://www.w3schools.com/jsref/jsref_obj_number.asp">Number</a>}*/weekIndex){       
 	this.date = date;
 	this.weekIndex = (weekIndex === undefined)? -1: weekIndex;
 	
-	this.weekdayNames = [{"name": "Sunday", "abbr": "Sun"},
-	                     {"name": "Monday", "abbr": "Mon"},
-	                     {"name": "Tuesday", "abbr": "Tue"},
-	                     {"name": "Wednesday", "abbr": "Wed"},
-	                     {"name": "Thursday", "abbr": "Thu"},
-	                     {"name": "Friday", "abbr": "Fri"},
-	                     {"name": "Saturday", "abbr": "Sat"}];
+	this.weekdayNames = [{"name": "Sunday", "abbr": "Sun."},
+	                     {"name": "Monday", "abbr": "Mon."},
+	                     {"name": "Tuesday", "abbr": "Tue."},
+	                     {"name": "Wednesday", "abbr": "Wed."},
+	                     {"name": "Thursday", "abbr": "Thu."},
+	                     {"name": "Friday", "abbr": "Fri."},
+	                     {"name": "Saturday", "abbr": "Sat."}];
 	
-	this.getWeekDay = function(){
-		return this.weekdayNames[this.date.getDay()].name;
+	/**
+	 * <p>Gets the weekday name.</p> 
+	 * <p>This method could return for example: Sunday, 
+	 * Sun., Monday, Mon., Tuesday, Tue., Wednesday, Wed., Thursday, Thu., 
+	 * Friday, Fri., Saturday, or Sat.</p>
+	 * 
+	 * @param abbr An optional abbreviation flag the returns the abbreviated version 
+	 * 				of the weekday name when set to true.
+	 * 
+	 * @returns {String} The name of the weekday.
+	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
+	*/
+	this.getWeekDay = function(/**Boolean*/abbr){
+		return (abbr !== undefined && abbr == true)?
+				this.weekdayNames[this.date.getDay()].abbr :
+					this.weekdayNames[this.date.getDay()].name;
 	};
 	
+	/**
+	 * <p>Gets the date for the day of the month.</p>
+	 * 
+	 * @param abbr An optional flag that returns the abbreviated weekday name when flag is set to true.
+	 * 
+	 * @returns {String} The name of the weekday.
+	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
+	*/
 	this.getWeekDate = function(){
 		return this.date.getDate();
 	};
 	
+	/**
+	 * <p>Gets the actual <a href="http://www.w3schools.com/jsref/jsref_obj_date.asp">Date</a> Object for the weekday.</p>
+	 * 
+	 * @param abbr An optional abbreviation flag the returns the abbreviated version 
+	 * 				of the weekday name when set to true.
+	 * 
+	 * @returns {String} The name of the weekday.
+	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
+	*/
 	this.getDate = function(){
 		return this.date;
 	};
@@ -41,15 +85,17 @@ function Day(date, weekIndex){
 }
 
 
-function print(obj){
-	var str = "";
-	for(prop in obj){
-		
-		str+=prop +" value :"+ obj[prop]+"\n";//Concate prop and its value from object
-	}
-	return str;
-}
 
+/**
+ * Creates a {@link Week} object that represents a calendar week in a calendar month.
+ * 
+ * @class Represents a {@link Week} of the {@link Month}.
+ * @param weekdays An array of weekdays that represents a calendar week.
+ * 
+ * @returns An instance of the Week class based on the weekdays passed in.
+ * 
+ * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
+*/
 function Week(weekdays){
 	this.weekdays = (weekdays === undefined)? new Array(): weekdays;
 	this.sunday = (this.weekdays.length >= 1)? this.weekdays[0] : null;
@@ -60,6 +106,13 @@ function Week(weekdays){
 	this.friday = (this.weekdays.length >= 6)? this.weekdays[5] : null;
 	this.saturday = (this.weekdays.length >= 7)? this.weekdays[6] : null;
 	
+	/**
+	 * Determines if this instance of {@link Week} is the first week in the calendar month. 
+	 * 
+	 * @returns {Boolean} true if this instance of {@link Week} is the first week of the calendar month.
+	 * Otherwise, it will return false.
+	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
+	*/
 	this.isFirstWeekInMonth = function(){
 		for(var i = 0; i < this.weekdays.length; i++){
 			if(this.weekdays[i].getWeekDate() == 1){
@@ -70,6 +123,14 @@ function Week(weekdays){
 		return false;
 	};
 	
+	
+	/**
+	 * Determines if this instance of {@link Week} is the last week in the calendar month. 
+	 * 
+	 * @returns {Boolean} true if this instance of {@link Week} is the last week of the calendar month.
+	 * Otherwise, it will return false.
+	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
+	*/
 	this.isLastWeekInMonth = function(){
 		for(var i = 0; i < this.weekdays.length; i++){
 			var monthIndex = this.weekdays[i].getDate().getMonth();
@@ -85,19 +146,68 @@ function Week(weekdays){
 	};
 }
 
+/**
+ * <p>Static field that is used to get calendar full name, abbreviated names, and total calendar days.</p>
+ * @static
+ * @field
+ * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
+*/
 Week.prototype.monthNames = monthNames;
+
+
+
+
+
+
+/**
+ * Creates a {@link Month} object that represents the current calendar month.
+ * 
+ * @class Represents a calendar month.
+ * @returns An instance of the Week class.
+ * 
+ * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
+*/
 function Month(){
 	var that = this;
 	this.TOTAL_WEEKDAYS = 7;
+	/**
+	 * <p>Represents all the weeks in the Month.  This field is populated during object creation.</p>
+	 * @field
+	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
+	*/
 	this.weeks = getWeeksInMonth(new Date());
+	/**
+	 * <p>Represents the name of the Month.  This field is populated during object creation.</p>
+	 * @field
+	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
+	*/
 	this.name = getMonthName((new Date()).getMonth(), false);
 	
-	function getMonthName(monthIndex, getAbbr){
-		if(getAbbr) return monthNames[monthIndex].abbr;
-		else return monthNames[monthIndex].name;
+	/**
+	 * <p>Gets month name.</p> 
+	 * @private
+	 * @param index Represents the position of the month in a month array.
+	 * @param useAbbr An optional boolean flag that governs whether the 
+	 * 				  full name of the month is returned or its abbreviation.
+	 * 
+	 * @returns {String} The name of the weekday.
+	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
+	*/
+	function getMonthName(/**<a href="http://www.w3schools.com/jsref/jsref_obj_number.asp">Number</a>*/index,
+						  /**<a href="http://www.w3schools.com/jsref/jsref_obj_boolean.asp">Boolean</a>*/getAbbr){
+		if(getAbbr) return monthNames[index].abbr;
+		else return monthNames[index].name;
 	};
 	
-	function getWeek(date){
+	/**
+	 * <p>Gets {@link Week} based on the <a href="http://www.w3schools.com/jsref/jsref_obj_date.asp">Date</a> pass in.</p> 
+	 * @private 
+	 * @param date Represents some arbitrary calendar date.
+	 * 
+	 * @returns {@link Week} An array of weekdays that represents an entire week that contains the <a href="http://www.w3schools.com/jsref/jsref_obj_date.asp">Date</a> passed in.
+	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
+	*/
+	function getWeek(/**<a href="http://www.w3schools.com/jsref/jsref_obj_date.asp">Date</a>*/date){
 		var weekdays = new Array();
 		
 		var weekDaysBefore = getRemainingWeekDaysBefore(new Date(date.getTime()));
@@ -115,7 +225,16 @@ function Month(){
 		return new Week(weekdays);
 	};
 	
-	function getWeekBefore(date){
+	
+	/**
+	 * <p>Gets {@link Week} before the <a href="http://www.w3schools.com/jsref/jsref_obj_date.asp">Date</a> pass in.</p> 
+	 * @private 
+	 * @param date Represents some arbitrary calendar date.
+	 * 
+	 * @returns {@link Week} An array of weekdays that represents an entire week that is before the <a href="http://www.w3schools.com/jsref/jsref_obj_date.asp">Date</a> passed in.
+	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
+	*/
+	function getWeekBefore(/**<a href="http://www.w3schools.com/jsref/jsref_obj_date.asp">Date</a>*/date){
 		var weekdays = new Array();
 		var totalDays = that.TOTAL_WEEKDAYS+date.getDay();
 		
@@ -129,7 +248,15 @@ function Month(){
 		return new Week(weekdays);
 	};
 	
-	function getWeekAfter(date){
+	/**
+	 * <p>Gets {@link Week} after the <a href="http://www.w3schools.com/jsref/jsref_obj_date.asp">Date</a> pass in.</p> 
+	 * @private 
+	 * @param date Represents some arbitrary calendar date.
+	 * 
+	 * @returns {@link Week} An array of weekdays that represents an entire week that is after the <a href="http://www.w3schools.com/jsref/jsref_obj_date.asp">Date</a> passed in up to and including the last day in the week.
+	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
+	*/
+	function getWeekAfter(/**<a href="http://www.w3schools.com/jsref/jsref_obj_date.asp">Date</a>*/date){
 		var weekdays = new Array();
 		var totalDays = (that.TOTAL_WEEKDAYS-1 - date.getDay()) + that.TOTAL_WEEKDAYS;
 		
@@ -143,7 +270,15 @@ function Month(){
 		return new Week(weekdays);
 	};
 	
-	function getRemainingWeekDaysBefore(date){
+	/**
+	 * <p>Gets remaining weekdays left in the {@link Week} before the <a href="http://www.w3schools.com/jsref/jsref_obj_date.asp">Date</a> pass in.</p> 
+	 * @private 
+	 * @param date Represents some arbitrary calendar date.
+	 * 
+	 * @returns {@link Array} An array of the remaining weekdays of the week before is the <a href="http://www.w3schools.com/jsref/jsref_obj_date.asp">Date</a> passed in.
+	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
+	*/
+	function getRemainingWeekDaysBefore(/**<a href="http://www.w3schools.com/jsref/jsref_obj_date.asp">Date</a>*/date){
 		var weekdays = new Array();
 		var weekday = date.getDay() -1;
 		
@@ -154,7 +289,15 @@ function Month(){
 		return weekdays;
 	};
 	
-	function getRemainingWeekDaysAfter(date){
+	/**
+	 * <p>Gets remaining weekdays left in the {@link Week} after the <a href="http://www.w3schools.com/jsref/jsref_obj_date.asp">Date</a> pass in.</p> 
+	 * @private 
+	 * @param date Represents some arbitrary calendar date.
+	 * 
+	 * @returns {@link Array} An array of the remaining weekdays of the week after the <a href="http://www.w3schools.com/jsref/jsref_obj_date.asp">Date</a> passed in.
+	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
+	*/
+	function getRemainingWeekDaysAfter(/**<a href="http://www.w3schools.com/jsref/jsref_obj_date.asp">Date</a>*/date){
 		var weekdays = new Array();
 		var weekday = date.getDay()+1;
 		
@@ -165,7 +308,16 @@ function Month(){
 		return weekdays;
 	};
 	
-	function getFirstWeekInMonth(someWeekInMonth){
+	
+	/**
+	 * <p>Retrieves the first week in the calendar month.
+	 * @private 
+	 * @param {@link Week} Represents some arbitrary calendar week in a calendar month.
+	 * 
+	 * @returns {@link Week} The first week in calendar month.
+	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
+	*/
+	function getFirstWeekInMonth(/**{@link Week}*/someWeekInMonth){
 		var firstWeekInMonth = null;
 		
 		do{
@@ -179,7 +331,15 @@ function Month(){
 		return firstWeekInMonth;
 	};
 	
-	function getWeeksInMonth(date){
+	/**
+	 * <p>Retrieves all the weeks in a calendar month.
+	 * @private 
+	 * @param {@link Week} Represents some arbitrary calendar <a href="http://www.w3schools.com/jsref/jsref_obj_date.asp">Date</a> in a calendar month.
+	 * 
+	 * @returns {@link Week} The all the {@link Week}s in the calendar month.
+	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
+	*/
+	function getWeeksInMonth(/**<a href="http://www.w3schools.com/jsref/jsref_obj_date.asp">Date</a>*/date){
 		var weeksInMonth = new Array();
 		var someWeekInMonth = getWeek(date);
 		var firstWeekInMonth = getFirstWeekInMonth(someWeekInMonth);
@@ -197,10 +357,23 @@ function Month(){
 		return weeksInMonth;
 	};
 }
-
+/**
+ * <p>Static field that is used to get calendar full name, abbreviated names, and total calendar days.</p>
+ * @static
+ * @field
+ * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
+*/
 Month.prototype.monthNames = monthNames;
 
-Month.prototype.getPreviousMonthTotalDays = function(date){
+/**
+ * <p>Static field that is used to get calendar total calendar days of the previous month.</p>
+ * @static
+ * @function
+ * @param date Represents some arbitrary calendar date.
+ * @return {@link <a href="http://www.w3schools.com/jsref/jsref_obj_number.asp">Number</a>} The total days in the previous month.
+ * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
+*/
+Month.prototype.getPreviousMonthTotalDays = function(/**<a href="http://www.w3schools.com/jsref/jsref_obj_date.asp">Date</a>*/date){
 	if(date.getMonth() == 0){
 		return this.monthNames[11].getTotalDays(date.getFullYear());
 	} else {
@@ -209,7 +382,16 @@ Month.prototype.getPreviousMonthTotalDays = function(date){
 	
 };
 
-Month.prototype.getNextMonthTotalDays = function(date){
+
+/**
+ * <p>Static function that is used to get the total calendar days of the next month.</p>
+ * @static
+ * @function
+ * @param date Represents some arbitrary calendar date.
+ * @return {@link <a href="http://www.w3schools.com/jsref/jsref_obj_number.asp">Number</a>} The total days in the next month.
+ * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
+*/
+Month.prototype.getNextMonthTotalDays = function(/**<a href="http://www.w3schools.com/jsref/jsref_obj_date.asp">Date</a>*/date){
 	if(date.getMonth() == 11){
 		return this.monthNames[0].getTotalDays(date.getFullYear());
 	} else {

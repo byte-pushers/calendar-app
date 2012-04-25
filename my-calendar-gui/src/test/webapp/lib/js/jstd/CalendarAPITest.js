@@ -1,4 +1,108 @@
 TestCase("CalendarAPITestCases", {
+	testGettingFirstWeekInMonth: function(){
+		var date = new Date();
+		date.setFullYear(2012, 3, 25);
+		var month = (new Tester()).getInstance(Month);
+		assertNotUndefined("monthTester should be defined.", month);
+		var week = month._privates.getFirstWeekInMonth(month._privates.getWeek(date));
+		assertNotUndefined("week should be defined.", week);
+		assertEquals(7, week.weekdays.length);
+		assertEquals("Sunday", week.weekdays[0].getWeekDay());
+		assertEquals(1, week.weekdays[0].getWeekDate());
+		assertEquals("Monday", week.weekdays[1].getWeekDay());
+		assertEquals(2, week.weekdays[1].getWeekDate());
+		assertEquals("Tuesday", week.weekdays[2].getWeekDay());
+		assertEquals(3, week.weekdays[2].getWeekDate());
+		assertEquals("Wednesday", week.weekdays[3].getWeekDay());
+		assertEquals(4, week.weekdays[3].getWeekDate());
+		assertEquals("Thursday", week.weekdays[4].getWeekDay());
+		assertEquals(5, week.weekdays[4].getWeekDate());
+		assertEquals("Friday", week.weekdays[5].getWeekDay());
+		assertEquals(6, week.weekdays[5].getWeekDate());
+		assertEquals("Saturday", week.weekdays[6].getWeekDay());
+		assertEquals(7, week.weekdays[6].getWeekDate());
+		
+	},
+	testGettingWeeksInMonth : function() {
+		var date = new Date();
+		date.setFullYear(2012, 3, 25);
+		var month = (new Tester()).getInstance(Month);
+		assertNotUndefined("monthTester should be defined.", month);
+		var weeks = month._privates.getWeeksInMonth(date);
+		assertNotUndefined("week should be defined.", weeks);
+		assertEquals(7, weeks[0].weekdays.length);
+		assertEquals("Sunday", weeks[0].weekdays[0].getWeekDay());
+		assertEquals(1, weeks[0].weekdays[0].getWeekDate());
+		assertEquals("Monday", weeks[0].weekdays[1].getWeekDay());
+		assertEquals(2, weeks[0].weekdays[1].getWeekDate());
+		assertEquals("Tuesday", weeks[0].weekdays[2].getWeekDay());
+		assertEquals(3, weeks[0].weekdays[2].getWeekDate());
+		assertEquals("Wednesday", weeks[0].weekdays[3].getWeekDay());
+		assertEquals(4, weeks[0].weekdays[3].getWeekDate());
+		assertEquals("Thursday", weeks[0].weekdays[4].getWeekDay());
+		assertEquals(5, weeks[0].weekdays[4].getWeekDate());
+		assertEquals("Friday", weeks[0].weekdays[5].getWeekDay());
+		assertEquals(6, weeks[0].weekdays[5].getWeekDate());
+		assertEquals("Saturday", weeks[0].weekdays[6].getWeekDay());
+		assertEquals(7, weeks[0].weekdays[6].getWeekDate());
+		assertEquals("Sunday", weeks[0].weekdays[0].getWeekDay());
+		assertEquals(7, weeks[1].weekdays.length);
+		assertEquals(8, weeks[1].weekdays[0].getWeekDate());
+		assertEquals("Monday", weeks[0].weekdays[1].getWeekDay());
+		assertEquals(9, weeks[1].weekdays[1].getWeekDate());
+		assertEquals("Tuesday", weeks[0].weekdays[2].getWeekDay());
+		assertEquals(10, weeks[1].weekdays[2].getWeekDate());
+		assertEquals("Wednesday", weeks[0].weekdays[3].getWeekDay());
+		assertEquals(11, weeks[1].weekdays[3].getWeekDate());
+		assertEquals("Thursday", weeks[0].weekdays[4].getWeekDay());
+		assertEquals(12, weeks[1].weekdays[4].getWeekDate());
+		assertEquals("Friday", weeks[0].weekdays[5].getWeekDay());
+		assertEquals(13, weeks[1].weekdays[5].getWeekDate());
+		assertEquals("Saturday", weeks[0].weekdays[6].getWeekDay());
+		assertEquals(14, weeks[1].weekdays[6].getWeekDate());
+		assertEquals(7, weeks[2].weekdays.length);
+		assertEquals(15, weeks[2].weekdays[0].getWeekDate());
+		assertEquals("Monday", weeks[0].weekdays[1].getWeekDay());
+		assertEquals(16, weeks[2].weekdays[1].getWeekDate());
+		assertEquals("Tuesday", weeks[0].weekdays[2].getWeekDay());
+		assertEquals(17, weeks[2].weekdays[2].getWeekDate());
+		assertEquals("Wednesday", weeks[0].weekdays[3].getWeekDay());
+		assertEquals(18, weeks[2].weekdays[3].getWeekDate());
+		assertEquals("Thursday", weeks[0].weekdays[4].getWeekDay());
+		assertEquals(19, weeks[2].weekdays[4].getWeekDate());
+		assertEquals("Friday", weeks[0].weekdays[5].getWeekDay());
+		assertEquals(20, weeks[2].weekdays[5].getWeekDate());
+		assertEquals("Saturday", weeks[0].weekdays[6].getWeekDay());
+		assertEquals(21, weeks[2].weekdays[6].getWeekDate());
+		assertEquals(7, weeks[3].weekdays.length);
+		assertEquals(22, weeks[3].weekdays[0].getWeekDate());
+		assertEquals("Monday", weeks[0].weekdays[1].getWeekDay());
+		assertEquals(23, weeks[3].weekdays[1].getWeekDate());
+		assertEquals("Tuesday", weeks[0].weekdays[2].getWeekDay());
+		assertEquals(24, weeks[3].weekdays[2].getWeekDate());
+		assertEquals("Wednesday", weeks[0].weekdays[3].getWeekDay());
+		assertEquals(25, weeks[3].weekdays[3].getWeekDate());
+		assertEquals("Thursday", weeks[0].weekdays[4].getWeekDay());
+		assertEquals(26, weeks[3].weekdays[4].getWeekDate());
+		assertEquals("Friday", weeks[0].weekdays[5].getWeekDay());
+		assertEquals(27, weeks[3].weekdays[5].getWeekDate());
+		assertEquals("Saturday", weeks[0].weekdays[6].getWeekDay());
+		assertEquals(28, weeks[3].weekdays[6].getWeekDate());
+		assertEquals(7, weeks[4].weekdays.length);
+		assertEquals(29, weeks[4].weekdays[0].getWeekDate());
+		assertEquals("Monday", weeks[0].weekdays[1].getWeekDay());
+		assertEquals(30, weeks[4].weekdays[1].getWeekDate());
+		assertEquals("Tuesday", weeks[0].weekdays[2].getWeekDay());
+		assertEquals(1, weeks[4].weekdays[2].getWeekDate());
+		assertEquals("Wednesday", weeks[0].weekdays[3].getWeekDay());
+		assertEquals(2, weeks[4].weekdays[3].getWeekDate());
+		assertEquals("Thursday", weeks[0].weekdays[4].getWeekDay());
+		assertEquals(3, weeks[4].weekdays[4].getWeekDate());
+		assertEquals("Friday", weeks[0].weekdays[5].getWeekDay());
+		assertEquals(4, weeks[4].weekdays[5].getWeekDate());
+		assertEquals("Saturday", weeks[0].weekdays[6].getWeekDay());
+		assertEquals(5, weeks[4].weekdays[6].getWeekDate());
+	},
 	testGettingWeekDaysRemainingInWeekBeforeFeb15_2012 : function() {
 		var feb20120215 = new Date();
 		feb20120215.setFullYear(2012, 1, 15);
@@ -280,7 +384,5 @@ TestCase("CalendarAPITestCases", {
 		assertEquals(3, week.friday.getWeekDate());
 		assertEquals("Saturday", week.saturday.getWeekDay());
 		assertEquals(4, week.saturday.getWeekDate());
-	}
-	
-	
+	}  
 });

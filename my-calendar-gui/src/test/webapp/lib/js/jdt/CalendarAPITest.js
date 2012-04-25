@@ -1,8 +1,8 @@
 function buildWeekdaysBeforeDate(){
-	var month = new Month();
-	for(var week in month.weeks){
-		week;
-	}
+	var date = new Date();
+	var month = (new Tester()).getInstance(Month);
+	var week = month._privates.getWeek(date);
+	week;
 }
 
 buildWeekdaysBeforeDate();

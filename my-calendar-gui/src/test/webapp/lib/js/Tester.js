@@ -13,8 +13,8 @@ function Tester(){
 		// string might have semicolons, line breaks etc.
 		var funcString = "";
 		funcString += "new (";
-		funcString += classAsString.substring(0, classAsString.length - 3);
-		funcString += ";\n\tthis._privates = {};\n";
+		funcString += classAsString.substring(0, classAsString.length - 3) + ";\n";
+		funcString += "\tthis._privates = {};\n";
 		funcString += "\tthis._initPrivates = function(f){\n";
 			funcString += "\t\tvar fs = f.toString();\n";
 			funcString += "\t\tthis._privates = {};\n";
@@ -34,8 +34,9 @@ function Tester(){
 				funcString += "\t\t\t\t\tthis._privates[fn] = eval(fn);\n";
 				funcString += "\t\t\t}\n";
 			funcString += "\t\t}\n";
-		funcString += "\t};\n";
-		funcString += "})();";
+		funcString += "\t};";
+		funcString += "\n}";
+		funcString +=")();";
 
 		var instance = eval(funcString);
 		instance._initPrivates(classAsString);

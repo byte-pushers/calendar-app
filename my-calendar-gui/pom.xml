@@ -68,7 +68,8 @@
 					<verbose>true</verbose>
 					<!--You might need to adjust this depending on your OS. On Mac, this 
 						will launch your default browser -->
-					<browser>open</browser>
+					<browser>/usr/bin/google-chrome</browser>
+					<!--server>http://localhost</server-->
 					<port>9876</port>
 				</configuration>
 				<executions>

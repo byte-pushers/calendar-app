@@ -167,7 +167,7 @@ function Person(firstName, middleName, lastName) {
 	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 	*/
 	this.setEmails = function (emails) {
-		if (Array.isArray(emails)) {
+		if (!Array.isArray(emails)) {
 			throw new InvalidParameterException("emails must be an Arrary.");
 		}
 		this.emails = emails;

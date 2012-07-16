@@ -43,5 +43,15 @@ TestCase("PersonTestCases", {
 		var existingEmail = person.findEmailByType("Home");
 		assertNotNull("person should be able to find email with type of 'Home'.", existingEmail);
 		assertEquals("person should be able to find email with type of 'Home'.", "Home", existingEmail.getType());
+	}, testPersonEmailAssociations: function() {
+		var person = new Person("Tonte", "Torrance", "Pouncil");
+		assertNotUndefined("person should be defined.", person);
+		var email1 = new Email("tonte.pouncil@gmail.com", true, "Home");
+		var email2 = new Email("pouncilt.developer@gmail.com", true, "Work");
+		assertNotUndefined("email should be defined.", email1);
+		assertNotUndefined("email should be defined.", email2);
+		var emails = [email1, email2];
+		person.setEmails(emails);
+		assertEquals(2, person.emails.length);
 	}
 });

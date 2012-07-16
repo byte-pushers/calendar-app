@@ -38,7 +38,7 @@ function Attendee(person, organizer, /* self, resource,*/ optional) {
 	if (person === undefined || person === null) {
 		throw new NullPointerException("person can not be null.");
 	}
-	if (Object.prototype.toString.apply(person) !== 'object Person') {
+	if (person.getObjectType() !== "[object Person]") {
 		throw new InvalidParameterException("person must be an Person object.");
 	}
 	this.person = person;
@@ -49,16 +49,16 @@ function Attendee(person, organizer, /* self, resource,*/ optional) {
 	this.responseStatus = null;
 	this.comment = null;
 	this.additionalGuests = [];
-	if (organizer !== undefined || organizer !== null || Object.prototype.toString.apply(organizer) === 'object Boolean') {
+	if (organizer !== undefined || organizer !== null || organizer.getObjectType() === "[object Boolean]") {
 		this.organizer = true;
 	}
-	/*if (resource !== undefined || resource !== null || Object.prototype.toString.apply(resource) === 'object Boolean') {
+	/*if (resource !== undefined || resource !== null || resource.getObjectType === "[object Boolean]") {
 		this.resource = true;
 	};
-	if (self !== undefined || self !== null || Object.prototype.toString.apply(self) === 'object Boolean') {
+	if (self !== undefined || self !== null || self.getObjectType() === "[object Boolean]") {
 		this.self = true;
 	};*/
-	if (optional !== undefined || optional !== null || Object.prototype.toString.apply(optional) === 'object Boolean') {
+	if (optional !== undefined || optional !== null || optional.getObjectType() === "[object Boolean]") {
 		this.optional = true;
 	}
 	/**
@@ -106,7 +106,7 @@ function Attendee(person, organizer, /* self, resource,*/ optional) {
 	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 	*/
 	this.setResponseStatus = function (responseStatus) {
-		if (responseStatus !== undefined && responseStatus !== null && Object.prototype.toString.apply(responseStatus) === 'object String') {
+		if (responseStatus !== undefined && responseStatus !== null && responseStatus.getObjectType() === "[object String]") {
 			this.responseStatus = responseStatus;
 		}
 	};
@@ -128,7 +128,7 @@ function Attendee(person, organizer, /* self, resource,*/ optional) {
 	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 	*/
 	this.setComment = function (comment) {
-		if (comment !== undefined && comment !== null && Object.prototype.toString.apply(comment) === 'object String') {
+		if (comment !== undefined && comment !== null && comment.getObjectType() === "[object String]") {
 			this.comment = comment;
 		}
 	};
@@ -148,7 +148,7 @@ function Attendee(person, organizer, /* self, resource,*/ optional) {
 	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 	*/
 	this.setAdditionalGuests = function (additionalGuests) {
-		if (additionalGuests !== undefined && additionalGuests !== null && Object.prototype.toString.apply(additionalGuests) === '[object Array]') {
+		if (additionalGuests !== undefined && additionalGuests !== null && Array.isArray(additionalGuests) === "[object Array]") {
 			this.additionalGuests = additionalGuests;
 		}
 	};
@@ -213,7 +213,7 @@ function Event() {
 	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 	*/
 	this.setId = function (id) {
-		if (id !== undefined && id !== null && Object.prototype.toString.apply(id) !== 'object Number') {
+		if (id !== undefined && id !== null && id.getObjectType() !== "[object Number]") {
 			throw new InvalidParameterException("id must be of type Number.");
 		}
 		this.id = id;
@@ -234,7 +234,7 @@ function Event() {
 	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 	*/
 	this.setStatus = function (status) {
-		if (status !== undefined && status !== null && Object.prototype.toString.apply(status) !== 'object String') {
+		if (status !== undefined && status !== null && status.getObjectType() !== "[object String]") {
 			throw new InvalidParameterException("status must be of type String.");
 		}
 		this.status = status;
@@ -255,7 +255,7 @@ function Event() {
 	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 	*/
 	this.setHtmlLink = function (htmlLink) {
-		if (htmlLink !== undefined && htmlLink !== null && Object.prototype.toString.apply(htmlLink) !== 'object String') {
+		if (htmlLink !== undefined && htmlLink !== null && htmlLink.getObjectType() !== "[object String]") {
 			throw new InvalidParameterException("htmlLink must be of type String.");
 		}
 		this.htmlLink = htmlLink;
@@ -276,7 +276,7 @@ function Event() {
 	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 	*/
 	this.setCreated = function (created) {
-		if (created !== undefined && created !== null && Object.prototype.toString.apply(created) !== 'object String') {
+		if (created !== undefined && created !== null && created.getObjectType() !== "[object String]") {
 			throw new InvalidParameterException("created must be of type String.");
 		}
 		this.created = created;
@@ -297,7 +297,7 @@ function Event() {
 	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 	*/
 	this.setUpdated = function (updated) {
-		if (updated !== undefined && updated !== null && Object.prototype.toString.apply(updated) !== 'object String') {
+		if (updated !== undefined && updated !== null && updated.getObjectType() !== "[object String]") {
 			throw new InvalidParameterException("updated must be of type String.");
 		}
 		this.updated = updated;
@@ -318,7 +318,7 @@ function Event() {
 	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 	*/
 	this.setSummary = function (summary) {
-		if (summary !== undefined && summary !== null && Object.prototype.toString.apply(summary) !== 'object String') {
+		if (summary !== undefined && summary !== null && summary.getObjectType() !== "[object String]") {
 			throw new InvalidParameterException("summary must be of type String.");
 		}
 		this.summary = summary;
@@ -339,7 +339,7 @@ function Event() {
 	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 	*/
 	this.setDescription = function (description) {
-		if (description !== undefined && description !== null && Object.prototype.toString.apply(description) !== 'object String') {
+		if (description !== undefined && description !== null && description.getObjectType() !== "[object String]") {
 			throw new InvalidParameterException("summary must be of type String.");
 		}
 		this.description = description;
@@ -360,7 +360,7 @@ function Event() {
 	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 	*/
 	this.setLocation = function (location) {
-		if (location !== undefined && location !== null && Object.prototype.toString.apply(location) !== 'object String') {
+		if (location !== undefined && location !== null && location.getObjectType() !== "[object String]") {
 			throw new InvalidParameterException("location must be of type String.");
 		}
 		this.Location = location;
@@ -381,7 +381,7 @@ function Event() {
 	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 	*/
 	this.setColorId = function (colorId) {
-		if (colorId !== undefined && colorId !== null && Object.prototype.toString.apply(colorId) !== 'object String') {
+		if (colorId !== undefined && colorId !== null && colorId.getObjectType() !== "[object String]") {
 			throw new InvalidParameterException("colorId must be of type String.");
 		}
 		this.colorId = colorId;
@@ -402,8 +402,8 @@ function Event() {
 	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 	*/
 	this.setCreator = function (creator) {
-		if (creator !== undefined && creator !== null && Object.prototype.toString.apply(creator) !== 'object String') {
-			throw new InvalidParameterException("creator must be of type String.");
+		if (creator !== undefined && creator !== null && creator.getClassType() !== "[class Person]") {
+			throw new InvalidParameterException("creator must be of class type Person.");
 		}
 		this.creator = creator;
 	};
@@ -423,8 +423,8 @@ function Event() {
 	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 	*/
 	this.setOrganizer = function (organizer) {
-		if (organizer !== undefined && organizer !== null && Object.prototype.toString.apply(organizer) !== 'object String') {
-			throw new InvalidParameterException("organier must be of type String.");
+		if (organizer !== undefined && organizer !== null && organizer.getClassType !== "[class Person]") {
+			throw new InvalidParameterException("organier must be of class type Person.");
 		}
 		this.organizer = organizer;
 	};
@@ -480,7 +480,7 @@ function Event() {
 	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 	*/
 	this.setVisibility = function (visibility) {
-		if (visibility !== undefined && visibility !== null && Object.prototype.toString.apply(visibility) !== 'object Boolean') {
+		if (visibility !== undefined && visibility !== null && visibility.getObjectType() !== "[object Boolean]") {
 			throw new InvalidParameterException("visibility must be of type Boolean.");
 		}
 		this.visibility = visibility;
@@ -501,7 +501,7 @@ function Event() {
 	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 	*/
 	this.setAttendees = function (attendees) {
-		if (attendees !== undefined && attendees !== null && Object.prototype.toString.apply(attendees) !== '[object Array]') {
+		if (attendees !== undefined && attendees !== null && Array.isArray(attendees) !== "[object Array]") {
 			throw new InvalidParameterException("attendees must be of type Array.");
 		}
 		this.attendees = attendees;
@@ -513,8 +513,8 @@ function Event() {
 	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 	*/
 	this.addAttendee = function (attendee) {
-		if (attendee !== undefined && attendee !== null && Object.prototype.toString.apply(attendee) !== '[object Attendee]') {
-			throw new InvalidParameterException("attendees must be of type Array.");
+		if (attendee !== undefined && attendee !== null && attendee.getClassType() !== "[class Attendee]") {
+			throw new InvalidParameterException("attendees must be of class type Array.");
 		}
 		this.attendees[this.attendees.length] = attendee;
 	};
@@ -534,7 +534,7 @@ function Event() {
 	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 	*/
 	this.anyOneCanAddSelf = function (anyOneCanAddSelfFlag) {
-		if (anyOneCanAddSelfFlag !== undefined && anyOneCanAddSelfFlag !== null && Object.prototype.toString.apply(anyOneCanAddSelfFlag) !== 'object Boolean') {
+		if (anyOneCanAddSelfFlag !== undefined && anyOneCanAddSelfFlag !== null && anyOneCanAddSelfFlag.getObjectType() !== "[object Boolean]") {
 			throw new InvalidParameterException("anyOneCanAddSelfFlag must be of type Boolean.");
 		}
 		this.anyOneCanAddSelfFlag = anyOneCanAddSelfFlag;
@@ -555,7 +555,7 @@ function Event() {
 	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 	*/
 	this.guestCanInviteOthers = function (guestCanInviteOthersFlag) {
-		if (guestCanInviteOthersFlag !== undefined && guestCanInviteOthersFlag !== null && Object.prototype.toString.apply(guestCanInviteOthersFlag) !== 'object Boolean') {
+		if (guestCanInviteOthersFlag !== undefined && guestCanInviteOthersFlag !== null && guestCanInviteOthersFlag.getObjectType() !== "[object Boolean]") {
 			throw new InvalidParameterException("guestCanInviteOthersFlag must be of type Boolean.");
 		}
 		this.guestCanInviteOthersFlag = guestCanInviteOthersFlag;
@@ -576,7 +576,7 @@ function Event() {
 	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 	*/
 	this.guestCanSeeOtherGuests = function (guestCanSeeOtherGuestsFlag) {
-		if (guestCanSeeOtherGuestsFlag !== undefined && guestCanSeeOtherGuestsFlag !== null && Object.prototype.toString.apply(guestCanSeeOtherGuestsFlag) !== 'object Boolean') {
+		if (guestCanSeeOtherGuestsFlag !== undefined && guestCanSeeOtherGuestsFlag !== null && guestCanSeeOtherGuestsFlag.getObjectType() !== "[object Boolean]") {
 			throw new InvalidParameterException("guestCanSeeOtherGuestsFlag must be of type Boolean.");
 		}
 		this.guestCanSeeOtherGuestsFlag = guestCanSeeOtherGuestsFlag;

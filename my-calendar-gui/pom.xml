@@ -42,7 +42,7 @@
 			<plugin>
 				<groupId>com.googlecode.jslint4java</groupId>
 				<artifactId>jslint4java-maven-plugin</artifactId>
-				<version>2.0.1</version>
+				<version>2.0.2</version>
 				<executions>
 					<execution>
 						<id>lint</id>
@@ -68,9 +68,10 @@
 					<verbose>true</verbose>
 					<!--You might need to adjust this depending on your OS. On Mac, this 
 						will launch your default browser -->
-					<browser>/usr/bin/google-chrome</browser>
+					<browser>open</browser>
 					<!--server>http://localhost</server-->
 					<port>9876</port>
+					<!--config>${basedir}/src/test/resources/jsTestDriver.conf</config-->
 				</configuration>
 				<executions>
 					<execution>

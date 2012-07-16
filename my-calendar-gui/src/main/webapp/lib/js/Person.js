@@ -4,7 +4,7 @@
  * 
  * @class Represents an email address.
  * @param {<a href="http://www.w3schools.com/js/js_obj_string.asp">String</a>} emailAddress The email address of a person or group.
- * @param {<a href="http://www.w3schools.com/js/js_obj_string.asp">String</a>} primaryEmail Indicates whether this email address is the primary email address for a person or group.
+ * @param {<a href="http://www.w3schools.com/js/js_obj_boolean.asp">Boolean</a>} primaryEmail Indicates whether this email address is the primary email address for a person or group.
  * @param {<a href="http://www.w3schools.com/js/js_obj_string.asp">String</a>} type Indicates whether the email address if of type: Home, School, Work, or Other.
  * 
  * @returns An instance of the Email class.
@@ -25,6 +25,12 @@ function Email(emailAddress, primaryEmail, type) {
 	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 	*/
 	this.primaryEmail = primaryEmail;
+	// ToDo: need to re-factor this into an enum.
+	if (type !== undefined || type !== null) {
+		if (type !== "Home" && type !== "School" && type !== "Work" && type !== "Other") {
+			throw new InvalidParameterException("Parameter type must be equal to: 'Home', 'School', 'Work', or 'Other'");
+		}
+	}
 	/**
 	 * <p>Indicates whether this email address is of type: Home, School, Work, or Other.</p>
 	 * @field
@@ -107,7 +113,7 @@ function Person(firstName, middleName, lastName) {
 	 * @field
 	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 	*/
-	this.emails = null;
+	this.emails = [];
 	/**
 	 * <p>Gets the display name of the person.</p>
 	 *
@@ -161,10 +167,13 @@ function Person(firstName, middleName, lastName) {
 	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 	*/
 	this.setEmails = function (emails) {
-		if (Object.prototype.toString.apply(emails) !== '[object Array]') {
+		if (Array.isArray(emails)) {
 			throw new InvalidParameterException("emails must be an Arrary.");
 		}
 		this.emails = emails;
+	};
+	this.getEmails = function () {
+		return this.emails;
 	};
 	/**
 	 * <p>Adds an email address to the associated email addresses of the person.</p>
@@ -174,8 +183,8 @@ function Person(firstName, middleName, lastName) {
 	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 	*/
 	this.addEmail = function (email) {
-		if (Object.prototype.toString.apply(email) !== 'object Email') {
-			throw new InvalidParameterException("email must be of type Email.");
+		if (email.getClassType() !== '[class Email]') {
+			throw new InvalidParameterException("email must be of class type Email.");
 		}
 		this.emails[this.emails.length] = email;
 	};
@@ -187,11 +196,11 @@ function Person(firstName, middleName, lastName) {
 	*/
 	this.findEmailByType = function (type) {
 		var i;
-		if (type !== undefined && type !== null) {
+		if (type == undefined || type === null) {
 			throw new NullPointerException("type can not be null.");
 		}
 		for (i = 0; i < this.emails.length; i = i + 1) {
-			if (this.emails[i].type === type) {
+			if (this.emails[i].getType() === type) {
 				return this.emails[i];
 			}
 		}

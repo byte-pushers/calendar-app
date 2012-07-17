@@ -196,7 +196,7 @@ function Person(firstName, middleName, lastName) {
 	*/
 	this.findEmailByType = function (type) {
 		var i;
-		if (type == undefined || type === null) {
+		if (type === undefined || type === null) {
 			throw new NullPointerException("type can not be null.");
 		}
 		for (i = 0; i < this.emails.length; i = i + 1) {

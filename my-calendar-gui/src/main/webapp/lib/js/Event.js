@@ -1,4 +1,4 @@
-/*global InvalidParameterException, NullPointerException*/
+/*global InvalidParameterException, NullPointerException, InvalidDateRangeException*/
 /**
  * Creates a DateRange object that represents a date range.
  * 
@@ -12,6 +12,21 @@
 */
 function DateRange(start, end) {
 	"use strict";
+	if (start === undefined || start === null) {
+		throw new NullPointerException("start can not be null.");
+	}
+	if (start.getClassType() !== "[class Date]") {
+		throw new InvalidParameterException("start must be an Person object.");
+	}
+	if (end !== undefined && end !== null) {
+		if (end.getClassType() !== "[class Date]") {
+			throw new InvalidParameterException("end must be an Person object.");
+		}
+		if (end.getTime() < start.getTime()) {
+			var idre = new InvalidDateRangeException("end date can not come before start date.");
+			throw idre;
+		}
+	}
 	this.start = start;
 	this.end = end;
 	this.getStartDate = function () {
@@ -38,7 +53,7 @@ function Attendee(person, organizer, /* self, resource,*/ optional) {
 	if (person === undefined || person === null) {
 		throw new NullPointerException("person can not be null.");
 	}
-	if (person.getObjectType() !== "[object Person]") {
+	if (person.getClassType() !== "[class Person]") {
 		throw new InvalidParameterException("person must be an Person object.");
 	}
 	this.person = person;

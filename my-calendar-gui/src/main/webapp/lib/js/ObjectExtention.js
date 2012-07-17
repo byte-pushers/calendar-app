@@ -11,12 +11,11 @@ Object.prototype.getClassType = function () {
 };
 Object.prototype.getObjectType = function () {
 	"use strict";
-	var type = "Undefined";
 	if (this !== undefined) {
 		try {
-			type = this.constructor;
+			return "[object " + this.constructor + "]";
 		} catch (e) {
 		}
 	}
-	return "[object " + type + "]";
+	return "[object Undefined]";
 };

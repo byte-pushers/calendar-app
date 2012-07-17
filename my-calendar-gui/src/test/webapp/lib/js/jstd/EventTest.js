@@ -14,5 +14,31 @@ TestCase("EventTestCases", {
 		} catch (e){
 			assertTrue(e.name === "InvalidDateRangeException");
 		}
+	}, testCreatingAttendee: function(){
+		var person = new Person("Tonte", "Torrance", "Pouncil");
+		var attendee = new Attendee(person, person, false);
+		assertNotUndefined("attendee should be defined.", attendee);
+		assertTrue("Attendee should be the organizer", attendee.isOrganizer());
+		assertEquals("Attendee's display name it not displaying correctly.", "Tonte Pouncil", attendee.getDisplayName());
+	}, testAttendeeGuestAssociation: function(){
+		var walter = new Person("Walter", null, "Sturghill");
+		var james = new Person("James", null, "Dean");
+		var tonte = new Person("Tonte", "Torrance", "Pouncil");
+		var guest1 = new Attendee(walter, walter, false);
+		var guest2 = new Attendee(james, james, true);
+		var attendee = new Attendee(tonte, tonte, false);
+		attendee.addAdditionalGuest(guest1);
+		attendee.addAdditionalGuest(guest2);
+		assertEquals("Attendee's additional guests list has the wrong size.", 2, attendee.getAdditionalGuests().length);
+	}, testAttendeeGuestAssociation: function(){
+		var walter = new Person("Walter", null, "Sturghill");
+		var james = new Person("James", null, "Dean");
+		var tonte = new Person("Tonte", "Torrance", "Pouncil");
+		var guest1 = new Attendee(walter, walter, false);
+		var guest2 = new Attendee(james, james, true);
+		var additionalGuests = [guest1, guest2];
+		var attendee = new Attendee(tonte, tonte, false);
+		attendee.setAdditionalGuests(additionalGuests);
+		assertEquals("Attendee's additional guests list has the wrong size.", 2, attendee.getAdditionalGuests().length);
 	}
 });

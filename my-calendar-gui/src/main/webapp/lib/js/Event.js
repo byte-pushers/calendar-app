@@ -54,7 +54,7 @@ function Attendee(person, organizer, /* self, resource,*/ optional) {
 		throw new NullPointerException("person can not be null.");
 	}
 	if (person.getClassType() !== "[class Person]") {
-		throw new InvalidParameterException("person must be an Person object.");
+		throw new InvalidParameterException("person must be of class type Person.");
 	}
 	this.person = person;
 	this.organizer = false;
@@ -74,7 +74,7 @@ function Attendee(person, organizer, /* self, resource,*/ optional) {
 		this.self = true;
 	};*/
 	if (optional !== undefined || optional !== null || optional.getObjectType() === "[object Boolean]") {
-		this.optional = true;
+		this.optional = optional;
 	}
 	/**
 	 * <p>Determines if this attendee is the organizer of the event.</p>
@@ -163,7 +163,7 @@ function Attendee(person, organizer, /* self, resource,*/ optional) {
 	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 	*/
 	this.setAdditionalGuests = function (additionalGuests) {
-		if (additionalGuests !== undefined && additionalGuests !== null && Array.isArray(additionalGuests) === "[object Array]") {
+		if (additionalGuests !== undefined && additionalGuests !== null && Array.isArray(additionalGuests)) {
 			this.additionalGuests = additionalGuests;
 		}
 	};
@@ -183,6 +183,9 @@ function Attendee(person, organizer, /* self, resource,*/ optional) {
 	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 	*/
 	this.addAdditionalGuest = function (attendee) {
+		if (attendee !== undefined && attendee !== null && attendee.getClassType() !== "[class Attendee]") {
+			throw new InvalidParameterException("attendee must be of class type Attendee.");
+		}
 		this.additionalGuests[this.additionalGuests.length] = attendee;
 	};
 }
@@ -516,7 +519,7 @@ function Event() {
 	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 	*/
 	this.setAttendees = function (attendees) {
-		if (attendees !== undefined && attendees !== null && Array.isArray(attendees) !== "[object Array]") {
+		if (attendees !== undefined && attendees !== null && !Array.isArray(attendees)) {
 			throw new InvalidParameterException("attendees must be of type Array.");
 		}
 		this.attendees = attendees;

@@ -20,7 +20,7 @@ function Email(emailAddress, primaryEmail, type) {
 	*/
 	this.emailAddress = emailAddress;
 	/**
-	 * <p>Represents a flag that indicates if this email address is the primary email address.</p>
+	 * <p>Represents a boolean flag that indicates if this email address is the primary email address.</p>
 	 * @field
 	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 	*/
@@ -201,6 +201,20 @@ function Person(firstName, middleName, lastName) {
 		}
 		for (i = 0; i < this.emails.length; i = i + 1) {
 			if (this.emails[i].getType() === type) {
+				return this.emails[i];
+			}
+		}
+		return null;
+	};
+	/**
+	 * <p>A convenience method to find the primary email address.</p>
+	 *
+	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
+	*/
+	this.findPrimaryEmail = function () {
+		var i;
+		for (i = 0; i < this.emails.length; i = i + 1) {
+			if (this.emails[i].isPrimaryEmail()) {
 				return this.emails[i];
 			}
 		}

@@ -49,5 +49,19 @@ TestCase("EventTestCases", {
 		attendee.setComment(comment);
 		assertTrue("Attendee should be optional", attendee.isOptional());
 		assertEquals("Attendee comment was not set properly.", comment, attendee.getComment());
+	}, testAttendeeResponseStatus: function(){
+		var james = new Person("James", null, null);
+		var attendee = new Attendee(james, james, true);
+		var responseStatus = "tentative";
+		attendee.setResponseStatus(responseStatus);
+		assertEquals("Attendee response status was not set properly.", responseStatus, attendee.getResponseStatus());
+	}, testAttendeeEmail: function(){
+		var email = new Email("james@james.com", true, "Home");
+		var james = new Person("James", null, null);
+		james.addEmail(email);
+		var attendee = new Attendee(james, james, true);
+		var responseStatus = "tentative";
+		attendee.setResponseStatus(responseStatus);
+		assertEquals("Attendee email was not set properly.", email, attendee.getEmail());
 	}
 });

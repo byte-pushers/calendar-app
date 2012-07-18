@@ -58,8 +58,8 @@ function Attendee(person, organizer, /* self, resource,*/ optional) {
 	}
 	this.person = person;
 	this.organizer = false;
-	this.resource = false;
-	this.self = false;
+	//this.resource = false;
+	//this.self = false;
 	this.optional = false;
 	this.responseStatus = null;
 	this.comment = null;
@@ -119,7 +119,7 @@ function Attendee(person, organizer, /* self, resource,*/ optional) {
 	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 	*/
 	this.getEmail = function () {
-		return this.email;
+		return this.person.findPrimaryEmail();
 	};
 	/**
 	 * <p>Sets the response status for the attendee.</p> 

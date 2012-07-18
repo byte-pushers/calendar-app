@@ -13,7 +13,7 @@ Object.prototype.getObjectType = function () {
 	"use strict";
 	if (this !== undefined) {
 		try {
-			return "[object " + this.constructor + "]";
+			return "[object " + this.constructor.name + "]";
 		} catch (e) {
 		}
 	}

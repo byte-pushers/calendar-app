@@ -19,6 +19,7 @@ TestCase("EventTestCases", {
 		var attendee = new Attendee(person, person, false);
 		assertNotUndefined("attendee should be defined.", attendee);
 		assertTrue("Attendee should be the organizer", attendee.isOrganizer());
+		assertFalse("Attendee should be optional", attendee.isOptional());
 		assertEquals("Attendee's display name it not displaying correctly.", "Tonte Pouncil", attendee.getDisplayName());
 	}, testAttendeeGuestAssociation: function(){
 		var walter = new Person("Walter", null, "Sturghill");
@@ -26,7 +27,8 @@ TestCase("EventTestCases", {
 		var tonte = new Person("Tonte", "Torrance", "Pouncil");
 		var guest1 = new Attendee(walter, walter, false);
 		var guest2 = new Attendee(james, james, true);
-		var attendee = new Attendee(tonte, tonte, false);
+		var attendee = new Attendee(tonte, tonte, true);
+		assertTrue("Attendee should not be optional", attendee.isOptional());
 		attendee.addAdditionalGuest(guest1);
 		attendee.addAdditionalGuest(guest2);
 		assertEquals("Attendee's additional guests list has the wrong size.", 2, attendee.getAdditionalGuests().length);
@@ -40,5 +42,12 @@ TestCase("EventTestCases", {
 		var attendee = new Attendee(tonte, tonte, false);
 		attendee.setAdditionalGuests(additionalGuests);
 		assertEquals("Attendee's additional guests list has the wrong size.", 2, attendee.getAdditionalGuests().length);
+	}, testAttendeeComments: function(){
+		var james = new Person("James", null, null);
+		var attendee = new Attendee(james, james, true);
+		var comment = "I may not be able to attend because of prior engagement.";
+		attendee.setComment(comment);
+		assertTrue("Attendee should be optional", attendee.isOptional());
+		assertEquals("Attendee comment was not set properly.", comment, attendee.getComment());
 	}
 });

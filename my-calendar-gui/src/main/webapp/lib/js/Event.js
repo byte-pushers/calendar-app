@@ -85,14 +85,23 @@ function Attendee(person, organizer, /* self, resource,*/ optional) {
 	this.isOrganizer = function () {
 		return this.organizer;
 	};
+	///**
+	// * <p>Determines if this attendee is a resource instead of a person.</p>
+	// *
+	// * @returns {Boolean} The status of whether this attendee is an event resource.
+	// * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
+	//*/
+	//this.isResource = function () {
+	//	return this.resource;
+	//};
 	/**
-	 * <p>Determines if this attendee is a resource instead of a person.</p>
+	 * <p>Determines if this attendee is optional for this event.</p>
 	 *
-	 * @returns {Boolean} The status of whether this attendee is an event resource.
+	 * @returns {Boolean} The status of whether this attendee optional for this event.
 	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 	*/
-	this.isResource = function () {
-		return this.resource;
+	this.isOptional = function () {
+		return this.optional;
 	};
 	/**
 	 * <p>Gets the display name of the attendee.</p>

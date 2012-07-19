@@ -303,8 +303,8 @@ function Event() {
 	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 	*/
 	this.setCreated = function (created) {
-		if (created !== undefined && created !== null && created.getObjectType() !== "[object String]") {
-			throw new InvalidParameterException("created must be of type String.");
+		if (created !== undefined && created !== null && created.getObjectType() !== "[object Date]") {
+			throw new InvalidParameterException("created must be of type Date.");
 		}
 		this.created = created;
 	};
@@ -324,8 +324,8 @@ function Event() {
 	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 	*/
 	this.setUpdated = function (updated) {
-		if (updated !== undefined && updated !== null && updated.getObjectType() !== "[object String]") {
-			throw new InvalidParameterException("updated must be of type String.");
+		if (updated !== undefined && updated !== null && updated.getObjectType() !== "[object Date]") {
+			throw new InvalidParameterException("updated must be of type Date.");
 		}
 		this.updated = updated;
 	};
@@ -390,7 +390,7 @@ function Event() {
 		if (location !== undefined && location !== null && location.getObjectType() !== "[object String]") {
 			throw new InvalidParameterException("location must be of type String.");
 		}
-		this.Location = location;
+		this.location = location;
 	};
 	/**
 	 * <p>Gets the event color.</p>
@@ -441,17 +441,17 @@ function Event() {
 	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 	*/
 	this.getOrganizer = function () {
-		return this.orgnizer;
+		return this.organizer;
 	};
 	/**
-	 * <p>Sets the event's organier.</p>
+	 * <p>Sets the event's organizer.</p>
 	 *
-	 * @param {Person} organier The event's organier.
+	 * @param {Person} organizer The event's organizer.
 	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 	*/
 	this.setOrganizer = function (organizer) {
-		if (organizer !== undefined && organizer !== null && organizer.getClassType !== "[class Person]") {
-			throw new InvalidParameterException("organier must be of class type Person.");
+		if (organizer !== undefined && organizer !== null && organizer.getClassType() !== "[class Person]") {
+			throw new InvalidParameterException("organizer must be of class type Person.");
 		}
 		this.organizer = organizer;
 	};
@@ -501,14 +501,21 @@ function Event() {
 		return this.visibility;
 	};
 	/**
-	 * <p>Sets the event's visibility.</p>
+	 * <p>Sets the event's visibility.  Acceptable values are:<ul>
+	 *  <li>default - Uses the default visibility for events on the calendar. This is the default value.</li>
+"	 *  <li>public" - The event is public and event details are visible to all readers of the calendar.</li>
+"	 *  <li>private" - The event is private and only event attendees may view event details.</li>
+"	 *  <li>confidential" - The event is private. This value is provided for compatibility reasons.</li></ul></p>
 	 *
 	 * @param {Boolean} visibility The event's visibility.
 	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 	*/
 	this.setVisibility = function (visibility) {
-		if (visibility !== undefined && visibility !== null && visibility.getObjectType() !== "[object Boolean]") {
-			throw new InvalidParameterException("visibility must be of type Boolean.");
+		if (visibility !== undefined && visibility !== null && visibility.getObjectType() !== "[object String]") {
+			throw new InvalidParameterException("visibility must be of type String.");
+		}
+		if (visibility !== "default" && visibility !== "public" && visibility !== "private" && visibility !== "confidential") {
+			throw new InvalidParameterException("Acceptable value for the visibility parameter are: default, public, private, or confidential.");
 		}
 		this.visibility = visibility;
 	};

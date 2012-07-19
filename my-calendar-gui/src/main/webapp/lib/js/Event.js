@@ -35,6 +35,16 @@ function DateRange(start, end) {
 	this.getEndDate = function () {
 		return this.end;
 	};
+	this.isBetweenRange = function (date) {
+		if (start.getFullYear() <= date.getFullYear() && end.getFullYear() >= date.getFullYear()) {
+			if (start.getMonth() <= date.getMonth() && end.getMonth() >= date.getMonth()) {
+				if (start.getDate() <= date.getDate() && end.getDate() >= date.getDate()) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
 }
 /**
  * Creates a Attendee object that represents an attendee of an event.

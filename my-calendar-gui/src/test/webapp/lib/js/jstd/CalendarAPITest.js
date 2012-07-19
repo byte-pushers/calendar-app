@@ -384,5 +384,17 @@ TestCase("CalendarAPITestCases", {
 		assertEquals(3, week.friday.getWeekDate());
 		assertEquals("Saturday", week.saturday.getWeekDay());
 		assertEquals(4, week.saturday.getWeekDate());
-	}  
+	},
+	testSettingEventToCalendar: function(){
+		var event = new Event();
+		event.setSummary("Aisha's Graduation");
+		event.setStart(new Date());
+		event.setEnd(new Date());
+		
+		var month = new Month();
+		month.setEvents([event]);
+		
+		assertEquals(1, month.getEvents().length);
+		assertEquals(event, month.getEvents()[0]);
+	}
 });

@@ -1,3 +1,4 @@
+/*global InvalidParameterException*/
 var monthNames = [{"name": "January", "abbr": "Jan", "getTotalDays": function (year) { "use strict"; return 31; } },
                   {"name": "February", "abbr": "Feb", "getTotalDays": function (year) { "use strict"; if (year) { return (year % 4 === 0) ? 29 : 28; } else { throw ("Expected parameter(Year) is not defined."); } } },
                   {"name": "March", "abbr": "Mar", "getTotalDays": function (year) { "use strict"; return 31; }},
@@ -34,6 +35,7 @@ function Day(date, weekIndex) {
 	                     {"name": "Thursday", "abbr": "Thu."},
 	                     {"name": "Friday", "abbr": "Fri."},
 	                     {"name": "Saturday", "abbr": "Sat."}];
+	this.events = [];
 	/**
 	 * <p>Gets the weekday name.</p> 
 	 * <p>This method could return for example: Sunday, 
@@ -74,6 +76,32 @@ function Day(date, weekIndex) {
 	/*this.toString = function(){
 		alert("Day[weekday: " + this.weekday +", day: " + this.day + ", weekIndex: " + this.weekIndex + "]");
 	};*/
+	/**
+	 * <p>Set the events that are scheduled for the appropriate days.</p>
+	 * 
+	 * @param {@link Event} The events that are scheduled for the day.
+	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
+	 */
+	this.setEvents = function (events) {
+		var i, eventStartEndTime, endTime;
+		for (i = 0; i < events.length; i = i + 1) {
+			if (events[i] !== undefined && events[i] !== null) {
+				eventStartEndTime = new DateRange(events[i].getStart(), events[i].getEnd());
+				if (eventStartEndTime.isBetweenRange(this.date)) {
+					this.events[this.events.length] = events[i];
+				}
+			}
+		}
+	};
+	/**
+	 * <p>Get the events that are scheduled for the week from the appropriate days.</p>
+	 * 
+	 * @returns {@link Event}s The events that are scheduled for the week.
+	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
+	 */
+	this.getEvents = function () {
+		return this.events;
+	};
 }
 
 
@@ -135,6 +163,35 @@ function Week(weekdays) {
 			}
 		}
 		return false;
+	};
+	/**
+	 * <p>Set the events that are scheduled for the week to the appropriate days.</p>
+	 * 
+	 * @param {@link Event} The events that are scheduled for the week.
+	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
+	 */
+	this.setEvents = function (events) {
+		var i;
+		for (i = 0; i < this.weekdays.length; i = i + 1) {
+			if (this.weekdays[i] !== undefined) {
+				this.weekdays[i].setEvents(events);
+			}
+		}
+	};
+	/**
+	 * <p>Get the events that are scheduled for the week from the appropriate days.</p>
+	 * 
+	 * @returns {@link Event}s The events that are scheduled for the week.
+	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
+	 */
+	this.getEvents = function () {
+		var i, events = [];
+		for (i = 0; i < this.weekdays.length; i = i + 1) {
+			if (this.weekdays[i] !== undefined) {
+				events = events.concat(this.weekdays[i].getEvents());
+			}
+		}
+		return events;
 	};
 }
 
@@ -333,6 +390,38 @@ function Month() {
 	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 	*/
 	this.name = getMonthName((new Date()).getMonth(), false);
+	/**
+	 * <p>Set the events that are scheduled for the month to the appropriate days.</p>
+	 * 
+	 * @param {@link Event} The events that are scheduled for the month.
+	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
+	 */
+	this.setEvents = function (events) {
+		var i, week;
+		if (events !== undefined && events !== null && !Array.isArray(events)) {
+			throw new InvalidParameterException("Constructor parameter events must be an Array of Events.");
+		}
+		for (i = 0; i < this.weeks.length; i = i + 1) {
+			if (this.weeks[i] !== undefined && this.weeks[i] !== null) {
+				week = this.weeks[i];
+				week.setEvents(events);
+			}
+		}
+	};
+	/**
+	 * <p>Gets the events that are scheduled for the month.</p>
+	 * 
+	 * @returns {@link Event} The events that are scheduled for the month.
+	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
+	 */
+	this.getEvents = function () {
+		var i, week, events = [];
+		for (i = 0; i < that.weeks.length; i = i + 1) {
+			week = that.weeks[i];
+			events = events.concat(week.getEvents());
+		}
+		return events;
+	};
 }
 /**
  * <p>Static field that is used to get calendar full name, abbreviated names, and total calendar days.</p>
@@ -374,5 +463,3 @@ Month.prototype.getNextMonthTotalDays = function (date) {
 		return this.monthNames[date.getMonth() + 1].getTotalDays(date.getFullYear());
 	}
 };
-
-

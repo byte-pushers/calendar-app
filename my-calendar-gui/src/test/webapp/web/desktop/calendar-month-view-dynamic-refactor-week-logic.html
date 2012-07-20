@@ -1,0 +1,64 @@
+<!doctype html>
+<html ng-app>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Calender GUI</title>
+    <link rel="stylesheet" href="../../lib/css/web/desktop/calendar-month-view-layout.css">
+    <script src="http://code.angularjs.org/angular-1.0.0rc5.min.js"></script>
+    <script src="../../../../main/webapp/lib/js/CalendarAPI.js"></script>
+    <script src="../../../../main/webapp/lib/js/CalendarController.js"></script>
+    <script src="../../../../main/webapp/lib/js/ArrayExtention.js"></script>
+    <script src="../../../../main/webapp/lib/js/ObjectExtention.js"></script>
+    <script src="../../../../main/webapp/lib/js/StringExtention.js"></script>
+    <script src="../../../../main/webapp/lib/js/Errors.js"></script>
+    <script src="../../../../main/webapp/lib/js/Person.js"></script>
+    <script src="../../../../main/webapp/lib/js/Event.js"></script>
+</head>
+<body>
+	<div id="calendar-container" ng-controller="CalendarCtrl">Container
+		<div id="calendar-menu-container">Menu</div>
+		<div id="calendar-nav-container">
+			<div id="calendar-header-container">{{month.name}}</div>
+			<div class="calendar-month-nav-container">&nbsp; &nbsp;</div>
+		</div>
+		<div id="calendar-week-grid-container">
+			<div class="calendar-week-container">
+				<div class="calendar-week-day-container">
+					<div class="calendar-week-day">Sun</div>
+				</div>
+				<div class="calendar-week-day-container">
+					<div class="calendar-week-day">Mon</div>
+				</div>
+				<div class="calendar-week-day-container">
+					<div class="calendar-week-day">Tue</div>
+				</div>
+				<div class="calendar-week-day-container">
+					<div class="calendar-week-day">Wed</div>
+				</div>
+				<div class="calendar-week-day-container">
+					<div class="calendar-week-day">Thu</div>
+				</div>
+				<div class="calendar-week-day-container">
+					<div class="calendar-week-day">Fri</div>
+				</div>
+				<div class="calendar-week-day-container">
+					<div class="calendar-week-day">Sat</div>
+				</div>
+			</div>
+		</div>
+		<div id="calendar-month-grid-container">
+			<div class="calendar-week-container" ng-repeat="week in weeks">
+					<div class="calendar-day-container" ng-repeat="day in week.weekdays">
+						<div class="ng-class:getCalendarDayClass(day);">
+							<div class="calendar-date">{{day.getWeekDate()}}</div>
+							<div class="calendar-day-summary"></div>
+						</div>
+					</div>
+			</div>
+		</div>
+		<div id="calendar-nav-container">
+			<div class="calendar-month-nav-container">&nbsp; &nbsp;</div>
+		</div>
+	</div>
+</body>
+</html>

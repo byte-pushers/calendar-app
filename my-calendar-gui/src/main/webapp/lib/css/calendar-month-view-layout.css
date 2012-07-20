@@ -61,9 +61,14 @@
 	background: #0000FF;
 }
 
-.calendar-day{
+.calendar-day-with-no-events{
 	//display: block;
 	background: #FCFCFC;
+}
+
+.calendar-day-with-events{
+	//display: block;
+	background: #00CCFF;
 }
 
 .calendar-date{

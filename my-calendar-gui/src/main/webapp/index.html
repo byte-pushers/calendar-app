@@ -7,6 +7,12 @@
     <script src="http://code.angularjs.org/angular-1.0.0rc5.min.js"></script>
     <script src="lib/js/CalendarAPI.js"></script>
 	<script src="lib/js/CalendarController.js"></script>
+	<script src="lib/js/ArrayExtention.js"></script>
+    <script src="lib/js/ObjectExtention.js"></script>
+    <script src="lib/js/StringExtention.js"></script>
+    <script src="lib/js/Errors.js"></script>
+    <script src="lib/js/Person.js"></script>
+    <script src="lib/js/Event.js"></script>
 </head>
 <body>
     <!-- HTML5 TABS CODE -->
@@ -43,48 +49,12 @@
 		</div>
 		<div id="calendar-month-grid-container">
 			<div class="calendar-week-container" ng-repeat="week in weeks">
-				<div class="calendar-day-container">
-					<div class="calendar-day">
-						<div class="calendar-date">{{week.sunday.getWeekDate()}}</div>
-						<div class="calendar-day-summary"></div>
+					<div class="calendar-day-container" ng-repeat="day in week.weekdays">
+						<div class="ng-class:getCalendarDayClass(day);">
+							<div class="calendar-date">{{day.getWeekDate()}}</div>
+							<div class="calendar-day-summary"></div>
+						</div>
 					</div>
-				</div>
-				<div class="calendar-day-container">
-					<div class="calendar-day">
-						<div class="calendar-date">{{week.monday.getWeekDate()}}</div>
-						<div class="calendar-day-summary"></div>
-					</div>
-				</div>
-				<div class="calendar-day-container">
-					<div class="calendar-day">
-						<div class="calendar-date">{{week.tuesday.getWeekDate()}}</div>
-						<div class="calendar-day-summary"></div>
-					</div>
-				</div>
-				<div class="calendar-day-container">
-					<div class="calendar-day">
-						<div class="calendar-date">{{week.wednesday.getWeekDate()}}</div>
-						<div class="calendar-day-summary"></div>
-					</div>
-				</div>
-				<div class="calendar-day-container">
-					<div class="calendar-day">
-						<div class="calendar-date">{{week.thursday.getWeekDate()}}</div>
-						<div class="calendar-day-summary"></div>
-					</div>
-				</div>
-				<div class="calendar-day-container">
-					<div class="calendar-day">
-						<div class="calendar-date">{{week.friday.getWeekDate()}}</div>
-						<div class="calendar-day-summary"></div>
-					</div>
-				</div>
-				<div class="calendar-day-container">
-					<div class="calendar-day">
-						<div class="calendar-date">{{week.saturday.getWeekDate()}}</div>
-						<div class="calendar-day-summary"></div>
-					</div>
-				</div>
 			</div>
 		</div>
 		<div id="calendar-nav-container">

@@ -127,7 +127,7 @@ function Day(date, weekIndex) {
 */
 function Week(weekdays) {
 	"use strict";
-	var that = this, iterator = 0;
+	var that = this;
 	this.weekdays = (weekdays === undefined) ? [] : weekdays;
 	this.sunday = (this.weekdays.length >= 1) ? this.weekdays[0] : null;
 	this.monday = (this.weekdays.length >= 2) ? this.weekdays[1] : null;

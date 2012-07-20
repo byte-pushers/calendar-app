@@ -432,6 +432,23 @@ function Month() {
 		}
 		return events;
 	};
+	/**
+	 * <p>Convenience method to find events on given date.</p>
+	 * 
+	 * @returns {@link Event}s The events that are scheduled for the day.
+	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
+	 */
+	this.findEventsByDate = function (date) {
+		var events = this.getEvents(), i, todaysEvents = [];
+		for (i = 0; i < events.length; i = i + 1) {
+			if (events[i] !== undefined && events[i] !== null) {
+				if (events[i].getStart().isDateEqualTo(date)) {
+					todaysEvents[todaysEvents.length] = events[i];
+				}
+			}
+		}
+		return todaysEvents;
+	};
 }
 /**
  * <p>Static field that is used to get calendar full name, abbreviated names, and total calendar days.</p>

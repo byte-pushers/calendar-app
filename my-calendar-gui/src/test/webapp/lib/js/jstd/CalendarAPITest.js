@@ -396,5 +396,21 @@ TestCase("CalendarAPITestCases", {
 		
 		assertEquals(1, month.getEvents().length);
 		assertEquals(event, month.getEvents()[0]);
+	},
+	testFindingEventsOnAGivenDay: function(){
+		var todaysEvents = getTodaysEvents();
+		var month = new Month();
+		month.setEvents(todaysEvents);
+		var foundEventsForToday = month.findEventsByDate(new Date());
+		assertEquals(1, foundEventsForToday.length);
+		assertEquals(todaysEvents[0], foundEventsForToday[0]);
 	}
 });
+
+function getTodaysEvents(){
+	var event = new Event();
+	event.setSummary("Aisha's Graduation");
+	event.setStart(new Date());
+	event.setEnd(new Date());
+	return [event];
+}

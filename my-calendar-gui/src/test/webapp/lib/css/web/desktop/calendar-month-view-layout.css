@@ -80,3 +80,29 @@
 	display: block;
 	padding: 5px;
 }
+
+#calendar-event-summary-list-container{
+	
+}
+
+#calendar-event-summary{
+	display: table;
+	width: 100%;
+}
+
+.calendar-event-startTime{
+	display: table-cell;
+	width: 20%;
+	border: 1px solid #F2F2F2;
+	background: #0000FF;
+	color: white;
+	font-size: 18px;
+}
+
+.calendar-event-info{
+	display: table-cell;
+	width: 80%;
+	border: 1px solid #F2F2F2;
+	background: white;
+	padding:10px;
+}

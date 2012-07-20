@@ -15,6 +15,7 @@ function CalendarCtrl($scope) {
 	$scope.month = new Month();
 	$scope.month.setEvents(getTestEvents());
 	$scope.weeks = $scope.month.weeks;
+	$scope.todaysEvents = $scope.month.findEventsByDate(new Date());
 	$scope.getCalendarDayClass = function (day) {
 		return (day.hasEvents()) ? "calendar-day-with-events" : "calendar-day-with-no-events";
 	};

@@ -8,6 +8,7 @@
     <script src="../../../../main/webapp/lib/js/CalendarAPI.js"></script>
     <script src="../../../../main/webapp/lib/js/CalendarController.js"></script>
     <script src="../../../../main/webapp/lib/js/ArrayExtention.js"></script>
+    <script src="../../../../main/webapp/lib/js/DateExtention.js"></script>
     <script src="../../../../main/webapp/lib/js/ObjectExtention.js"></script>
     <script src="../../../../main/webapp/lib/js/StringExtention.js"></script>
     <script src="../../../../main/webapp/lib/js/Errors.js"></script>
@@ -58,6 +59,15 @@
 		</div>
 		<div id="calendar-nav-container">
 			<div class="calendar-month-nav-container">&nbsp; &nbsp;</div>
+		</div>
+		<div id="calendar-event-summary-list-container" ng-repeat="event in todaysEvents">
+			<div id="calendar-event-summary">
+				<div class="calendar-event-startTime"><center>{{event.getStart()}}<br>AM</center></div>
+				<div class="calendar-event-info">
+					<div class="calendar-event-title">{{event.getSummary()}}</div>
+					<div class="calendar-event-location">{{event.getLocation()}}</div>
+				</div>
+			</div>
 		</div>
 	</div>
 </body>

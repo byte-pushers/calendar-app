@@ -1,4 +1,4 @@
-/*global InvalidParameterException*/
+/*global InvalidParameterException, DateRange*/
 var monthNames = [{"name": "January", "abbr": "Jan", "getTotalDays": function (year) { "use strict"; return 31; } },
                   {"name": "February", "abbr": "Feb", "getTotalDays": function (year) { "use strict"; if (year) { return (year % 4 === 0) ? 29 : 28; } else { throw ("Expected parameter(Year) is not defined."); } } },
                   {"name": "March", "abbr": "Mar", "getTotalDays": function (year) { "use strict"; return 31; }},
@@ -102,6 +102,15 @@ function Day(date, weekIndex) {
 	this.getEvents = function () {
 		return this.events;
 	};
+	/**
+	 * <p>Determines if there are events that are scheduled for the day.</p>
+	 * 
+	 * @returns {@link Boolean} An indication if the day has scheduled events.
+	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
+	 */
+	this.hasEvents = function () {
+		return (this.events.length > 0) ? true : false;
+	};
 }
 
 
@@ -118,6 +127,7 @@ function Day(date, weekIndex) {
 */
 function Week(weekdays) {
 	"use strict";
+	var that = this, iterator = 0;
 	this.weekdays = (weekdays === undefined) ? [] : weekdays;
 	this.sunday = (this.weekdays.length >= 1) ? this.weekdays[0] : null;
 	this.monday = (this.weekdays.length >= 2) ? this.weekdays[1] : null;

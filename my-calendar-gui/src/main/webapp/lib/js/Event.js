@@ -44,7 +44,7 @@ function DateRange(start, end) {
 			}
 		}
 		return false;
-	}
+	};
 }
 /**
  * Creates a Attendee object that represents an attendee of an event.

@@ -19,4 +19,24 @@ function CalendarCtrl($scope) {
 	$scope.getCalendarDayClass = function (day) {
 		return (day.hasEvents()) ? "calendar-day-with-events" : "calendar-day-with-no-events";
 	};
+	$scope.selectNextDay = function () {
+		$scope.month.selectNextDay();
+		$scope.weeks = $scope.month.weeks;
+		$scope.todaysEvents = $scope.month.findEventsByDate($scope.month.getSelectedDate());
+	};
+	$scope.selectPreviousDay = function () {
+		$scope.month.selectPreviousDay();
+		$scope.weeks = $scope.month.weeks;
+		$scope.todaysEvents = $scope.month.findEventsByDate($scope.month.getSelectedDate());
+	};
+	$scope.selectNextMonth = function () {
+		$scope.month.selectNextMonth();
+		$scope.weeks = $scope.month.weeks;
+		$scope.todaysEvents = $scope.month.findEventsByDate($scope.month.getSelectedDate());
+	};
+	$scope.selectPreviousMonth = function () {
+		$scope.month.selectPreviousMonth();
+		$scope.weeks = $scope.month.weeks;
+		$scope.todaysEvents = $scope.month.findEventsByDate($scope.month.getSelectedDate());
+	};
 }

@@ -4,7 +4,7 @@ TestCase("CalendarAPITestCases", {
 		date.setFullYear(2012, 3, 25);
 		var month = (new Tester()).getInstance(Month);
 		assertNotUndefined("monthTester should be defined.", month);
-		var week = month._privates.getFirstWeekInMonth(month._privates.getWeek(date));
+		var week = month._privates.getFirstWeekInMonth(month._privates.getWeek(date), date.getMonth());
 		assertNotUndefined("week should be defined.", week);
 		assertEquals(7, week.weekdays.length);
 		assertEquals("Sunday", week.weekdays[0].getWeekDay());
@@ -21,7 +21,7 @@ TestCase("CalendarAPITestCases", {
 		assertEquals(6, week.weekdays[5].getWeekDate());
 		assertEquals("Saturday", week.weekdays[6].getWeekDay());
 		assertEquals(7, week.weekdays[6].getWeekDate());
-		
+		assertEquals("Found more weekdays than expected.", undefined, week.weekdays[7]);
 	},
 	testGettingWeeksInMonth : function() {
 		var date = new Date();
@@ -102,6 +102,8 @@ TestCase("CalendarAPITestCases", {
 		assertEquals(4, weeks[4].weekdays[5].getWeekDate());
 		assertEquals("Saturday", weeks[0].weekdays[6].getWeekDay());
 		assertEquals(5, weeks[4].weekdays[6].getWeekDate());
+		assertEquals("Found more weekdays than expected.", undefined, weeks[4].weekdays[7]);
+		assertEquals("Found more weekdays than expected.", undefined, weeks[5]);
 	},
 	testGettingWeekDaysRemainingInWeekBeforeFeb15_2012 : function() {
 		var feb20120215 = new Date();
@@ -117,6 +119,10 @@ TestCase("CalendarAPITestCases", {
 		assertEquals(13, weekdays[1].getWeekDate());
 		assertEquals("Tuesday", weekdays[2].getWeekDay());
 		assertEquals(14, weekdays[2].getWeekDate());
+		assertEquals("Found more weekdays than expected.", undefined, weekdays[3]);
+		assertEquals("Found more weekdays than expected.", undefined, weekdays[4]);
+		assertEquals("Found more weekdays than expected.", undefined, weekdays[5]);
+		assertEquals("Found more weekdays than expected.", undefined, weekdays[6]);
 	},
 	testGettingWeekDaysRemainingInWeekAfterFeb15_2012 : function(){
 		var feb20120215 = new Date();
@@ -132,6 +138,10 @@ TestCase("CalendarAPITestCases", {
 		assertEquals(17, weekdays[5].getWeekDate());
 		assertEquals("Saturday", weekdays[6].getWeekDay());
 		assertEquals(18, weekdays[6].getWeekDate());
+		assertEquals("Found more weekdays than expected.", undefined, weekdays[7]);
+		assertEquals("Found more weekdays than expected.", undefined, weekdays[8]);
+		assertEquals("Found more weekdays than expected.", undefined, weekdays[9]);
+		assertEquals("Found more weekdays than expected.", undefined, weekdays[10]);
 	},
 	testGettingWeekBeforeFeb19_2012 : function(){
 		var feb20120219 = new Date();
@@ -155,6 +165,10 @@ TestCase("CalendarAPITestCases", {
 		assertEquals(17, week.weekdays[5].getWeekDate());
 		assertEquals("Saturday", week.weekdays[6].getWeekDay());
 		assertEquals(18, week.weekdays[6].getWeekDate());
+		assertEquals("Found more weekdays than expected.", undefined, week.weekdays[7]);
+		assertEquals("Found more weekdays than expected.", undefined, week.weekdays[8]);
+		assertEquals("Found more weekdays than expected.", undefined, week.weekdays[9]);
+		assertEquals("Found more weekdays than expected.", undefined, week.weekdays[10]);
 	},
 	testGettingWeekAfterFeb19_2012 : function(){
 		var feb20120219 = new Date();
@@ -178,6 +192,10 @@ TestCase("CalendarAPITestCases", {
 		assertEquals(2, week.weekdays[5].getWeekDate());
 		assertEquals("Saturday", week.weekdays[6].getWeekDay());
 		assertEquals(3, week.weekdays[6].getWeekDate());
+		assertEquals("Found more weekdays than expected.", undefined, week.weekdays[7]);
+		assertEquals("Found more weekdays than expected.", undefined, week.weekdays[8]);
+		assertEquals("Found more weekdays than expected.", undefined, week.weekdays[9]);
+		assertEquals("Found more weekdays than expected.", undefined, week.weekdays[10]);
 	},
 	testGettingWeekDaysRemainingInWeekAfterFeb27_2012 : function(){
 		var feb20120227 = new Date();
@@ -187,6 +205,8 @@ TestCase("CalendarAPITestCases", {
 		var weekdays = month._privates.getRemainingWeekDaysAfter(feb20120227);
 		assertNotUndefined("weekdays should be defined.", weekdays);
 		assertEquals(7, weekdays.length);
+		assertEquals("Found more weekdays than expected.", undefined, weekdays[0]);
+		assertEquals("Found more weekdays than expected.", undefined, weekdays[1]);
 		assertEquals("Tuesday", weekdays[2].getWeekDay());
 		assertEquals(28, weekdays[2].getWeekDate());
 		assertEquals("Wednesday", weekdays[3].getWeekDay());
@@ -197,6 +217,8 @@ TestCase("CalendarAPITestCases", {
 		assertEquals(2, weekdays[5].getWeekDate());
 		assertEquals("Saturday", weekdays[6].getWeekDay());
 		assertEquals(3, weekdays[6].getWeekDate());
+		assertEquals("Found more weekdays than expected.", undefined, weekdays[7]);
+		assertEquals("Found more weekdays than expected.", undefined, weekdays[8]);
 	},
 	testGettingWeekDaysRemainingInWeekBeforeFeb1_2012 : function(){
 		var feb20120201 = new Date();
@@ -211,6 +233,11 @@ TestCase("CalendarAPITestCases", {
 		assertEquals(30, weekdays[1].getWeekDate());
 		assertEquals("Tuesday", weekdays[2].getWeekDay());
 		assertEquals(31, weekdays[2].getWeekDate());
+		assertEquals("Found more weekdays than expected.", undefined, weekdays[3]);
+		assertEquals("Found more weekdays than expected.", undefined, weekdays[4]);
+		assertEquals("Found more weekdays than expected.", undefined, weekdays[5]);
+		assertEquals("Found more weekdays than expected.", undefined, weekdays[6]);
+		assertEquals("Found more weekdays than expected.", undefined, weekdays[7]);
 	},
 	testGettingWeekBeforeFeb1_2012 : function(){
 		var feb20120201 = new Date();
@@ -234,6 +261,23 @@ TestCase("CalendarAPITestCases", {
 		assertEquals(27, week.weekdays[5].getWeekDate());
 		assertEquals("Saturday", week.weekdays[6].getWeekDay());
 		assertEquals(28, week.weekdays[6].getWeekDate());
+		assertEquals("Found more weekdays than expected.", undefined, week.weekdays[7]);
+		assertEquals("Found more weekdays than expected.", undefined, week.weekdays[8]);
+		
+		assertEquals("Sunday", week.sunday.getWeekDay());
+		assertEquals(22, week.sunday.getWeekDate());
+		assertEquals("Monday", week.monday.getWeekDay());
+		assertEquals(23, week.monday.getWeekDate());
+		assertEquals("Tuesday", week.tuesday.getWeekDay());
+		assertEquals(24, week.tuesday.getWeekDate());
+		assertEquals("Wednesday", week.wednesday.getWeekDay());
+		assertEquals(25, week.wednesday.getWeekDate());
+		assertEquals("Thursday", week.thursday.getWeekDay());
+		assertEquals(26, week.thursday.getWeekDate());
+		assertEquals("Friday", week.friday.getWeekDay());
+		assertEquals(27, week.friday.getWeekDate());
+		assertEquals("Saturday", week.saturday.getWeekDay());
+		assertEquals(28, week.saturday.getWeekDate());
 	},
 	testGettingWeekAfterFeb1_2012 : function(){
 		var feb20120201 = new Date();
@@ -257,6 +301,24 @@ TestCase("CalendarAPITestCases", {
 		assertEquals(10, week.weekdays[5].getWeekDate());
 		assertEquals("Saturday", week.weekdays[6].getWeekDay());
 		assertEquals(11, week.weekdays[6].getWeekDate());
+		assertEquals("Found more weekdays than expected.", undefined, week.weekdays[7]);
+		assertEquals("Found more weekdays than expected.", undefined, week.weekdays[8]);
+		
+		assertEquals("Sunday", week.sunday.getWeekDay());
+		assertEquals(5, week.sunday.getWeekDate());
+		assertEquals("Monday", week.monday.getWeekDay());
+		assertEquals(6, week.monday.getWeekDate());
+		assertEquals("Tuesday", week.tuesday.getWeekDay());
+		assertEquals(7, week.tuesday.getWeekDate());
+		assertEquals("Wednesday", week.wednesday.getWeekDay());
+		assertEquals(8, week.wednesday.getWeekDate());
+		assertEquals("Thursday", week.thursday.getWeekDay());
+		assertEquals(9, week.thursday.getWeekDate());
+		assertEquals("Friday", week.friday.getWeekDay());
+		assertEquals(10, week.friday.getWeekDate());
+		assertEquals("Saturday", week.saturday.getWeekDay());
+		assertEquals(11, week.saturday.getWeekDate());
+		
 	},
 	testGettingWeekOfFeb1_2012: function(){
 		var feb20120201 = new Date();
@@ -280,6 +342,25 @@ TestCase("CalendarAPITestCases", {
 		assertEquals(3, week.friday.getWeekDate());
 		assertEquals("Saturday", week.saturday.getWeekDay());
 		assertEquals(4, week.saturday.getWeekDate());
+
+
+		assertEquals("Sunday", week.weekdays[0].getWeekDay());
+		assertEquals(29, week.weekdays[0].getWeekDate());
+		assertEquals("Monday", week.weekdays[1].getWeekDay());
+		assertEquals(30, week.weekdays[1].getWeekDate());
+		assertEquals("Tuesday", week.weekdays[2].getWeekDay());
+		assertEquals(31, week.weekdays[2].getWeekDate());
+		assertEquals("Wednesday", week.weekdays[3].getWeekDay());
+		assertEquals(1, week.weekdays[3].getWeekDate());
+		assertEquals("Thursday", week.weekdays[4].getWeekDay());
+		assertEquals(2, week.weekdays[4].getWeekDate());
+		assertEquals("Friday", week.weekdays[5].getWeekDay());
+		assertEquals(3, week.weekdays[5].getWeekDate());
+		assertEquals("Saturday", week.weekdays[6].getWeekDay());
+		assertEquals(4, week.weekdays[6].getWeekDate());
+		
+		assertEquals("Found more weekdays than expected.", undefined, week.weekdays[7]);
+		assertEquals("Found more weekdays than expected.", undefined, week.weekdays[8]);
 	},
 	testGettingWeekOfFeb29_2012 : function(){
 		var feb20120229 = new Date();
@@ -303,6 +384,21 @@ TestCase("CalendarAPITestCases", {
 		assertEquals(2, week.friday.getWeekDate());
 		assertEquals("Saturday", week.saturday.getWeekDay());
 		assertEquals(3, week.saturday.getWeekDate());
+		
+		assertEquals("Sunday", week.weekdays[0].getWeekDay());
+		assertEquals(26, week.weekdays[0].getWeekDate());
+		assertEquals("Monday", week.weekdays[1].getWeekDay());
+		assertEquals(27, week.weekdays[1].getWeekDate());
+		assertEquals("Tuesday", week.weekdays[2].getWeekDay());
+		assertEquals(28, week.weekdays[2].getWeekDate());
+		assertEquals("Wednesday", week.weekdays[3].getWeekDay());
+		assertEquals(29, week.weekdays[3].getWeekDate());
+		assertEquals("Thursday", week.weekdays[4].getWeekDay());
+		assertEquals(1, week.weekdays[4].getWeekDate());
+		assertEquals("Friday", week.weekdays[5].getWeekDay());
+		assertEquals(2, week.weekdays[5].getWeekDate());
+		assertEquals("Saturday", week.weekdays[6].getWeekDay());
+		assertEquals(3, week.weekdays[6].getWeekDate());
 	},
 	testGettingPreviousMonthsTotalDaysWhenCurrentMonthFeb2012: function(){
 		var feb20120201 = new Date();
@@ -384,6 +480,57 @@ TestCase("CalendarAPITestCases", {
 		assertEquals(3, week.friday.getWeekDate());
 		assertEquals("Saturday", week.saturday.getWeekDay());
 		assertEquals(4, week.saturday.getWeekDate());
+	},
+	testGettingRemainingWeekDaysAfterJuly7_2012: function(){
+		var date = new Date();
+		date.setFullYear(2012, 6, 7);
+		var month = (new Tester()).getInstance(Month);
+		assertEquals(0, month._privates.getRemainingWeekDaysAfter(date));
+	},
+	testGettingRemainingWeekDaysBeforeJuly1_2012: function(){
+		var date = new Date();
+		date.setFullYear(2012, 6, 1);
+		var month = (new Tester()).getInstance(Month);
+		assertEquals(0, month._privates.getRemainingWeekDaysBefore(date));
+	},
+	testGettingFirstWeekInMonthJuly29_2012: function(){
+		var date = new Date();
+		date.setFullYear(2012, 6, 29);
+		var month = (new Tester()).getInstance(Month);
+		assertNotUndefined("monthTester should be defined.", month);
+		var week = month._privates.getFirstWeekInMonth(month._privates.getWeek(date), date.getMonth());
+		assertNotUndefined("week should be defined.", week);
+		assertEquals(7, week.weekdays.length);
+		assertEquals("Sunday", week.weekdays[0].getWeekDay());
+		assertEquals(1, week.weekdays[0].getWeekDate());
+		assertEquals("Monday", week.weekdays[1].getWeekDay());
+		assertEquals(2, week.weekdays[1].getWeekDate());
+		assertEquals("Tuesday", week.weekdays[2].getWeekDay());
+		assertEquals(3, week.weekdays[2].getWeekDate());
+		assertEquals("Wednesday", week.weekdays[3].getWeekDay());
+		assertEquals(4, week.weekdays[3].getWeekDate());
+		assertEquals("Thursday", week.weekdays[4].getWeekDay());
+		assertEquals(5, week.weekdays[4].getWeekDate());
+		assertEquals("Friday", week.weekdays[5].getWeekDay());
+		assertEquals(6, week.weekdays[5].getWeekDate());
+		assertEquals("Saturday", week.weekdays[6].getWeekDay());
+		assertEquals(7, week.weekdays[6].getWeekDate());
+		assertEquals("Found more weekdays than expected.", undefined, week.weekdays[7]);
+		
+		assertEquals("Sunday", week.sunday.getWeekDay());
+		assertEquals(1, week.sunday.getWeekDate());
+		assertEquals("Monday", week.monday.getWeekDay());
+		assertEquals(2, week.monday.getWeekDate());
+		assertEquals("Tuesday", week.tuesday.getWeekDay());
+		assertEquals(3, week.tuesday.getWeekDate());
+		assertEquals("Wednesday", week.wednesday.getWeekDay());
+		assertEquals(4, week.wednesday.getWeekDate());
+		assertEquals("Thursday", week.thursday.getWeekDay());
+		assertEquals(5, week.thursday.getWeekDate());
+		assertEquals("Friday", week.friday.getWeekDay());
+		assertEquals(6, week.friday.getWeekDate());
+		assertEquals("Saturday", week.saturday.getWeekDay());
+		assertEquals(7, week.saturday.getWeekDate());
 	},
 	testSettingEventToCalendar: function(){
 		var event = new Event();

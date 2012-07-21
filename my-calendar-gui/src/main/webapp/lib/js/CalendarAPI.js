@@ -11,7 +11,13 @@ var monthNames = [{"name": "January", "abbr": "Jan", "getTotalDays": function (y
                   {"name": "October", "abbr": "Oct", "getTotalDays": function (year) { "use strict"; return 31; }},
                   {"name": "November", "abbr": "Nov", "getTotalDays": function (year) { "use strict"; return 30; }},
                   {"name": "December", "abbr": "Dec", "getTotalDays": function (year) { "use strict"; return 31; }}];
-
+var weekdayNames = [{"name": "Sunday", "abbr": "Sun."},
+                     {"name": "Monday", "abbr": "Mon."},
+                     {"name": "Tuesday", "abbr": "Tue."},
+                     {"name": "Wednesday", "abbr": "Wed."},
+                     {"name": "Thursday", "abbr": "Thu."},
+                     {"name": "Friday", "abbr": "Fri."},
+                     {"name": "Saturday", "abbr": "Sat."}];
 
 /**
  * Creates a Day object that represents the day of the {@link Week}.
@@ -143,11 +149,11 @@ function Week(weekdays) {
 	 * Otherwise, it will return false.
 	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 	*/
-	this.isFirstWeekInMonth = function () {
+	this.isFirstWeekInMonth = function (month) {
 		var i;
-		for (i = 0; i < this.weekdays.length; i = i + 1) {
+		for (i = this.weekdays.length - 1; i > -1; i = i - 1) {
 			if (this.weekdays[i] !== undefined) {
-				if (this.weekdays[i].getWeekDate() === 1) {
+				if (this.weekdays[i].getWeekDate() === 1 && this.weekdays[i].getDate().getMonth() === month) {
 					return true;
 				}
 			}
@@ -228,7 +234,7 @@ Week.prototype.monthNames = monthNames;
 */
 function Month() {
 	"use strict";
-	var that = this;
+	var that = this, selectedDate = new Date();
 	this.TOTAL_WEEKDAYS = 7;
 	/**
 	 * <p>Gets month name.</p> 
@@ -258,9 +264,11 @@ function Month() {
 	function getRemainingWeekDaysBefore(date) {
 		var weekdays = [], weekday = date.getDay() - 1, d = new Date(date.getTime());
 		do {
-			d.setDate(d.getDate() - 1);
-			weekdays[weekday] = new Day(new Date(d.getTime()));
-			weekday = weekday - 1;
+			if (weekday > -1) {
+				d.setDate(d.getDate() - 1);
+				weekdays[weekday] = new Day(new Date(d.getTime()));
+				weekday = weekday - 1;
+			}
 		} while (weekday > -1);
 		return weekdays;
 	}
@@ -275,9 +283,11 @@ function Month() {
 	function getRemainingWeekDaysAfter(date) {
 		var weekdays = [], weekday = date.getDay() + 1, d = new Date(date.getTime());
 		do {
-			d.setDate(d.getDate() + 1);
-			weekdays[weekday] = new Day(new Date(d.getTime()));
-			weekday = weekday + 1;
+			if (weekday < that.TOTAL_WEEKDAYS) {
+				d.setDate(d.getDate() + 1);
+				weekdays[weekday] = new Day(new Date(d.getTime()));
+				weekday = weekday + 1;
+			}
 		} while (weekday < that.TOTAL_WEEKDAYS);
 		return weekdays;
 	}
@@ -350,10 +360,10 @@ function Month() {
 	 * @returns {@link Week} The first week in calendar month.
 	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 	*/
-	function getFirstWeekInMonth(someWeekInMonth) {
+	function getFirstWeekInMonth(someWeekInMonth, month) {
 		var firstWeekInMonth = null;
 		do {
-			if (someWeekInMonth.isFirstWeekInMonth()) {
+			if (someWeekInMonth.isFirstWeekInMonth(month)) {
 				firstWeekInMonth = someWeekInMonth;
 			} else {
 				someWeekInMonth = getWeekBefore(someWeekInMonth.sunday.getDate());
@@ -370,7 +380,7 @@ function Month() {
 	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 	*/
 	function getWeeksInMonth(date) {
-		var weeksInMonth = [], firstWeekInMonth = getFirstWeekInMonth(getWeek(date)), foundLastWeekInMonth = false;
+		var weeksInMonth = [], firstWeekInMonth = getFirstWeekInMonth(getWeek(date), date.getMonth()), foundLastWeekInMonth = false;
 		if (firstWeekInMonth !== null) {
 			weeksInMonth[0] = firstWeekInMonth;
 			weeksInMonth[1] = getWeekAfter(weeksInMonth[0].saturday.getDate());
@@ -388,18 +398,33 @@ function Month() {
 		}
 		return weeksInMonth;
 	}
+	function setWeeksInMonth(date) {
+		that.weeks = getWeeksInMonth(date);
+	}
 	/**
 	 * <p>Represents all the weeks in the Month.  This field is populated during object creation.</p>
 	 * @field
 	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 	*/
-	this.weeks = getWeeksInMonth(new Date());
+	this.weeks = getWeeksInMonth(selectedDate);
 	/**
 	 * <p>Represents the name of the Month.  This field is populated during object creation.</p>
 	 * @field
 	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 	*/
 	this.name = getMonthName((new Date()).getMonth(), false);
+	this.selectedMonthEvents = [];
+	this.applyEvents = function () {
+		var i, week;
+		if (this.selectedMonthEvents.length > 0) {
+			for (i = 0; i < this.weeks.length; i = i + 1) {
+				if (this.weeks[i] !== undefined && this.weeks[i] !== null) {
+					week = this.weeks[i];
+					week.setEvents(this.selectedMonthEvents);
+				}
+			}
+		}
+	};
 	/**
 	 * <p>Set the events that are scheduled for the month to the appropriate days.</p>
 	 * 
@@ -407,16 +432,8 @@ function Month() {
 	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 	 */
 	this.setEvents = function (events) {
-		var i, week;
-		if (events !== undefined && events !== null && !Array.isArray(events)) {
-			throw new InvalidParameterException("Constructor parameter events must be an Array of Events.");
-		}
-		for (i = 0; i < this.weeks.length; i = i + 1) {
-			if (this.weeks[i] !== undefined && this.weeks[i] !== null) {
-				week = this.weeks[i];
-				week.setEvents(events);
-			}
-		}
+		this.selectedMonthEvents = events;
+		this.applyEvents();
 	};
 	/**
 	 * <p>Gets the events that are scheduled for the month.</p>
@@ -425,12 +442,7 @@ function Month() {
 	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 	 */
 	this.getEvents = function () {
-		var i, week, events = [];
-		for (i = 0; i < that.weeks.length; i = i + 1) {
-			week = that.weeks[i];
-			events = events.concat(week.getEvents());
-		}
-		return events;
+		return this.selectedMonthEvents;
 	};
 	/**
 	 * <p>Convenience method to find events on given date.</p>
@@ -449,6 +461,61 @@ function Month() {
 		}
 		return todaysEvents;
 	};
+	this.getSelectedMonthName = function () {
+		return getMonthName(selectedDate.getMonth(), false);
+	};
+	this.getSelectedDateDisplayName = function () {
+		var month = getMonthName(selectedDate.getMonth(), false),
+			year = selectedDate.getFullYear(),
+			date = selectedDate.getDate(),
+			day = weekdayNames[selectedDate.getDay()].name;
+		return day + " " + month + " " + date + ", " + year;
+	};
+	this.setSelectedMonthName = function () {
+		this.selectedMonthName = this.getSelectedMonthName();
+	};
+	this.setSelectedDateDisplayName = function () {
+		this.selectedDateDisplayName = this.getSelectedDateDisplayName();
+	};
+	this.selectNextDay = function () {
+		selectedDate.setDate(selectedDate.getDate() + 1);
+		setWeeksInMonth(selectedDate);
+		this.applyEvents();
+		this.setSelectedMonthName();
+		this.setSelectedDateDisplayName();
+		return selectedDate;
+	};
+	this.selectPreviousDay = function () {
+		selectedDate.setDate(selectedDate.getDate() - 1);
+		setWeeksInMonth(selectedDate);
+		this.applyEvents();
+		this.setSelectedMonthName();
+		this.setSelectedDateDisplayName();
+		return selectedDate;
+	};
+	this.selectNextMonth = function () {
+		selectedDate.setMonth(selectedDate.getMonth() + 1);
+		selectedDate.setDate(1);
+		setWeeksInMonth(selectedDate);
+		this.applyEvents();
+		this.setSelectedMonthName();
+		this.setSelectedDateDisplayName();
+		return selectedDate;
+	};
+	this.selectPreviousMonth = function () {
+		selectedDate.setMonth(selectedDate.getMonth() - 1);
+		selectedDate.setDate(1);
+		setWeeksInMonth(selectedDate);
+		this.applyEvents();
+		this.setSelectedMonthName();
+		this.setSelectedDateDisplayName();
+		return selectedDate;
+	};
+	this.getSelectedDate = function () {
+		return selectedDate;
+	};
+	this.selectedMonthName = this.getSelectedMonthName();
+	this.selectedDateDisplayName = this.getSelectedDateDisplayName();
 }
 /**
  * <p>Static field that is used to get calendar full name, abbreviated names, and total calendar days.</p>

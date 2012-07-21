@@ -8,6 +8,7 @@
     <script src="lib/js/CalendarAPI.js"></script>
 	<script src="lib/js/CalendarController.js"></script>
 	<script src="lib/js/ArrayExtention.js"></script>
+	<script src="lib/js/DateExtention.js"></script>
     <script src="lib/js/ObjectExtention.js"></script>
     <script src="lib/js/StringExtention.js"></script>
     <script src="lib/js/Errors.js"></script>
@@ -19,7 +20,7 @@
 	<div id="calendar-container" ng-controller="CalendarCtrl">Container
 		<div id="calendar-menu-container">Menu</div>
 		<div id="calendar-nav-container">
-			<div id="calendar-header-container">{{month.name}}</div>
+			<div id="calendar-header-container">{{month.selectedMonthName}} <button ng-click="selectPreviousMonth()"><<</button> <button ng-click="selectNextMonth()">>></button></div>
 			<div class="calendar-month-nav-container">&nbsp; &nbsp;</div>
 		</div>
 		<div id="calendar-week-grid-container">
@@ -58,7 +59,16 @@
 			</div>
 		</div>
 		<div id="calendar-nav-container">
-			<div class="calendar-month-nav-container">&nbsp; &nbsp;</div>
+			<div class="calendar-month-nav-container">Today {{month.selectedDateDisplayName}} <button ng-click="selectPreviousDay()"><<</button> <button ng-click="selectNextDay()">>></button></div>
+		</div>
+		<div id="calendar-event-summary-list-container" ng-repeat="event in todaysEvents">
+			<div id="calendar-event-summary">
+				<div class="calendar-event-startTime"><center>{{event.getStart() | date:'h:mm'}} {{event.getStart() | date:'a'}}</center></div>
+				<div class="calendar-event-info">
+					<div class="calendar-event-title">{{event.getSummary()}}</div>
+					<div class="calendar-event-location">{{event.getLocation()}}</div>
+				</div>
+			</div>
 		</div>
 	</div>
     <!-- /HTML5 TABS CODE -->

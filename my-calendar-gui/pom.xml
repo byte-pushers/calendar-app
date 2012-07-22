@@ -23,6 +23,7 @@
 					<Allfunctions>true</Allfunctions>
 					<exclude><!-- Since jsdoctk 2.3.2 -->
 						<param>angular</param><!--Multiple param entries allowed -->
+						<param>jquery</param><!--Multiple param entries allowed -->
 					</exclude>
 				</configuration>
 				<executions>
@@ -52,7 +53,12 @@
 						</goals>
 						<configuration>
 							<failOnError>true</failOnError>
-							<src>${basedir}/src/main/webapp/lib/js</src>
+							<excludes>
+								<exclude>jquery/*.js</exclude>
+							</excludes>
+							<sourceFolders>
+								<sourceFolder>${basedir}/src/main/webapp/lib/js</sourceFolder>
+							</sourceFolders>
 							<options>
 								<undef>true</undef>
 							</options>

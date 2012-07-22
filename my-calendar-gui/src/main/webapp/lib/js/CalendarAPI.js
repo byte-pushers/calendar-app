@@ -1,4 +1,4 @@
-/*global InvalidParameterException, DateRange*/
+/*global InvalidParameterException, DateRange, $*/
 var monthNames = [{"name": "January", "abbr": "Jan", "getTotalDays": function (year) { "use strict"; return 31; } },
                   {"name": "February", "abbr": "Feb", "getTotalDays": function (year) { "use strict"; if (year) { return (year % 4 === 0) ? 29 : 28; } else { throw ("Expected parameter(Year) is not defined."); } } },
                   {"name": "March", "abbr": "Mar", "getTotalDays": function (year) { "use strict"; return 31; }},
@@ -60,11 +60,9 @@ function Day(date, weekIndex) {
 					this.weekdayNames[this.date.getDay()].name;
 	};
 	/**
-	 * <p>Gets the date for the day of the month.</p>
+	 * <p>Gets the date for a specific day of the month.</p>
 	 * 
-	 * @param abbr An optional flag that returns the abbreviated weekday name when flag is set to true.
-	 * 
-	 * @returns {String} The name of the weekday.
+	 * @returns {Date} The date for a specific day of the month.
 	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 	*/
 	this.getWeekDate = function () {
@@ -116,6 +114,15 @@ function Day(date, weekIndex) {
 	 */
 	this.hasEvents = function () {
 		return (this.events.length > 0) ? true : false;
+	};
+	/**
+	 * <p>Get the unique id for the day.  The unique Id is made up of the abbreviated month and the date.</p>
+	 * 
+	 * @returns {@link String} An Id for the day.
+	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
+	 */
+	this.getId = function () {
+		return monthNames[this.getDate().getMonth()].abbr + this.getWeekDate();
 	};
 }
 
@@ -513,6 +520,24 @@ function Month() {
 	};
 	this.getSelectedDate = function () {
 		return selectedDate;
+	};
+	this.highLightSelectedDay = function (previouslySelectedDate) {
+		var selector = "div#" + (new Day(selectedDate)).getId();
+		if (this.findEventsByDate(selectedDate).length < 1) {
+			$(selector).removeClass("calendar-day-with-events calendar-day-with-no-events");
+			$(selector).addClass("highlight-day");
+		} else {
+			$(selector).removeClass("highlight-day calendar-day-with-no-events");
+			$(selector).addClass("calendar-day-with-events");
+		}
+		selector = "div#" + (new Day(previouslySelectedDate)).getId();
+		if (this.findEventsByDate(previouslySelectedDate).length < 1) {
+			$(selector).removeClass("highlight-day calendar-day-with-events");
+			$(selector).addClass("calendar-day-with-no-events");
+		} else {
+			$(selector).removeClass("highlight-day calendar-day-with-no-events");
+			$(selector).addClass("calendar-day-with-events");
+		}
 	};
 	this.selectedMonthName = this.getSelectedMonthName();
 	this.selectedDateDisplayName = this.getSelectedDateDisplayName();

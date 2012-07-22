@@ -4,7 +4,9 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>Calender GUI</title>
     <link rel="stylesheet" href="../../lib/css/web/desktop/calendar-month-view-layout.css">
-    <script src="http://code.angularjs.org/angular-1.0.0rc5.min.js"></script>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <!--script type="text/javascript" src="../../../../main/webapp/lib/js/jquery/jquery-1.7.2.js"></script-->
+    <script src="http://code.angularjs.org/angular-1.0.0rc5.js"></script>
     <script src="../../../../main/webapp/lib/js/CalendarAPI.js"></script>
     <script src="../../../../main/webapp/lib/js/CalendarController.js"></script>
     <script src="../../../../main/webapp/lib/js/ArrayExtention.js"></script>
@@ -50,7 +52,7 @@
 		<div id="calendar-month-grid-container">
 			<div class="calendar-week-container" ng-repeat="week in weeks">
 					<div class="calendar-day-container" ng-repeat="day in week.weekdays">
-						<div class="ng-class:getCalendarDayClass(day);">
+						<div id="{{day.getId()}}" class="ng-class:getCalendarDayClass(day);">
 							<div class="calendar-date">{{day.getWeekDate()}}</div>
 							<div class="calendar-day-summary"></div>
 						</div>

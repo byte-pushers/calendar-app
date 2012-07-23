@@ -1,12 +1,17 @@
 /*global Month, Event*/
 function getTestEvents() {
 	"use strict";
-	var event = new Event(), month;
+	var event = new Event(), month, event2 = new Event();
 	event.setSummary("Aisha's Graduation");
 	event.setStart(new Date());
 	event.setEnd(new Date());
+	event2.setSummary("Malayshia's Birthday Party!");
+	event2.setStart(new Date());
+	event2.getStart().setDate(26);
+	event2.setEnd(new Date());
+	event2.getEnd().setDate(26);
 	month = new Month();
-	month.setEvents([event]);
+	month.setEvents([event, event2]);
 	return month.getEvents();
 }
 /* App Controllers */
@@ -25,14 +30,12 @@ function CalendarCtrl($scope) {
 		} else {
 			cssClass = "calendar-day-with-no-events";
 		}
-		
 		return cssClass;
 	};
 	$scope.selectNextDay = function () {
-		var previouslySelectedDate = new Date($scope.month.getSelectedDate().getTime());
-		var nextDay = new Date(previouslySelectedDate.getTime());
+		var previouslySelectedDate = new Date($scope.month.getSelectedDate().getTime()), nextDay = new Date(previouslySelectedDate.getTime());
 		nextDay.setDate(nextDay.getDate() + 1);
-		if(previouslySelectedDate.getMonth() !== nextDay.getMonth()){
+		if (previouslySelectedDate.getMonth() !== nextDay.getMonth()) {
 			$scope.selectFirstDayOfNextMonth();
 		} else {
 			$scope.todaysEvents = $scope.month.selectNextDay().getEvents();
@@ -40,10 +43,9 @@ function CalendarCtrl($scope) {
 		}
 	};
 	$scope.selectPreviousDay = function () {
-		var previouslySelectedDate = new Date($scope.month.getSelectedDate().getTime());
-		var previousDay = new Date(previouslySelectedDate.getTime());
+		var previouslySelectedDate = new Date($scope.month.getSelectedDate().getTime()), previousDay = new Date(previouslySelectedDate.getTime());
 		previousDay.setDate(previousDay.getDate() - 1);
-		if(previouslySelectedDate.getMonth() !== previousDay.getMonth()){
+		if (previouslySelectedDate.getMonth() !== previousDay.getMonth()) {
 			$scope.selectLastDayOfPreviousMonth();
 		} else {
 			$scope.todaysEvents = $scope.month.selectPreviousDay().getEvents();

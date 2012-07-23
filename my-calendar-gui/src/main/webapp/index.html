@@ -4,6 +4,8 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title><html ng-app></title>
     <link rel="stylesheet" href="lib/css/calendar-month-view-layout.css">
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <!--script type="text/javascript" src="../../../../main/webapp/lib/js/jquery/jquery-1.7.2.js"></script-->
     <script src="http://code.angularjs.org/angular-1.0.0rc5.min.js"></script>
     <script src="lib/js/CalendarAPI.js"></script>
 	<script src="lib/js/CalendarController.js"></script>
@@ -20,7 +22,7 @@
 	<div id="calendar-container" ng-controller="CalendarCtrl">Container
 		<div id="calendar-menu-container">Menu</div>
 		<div id="calendar-nav-container">
-			<div id="calendar-header-container">{{month.selectedMonthName}} <button ng-click="selectPreviousMonth()"><<</button> <button ng-click="selectNextMonth()">>></button></div>
+			<div id="calendar-header-container">{{month.selectedMonthName}} <button ng-click="selectFirstDayOfPreviousMonth()"><<</button> <button ng-click="selectFirstDayOfNextMonth()">>></button></div>
 			<div class="calendar-month-nav-container">&nbsp; &nbsp;</div>
 		</div>
 		<div id="calendar-week-grid-container">
@@ -51,7 +53,7 @@
 		<div id="calendar-month-grid-container">
 			<div class="calendar-week-container" ng-repeat="week in weeks">
 					<div class="calendar-day-container" ng-repeat="day in week.weekdays">
-						<div class="ng-class:getCalendarDayClass(day);">
+						<div id="{{day.getId()}}" class="ng-class:getCalendarDayClass(day);">
 							<div class="calendar-date">{{day.getWeekDate()}}</div>
 							<div class="calendar-day-summary"></div>
 						</div>

@@ -1,4 +1,4 @@
-/*global InvalidParameterException, DateRange, $*/
+/*global InvalidParameterException, DateRange, $, ExpectedToHaveCurrentDayOfMonthException*/
 var monthNames = [{"name": "January", "abbr": "Jan", "getTotalDays": function (year) { "use strict"; return 31; } },
                   {"name": "February", "abbr": "Feb", "getTotalDays": function (year) { "use strict"; if (year) { return (year % 4 === 0) ? 29 : 28; } else { throw ("Expected parameter(Year) is not defined."); } } },
                   {"name": "March", "abbr": "Mar", "getTotalDays": function (year) { "use strict"; return 31; }},
@@ -25,15 +25,17 @@ var weekdayNames = [{"name": "Sunday", "abbr": "Sun."},
  * @class Represents a Day of the week or month.
  * @param {<a href="http://www.w3schools.com/jsref/jsref_obj_date.asp">Date</a>} date The date of the day.
  * @param {<a href="http://www.w3schools.com/jsref/jsref_obj_number.asp">Number</a>} weekIndex The week index of the month for this day.
+ * @param {<a href="http://www.w3schools.com/jsref/jsref_obj_boolean.asp">Boolean</a>} currentDayOfWeek Specifies whether this is the current day of the week.
  * 
  * @returns An instance of the Day class.
  * 
  * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 */
-function Day(date, weekIndex) {
+function Day(date, weekIndex, currentDayOfWeek) {
 	"use strict";
 	this.date = date;
-	this.weekIndex = (weekIndex === undefined) ? -1 : weekIndex;
+	this.weekIndex = (weekIndex === undefined || weekIndex === null) ? -1 : weekIndex;
+	this.currentDayOfWeek = (currentDayOfWeek === undefined || currentDayOfWeek === null) ? false : currentDayOfWeek;
 	this.weekdayNames = [{"name": "Sunday", "abbr": "Sun."},
 	                     {"name": "Monday", "abbr": "Mon."},
 	                     {"name": "Tuesday", "abbr": "Tue."},
@@ -114,6 +116,18 @@ function Day(date, weekIndex) {
 	 */
 	this.hasEvents = function () {
 		return (this.events.length > 0) ? true : false;
+	};
+	this.setCurrentDayOfWeek = function (currentDayOfWeek) {
+		this.currentDayOfWeek = currentDayOfWeek;
+	};
+	/**
+	 * <p>Determines if the following day is the current day of the week.</p>
+	 * 
+	 * @returns {@link Boolean} An indication if the day has scheduled events.
+	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
+	 */
+	this.isCurrentDayOfWeek = function () {
+		return this.currentDayOfWeek;
 	};
 	/**
 	 * <p>Get the unique id for the day.  The unique Id is made up of the abbreviated month and the date.</p>
@@ -210,11 +224,36 @@ function Week(weekdays) {
 	this.getEvents = function () {
 		var i, events = [];
 		for (i = 0; i < this.weekdays.length; i = i + 1) {
-			if (this.weekdays[i] !== undefined) {
+			if (this.weekdays[i] !== undefined && this.weekdays[i] !== null) {
 				events = events.concat(this.weekdays[i].getEvents());
 			}
 		}
 		return events;
+	};
+	this.setCurrentDayOfWeek = function (selectedDateOfWeek) {
+		var i, currentDayOfWeekSelectedStatus = false;
+		for (i = 0; i < this.weekdays.length; i = i + 1) {
+			if (this.weekdays[i] !== undefined && this.weekdays[i] !== null) {
+				if (this.weekdays[i].getDate().getTime() === selectedDateOfWeek.getTime()) {
+					this.weekdays[i].setCurrentDayOfWeek(true);
+					currentDayOfWeekSelectedStatus = true;
+					break;
+				}
+			}
+		}
+		return currentDayOfWeekSelectedStatus;
+	};
+	this.findCurrentDayOfWeek = function () {
+		var i, currentDayOfWeek = null;
+		for (i = 0; i < this.weekdays.length; i = i + 1) {
+			if (this.weekdays[i] !== undefined && this.weekdays[i] !== null) {
+				if (this.weekdays[i].isCurrentDayOfWeek()) {
+					currentDayOfWeek = this.weekdays[i];
+					break;
+				}
+			}
+		}
+		return currentDayOfWeek;
 	};
 }
 
@@ -273,7 +312,7 @@ function Month() {
 		do {
 			if (weekday > -1) {
 				d.setDate(d.getDate() - 1);
-				weekdays[weekday] = new Day(new Date(d.getTime()));
+				weekdays[weekday] = new Day(new Date(d.getTime()), null, false);
 				weekday = weekday - 1;
 			}
 		} while (weekday > -1);
@@ -292,7 +331,7 @@ function Month() {
 		do {
 			if (weekday < that.TOTAL_WEEKDAYS) {
 				d.setDate(d.getDate() + 1);
-				weekdays[weekday] = new Day(new Date(d.getTime()));
+				weekdays[weekday] = new Day(new Date(d.getTime()), null, false);
 				weekday = weekday + 1;
 			}
 		} while (weekday < that.TOTAL_WEEKDAYS);
@@ -313,7 +352,7 @@ function Month() {
 				weekdays[weekdays.length] = weekDaysBeforeArray[weekDaysBeforeArrayIndex];
 			}
 		}
-		weekdays[weekdays.length] = new Day(new Date(date.getTime()));
+		weekdays[weekdays.length] = new Day(new Date(date.getTime()), null, true);
 		for (weekDaysAfterArrayIndex = 0; weekDaysAfterArrayIndex < weekDaysAfterArray.length; weekDaysAfterArrayIndex = weekDaysAfterArrayIndex + 1) {
 			if (weekDaysAfterArray[weekDaysAfterArrayIndex] !== undefined) {
 				weekdays[weekdays.length] = weekDaysAfterArray[weekDaysAfterArrayIndex];
@@ -395,11 +434,11 @@ function Month() {
 			weeksInMonth[3] = getWeekAfter(weeksInMonth[2].saturday.getDate());
 			if (!weeksInMonth[3].isLastWeekInMonth()) {
 				weeksInMonth[4] = getWeekAfter(weeksInMonth[3].saturday.getDate());
-				foundLastWeekInMonth = true;
-			}
-			if (foundLastWeekInMonth === false) {
 				if (!weeksInMonth[4].isLastWeekInMonth()) {
 					weeksInMonth[5] = getWeekAfter(weeksInMonth[4].saturday.getDate());
+					if (!weeksInMonth[5].isLastWeekInMonth()) {
+						weeksInMonth[6] = getWeekAfter(weeksInMonth[5].saturday.getDate());
+					}
 				}
 			}
 		}
@@ -407,6 +446,24 @@ function Month() {
 	}
 	function setWeeksInMonth(date) {
 		that.weeks = getWeeksInMonth(date);
+		that.setCurrentDayOfMonth(date);
+		that.bindEvents();
+	}
+	function getNextDate() {
+		selectedDate.setDate(selectedDate.getDate() + 1);
+		return selectedDate;
+	}
+	function getPreviousDate() {
+		selectedDate.setDate(selectedDate.getDate() - 1);
+		return selectedDate;
+	}
+	function getNextMonthDate(dayOfMonth) {
+		selectedDate.setMonth((selectedDate.getMonth() + 1), dayOfMonth);
+		return selectedDate;
+	}
+	function getPreviousMonthDate(dayOfMonth) {
+		selectedDate.setMonth((selectedDate.getMonth() - 1), dayOfMonth);
+		return selectedDate;
 	}
 	/**
 	 * <p>Represents all the weeks in the Month.  This field is populated during object creation.</p>
@@ -421,7 +478,7 @@ function Month() {
 	*/
 	this.name = getMonthName((new Date()).getMonth(), false);
 	this.selectedMonthEvents = [];
-	this.applyEvents = function () {
+	this.bindEvents = function () {
 		var i, week;
 		if (this.selectedMonthEvents.length > 0) {
 			for (i = 0; i < this.weeks.length; i = i + 1) {
@@ -440,7 +497,7 @@ function Month() {
 	 */
 	this.setEvents = function (events) {
 		this.selectedMonthEvents = events;
-		this.applyEvents();
+		this.bindEvents();
 	};
 	/**
 	 * <p>Gets the events that are scheduled for the month.</p>
@@ -471,6 +528,9 @@ function Month() {
 	this.getSelectedMonthName = function () {
 		return getMonthName(selectedDate.getMonth(), false);
 	};
+	this.getSelectedDate = function () {
+		return selectedDate;
+	};
 	this.getSelectedDateDisplayName = function () {
 		var month = getMonthName(selectedDate.getMonth(), false),
 			year = selectedDate.getFullYear(),
@@ -485,59 +545,75 @@ function Month() {
 		this.selectedDateDisplayName = this.getSelectedDateDisplayName();
 	};
 	this.selectNextDay = function () {
-		selectedDate.setDate(selectedDate.getDate() + 1);
-		setWeeksInMonth(selectedDate);
-		this.applyEvents();
+		setWeeksInMonth(getNextDate());
 		this.setSelectedMonthName();
 		this.setSelectedDateDisplayName();
-		return selectedDate;
+		return this.getCurrentDayOfMonth(this.getSelectedDate());
 	};
 	this.selectPreviousDay = function () {
-		selectedDate.setDate(selectedDate.getDate() - 1);
-		setWeeksInMonth(selectedDate);
-		this.applyEvents();
+		setWeeksInMonth(getPreviousDate());
 		this.setSelectedMonthName();
 		this.setSelectedDateDisplayName();
-		return selectedDate;
+		return this.getCurrentDayOfMonth(this.getSelectedDate());
 	};
-	this.selectNextMonth = function () {
-		selectedDate.setMonth(selectedDate.getMonth() + 1);
-		selectedDate.setDate(1);
-		setWeeksInMonth(selectedDate);
-		this.applyEvents();
+	this.selectFirstDayOfNextMonth = function () {
+		setWeeksInMonth(getNextMonthDate(1));
 		this.setSelectedMonthName();
 		this.setSelectedDateDisplayName();
-		return selectedDate;
+		return this.getCurrentDayOfMonth(this.getSelectedDate());
 	};
-	this.selectPreviousMonth = function () {
-		selectedDate.setMonth(selectedDate.getMonth() - 1);
-		selectedDate.setDate(1);
-		setWeeksInMonth(selectedDate);
-		this.applyEvents();
+	this.selectFirstDayOfPreviousMonth = function () {
+		setWeeksInMonth(getPreviousMonthDate(1));
 		this.setSelectedMonthName();
 		this.setSelectedDateDisplayName();
-		return selectedDate;
+		return this.getCurrentDayOfMonth(this.getSelectedDate());
 	};
-	this.getSelectedDate = function () {
-		return selectedDate;
+	this.selectLastDayOfPreviousMonth = function () {
+		setWeeksInMonth(getPreviousMonthDate(this.getPreviousMonthTotalDays(this.getSelectedDate())));
+		this.setSelectedMonthName();
+		this.setSelectedDateDisplayName();
+		return this.getCurrentDayOfMonth(this.getSelectedDate());
 	};
 	this.highLightSelectedDay = function (previouslySelectedDate) {
 		var selector = "div#" + (new Day(selectedDate)).getId();
 		if (this.findEventsByDate(selectedDate).length < 1) {
 			$(selector).removeClass("calendar-day-with-events calendar-day-with-no-events");
-			$(selector).addClass("highlight-day");
+			$(selector).addClass("calendar-day-selected");
 		} else {
-			$(selector).removeClass("highlight-day calendar-day-with-no-events");
+			$(selector).removeClass("calendar-day-selected calendar-day-with-no-events");
 			$(selector).addClass("calendar-day-with-events");
 		}
 		selector = "div#" + (new Day(previouslySelectedDate)).getId();
 		if (this.findEventsByDate(previouslySelectedDate).length < 1) {
-			$(selector).removeClass("highlight-day calendar-day-with-events");
+			$(selector).removeClass("calendar-day-selected calendar-day-with-events");
 			$(selector).addClass("calendar-day-with-no-events");
 		} else {
-			$(selector).removeClass("highlight-day calendar-day-with-no-events");
+			$(selector).removeClass("calendar-day-selected calendar-day-with-no-events");
 			$(selector).addClass("calendar-day-with-events");
 		}
+	};
+	this.setCurrentDayOfMonth = function (selectedDateOfWeek) {
+		var i, week;
+		for (i = 0; i < this.weeks.length; i = i + 1) {
+			week = this.weeks[i];
+			if (week.setCurrentDayOfWeek(selectedDateOfWeek)) {
+				break;
+			}
+		}
+	};
+	this.getCurrentDayOfMonth = function () {
+		var i, week, currentDayOfMonth;
+		for (i = 0; i < this.weeks.length; i = i + 1) {
+			week = this.weeks[i];
+			currentDayOfMonth = week.findCurrentDayOfWeek();
+			if (currentDayOfMonth !== undefined && currentDayOfMonth !== null) {
+				break;
+			}
+		}
+		if (currentDayOfMonth === undefined || currentDayOfMonth === null) {
+			throw new ExpectedToHaveCurrentDayOfMonthException("Expected to have a current day in the month.");
+		}
+		return currentDayOfMonth;
 	};
 	this.selectedMonthName = this.getSelectedMonthName();
 	this.selectedDateDisplayName = this.getSelectedDateDisplayName();

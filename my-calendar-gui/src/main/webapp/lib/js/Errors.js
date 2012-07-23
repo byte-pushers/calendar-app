@@ -29,3 +29,19 @@ function InvalidDateRangeException(message) {
 	this.name = "InvalidDateRangeException";
 	this.message = message;
 }
+
+function ExpectedToHaveCurrentDayOfMonthException(message) {
+	"use strict";
+	Error.call(this, message);
+	ExpectedToHaveCurrentDayOfMonthException.prototype = new Error();
+	this.name = "ExpectedToHaveCurrentDayOfMonthException";
+	this.message = message;
+}
+
+function ExpectedToHaveCurrentDayOfWeekException(message) {
+	"use strict";
+	Error.call(this, message);
+	ExpectedToHaveCurrentDayOfWeekException.prototype = new Error();
+	this.name = "ExpectedToHaveCurrentDayOfWeekException";
+	this.message = message;
+}

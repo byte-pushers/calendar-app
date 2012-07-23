@@ -106,3 +106,7 @@
 	background: white;
 	padding:10px;
 }
+
+.calendar-day-selected{
+	background: #F0F0F0;
+}

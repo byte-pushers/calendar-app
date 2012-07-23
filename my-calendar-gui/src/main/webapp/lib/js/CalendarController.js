@@ -17,38 +17,49 @@ function CalendarCtrl($scope) {
 	$scope.weeks = $scope.month.weeks;
 	$scope.todaysEvents = $scope.month.findEventsByDate(new Date());
 	$scope.getCalendarDayClass = function (day) {
-		return (day.hasEvents()) ? "calendar-day-with-events" : "calendar-day-with-no-events";
+		var cssClass;
+		if (day.hasEvents()) {
+			cssClass = "calendar-day-with-events";
+		} else if (day.isCurrentDayOfWeek()) {
+			cssClass = "calendar-day-selected";
+		} else {
+			cssClass = "calendar-day-with-no-events";
+		}
+		
+		return cssClass;
 	};
 	$scope.selectNextDay = function () {
 		var previouslySelectedDate = new Date($scope.month.getSelectedDate().getTime());
-		$scope.month.selectNextDay();
-		//$scope.weeks = $scope.month.weeks;
-		//TODO: if new month get a new set of weeks and make sure you can highlight current day.
-		$scope.todaysEvents = $scope.month.findEventsByDate($scope.month.getSelectedDate());
-		$scope.month.highLightSelectedDay(previouslySelectedDate);
+		var nextDay = new Date(previouslySelectedDate.getTime());
+		nextDay.setDate(nextDay.getDate() + 1);
+		if(previouslySelectedDate.getMonth() !== nextDay.getMonth()){
+			$scope.selectFirstDayOfNextMonth();
+		} else {
+			$scope.todaysEvents = $scope.month.selectNextDay().getEvents();
+			$scope.month.highLightSelectedDay(previouslySelectedDate);
+		}
 	};
 	$scope.selectPreviousDay = function () {
 		var previouslySelectedDate = new Date($scope.month.getSelectedDate().getTime());
-		$scope.month.selectPreviousDay();
-		//$scope.weeks = $scope.month.weeks;
-		//TODO: if new month get a new set of weeks and make sure you can highlight current day.
-		$scope.todaysEvents = $scope.month.findEventsByDate($scope.month.getSelectedDate());
-		$scope.month.highLightSelectedDay(previouslySelectedDate);
+		var previousDay = new Date(previouslySelectedDate.getTime());
+		previousDay.setDate(previousDay.getDate() - 1);
+		if(previouslySelectedDate.getMonth() !== previousDay.getMonth()){
+			$scope.selectLastDayOfPreviousMonth();
+		} else {
+			$scope.todaysEvents = $scope.month.selectPreviousDay().getEvents();
+			$scope.month.highLightSelectedDay(previouslySelectedDate);
+		}
 	};
-	$scope.selectNextMonth = function () {
-		var previouslySelectedDate = new Date($scope.month.getSelectedDate().getTime());
-		$scope.month.selectNextMonth();
+	$scope.selectFirstDayOfNextMonth = function () {
+		$scope.todaysEvents = $scope.month.selectFirstDayOfNextMonth().getEvents();
 		$scope.weeks = $scope.month.weeks;
-		//TODO: make sure you can highlight current day.
-		$scope.todaysEvents = $scope.month.findEventsByDate($scope.month.getSelectedDate());
-		$scope.month.highLightSelectedDay(previouslySelectedDate);
 	};
-	$scope.selectPreviousMonth = function () {
-		var previouslySelectedDate = new Date($scope.month.getSelectedDate().getTime());
-		$scope.month.selectPreviousMonth();
+	$scope.selectFirstDayOfPreviousMonth = function () {
+		$scope.todaysEvents = $scope.month.selectFirstDayOfPreviousMonth().getEvents();
 		$scope.weeks = $scope.month.weeks;
-		//TODO: make sure you can highlight current day.
-		$scope.todaysEvents = $scope.month.findEventsByDate($scope.month.getSelectedDate());
-		$scope.month.highLightSelectedDay(previouslySelectedDate);
+	};
+	$scope.selectLastDayOfPreviousMonth = function () {
+		$scope.todaysEvents = $scope.month.selectLastDayOfPreviousMonth().getEvents();
+		$scope.weeks = $scope.month.weeks;
 	};
 }

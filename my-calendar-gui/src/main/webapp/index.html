@@ -53,7 +53,7 @@
 		<div id="calendar-month-grid-container">
 			<div class="calendar-week-container" ng-repeat="week in weeks">
 					<div class="calendar-day-container" ng-repeat="day in week.weekdays">
-						<div id="{{day.getId()}}" class="ng-class:getCalendarDayClass(day);" ng-click="selectDay(day);">
+						<div id="{{day.getId()}}" class="ng-class:getCalendarDayClass(day);" ng-click="selectDay(day.getDate());">
 							<div class="calendar-date">{{day.getWeekDate()}}</div>
 							<div class="calendar-day-summary"></div>
 						</div>

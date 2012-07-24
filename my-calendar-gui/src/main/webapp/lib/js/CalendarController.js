@@ -23,7 +23,7 @@ function CalendarCtrl($scope) {
 	$scope.todaysEvents = $scope.month.findEventsByDate(new Date());
 	$scope.getCalendarDayClass = function (day) {
 		var cssClass;
-		if(day.hasEvents() && day.isCurrentDayOfWeek()) {
+		if (day.hasEvents() && day.isCurrentDayOfWeek()) {
 			cssClass = "calendar-day-selected-with-events";
 		} else if (day.hasEvents()) {
 			cssClass = "calendar-day-with-events";

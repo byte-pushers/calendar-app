@@ -531,6 +531,9 @@ function Month() {
 	this.getSelectedDate = function () {
 		return selectedDate;
 	};
+	this.setSelectedDate = function (date) {
+		selectedDate = date;
+	};
 	this.getSelectedDateDisplayName = function () {
 		var month = getMonthName(selectedDate.getMonth(), false),
 			year = selectedDate.getFullYear(),
@@ -543,6 +546,13 @@ function Month() {
 	};
 	this.setSelectedDateDisplayName = function () {
 		this.selectedDateDisplayName = this.getSelectedDateDisplayName();
+	};
+	this.selectDay = function (day) {
+		this.setSelectedDate(day.getDate());
+		setWeeksInMonth(this.getSelectedDate());
+		this.setSelectedMonthName();
+		this.setSelectedDateDisplayName();
+		return this.getCurrentDayOfMonth(this.getSelectedDate());
 	};
 	this.selectNextDay = function () {
 		setWeeksInMonth(getNextDate());

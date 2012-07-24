@@ -32,6 +32,11 @@ function CalendarCtrl($scope) {
 		}
 		return cssClass;
 	};
+	$scope.selectDay = function (day) {
+		var previouslySelectedDate = new Date($scope.month.getSelectedDate().getTime());
+		$scope.todaysEvents = $scope.month.selectDay(day).getEvents();
+		$scope.month.highLightSelectedDay(previouslySelectedDate);
+	};
 	$scope.selectNextDay = function () {
 		var previouslySelectedDate = new Date($scope.month.getSelectedDate().getTime()), nextDay = new Date(previouslySelectedDate.getTime());
 		nextDay.setDate(nextDay.getDate() + 1);

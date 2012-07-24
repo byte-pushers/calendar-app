@@ -23,7 +23,9 @@ function CalendarCtrl($scope) {
 	$scope.todaysEvents = $scope.month.findEventsByDate(new Date());
 	$scope.getCalendarDayClass = function (day) {
 		var cssClass;
-		if (day.hasEvents()) {
+		if(day.hasEvents() && day.isCurrentDayOfWeek()) {
+			cssClass = "calendar-day-selected-with-events";
+		} else if (day.hasEvents()) {
 			cssClass = "calendar-day-with-events";
 		} else if (day.isCurrentDayOfWeek()) {
 			cssClass = "calendar-day-selected";
@@ -32,9 +34,9 @@ function CalendarCtrl($scope) {
 		}
 		return cssClass;
 	};
-	$scope.selectDay = function (day) {
+	$scope.selectDay = function (selectedDate) {
 		var previouslySelectedDate = new Date($scope.month.getSelectedDate().getTime());
-		$scope.todaysEvents = $scope.month.selectDay(day).getEvents();
+		$scope.todaysEvents = $scope.month.selectDay(selectedDate).getEvents();
 		$scope.month.highLightSelectedDay(previouslySelectedDate);
 	};
 	$scope.selectNextDay = function () {

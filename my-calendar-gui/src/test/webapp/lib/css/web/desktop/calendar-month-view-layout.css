@@ -110,3 +110,8 @@
 .calendar-day-selected{
 	background: #F0F0F0;
 }
+
+.calendar-day-selected-with-events{
+	//display: block;
+	background: #C4F3FF;
+}

@@ -532,7 +532,7 @@ function Month() {
 		return selectedDate;
 	};
 	this.setSelectedDate = function (date) {
-		selectedDate = date;
+		selectedDate.setTime(date.getTime());
 	};
 	this.getSelectedDateDisplayName = function () {
 		var month = getMonthName(selectedDate.getMonth(), false),
@@ -547,8 +547,8 @@ function Month() {
 	this.setSelectedDateDisplayName = function () {
 		this.selectedDateDisplayName = this.getSelectedDateDisplayName();
 	};
-	this.selectDay = function (day) {
-		this.setSelectedDate(day.getDate());
+	this.selectDay = function (selectedDate) {
+		this.setSelectedDate(selectedDate);
 		setWeeksInMonth(this.getSelectedDate());
 		this.setSelectedMonthName();
 		this.setSelectedDateDisplayName();
@@ -587,18 +587,18 @@ function Month() {
 	this.highLightSelectedDay = function (previouslySelectedDate) {
 		var selector = "div#" + (new Day(selectedDate)).getId();
 		if (this.findEventsByDate(selectedDate).length < 1) {
-			$(selector).removeClass("calendar-day-with-events calendar-day-with-no-events");
+			$(selector).removeClass("calendar-day-selected-with-events calendar-day-with-no-events calendar-day-with-events");
 			$(selector).addClass("calendar-day-selected");
 		} else {
-			$(selector).removeClass("calendar-day-selected calendar-day-with-no-events");
-			$(selector).addClass("calendar-day-with-events");
+			$(selector).removeClass("calendar-day-selected calendar-day-with-no-events calendar-day-with-events");
+			$(selector).addClass("calendar-day-selected-with-events");
 		}
 		selector = "div#" + (new Day(previouslySelectedDate)).getId();
 		if (this.findEventsByDate(previouslySelectedDate).length < 1) {
-			$(selector).removeClass("calendar-day-selected calendar-day-with-events");
+			$(selector).removeClass("calendar-day-selected calendar-day-selected-with-events calendar-day-with-events");
 			$(selector).addClass("calendar-day-with-no-events");
 		} else {
-			$(selector).removeClass("calendar-day-selected calendar-day-with-no-events");
+			$(selector).removeClass("calendar-day-selected calendar-day-with-no-events calendar-day-selected-with-events");
 			$(selector).addClass("calendar-day-with-events");
 		}
 	};
@@ -627,6 +627,7 @@ function Month() {
 	};
 	this.selectedMonthName = this.getSelectedMonthName();
 	this.selectedDateDisplayName = this.getSelectedDateDisplayName();
+	this.setCurrentDayOfMonth(this.getSelectedDate());
 }
 /**
  * <p>Static field that is used to get calendar full name, abbreviated names, and total calendar days.</p>

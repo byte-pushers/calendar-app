@@ -50,7 +50,7 @@
 }
 
 .calendar-day-container{
-	border: 1px solid #F2F2F2;
+	border: 1px solid #E3E3E3;
 	display: table-cell;
 	width: 14%;
 }
@@ -68,7 +68,7 @@
 
 .calendar-day-with-events{
 	//display: block;
-	background: #00CCFF;
+	background: #EBFBFF;
 }
 
 .calendar-date{
@@ -109,4 +109,9 @@
 
 .calendar-day-selected{
 	background: #F0F0F0;
+}
+
+.calendar-day-selected-with-events{
+	//display: block;
+	background: #C4F3FF;
 }

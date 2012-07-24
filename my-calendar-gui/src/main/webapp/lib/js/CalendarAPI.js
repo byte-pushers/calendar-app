@@ -533,6 +533,7 @@ function Month() {
 	};
 	this.setSelectedDate = function (date) {
 		selectedDate.setTime(date.getTime());
+		selectedDate = date;
 	};
 	this.getSelectedDateDisplayName = function () {
 		var month = getMonthName(selectedDate.getMonth(), false),

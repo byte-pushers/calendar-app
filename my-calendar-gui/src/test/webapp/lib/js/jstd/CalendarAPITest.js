@@ -2,7 +2,7 @@ TestCase("CalendarAPITestCases", {
 	testGettingFirstWeekInMonth: function(){
 		var date = new Date();
 		date.setFullYear(2012, 3, 25);
-		var month = (new Tester()).getInstance(Month);
+		var month = (new Tester()).getInstance(CalendarApi.Month);
 		assertNotUndefined("monthTester should be defined.", month);
 		var week = month._privates.getFirstWeekInMonth(month._privates.getWeek(date), date.getMonth());
 		assertNotUndefined("week should be defined.", week);
@@ -26,7 +26,7 @@ TestCase("CalendarAPITestCases", {
 	testGettingWeeksInMonth : function() {
 		var date = new Date();
 		date.setFullYear(2012, 3, 25);
-		var month = (new Tester()).getInstance(Month);
+		var month = (new Tester()).getInstance(CalendarApi.Month);
 		assertNotUndefined("monthTester should be defined.", month);
 		var weeks = month._privates.getWeeksInMonth(date);
 		assertNotUndefined("week should be defined.", weeks);
@@ -108,7 +108,7 @@ TestCase("CalendarAPITestCases", {
 	testGettingWeekDaysRemainingInWeekBeforeFeb15_2012 : function() {
 		var feb20120215 = new Date();
 		feb20120215.setFullYear(2012, 1, 15);
-		var month = (new Tester()).getInstance(Month);
+		var month = (new Tester()).getInstance(CalendarApi.Month);
 		assertNotUndefined("monthTester should be defined.", month);
 		var weekdays = month._privates.getRemainingWeekDaysBefore(feb20120215);
 		assertNotUndefined("weekdays should be defined.", weekdays);
@@ -127,7 +127,7 @@ TestCase("CalendarAPITestCases", {
 	testGettingWeekDaysRemainingInWeekAfterFeb15_2012 : function(){
 		var feb20120215 = new Date();
 		feb20120215.setFullYear(2012, 1, 15);
-		var month = (new Tester()).getInstance(Month);
+		var month = (new Tester()).getInstance(CalendarApi.Month);
 		assertNotUndefined("month should be defined.", month);
 		var weekdays = month._privates.getRemainingWeekDaysAfter(feb20120215);
 		assertNotUndefined("weekdays should be defined.", weekdays);
@@ -146,7 +146,7 @@ TestCase("CalendarAPITestCases", {
 	testGettingWeekBeforeFeb19_2012 : function(){
 		var feb20120219 = new Date();
 		feb20120219.setFullYear(2012, 1, 19);
-		var month = (new Tester()).getInstance(Month);
+		var month = (new Tester()).getInstance(CalendarApi.Month);
 		assertNotUndefined("month should be defined.", month);
 		var week = month._privates.getWeekBefore(feb20120219);
 		assertNotUndefined("week should be defined.", week);
@@ -173,7 +173,7 @@ TestCase("CalendarAPITestCases", {
 	testGettingWeekAfterFeb19_2012 : function(){
 		var feb20120219 = new Date();
 		feb20120219.setFullYear(2012, 1, 19);
-		var month = (new Tester()).getInstance(Month);
+		var month = (new Tester()).getInstance(CalendarApi.Month);
 		assertNotUndefined("month should be defined.", month);
 		var week = month._privates.getWeekAfter(feb20120219);
 		assertNotUndefined("week should be defined.", week);
@@ -200,7 +200,7 @@ TestCase("CalendarAPITestCases", {
 	testGettingWeekDaysRemainingInWeekAfterFeb27_2012 : function(){
 		var feb20120227 = new Date();
 		feb20120227.setFullYear(2012, 1, 27);
-		var month = (new Tester()).getInstance(Month);
+		var month = (new Tester()).getInstance(CalendarApi.Month);
 		assertNotUndefined("month should be defined.", month);
 		var weekdays = month._privates.getRemainingWeekDaysAfter(feb20120227);
 		assertNotUndefined("weekdays should be defined.", weekdays);
@@ -223,7 +223,7 @@ TestCase("CalendarAPITestCases", {
 	testGettingWeekDaysRemainingInWeekBeforeFeb1_2012 : function(){
 		var feb20120201 = new Date();
 		feb20120201.setFullYear(2012, 1, 1);
-		var month = (new Tester()).getInstance(Month);
+		var month = (new Tester()).getInstance(CalendarApi.Month);
 		assertNotUndefined("month should be defined.", month);
 		var weekdays = month._privates.getRemainingWeekDaysBefore(feb20120201);
 		assertNotUndefined("weekdays should be defined.", weekdays);
@@ -242,7 +242,7 @@ TestCase("CalendarAPITestCases", {
 	testGettingWeekBeforeFeb1_2012 : function(){
 		var feb20120201 = new Date();
 		feb20120201.setFullYear(2012, 1, 1);
-		var month = (new Tester()).getInstance(Month);
+		var month = (new Tester()).getInstance(CalendarApi.Month);
 		assertNotUndefined("month should be defined.", month);
 		var week = month._privates.getWeekBefore(feb20120201);
 		assertNotUndefined("week should be defined.", week);
@@ -282,7 +282,7 @@ TestCase("CalendarAPITestCases", {
 	testGettingWeekAfterFeb1_2012 : function(){
 		var feb20120201 = new Date();
 		feb20120201.setFullYear(2012, 1, 1);
-		var month = (new Tester()).getInstance(Month);
+		var month = (new Tester()).getInstance(CalendarApi.Month);
 		assertNotUndefined("month should be defined.", month);
 		var week = month._privates.getWeekAfter(feb20120201);
 		assertNotUndefined("week should be defined.", week);
@@ -323,7 +323,7 @@ TestCase("CalendarAPITestCases", {
 	testGettingWeekOfFeb1_2012: function(){
 		var feb20120201 = new Date();
 		feb20120201.setFullYear(2012, 1, 1);
-		var month = (new Tester()).getInstance(Month);
+		var month = (new Tester()).getInstance(CalendarApi.Month);
 		assertNotUndefined("month should be defined.", month);
 		var week = month._privates.getWeek(feb20120201);
 		assertNotUndefined("week should be defined.", week);
@@ -365,7 +365,7 @@ TestCase("CalendarAPITestCases", {
 	testGettingWeekOfFeb29_2012 : function(){
 		var feb20120229 = new Date();
 		feb20120229.setFullYear(2012, 1, 29);
-		var month = (new Tester()).getInstance(Month);
+		var month = (new Tester()).getInstance(CalendarApi.Month);
 		assertNotUndefined("month should be defined.", month);
 		var week = month._privates.getWeek(feb20120229);
 		assertNotUndefined("week should be defined.", week);
@@ -405,14 +405,14 @@ TestCase("CalendarAPITestCases", {
 		feb20120201.setFullYear(2012, 1, 1);
 		
 		assertEquals(1, feb20120201.getMonth());
-		var maxDay = (new Month()).getPreviousMonthTotalDays(feb20120201);
+		var maxDay = (new CalendarApi.Month()).getPreviousMonthTotalDays(feb20120201);
 		assertNotUndefined("MaxDay should be defined.", maxDay);
 		assertEquals(31, maxDay);
 	},
 	testGettingTotalDaysInFeb2012: function(){
-		var month = new Month();
+		var month = new CalendarApi.Month();
 		assertNotUndefined("month should be defined.", month);
-		var maxDay = (new Month()).monthNames[1].getTotalDays(2012);
+		var maxDay = (new CalendarApi.Month()).monthNames[1].getTotalDays(2012);
 		assertNotUndefined("MaxDay should be defined.", maxDay);
 		assertEquals(29, maxDay);
 	},
@@ -420,7 +420,7 @@ TestCase("CalendarAPITestCases", {
 		var mar20120301 = new Date();
 		mar20120301.setFullYear(2012, 2, 1);
 		assertEquals(2, mar20120301.getMonth());
-		var maxDay = (new Month()).getPreviousMonthTotalDays(mar20120301);
+		var maxDay = (new CalendarApi.Month()).getPreviousMonthTotalDays(mar20120301);
 		assertNotUndefined("MaxDay should be defined.", maxDay);
 		assertEquals(29, maxDay);
 	},
@@ -437,7 +437,7 @@ TestCase("CalendarAPITestCases", {
 		var date = new Date();
 		date.setFullYear(2012, 0, 7);
 		
-		var month = (new Tester()).getInstance(Month);
+		var month = (new Tester()).getInstance(CalendarApi.Month);
 		assertNotUndefined("month should be defined.", month);
 		
 		var week =  month._privates.getWeek(date);
@@ -461,7 +461,7 @@ TestCase("CalendarAPITestCases", {
 		var date = new Date();
 		date.setFullYear(2012, 1, 3);
 		
-		var month = (new Tester()).getInstance(Month);
+		var month = (new Tester()).getInstance(CalendarApi.Month);
 		assertNotUndefined("month should be defined.", month);
 		
 		var week = month._privates.getWeek(date);
@@ -484,19 +484,19 @@ TestCase("CalendarAPITestCases", {
 	testGettingRemainingWeekDaysAfterJuly7_2012: function(){
 		var date = new Date();
 		date.setFullYear(2012, 6, 7);
-		var month = (new Tester()).getInstance(Month);
+		var month = (new Tester()).getInstance(CalendarApi.Month);
 		assertEquals(0, month._privates.getRemainingWeekDaysAfter(date));
 	},
 	testGettingRemainingWeekDaysBeforeJuly1_2012: function(){
 		var date = new Date();
 		date.setFullYear(2012, 6, 1);
-		var month = (new Tester()).getInstance(Month);
+		var month = (new Tester()).getInstance(CalendarApi.Month);
 		assertEquals(0, month._privates.getRemainingWeekDaysBefore(date));
 	},
 	testGettingFirstWeekInMonthJuly29_2012: function(){
 		var date = new Date();
 		date.setFullYear(2012, 6, 29);
-		var month = (new Tester()).getInstance(Month);
+		var month = (new Tester()).getInstance(CalendarApi.Month);
 		assertNotUndefined("monthTester should be defined.", month);
 		var week = month._privates.getFirstWeekInMonth(month._privates.getWeek(date), date.getMonth());
 		assertNotUndefined("week should be defined.", week);
@@ -538,7 +538,7 @@ TestCase("CalendarAPITestCases", {
 		event.setStart(new Date());
 		event.setEnd(new Date());
 		
-		var month = new Month();
+		var month = new CalendarApi.Month();
 		month.setEvents([event]);
 		
 		assertEquals(1, month.getEvents().length);
@@ -546,7 +546,7 @@ TestCase("CalendarAPITestCases", {
 	},
 	testFindingEventsOnAGivenDay: function(){
 		var todaysEvents = getTodaysEvents();
-		var month = new Month();
+		var month = new CalendarApi.Month();
 		month.setEvents(todaysEvents);
 		var foundEventsForToday = month.findEventsByDate(new Date());
 		assertEquals(1, foundEventsForToday.length);

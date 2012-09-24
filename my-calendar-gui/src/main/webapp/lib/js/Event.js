@@ -12,7 +12,8 @@
 */
 function DateRange(start, end) {
 	"use strict";
-	if (start === undefined || start === null) {
+	console.log("DateRange(start:"+start+", end:"+end+")");
+	if (start === "undefined" || start === null) {
 		throw new NullPointerException("start can not be null.");
 	}
 	if (start.getClassType() !== "[class Date]") {
@@ -60,7 +61,7 @@ function DateRange(start, end) {
 */
 function Attendee(person, organizer, /* self, resource,*/ optional) {
 	"use strict";
-	if (person === undefined || person === null) {
+	if (person === "undefined" || person === null) {
 		throw new NullPointerException("person can not be null.");
 	}
 	if (person.getClassType() !== "[class Person]") {

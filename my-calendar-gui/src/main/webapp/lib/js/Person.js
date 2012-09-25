@@ -82,11 +82,7 @@ function Email(emailAddress, primaryEmail, type) {
 function Person(firstName, middleName, lastName) {
 	"use strict";
 	if (firstName === "undefined" || firstName === null) {
-<<<<<<< HEAD
 		throw new NoesisCode.NullPointerException("firstName can not be null.");
-=======
-		throw new NullPointerException("firstName can not be null.");
->>>>>>> branch 'master' of https://github.com/noesiscode/my-calendar-gui.git
 	}
 	/**
 	 * <p>Represents the first name of a person.</p>
@@ -201,11 +197,7 @@ function Person(firstName, middleName, lastName) {
 	this.findEmailByType = function (type) {
 		var i;
 		if (type === "undefined" || type === null) {
-<<<<<<< HEAD
 			throw new NoesisCode.NullPointerException("type can not be null.");
-=======
-			throw new NullPointerException("type can not be null.");
->>>>>>> branch 'master' of https://github.com/noesiscode/my-calendar-gui.git
 		}
 		for (i = 0; i < this.emails.length; i = i + 1) {
 			if (this.emails[i].getType() === type) {

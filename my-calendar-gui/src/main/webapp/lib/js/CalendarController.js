@@ -1,5 +1,5 @@
-var CalendarApp = CalendarApp || {};
 /*global Month, Event*/
+var CalendarApp = CalendarApp || {};
 CalendarApp.getTestEvents = function () {
 	"use strict";
 	var event = new Event(), month, event2 = new Event();

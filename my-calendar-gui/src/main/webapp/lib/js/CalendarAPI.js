@@ -1,11 +1,7 @@
-<<<<<<< HEAD
-/*global NoesisCode.InvalidParameterException, DateRange, $, CalendarApi.ExpectedToHaveCurrentDayOfMonthException, utils, objectApi*/
-=======
-/*global InvalidParameterException, DateRange, $, ExpectedToHaveCurrentDayOfMonthException, utils, objectApi*/
->>>>>>> branch 'master' of https://github.com/noesiscode/my-calendar-gui.git
+/*global NoesisCode.InvalidParameterException, CalendarApi.DateRange, $, CalendarApi.ExpectedToHaveCurrentDayOfMonthException, utils, objectApi*/
 
 var CalendarApp = CalendarApp || {};
-var CalendarApi = objectApi.extend(CalendarApp, "com.noesiscode.calendar.api");
+var CalendarApi = CalendarApi || objectApi.extend(CalendarApp, "com.noesiscode.calendar.api");
 CalendarApi.dragSourceElement = null;
 CalendarApi.monthNames = [{"name": "January", "abbr": "Jan", "getTotalDays": function (year) { "use strict"; return 31; } },
 		                  {"name": "February", "abbr": "Feb", "getTotalDays": function (year) { "use strict"; if (year) { return (year % 4 === 0) ? 29 : 28; } else { throw ("Expected parameter(Year) is not defined."); } } },
@@ -94,14 +90,14 @@ CalendarApi.Day = function (date, weekIndex, currentDayOfWeek) {
 	/**
 	 * <p>Set the events that are scheduled for the appropriate days.</p>
 	 * 
-	 * @param {@link Event} The events that are scheduled for the day.
+	 * @param {@link CalendarApi.Event} The events that are scheduled for the day.
 	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 	 */
 	this.setEvents = function (events) {
 		var i, eventStartEndTime, endTime;
 		for (i = 0; i < events.length; i = i + 1) {
 			if (events[i] !== undefined && events[i] !== null) {
-				eventStartEndTime = new DateRange(events[i].getStart(), events[i].getEnd());
+				eventStartEndTime = new CalendarApi.DateRange(events[i].getStart(), events[i].getEnd());
 				if (eventStartEndTime.isBetweenRange(this.date)) {
 					this.events[this.events.length] = events[i];
 				}
@@ -111,7 +107,7 @@ CalendarApi.Day = function (date, weekIndex, currentDayOfWeek) {
 	/**
 	 * <p>Get the events that are scheduled for the week from the appropriate days.</p>
 	 * 
-	 * @returns {@link Event}s The events that are scheduled for the week.
+	 * @returns {@link CalendarApi.Event}s The events that are scheduled for the week.
 	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 	 */
 	this.getEvents = function () {
@@ -217,7 +213,7 @@ CalendarApi.Week = function (weekdays) {
 	/**
 	 * <p>Set the events that are scheduled for the week to the appropriate days.</p>
 	 * 
-	 * @param {@link Event} The events that are scheduled for the week.
+	 * @param {@link CalendarApi.Event} The events that are scheduled for the week.
 	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 	 */
 	this.setEvents = function (events) {
@@ -231,7 +227,7 @@ CalendarApi.Week = function (weekdays) {
 	/**
 	 * <p>Get the events that are scheduled for the week from the appropriate days.</p>
 	 * 
-	 * @returns {@link Event}s The events that are scheduled for the week.
+	 * @returns {@link CalendarApi.Event}s The events that are scheduled for the week.
 	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 	 */
 	this.getEvents = function () {
@@ -498,7 +494,7 @@ CalendarApi.Month = function () {
 	/**
 	 * <p>Set the events that are scheduled for the month to the appropriate days.</p>
 	 * 
-	 * @param {@link Event} The events that are scheduled for the month.
+	 * @param {@link CalendarApi.Event} The events that are scheduled for the month.
 	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 	 */
 	this.setEvents = function (events) {
@@ -508,7 +504,7 @@ CalendarApi.Month = function () {
 	/**
 	 * <p>Gets the events that are scheduled for the month.</p>
 	 * 
-	 * @returns {@link Event} The events that are scheduled for the month.
+	 * @returns {@link CalendarApi.Event} The events that are scheduled for the month.
 	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 	 */
 	this.getEvents = function () {
@@ -517,7 +513,7 @@ CalendarApi.Month = function () {
 	/**
 	 * <p>Convenience method to find events on given date.</p>
 	 * 
-	 * @returns {@link Event}s The events that are scheduled for the day.
+	 * @returns {@link CalendarApi.Event}s The events that are scheduled for the day.
 	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 	 */
 	this.findEventsByDate = function (date) {
@@ -627,11 +623,7 @@ CalendarApi.Month = function () {
 			}
 		}
 		if (currentDayOfMonth === "undefined" || currentDayOfMonth === null) {
-<<<<<<< HEAD
 			throw new CalendarApi.ExpectedToHaveCurrentDayOfMonthException("Expected to have a current day in the month.");
-=======
-			throw new ExpectedToHaveCurrentDayOfMonthException("Expected to have a current day in the month.");
->>>>>>> branch 'master' of https://github.com/noesiscode/my-calendar-gui.git
 		}
 		return currentDayOfMonth;
 	};

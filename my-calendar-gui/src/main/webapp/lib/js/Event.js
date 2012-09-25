@@ -1,24 +1,22 @@
 /*global NoesisCode.InvalidParameterException, NoesisCode.NullPointerException, NoesisCode.InvalidDateRangeException*/
 /**
- * Creates a DateRange object that represents a date range.
+ * Creates a CalendarApi.DateRange object that represents a date range.
  * 
  * @class Represents a date range.
  * @param {<a href="http://www.w3schools.com/js/jsref_obj_date.asp">Date</a>} start The start date of the date range.
  * @param {<a href="http://www.w3schools.com/js/jsref_obj_date.asp">Date</a>} end The end date of the date range.
  * 
- * @returns An instance of the DateRange class.
+ * @returns An instance of the CalendarApi.DateRange class.
  * 
  * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 */
-function DateRange(start, end) {
+var CalendarApp = CalendarApp || {};
+var CalendarApi = CalendarApi || objectApi.extend(CalendarApp, "com.noesiscode.calendar.api");
+CalendarApi.DateRange = function (start, end) {
 	"use strict";
-	console.log("DateRange(start:"+start+", end:"+end+")");
+	console.log("CalendarApi.DateRange(start:"+start+", end:"+end+")");
 	if (start === "undefined" || start === null) {
-<<<<<<< HEAD
 		throw new NoesisCode.NoesisCode.NullPointerException("start can not be null.");
-=======
-		throw new NullPointerException("start can not be null.");
->>>>>>> branch 'master' of https://github.com/noesiscode/my-calendar-gui.git
 	}
 	if (start.getClassType() !== "[class Date]") {
 		throw new NoesisCode.InvalidParameterException("start must be an Person object.");
@@ -52,25 +50,21 @@ function DateRange(start, end) {
 	};
 }
 /**
- * Creates a Attendee object that represents an attendee of an event.
+ * Creates a CalendarApi.Attendee object that represents an attendee of an event.
  * 
  * @class Represents an attendee of an event.
  * @param {@link Person} person The person that will be attending the event.
  * @param {<a href="http://www.w3schools.com/js/jsref_obj_boolean.asp">Boolean</a>} organizer Indicates if this attendee is the organizer of the event.
  * @param {<a href="http://www.w3schools.com/js/jsref_obj_boolean.asp">Boolean</a>} optional Indicates if this is an optional attendee.
  * 
- * @returns An instance of the DateRange class.
+ * @returns An instance of the CalendarApi.DateRange class.
  * 
  * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 */
-function Attendee(person, organizer, /* self, resource,*/ optional) {
+CalendarApi.Attendee = function (person, organizer, /* self, resource,*/ optional) {
 	"use strict";
 	if (person === "undefined" || person === null) {
-<<<<<<< HEAD
 		throw new NoesisCode.NoesisCode.NullPointerException("person can not be null.");
-=======
-		throw new NullPointerException("person can not be null.");
->>>>>>> branch 'master' of https://github.com/noesiscode/my-calendar-gui.git
 	}
 	if (person.getClassType() !== "[class Person]") {
 		throw new NoesisCode.InvalidParameterException("person must be of class type Person.");
@@ -207,18 +201,18 @@ function Attendee(person, organizer, /* self, resource,*/ optional) {
 	/**
 	 * <p>Adds the an additional guest to the attendee's list.</p>
 	 *
-	 * @param {Attendee} attendee An additional guest of the attendee.
+	 * @param {CalendarApi.Attendee} attendee An additional guest of the attendee.
 	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 	*/
 	this.addAdditionalGuest = function (attendee) {
-		if (attendee !== undefined && attendee !== null && attendee.getClassType() !== "[class Attendee]") {
-			throw new NoesisCode.InvalidParameterException("attendee must be of class type Attendee.");
+		if (attendee !== undefined && attendee !== null && attendee.getClassType() !== "[class CalendarApi.Attendee]") {
+			throw new NoesisCode.InvalidParameterException("attendee must be of class type CalendarApi.Attendee.");
 		}
 		this.additionalGuests[this.additionalGuests.length] = attendee;
 	};
 }
 
-function Event() {
+CalendarApi.Event = function () {
 	"use strict";
 	this.id = null;
 	this.status = null;
@@ -562,11 +556,11 @@ function Event() {
 	/**
 	 * <p>Adds an attendee to the the event's attendees list.</p>
 	 *
-	 * @param {Attendee} attendee Specifies an attendee of the event.
+	 * @param {CalendarApi.Attendee} attendee Specifies an attendee of the event.
 	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 	*/
 	this.addAttendee = function (attendee) {
-		if (attendee !== undefined && attendee !== null && attendee.getClassType() !== "[class Attendee]") {
+		if (attendee !== undefined && attendee !== null && attendee.getClassType() !== "[class CalendarApi.Attendee]") {
 			throw new NoesisCode.InvalidParameterException("attendees must be of class type Array.");
 		}
 		this.attendees[this.attendees.length] = attendee;

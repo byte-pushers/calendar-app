@@ -533,7 +533,7 @@ TestCase("CalendarAPITestCases", {
 		assertEquals(7, week.saturday.getWeekDate());
 	},
 	testSettingEventToCalendar: function(){
-		var event = new Event();
+		var event = new CalendarApi.Event();
 		event.setSummary("Aisha's Graduation");
 		event.setStart(new Date());
 		event.setEnd(new Date());
@@ -555,7 +555,7 @@ TestCase("CalendarAPITestCases", {
 });
 
 function getTodaysEvents(){
-	var event = new Event();
+	var event = new CalendarApi.Event();
 	event.setSummary("Aisha's Graduation");
 	event.setStart(new Date());
 	event.setEnd(new Date());

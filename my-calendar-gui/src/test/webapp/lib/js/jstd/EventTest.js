@@ -2,7 +2,7 @@ TestCase("EventTestCases", {
 	testCreatingDateRange: function() {
 		var start = new Date(2012, 7, 16, 17, 0, 0); //6 o'clock PM
 		var end = new Date(2012, 7, 16, 21, 0, 0); //10 o'clock PM
-		var dateRange = new DateRange(start, end);
+		var dateRange = new CalendarApi.DateRange(start, end);
 		assertNotUndefined("dateRange should be defined.", dateRange);
 		assertEquals(start, dateRange.getStartDate());
 		assertEquals(end, dateRange.getEndDate());
@@ -10,14 +10,14 @@ TestCase("EventTestCases", {
 		var start = new Date(2012, 7, 16, 17, 0, 0); //10 o'clock PM
 		var end = new Date(2012, 7, 16, 21, 0, 0); //6 o'clock PM
 		try{
-			var dateRange = new DateRange(end, start);
+			var dateRange = new CalendarApi.DateRange(end, start);
 		} catch (e){
 			assertTrue(e.name === "NoesisCode.InvalidDateRangeException");
 		}
 	}, testAttendeeCreation: function(){
 		var person = getTontePouncil();
 		var expected = person.getFirstName() + " " + person.getLastName();
-		var attendee = new Attendee(person, true, false);
+		var attendee = new CalendarApi.Attendee(person, true, false);
 		assertNotUndefined("attendee should be defined.", attendee);
 		assertTrue("Attendee should be the organizer", attendee.isOrganizer());
 		assertFalse("Attendee should be optional", attendee.isOptional());
@@ -26,9 +26,9 @@ TestCase("EventTestCases", {
 		var walter = getWalterStrughill();
 		var james = getJamesDean();
 		var tonte = getTontePouncil();
-		var guest1 = new Attendee(walter, walter, false);
-		var guest2 = new Attendee(james, james, true);
-		var attendee = new Attendee(tonte, tonte, true);
+		var guest1 = new CalendarApi.Attendee(walter, walter, false);
+		var guest2 = new CalendarApi.Attendee(james, james, true);
+		var attendee = new CalendarApi.Attendee(tonte, tonte, true);
 		assertTrue("Attendee should not be optional", attendee.isOptional());
 		attendee.addAdditionalGuest(guest1);
 		attendee.addAdditionalGuest(guest2);
@@ -37,29 +37,29 @@ TestCase("EventTestCases", {
 		var walter = getWalterSturghill();
 		var james = getJamesDean();
 		var tonte = getTontePouncil();
-		var guest1 = new Attendee(walter, walter, false);
-		var guest2 = new Attendee(james, james, true);
+		var guest1 = new CalendarApi.Attendee(walter, walter, false);
+		var guest2 = new CalendarApi.Attendee(james, james, true);
 		var additionalGuests = [guest1, guest2];
-		var attendee = new Attendee(tonte, true, false);
+		var attendee = new CalendarApi.Attendee(tonte, true, false);
 		attendee.setAdditionalGuests(additionalGuests);
 		assertEquals("Attendee's additional guests list has the wrong size.", 2, attendee.getAdditionalGuests().length);
 	}, testAttendeeComments: function(){
 		var james = getJames();
-		var attendee = new Attendee(james, false, true);
+		var attendee = new CalendarApi.Attendee(james, false, true);
 		var comment = "I may not be able to attend because of prior engagement.";
 		attendee.setComment(comment);
 		assertTrue("Attendee should be optional", attendee.isOptional());
 		assertEquals("Attendee comment was not set properly.", comment, attendee.getComment());
 	}, testAttendeeResponseStatus: function(){
 		var james = getJames();
-		var attendee = new Attendee(james, false, true);
+		var attendee = new CalendarApi.Attendee(james, false, true);
 		var responseStatus = "tentative";
 		attendee.setResponseStatus(responseStatus);
 		assertEquals("Attendee response status was not set properly.", responseStatus, attendee.getResponseStatus());
 	}, testAttendeeEmail: function(){
 		var email = getJamesHomeEmailAddress();
 		var james = getJames(email);
-		var attendee = new Attendee(james, false, true);
+		var attendee = new CalendarApi.Attendee(james, false, true);
 		var responseStatus = "tentative";
 		attendee.setResponseStatus(responseStatus);
 		assertEquals("Attendee email was not set properly.", email, attendee.getEmail());
@@ -82,7 +82,7 @@ TestCase("EventTestCases", {
 		var anyOneCanAddSelfFlag = false;
 		var guestCanInviteOthersFlag = false;
 		var guestCanSeeOtherGuestsFlag = true;
-		var event = new Event();
+		var event = new CalendarApi.Event();
 		event.anyOneCanAddSelf(anyOneCanAddSelfFlag);
 		event.guestCanInviteOthers(guestCanInviteOthersFlag);
 		event.guestCanSeeOtherGuests(guestCanSeeOtherGuestsFlag);
@@ -169,8 +169,8 @@ function getWalterHomeEmailAddress(){
 }
 
 function getAishaGraduationAttendees(){
-	var attendees = [new Attendee(getTontePouncil(getTonteHomeEmailAddress()), true, false),
-	                 new Attendee(getWalterSturghill(getWalterHomeEmailAddress()), false, false),
-	                 new Attendee(getJamesDean(getJamesHomeEmailAddress()), false, true)];
+	var attendees = [new CalendarApi.Attendee(getTontePouncil(getTonteHomeEmailAddress()), true, false),
+	                 new CalendarApi.Attendee(getWalterSturghill(getWalterHomeEmailAddress()), false, false),
+	                 new CalendarApi.Attendee(getJamesDean(getJamesHomeEmailAddress()), false, true)];
 	return attendees;
 }

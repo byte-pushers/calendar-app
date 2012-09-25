@@ -1,47 +1,51 @@
-function InvalidParameterException(message) {
+var NoesisCode = NoesisCode || {};
+
+NoesisCode.InvalidParameterException = function (message) {
 	"use strict";
 	Error.call(this, message);
-	InvalidParameterException.prototype = new Error();
-	this.name = "InvalidParameterException";
+	NoesisCode.InvalidParameterException.prototype = new Error();
+	this.name = "NoesisCode.InvalidParameterException";
 	this.message = message;
 }
 
-function NullPointerException(message) {
+NoesisCode.NullPointerException = function (message) {
 	"use strict";
 	Error.call(this, message);
-	NullPointerException.prototype = new Error();
-	this.name = "NullPointerException";
+	NoesisCode.NullPointerException.prototype = new Error();
+	this.name = "NoesisCode.NullPointerException";
 	this.message = message;
 }
 
-function ExpectedArrayIsEmptyException(message) {
+NoesisCode.ExpectedArrayIsEmptyException = function (message) {
 	"use strict";
 	Error.call(this, message);
-	ExpectedArrayIsEmptyException.prototype = new Error();
-	this.name = "ExpectedArrayIsEmptyException";
+	NoesisCode.ExpectedArrayIsEmptyException.prototype = new Error();
+	this.name = "NoesisCode.ExpectedArrayIsEmptyException";
 	this.message = message;
 }
 
-function InvalidDateRangeException(message) {
+NoesisCode.InvalidDateRangeException = function (message) {
 	"use strict";
 	Error.call(this, message);
-	InvalidDateRangeException.prototype = new Error();
-	this.name = "InvalidDateRangeException";
+	NoesisCode.InvalidDateRangeException.prototype = new Error();
+	this.name = "NoesisCode.InvalidDateRangeException";
 	this.message = message;
 }
 
-function ExpectedToHaveCurrentDayOfMonthException(message) {
+var CalendarApp = CalendarApp || {};
+var CalendarApi = objectApi.extend(CalendarApp, "com.noesiscode.calendar.api"); 
+CalendarApi.ExpectedToHaveCurrentDayOfMonthException = function (message) {
 	"use strict";
 	Error.call(this, message);
-	ExpectedToHaveCurrentDayOfMonthException.prototype = new Error();
-	this.name = "ExpectedToHaveCurrentDayOfMonthException";
+	CalendarApi.ExpectedToHaveCurrentDayOfMonthException.prototype = new Error();
+	this.name = "CalendarApi.ExpectedToHaveCurrentDayOfMonthException";
 	this.message = message;
 }
 
-function ExpectedToHaveCurrentDayOfWeekException(message) {
+CalendarApi.ExpectedToHaveCurrentDayOfWeekException = function (message) {
 	"use strict";
 	Error.call(this, message);
 	ExpectedToHaveCurrentDayOfWeekException.prototype = new Error();
-	this.name = "ExpectedToHaveCurrentDayOfWeekException";
+	this.name = CalendarApi.ExpectedToHaveCurrentDayOfWeekException;
 	this.message = message;
 }

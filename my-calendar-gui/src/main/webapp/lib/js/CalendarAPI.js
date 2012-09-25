@@ -1,23 +1,27 @@
-/*global InvalidParameterException, DateRange, $, ExpectedToHaveCurrentDayOfMonthException*/
-var monthNames = [{"name": "January", "abbr": "Jan", "getTotalDays": function (year) { "use strict"; return 31; } },
-                  {"name": "February", "abbr": "Feb", "getTotalDays": function (year) { "use strict"; if (year) { return (year % 4 === 0) ? 29 : 28; } else { throw ("Expected parameter(Year) is not defined."); } } },
-                  {"name": "March", "abbr": "Mar", "getTotalDays": function (year) { "use strict"; return 31; }},
-                  {"name": "April", "abbr": "Apr", "getTotalDays": function (year) { "use strict"; return 30; }},
-                  {"name": "May", "abbr": "May", "getTotalDays": function (year) { "use strict"; return 31; }},
-                  {"name": "June", "abbr": "Jun", "getTotalDays": function (year) { "use strict"; return 30; }},
-                  {"name": "July", "abbr": "Jul", "getTotalDays": function (year) { "use strict"; return 31; }},
-                  {"name": "August", "abbr": "Aug", "getTotalDays": function (year) { "use strict"; return 31; }},
-                  {"name": "September", "abbr": "Sept", "getTotalDays": function (year) { "use strict"; return 30; }},
-                  {"name": "October", "abbr": "Oct", "getTotalDays": function (year) { "use strict"; return 31; }},
-                  {"name": "November", "abbr": "Nov", "getTotalDays": function (year) { "use strict"; return 30; }},
-                  {"name": "December", "abbr": "Dec", "getTotalDays": function (year) { "use strict"; return 31; }}];
-var weekdayNames = [{"name": "Sunday", "abbr": "Sun."},
-                     {"name": "Monday", "abbr": "Mon."},
-                     {"name": "Tuesday", "abbr": "Tue."},
-                     {"name": "Wednesday", "abbr": "Wed."},
-                     {"name": "Thursday", "abbr": "Thu."},
-                     {"name": "Friday", "abbr": "Fri."},
-                     {"name": "Saturday", "abbr": "Sat."}];
+/*global NoesisCode.InvalidParameterException, DateRange, $, CalendarApi.ExpectedToHaveCurrentDayOfMonthException, utils, objectApi*/
+
+var CalendarApp = CalendarApp || {};
+var CalendarApi = objectApi.extend(CalendarApp, "com.noesiscode.calendar.api");
+CalendarApi.dragSourceElement = null;
+CalendarApi.monthNames = [{"name": "January", "abbr": "Jan", "getTotalDays": function (year) { "use strict"; return 31; } },
+		                  {"name": "February", "abbr": "Feb", "getTotalDays": function (year) { "use strict"; if (year) { return (year % 4 === 0) ? 29 : 28; } else { throw ("Expected parameter(Year) is not defined."); } } },
+		                  {"name": "March", "abbr": "Mar", "getTotalDays": function (year) { "use strict"; return 31; }},
+		                  {"name": "April", "abbr": "Apr", "getTotalDays": function (year) { "use strict"; return 30; }},
+		                  {"name": "May", "abbr": "May", "getTotalDays": function (year) { "use strict"; return 31; }},
+		                  {"name": "June", "abbr": "Jun", "getTotalDays": function (year) { "use strict"; return 30; }},
+		                  {"name": "July", "abbr": "Jul", "getTotalDays": function (year) { "use strict"; return 31; }},
+		                  {"name": "August", "abbr": "Aug", "getTotalDays": function (year) { "use strict"; return 31; }},
+		                  {"name": "September", "abbr": "Sept", "getTotalDays": function (year) { "use strict"; return 30; }},
+		                  {"name": "October", "abbr": "Oct", "getTotalDays": function (year) { "use strict"; return 31; }},
+		                  {"name": "November", "abbr": "Nov", "getTotalDays": function (year) { "use strict"; return 30; }},
+		                  {"name": "December", "abbr": "Dec", "getTotalDays": function (year) { "use strict"; return 31; }}];
+CalendarApi.weekdayNames = [{"name": "Sunday", "abbr": "Sun."},
+                            {"name": "Monday", "abbr": "Mon."},
+		                    {"name": "Tuesday", "abbr": "Tue."},
+		                    {"name": "Wednesday", "abbr": "Wed."},
+		                    {"name": "Thursday", "abbr": "Thu."},
+		                    {"name": "Friday", "abbr": "Fri."},
+		                    {"name": "Saturday", "abbr": "Sat."}];
 
 /**
  * Creates a Day object that represents the day of the {@link Week}.
@@ -31,11 +35,11 @@ var weekdayNames = [{"name": "Sunday", "abbr": "Sun."},
  * 
  * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 */
-function Day(date, weekIndex, currentDayOfWeek) {
+CalendarApi.Day = function (date, weekIndex, currentDayOfWeek) {
 	"use strict";
 	this.date = date;
-	this.weekIndex = (weekIndex === undefined || weekIndex === null) ? -1 : weekIndex;
-	this.currentDayOfWeek = (currentDayOfWeek === undefined || currentDayOfWeek === null) ? false : currentDayOfWeek;
+	this.weekIndex = (weekIndex === "undefined" || weekIndex === null) ? -1 : weekIndex;
+	this.currentDayOfWeek = (currentDayOfWeek === "undefined" || currentDayOfWeek === null) ? false : currentDayOfWeek;
 	this.weekdayNames = [{"name": "Sunday", "abbr": "Sun."},
 	                     {"name": "Monday", "abbr": "Mon."},
 	                     {"name": "Tuesday", "abbr": "Tue."},
@@ -44,6 +48,7 @@ function Day(date, weekIndex, currentDayOfWeek) {
 	                     {"name": "Friday", "abbr": "Fri."},
 	                     {"name": "Saturday", "abbr": "Sat."}];
 	this.events = [];
+	this.lastWeekInMonth = false;
 	/**
 	 * <p>Gets the weekday name.</p> 
 	 * <p>This method could return for example: Sunday, 
@@ -79,9 +84,9 @@ function Day(date, weekIndex, currentDayOfWeek) {
 	this.getDate = function () {
 		return this.date;
 	};
-	/*this.toString = function(){
+	this.toString = function(){
 		alert("Day[weekday: " + this.weekday +", day: " + this.day + ", weekIndex: " + this.weekIndex + "]");
-	};*/
+	};
 	/**
 	 * <p>Set the events that are scheduled for the appropriate days.</p>
 	 * 
@@ -136,12 +141,15 @@ function Day(date, weekIndex, currentDayOfWeek) {
 	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 	 */
 	this.getId = function () {
-		return monthNames[this.getDate().getMonth()].abbr + this.getWeekDate();
+		return CalendarApi.monthNames[this.getDate().getMonth()].abbr + this.getWeekDate() + this.getDate().getFullYear();
 	};
-}
-
-
-
+	this.setLastWeekInMonth = function (lastWeekInMonth) {
+		this.lastWeekInMonth = lastWeekInMonth;
+	};
+	this.isLastWeekInMonth = function () {
+		return this.lastWeekInMonth;
+	};
+};
 /**
  * Creates a {@link Week} object that represents a calendar week in a calendar month.
  * 
@@ -152,10 +160,10 @@ function Day(date, weekIndex, currentDayOfWeek) {
  * 
  * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 */
-function Week(weekdays) {
+CalendarApi.Week = function (weekdays) {
 	"use strict";
 	var that = this;
-	this.weekdays = (weekdays === undefined) ? [] : weekdays;
+	this.weekdays = (weekdays === "undefined") ? [] : weekdays;
 	this.sunday = (this.weekdays.length >= 1) ? this.weekdays[0] : null;
 	this.monday = (this.weekdays.length >= 2) ? this.weekdays[1] : null;
 	this.tuesday = (this.weekdays.length >= 3) ? this.weekdays[2] : null;
@@ -171,15 +179,15 @@ function Week(weekdays) {
 	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 	*/
 	this.isFirstWeekInMonth = function (month) {
-		var i;
+		var i, firstWeekInMonth = false;
 		for (i = this.weekdays.length - 1; i > -1; i = i - 1) {
 			if (this.weekdays[i] !== undefined) {
 				if (this.weekdays[i].getWeekDate() === 1 && this.weekdays[i].getDate().getMonth() === month) {
-					return true;
+					firstWeekInMonth = true;
 				}
 			}
 		}
-		return false;
+		return firstWeekInMonth;
 	};
 	/**
 	 * Determines if this instance of {@link Week} is the last week in the calendar month. 
@@ -189,17 +197,18 @@ function Week(weekdays) {
 	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 	*/
 	this.isLastWeekInMonth = function () {
-		var i, monthIndex, year, weekdate, totalDaysInMonth;
+		var i, monthIndex, year, weekdate, totalDaysInMonth, lastWeekInMonth = false;
 		for (i = 0; i < this.weekdays.length; i = i + 1) {
 			monthIndex = this.weekdays[i].getDate().getMonth();
 			year = this.weekdays[i].getDate().getFullYear();
 			weekdate = this.weekdays[i].getWeekDate();
 			totalDaysInMonth = this.monthNames[monthIndex].getTotalDays(year);
 			if (weekdate === totalDaysInMonth) {
-				return true;
+				lastWeekInMonth = true;
+				this.weekdays[i].setLastWeekInMonth(true);
 			}
 		}
-		return false;
+		return lastWeekInMonth;
 	};
 	/**
 	 * <p>Set the events that are scheduled for the week to the appropriate days.</p>
@@ -255,21 +264,14 @@ function Week(weekdays) {
 		}
 		return currentDayOfWeek;
 	};
-}
-
+};
 /**
  * <p>Static field that is used to get calendar full name, abbreviated names, and total calendar days.</p>
  * @static
  * @field
  * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 */
-Week.prototype.monthNames = monthNames;
-
-
-
-
-
-
+CalendarApi.Week.prototype.monthNames = CalendarApi.monthNames;
 /**
  * Creates a {@link Month} object that represents the current calendar month.
  * 
@@ -278,7 +280,7 @@ Week.prototype.monthNames = monthNames;
  * 
  * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 */
-function Month() {
+CalendarApi.Month = function () {
 	"use strict";
 	var that = this, selectedDate = new Date();
 	this.TOTAL_WEEKDAYS = 7;
@@ -294,9 +296,9 @@ function Month() {
 	*/
 	function getMonthName(index, getAbbr) {
 		if (getAbbr) {
-			return monthNames[index].abbr;
+			return CalendarApi.monthNames[index].abbr;
 		} else {
-			return monthNames[index].name;
+			return CalendarApi.monthNames[index].name;
 		}
 	}
 	/**
@@ -312,7 +314,7 @@ function Month() {
 		do {
 			if (weekday > -1) {
 				d.setDate(d.getDate() - 1);
-				weekdays[weekday] = new Day(new Date(d.getTime()), null, false);
+				weekdays[weekday] = new CalendarApi.Day(new Date(d.getTime()), null, false);
 				weekday = weekday - 1;
 			}
 		} while (weekday > -1);
@@ -331,7 +333,7 @@ function Month() {
 		do {
 			if (weekday < that.TOTAL_WEEKDAYS) {
 				d.setDate(d.getDate() + 1);
-				weekdays[weekday] = new Day(new Date(d.getTime()), null, false);
+				weekdays[weekday] = new CalendarApi.Day(new Date(d.getTime()), null, false);
 				weekday = weekday + 1;
 			}
 		} while (weekday < that.TOTAL_WEEKDAYS);
@@ -352,13 +354,13 @@ function Month() {
 				weekdays[weekdays.length] = weekDaysBeforeArray[weekDaysBeforeArrayIndex];
 			}
 		}
-		weekdays[weekdays.length] = new Day(new Date(date.getTime()), null, true);
+		weekdays[weekdays.length] = new CalendarApi.Day(new Date(date.getTime()), null, true);
 		for (weekDaysAfterArrayIndex = 0; weekDaysAfterArrayIndex < weekDaysAfterArray.length; weekDaysAfterArrayIndex = weekDaysAfterArrayIndex + 1) {
 			if (weekDaysAfterArray[weekDaysAfterArrayIndex] !== undefined) {
 				weekdays[weekdays.length] = weekDaysAfterArray[weekDaysAfterArrayIndex];
 			}
 		}
-		return new Week(weekdays);
+		return new CalendarApi.Week(weekdays);
 	}
 	/**
 	 * <p>Gets {@link Week} before the <a href="http://www.w3schools.com/jsref/jsref_obj_date.asp">Date</a> pass in.</p> 
@@ -374,10 +376,10 @@ function Month() {
 			d.setDate(d.getDate() - 1);
 			if (totalDays <= that.TOTAL_WEEKDAYS) {
 				weekday = totalDays - 1;
-				weekdays[weekday] = new Day(new Date(d));
+				weekdays[weekday] = new CalendarApi.Day(new Date(d));
 			}
 		} while ((totalDays = totalDays - 1) > 0);
-		return new Week(weekdays);
+		return new CalendarApi.Week(weekdays);
 	}
 	/**
 	 * <p>Gets {@link Week} after the <a href="http://www.w3schools.com/jsref/jsref_obj_date.asp">Date</a> pass in.</p> 
@@ -393,10 +395,10 @@ function Month() {
 			d.setDate(d.getDate() + 1);
 			if (totalDays <= that.TOTAL_WEEKDAYS) {
 				weekday = that.TOTAL_WEEKDAYS - totalDays;
-				weekdays[weekday] = new Day(new Date(d));
+				weekdays[weekday] = new CalendarApi.Day(new Date(d));
 			}
 		} while ((totalDays = totalDays - 1) > 0);
-		return new Week(weekdays);
+		return new CalendarApi.Week(weekdays);
 	}
 	/**
 	 * <p>Retrieves the first week in the calendar month.
@@ -538,7 +540,7 @@ function Month() {
 		var month = getMonthName(selectedDate.getMonth(), false),
 			year = selectedDate.getFullYear(),
 			date = selectedDate.getDate(),
-			day = weekdayNames[selectedDate.getDay()].name;
+			day = CalendarApi.weekdayNames[selectedDate.getDay()].name;
 		return day + " " + month + " " + date + ", " + year;
 	};
 	this.setSelectedMonthName = function () {
@@ -585,7 +587,7 @@ function Month() {
 		return this.getCurrentDayOfMonth(this.getSelectedDate());
 	};
 	this.highLightSelectedDay = function (previouslySelectedDate) {
-		var selector = "div#" + (new Day(selectedDate)).getId();
+		var selector = "div#" + (new CalendarApi.Day(selectedDate)).getId();
 		if (this.findEventsByDate(selectedDate).length < 1) {
 			$(selector).removeClass("calendar-day-selected-with-events calendar-day-with-no-events calendar-day-with-events");
 			$(selector).addClass("calendar-day-selected");
@@ -593,7 +595,7 @@ function Month() {
 			$(selector).removeClass("calendar-day-selected calendar-day-with-no-events calendar-day-with-events");
 			$(selector).addClass("calendar-day-selected-with-events");
 		}
-		selector = "div#" + (new Day(previouslySelectedDate)).getId();
+		selector = "div#" + (new CalendarApi.Day(previouslySelectedDate)).getId();
 		if (this.findEventsByDate(previouslySelectedDate).length < 1) {
 			$(selector).removeClass("calendar-day-selected calendar-day-selected-with-events calendar-day-with-events");
 			$(selector).addClass("calendar-day-with-no-events");
@@ -620,22 +622,22 @@ function Month() {
 				break;
 			}
 		}
-		if (currentDayOfMonth === undefined || currentDayOfMonth === null) {
-			throw new ExpectedToHaveCurrentDayOfMonthException("Expected to have a current day in the month.");
+		if (currentDayOfMonth === "undefined" || currentDayOfMonth === null) {
+			throw new CalendarApi.ExpectedToHaveCurrentDayOfMonthException("Expected to have a current day in the month.");
 		}
 		return currentDayOfMonth;
 	};
 	this.selectedMonthName = this.getSelectedMonthName();
 	this.selectedDateDisplayName = this.getSelectedDateDisplayName();
 	this.setCurrentDayOfMonth(this.getSelectedDate());
-}
+};
 /**
  * <p>Static field that is used to get calendar full name, abbreviated names, and total calendar days.</p>
  * @static
  * @field
  * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 */
-Month.prototype.monthNames = monthNames;
+CalendarApi.Month.prototype.monthNames = CalendarApi.monthNames;
 
 /**
  * <p>Static field that is used to get calendar total calendar days of the previous month.</p>
@@ -645,7 +647,7 @@ Month.prototype.monthNames = monthNames;
  * @return {@link <a href="http://www.w3schools.com/jsref/jsref_obj_number.asp">Number</a>} The total days in the previous month.
  * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 */
-Month.prototype.getPreviousMonthTotalDays = function (date) {
+CalendarApi.Month.prototype.getPreviousMonthTotalDays = function (date) {
 	"use strict";
 	if (date.getMonth() === 0) {
 		return this.monthNames[11].getTotalDays(date.getFullYear());
@@ -661,11 +663,83 @@ Month.prototype.getPreviousMonthTotalDays = function (date) {
  * @return {@link <a href="http://www.w3schools.com/jsref/jsref_obj_number.asp">Number</a>} The total days in the next month.
  * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 */
-Month.prototype.getNextMonthTotalDays = function (date) {
+CalendarApi.Month.prototype.getNextMonthTotalDays = function (date) {
 	"use strict";
 	if (date.getMonth() === 11) {
 		return this.monthNames[0].getTotalDays(date.getFullYear());
 	} else {
 		return this.monthNames[date.getMonth() + 1].getTotalDays(date.getFullYear());
 	}
+};
+CalendarApi.handleDragStart = function (event) {
+	"use strict";
+	event.target.style.opacity = '0.4';  // this / event.target is the source node.
+	this.dragSourceElement = event.target;
+	event.dataTransfer.effectAllowed = "move";
+	event.dataTransfer.setData("text/html", event.target.id);
+};
+CalendarApi.handleDragOver = function (event) {
+	"use strict";
+	if (event.preventDefault) {
+		event.preventDefault();
+	}
+	event.dataTransfer.dropEffect = "move";
+	return false;
+};
+CalendarApi.handleDragEnter = function (event) {
+	"use strict";
+	event.target.classList.add("over");
+};
+CalendarApi.handleDragLeave = function (event) {
+	"use strict";
+	event.target.classList.remove("over");
+};
+CalendarApi.handleDrop = function (event) {
+	"use strict";
+	var calendarEventId = null,
+		calendarEvent = null,
+		calendarDay = null,
+		targetDate = null;
+	if (event.stopPropagation) {
+		event.stopPropagation();
+	}
+	if (this.dragSourceElement !== event.target) {
+		calendarEventId = event.dataTransfer.getData("text/html");
+		calendarDay = event.target.children[0];
+		targetDate = calendarDay.id;
+		//calendarEvent = CalendarApi.findEventById(calendarEventId);
+		//CalendarApi.rescheduleEvent(event, targetDate);
+	}
+	return false;
+};
+CalendarApi.handleDragEnd = function (event) {
+	"use strict";
+	var calendarEventSummaries = utils.querySelectorAll(".calendar-event-summary"), calendarDayContainers = utils.querySelectorAll(".calendar-day-container");
+	[].forEach.call(calendarEventSummaries, function (calendarEventSummary) {
+		calendarEventSummary.classList.remove("over");
+	});
+	[].forEach.call(calendarDayContainers, function (calendarDayContainer) {
+		calendarDayContainer.classList.remove("over");
+	});
+	event.target.style.opacity = '1';
+};
+CalendarApp.initialize = function () {
+	"use strict";
+	var calendarEventSummaries = utils.querySelectorAll(".calendar-event-summary"), calendarDayContainers = utils.querySelectorAll(".calendar-day-container");
+	[].forEach.call(calendarEventSummaries, function (calendarEventSummary) {
+		utils.addListener(calendarEventSummary, "dragstart", CalendarApi.handleDragStart);
+		utils.addListener(calendarEventSummary, "dragenter", CalendarApi.handleDragEnter);
+		utils.addListener(calendarEventSummary, "dragover", CalendarApi.handleDragOver);
+		utils.addListener(calendarEventSummary, "dragleave", CalendarApi.handleDragLeave);
+		utils.addListener(calendarEventSummary, "drop", CalendarApi.handleDrop);
+		utils.addListener(calendarEventSummary, "dragend", CalendarApi.handleDragEnd);
+	});
+	[].forEach.call(calendarDayContainers, function (calendarDayContainer) {
+		//utils.addListener(calendarDayContainer, "dragstart", CalendarApi.handleDragStart);
+		utils.addListener(calendarDayContainer, "dragenter", CalendarApi.handleDragEnter);
+		utils.addListener(calendarDayContainer, "dragover", CalendarApi.handleDragOver);
+		utils.addListener(calendarDayContainer, "dragleave", CalendarApi.handleDragLeave);
+		utils.addListener(calendarDayContainer, "drop", CalendarApi.handleDrop);
+		utils.addListener(calendarDayContainer, "dragend", CalendarApi.handleDragEnd);
+	});
 };

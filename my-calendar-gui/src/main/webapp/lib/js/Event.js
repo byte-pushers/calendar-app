@@ -1,4 +1,4 @@
-/*global InvalidParameterException, NullPointerException, InvalidDateRangeException*/
+/*global NoesisCode.InvalidParameterException, NoesisCode.NullPointerException, NoesisCode.InvalidDateRangeException*/
 /**
  * Creates a DateRange object that represents a date range.
  * 
@@ -12,18 +12,19 @@
 */
 function DateRange(start, end) {
 	"use strict";
-	if (start === undefined || start === null) {
-		throw new NullPointerException("start can not be null.");
+	console.log("DateRange(start:"+start+", end:"+end+")");
+	if (start === "undefined" || start === null) {
+		throw new NoesisCode.NoesisCode.NullPointerException("start can not be null.");
 	}
 	if (start.getClassType() !== "[class Date]") {
-		throw new InvalidParameterException("start must be an Person object.");
+		throw new NoesisCode.InvalidParameterException("start must be an Person object.");
 	}
 	if (end !== undefined && end !== null) {
 		if (end.getClassType() !== "[class Date]") {
-			throw new InvalidParameterException("end must be an Person object.");
+			throw new NoesisCode.InvalidParameterException("end must be an Person object.");
 		}
 		if (end.getTime() < start.getTime()) {
-			var idre = new InvalidDateRangeException("end date can not come before start date.");
+			var idre = new NoesisCode.InvalidDateRangeException("end date can not come before start date.");
 			throw idre;
 		}
 	}
@@ -60,11 +61,11 @@ function DateRange(start, end) {
 */
 function Attendee(person, organizer, /* self, resource,*/ optional) {
 	"use strict";
-	if (person === undefined || person === null) {
-		throw new NullPointerException("person can not be null.");
+	if (person === "undefined" || person === null) {
+		throw new NoesisCode.NoesisCode.NullPointerException("person can not be null.");
 	}
 	if (person.getClassType() !== "[class Person]") {
-		throw new InvalidParameterException("person must be of class type Person.");
+		throw new NoesisCode.InvalidParameterException("person must be of class type Person.");
 	}
 	this.person = person;
 	this.organizer = false;
@@ -203,7 +204,7 @@ function Attendee(person, organizer, /* self, resource,*/ optional) {
 	*/
 	this.addAdditionalGuest = function (attendee) {
 		if (attendee !== undefined && attendee !== null && attendee.getClassType() !== "[class Attendee]") {
-			throw new InvalidParameterException("attendee must be of class type Attendee.");
+			throw new NoesisCode.InvalidParameterException("attendee must be of class type Attendee.");
 		}
 		this.additionalGuests[this.additionalGuests.length] = attendee;
 	};
@@ -251,7 +252,7 @@ function Event() {
 	*/
 	this.setId = function (id) {
 		if (id !== undefined && id !== null && id.getObjectType() !== "[object Number]") {
-			throw new InvalidParameterException("id must be of type Number.");
+			throw new NoesisCode.InvalidParameterException("id must be of type Number.");
 		}
 		this.id = id;
 	};
@@ -272,7 +273,7 @@ function Event() {
 	*/
 	this.setStatus = function (status) {
 		if (status !== undefined && status !== null && status.getObjectType() !== "[object String]") {
-			throw new InvalidParameterException("status must be of type String.");
+			throw new NoesisCode.InvalidParameterException("status must be of type String.");
 		}
 		this.status = status;
 	};
@@ -293,7 +294,7 @@ function Event() {
 	*/
 	this.setHtmlLink = function (htmlLink) {
 		if (htmlLink !== undefined && htmlLink !== null && htmlLink.getObjectType() !== "[object String]") {
-			throw new InvalidParameterException("htmlLink must be of type String.");
+			throw new NoesisCode.InvalidParameterException("htmlLink must be of type String.");
 		}
 		this.htmlLink = htmlLink;
 	};
@@ -314,7 +315,7 @@ function Event() {
 	*/
 	this.setCreated = function (created) {
 		if (created !== undefined && created !== null && created.getObjectType() !== "[object Date]") {
-			throw new InvalidParameterException("created must be of type Date.");
+			throw new NoesisCode.InvalidParameterException("created must be of type Date.");
 		}
 		this.created = created;
 	};
@@ -335,7 +336,7 @@ function Event() {
 	*/
 	this.setUpdated = function (updated) {
 		if (updated !== undefined && updated !== null && updated.getObjectType() !== "[object Date]") {
-			throw new InvalidParameterException("updated must be of type Date.");
+			throw new NoesisCode.InvalidParameterException("updated must be of type Date.");
 		}
 		this.updated = updated;
 	};
@@ -356,7 +357,7 @@ function Event() {
 	*/
 	this.setSummary = function (summary) {
 		if (summary !== undefined && summary !== null && summary.getObjectType() !== "[object String]") {
-			throw new InvalidParameterException("summary must be of type String.");
+			throw new NoesisCode.InvalidParameterException("summary must be of type String.");
 		}
 		this.summary = summary;
 	};
@@ -377,7 +378,7 @@ function Event() {
 	*/
 	this.setDescription = function (description) {
 		if (description !== undefined && description !== null && description.getObjectType() !== "[object String]") {
-			throw new InvalidParameterException("summary must be of type String.");
+			throw new NoesisCode.InvalidParameterException("summary must be of type String.");
 		}
 		this.description = description;
 	};
@@ -398,7 +399,7 @@ function Event() {
 	*/
 	this.setLocation = function (location) {
 		if (location !== undefined && location !== null && location.getObjectType() !== "[object String]") {
-			throw new InvalidParameterException("location must be of type String.");
+			throw new NoesisCode.InvalidParameterException("location must be of type String.");
 		}
 		this.location = location;
 	};
@@ -419,7 +420,7 @@ function Event() {
 	*/
 	this.setColorId = function (colorId) {
 		if (colorId !== undefined && colorId !== null && colorId.getObjectType() !== "[object String]") {
-			throw new InvalidParameterException("colorId must be of type String.");
+			throw new NoesisCode.InvalidParameterException("colorId must be of type String.");
 		}
 		this.colorId = colorId;
 	};
@@ -440,7 +441,7 @@ function Event() {
 	*/
 	this.setCreator = function (creator) {
 		if (creator !== undefined && creator !== null && creator.getClassType() !== "[class Person]") {
-			throw new InvalidParameterException("creator must be of class type Person.");
+			throw new NoesisCode.InvalidParameterException("creator must be of class type Person.");
 		}
 		this.creator = creator;
 	};
@@ -461,7 +462,7 @@ function Event() {
 	*/
 	this.setOrganizer = function (organizer) {
 		if (organizer !== undefined && organizer !== null && organizer.getClassType() !== "[class Person]") {
-			throw new InvalidParameterException("organizer must be of class type Person.");
+			throw new NoesisCode.InvalidParameterException("organizer must be of class type Person.");
 		}
 		this.organizer = organizer;
 	};
@@ -522,10 +523,10 @@ function Event() {
 	*/
 	this.setVisibility = function (visibility) {
 		if (visibility !== undefined && visibility !== null && visibility.getObjectType() !== "[object String]") {
-			throw new InvalidParameterException("visibility must be of type String.");
+			throw new NoesisCode.InvalidParameterException("visibility must be of type String.");
 		}
 		if (visibility !== "default" && visibility !== "public" && visibility !== "private" && visibility !== "confidential") {
-			throw new InvalidParameterException("Acceptable value for the visibility parameter are: default, public, private, or confidential.");
+			throw new NoesisCode.InvalidParameterException("Acceptable value for the visibility parameter are: default, public, private, or confidential.");
 		}
 		this.visibility = visibility;
 	};
@@ -546,7 +547,7 @@ function Event() {
 	*/
 	this.setAttendees = function (attendees) {
 		if (attendees !== undefined && attendees !== null && !Array.isArray(attendees)) {
-			throw new InvalidParameterException("attendees must be of type Array.");
+			throw new NoesisCode.InvalidParameterException("attendees must be of type Array.");
 		}
 		this.attendees = attendees;
 	};
@@ -558,7 +559,7 @@ function Event() {
 	*/
 	this.addAttendee = function (attendee) {
 		if (attendee !== undefined && attendee !== null && attendee.getClassType() !== "[class Attendee]") {
-			throw new InvalidParameterException("attendees must be of class type Array.");
+			throw new NoesisCode.InvalidParameterException("attendees must be of class type Array.");
 		}
 		this.attendees[this.attendees.length] = attendee;
 	};
@@ -579,7 +580,7 @@ function Event() {
 	*/
 	this.anyOneCanAddSelf = function (anyOneCanAddSelfFlag) {
 		if (anyOneCanAddSelfFlag !== undefined && anyOneCanAddSelfFlag !== null && anyOneCanAddSelfFlag.getObjectType() !== "[object Boolean]") {
-			throw new InvalidParameterException("anyOneCanAddSelfFlag must be of type Boolean.");
+			throw new NoesisCode.InvalidParameterException("anyOneCanAddSelfFlag must be of type Boolean.");
 		}
 		this.anyOneCanAddSelfFlag = anyOneCanAddSelfFlag;
 	};
@@ -600,7 +601,7 @@ function Event() {
 	*/
 	this.guestCanInviteOthers = function (guestCanInviteOthersFlag) {
 		if (guestCanInviteOthersFlag !== undefined && guestCanInviteOthersFlag !== null && guestCanInviteOthersFlag.getObjectType() !== "[object Boolean]") {
-			throw new InvalidParameterException("guestCanInviteOthersFlag must be of type Boolean.");
+			throw new NoesisCode.InvalidParameterException("guestCanInviteOthersFlag must be of type Boolean.");
 		}
 		this.guestCanInviteOthersFlag = guestCanInviteOthersFlag;
 	};

@@ -12,7 +12,7 @@ TestCase("EventTestCases", {
 		try{
 			var dateRange = new DateRange(end, start);
 		} catch (e){
-			assertTrue(e.name === "InvalidDateRangeException");
+			assertTrue(e.name === "NoesisCode.InvalidDateRangeException");
 		}
 	}, testAttendeeCreation: function(){
 		var person = getTontePouncil();

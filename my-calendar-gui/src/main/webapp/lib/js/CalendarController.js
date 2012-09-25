@@ -1,10 +1,13 @@
+var CalendarApp = CalendarApp || {};
 /*global Month, Event*/
-function getTestEvents() {
+CalendarApp.getTestEvents = function () {
 	"use strict";
 	var event = new Event(), month, event2 = new Event();
+	event.setId(1);
 	event.setSummary("Aisha's Graduation");
 	event.setStart(new Date());
 	event.setEnd(new Date());
+	event2.setId(2);
 	event2.setSummary("Malayshia's Birthday Party!");
 	event2.setStart(new Date());
 	event2.getStart().setDate(26);
@@ -13,9 +16,9 @@ function getTestEvents() {
 	month = new Month();
 	month.setEvents([event, event2]);
 	return month.getEvents();
-}
+};
 /* App Controllers */
-function CalendarCtrl($scope) {
+CalendarApp.controller = function ($scope) {
 	"use strict";
 	$scope.month = new Month();
 	$scope.month.setEvents(getTestEvents());
@@ -24,13 +27,13 @@ function CalendarCtrl($scope) {
 	$scope.getCalendarDayClass = function (day) {
 		var cssClass;
 		if (day.hasEvents() && day.isCurrentDayOfWeek()) {
-			cssClass = "calendar-day-selected-with-events";
+			cssClass = "calendar-day-selected-with-events calendar-date";
 		} else if (day.hasEvents()) {
-			cssClass = "calendar-day-with-events";
+			cssClass = "calendar-day-with-events calendar-date";
 		} else if (day.isCurrentDayOfWeek()) {
-			cssClass = "calendar-day-selected";
+			cssClass = "calendar-day-selected calendar-date";
 		} else {
-			cssClass = "calendar-day-with-no-events";
+			cssClass = "calendar-day-with-no-events calendar-date";
 		}
 		return cssClass;
 	};
@@ -71,4 +74,4 @@ function CalendarCtrl($scope) {
 		$scope.todaysEvents = $scope.month.selectLastDayOfPreviousMonth().getEvents();
 		$scope.weeks = $scope.month.weeks;
 	};
-}
+};

@@ -1,4 +1,4 @@
-/*global Month, CalendarApi.Event*/
+/*global Month,CalendarApi.Event*/
 var CalendarApp = CalendarApp || {};
 var CalendarApi = objectApi.extend(CalendarApp, "com.noesiscode.calendar.api");
 CalendarApp.getTestEvents = function () {

@@ -1,4 +1,4 @@
-/*global NoesisCode.InvalidParameterException, CalendarApi.DateRange, $, CalendarApi.ExpectedToHaveCurrentDayOfMonthException, utils, objectApi*/
+/*global NoesisCode.InvalidParameterException,CalendarApi.DateRange, $, CalendarApi.ExpectedToHaveCurrentDayOfMonthException, utils, objectApi*/
 
 var CalendarApp = CalendarApp || {};
 var CalendarApi = CalendarApi || objectApi.extend(CalendarApp, "com.noesiscode.calendar.api");

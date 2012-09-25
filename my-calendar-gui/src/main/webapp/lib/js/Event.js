@@ -14,7 +14,11 @@ function DateRange(start, end) {
 	"use strict";
 	console.log("DateRange(start:"+start+", end:"+end+")");
 	if (start === "undefined" || start === null) {
+<<<<<<< HEAD
 		throw new NoesisCode.NoesisCode.NullPointerException("start can not be null.");
+=======
+		throw new NullPointerException("start can not be null.");
+>>>>>>> branch 'master' of https://github.com/noesiscode/my-calendar-gui.git
 	}
 	if (start.getClassType() !== "[class Date]") {
 		throw new NoesisCode.InvalidParameterException("start must be an Person object.");
@@ -62,7 +66,11 @@ function DateRange(start, end) {
 function Attendee(person, organizer, /* self, resource,*/ optional) {
 	"use strict";
 	if (person === "undefined" || person === null) {
+<<<<<<< HEAD
 		throw new NoesisCode.NoesisCode.NullPointerException("person can not be null.");
+=======
+		throw new NullPointerException("person can not be null.");
+>>>>>>> branch 'master' of https://github.com/noesiscode/my-calendar-gui.git
 	}
 	if (person.getClassType() !== "[class Person]") {
 		throw new NoesisCode.InvalidParameterException("person must be of class type Person.");

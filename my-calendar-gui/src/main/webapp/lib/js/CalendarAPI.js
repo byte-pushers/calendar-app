@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /*global NoesisCode.InvalidParameterException, DateRange, $, CalendarApi.ExpectedToHaveCurrentDayOfMonthException, utils, objectApi*/
+=======
+/*global InvalidParameterException, DateRange, $, ExpectedToHaveCurrentDayOfMonthException, utils, objectApi*/
+>>>>>>> branch 'master' of https://github.com/noesiscode/my-calendar-gui.git
 
 var CalendarApp = CalendarApp || {};
 var CalendarApi = objectApi.extend(CalendarApp, "com.noesiscode.calendar.api");
@@ -623,7 +627,11 @@ CalendarApi.Month = function () {
 			}
 		}
 		if (currentDayOfMonth === "undefined" || currentDayOfMonth === null) {
+<<<<<<< HEAD
 			throw new CalendarApi.ExpectedToHaveCurrentDayOfMonthException("Expected to have a current day in the month.");
+=======
+			throw new ExpectedToHaveCurrentDayOfMonthException("Expected to have a current day in the month.");
+>>>>>>> branch 'master' of https://github.com/noesiscode/my-calendar-gui.git
 		}
 		return currentDayOfMonth;
 	};

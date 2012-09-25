@@ -13,7 +13,7 @@
 	display: table;
 	width: 100%;
 	background: #F0FFFF;
-	//border: 1px solid;
+	border-top: 1px solid #E3E3E3;
 }
 
 #calendar-header-container{
@@ -50,8 +50,9 @@
 }
 
 .calendar-day-container{
-	border: 1px solid #E3E3E3;
 	display: table-cell;
+	border-top: thin solid #E3E3E3;
+	border-right: thin solid #E3E3E3;
 	width: 14%;
 }
 
@@ -62,32 +63,29 @@
 }
 
 .calendar-day-with-no-events{
-	//display: block;
+	display: block;
 	background: #FCFCFC;
 }
 
 .calendar-day-with-events{
-	//display: block;
+	display: block;
 	background: #EBFBFF;
 }
 
 .calendar-date{
 	display: block;
 	text-align: right;
-}
-
-.calendar-day-summary{
-	display: block;
-	padding: 5px;
+	height: 25px;
 }
 
 #calendar-event-summary-list-container{
 	
 }
 
-#calendar-event-summary{
+.calendar-event-summary{
 	display: table;
 	width: 100%;
+	cursor: move;
 }
 
 .calendar-event-startTime{
@@ -108,10 +106,35 @@
 }
 
 .calendar-day-selected{
+	display: block;
 	background: #F0F0F0;
 }
 
 .calendar-day-selected-with-events{
-	//display: block;
+	display: block;
 	background: #C4F3FF;
+}
+
+.calendar-event-summary.over{
+	border: 1px dashed #000;
+}
+
+.calendar-day-container.over {
+	border: 1px dashed #000;
+}
+
+.calendar-day-selected.over{
+	border: 1px dashed #000;
+}
+
+.calendar-day-selected-with-events.over{
+	border: 1px dashed #000;
+}
+
+.calendar-day-with-no-events.over{
+	border: 1px dashed #000;
+}
+
+.calendar-day-with-events.over{
+	border: 1px dashed #000;
 }

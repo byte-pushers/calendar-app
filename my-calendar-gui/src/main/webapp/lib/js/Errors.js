@@ -1,5 +1,5 @@
 var NoesisCode = NoesisCode || {};
-var NoesisCodeExceptions = NoesisCodeExceptions || objectApi.extend(NoesisCode, "com.noesiscode.exceptions");
+var NoesisCodeExceptions = NoesisCode.namespace("com.noesiscode.exceptions");
 NoesisCodeExceptions.InvalidParameterException = function (message) {
 	"use strict";
 	Error.call(this, message);

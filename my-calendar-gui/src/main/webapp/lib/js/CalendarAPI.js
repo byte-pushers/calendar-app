@@ -1,7 +1,7 @@
 /*global NoesisCodeExceptions.InvalidParameterException,CalendarApi.DateRange, $, CalendarApi.ExpectedToHaveCurrentDayOfMonthException, utils, objectApi*/
 
 var CalendarApp = CalendarApp || {};
-var CalendarApi = CalendarApi || objectApi.extend(CalendarApp, "com.noesiscode.calendar.api");
+var CalendarApi = CalendarApp.namespace("com.noesiscode.calendar");
 CalendarApi.dragSourceElement = null;
 CalendarApi.monthNames = [{"name": "January", "abbr": "Jan", "getTotalDays": function (year) { "use strict"; return 31; } },
 		                  {"name": "February", "abbr": "Feb", "getTotalDays": function (year) { "use strict"; if (year) { return (year % 4 === 0) ? 29 : 28; } else { throw ("Expected parameter(Year) is not defined."); } } },

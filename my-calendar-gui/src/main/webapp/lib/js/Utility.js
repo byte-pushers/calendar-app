@@ -1,6 +1,6 @@
 // the interface 
 var NoesisCode = NoesisCode || {};
-var utils = utils || objectApi.extend(NoesisCode, "com.noesiscode.utils");
+var utils = NoesisCode.namespace("com.noesiscode.utils");
 utils.addListener = null;
 utils.removeListener = null;
 utils.querySelector = null;

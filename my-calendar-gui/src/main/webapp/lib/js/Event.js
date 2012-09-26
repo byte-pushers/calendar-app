@@ -11,7 +11,7 @@
  * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 */
 var CalendarApp = CalendarApp || {};
-var CalendarApi = CalendarApi || objectApi.extend(CalendarApp, "com.noesiscode.calendar.api");
+var CalendarApi = CalendarApp.namespace("com.noesiscode.calendar");
 CalendarApi.DateRange = function (start, end) {
 	"use strict";
 	if (start === "undefined" || start === null) {

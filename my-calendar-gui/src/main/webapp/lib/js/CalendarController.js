@@ -1,6 +1,6 @@
 /*global Month,CalendarApi.Event*/
 var CalendarApp = CalendarApp || {};
-var CalendarApi = CalendarApi || objectApi.extend(CalendarApp, "com.noesiscode.calendar.api");
+var CalendarApi = CalendarApp.namespace("com.noesiscode.calendar");
 CalendarApp.getTestEvents = function () {
 	"use strict";
 	var event = new CalendarApi.Event(), month, event2 = new CalendarApi.Event();

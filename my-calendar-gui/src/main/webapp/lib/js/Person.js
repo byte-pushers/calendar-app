@@ -12,7 +12,7 @@
  * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 */
 var NoesisCode = NoesisCode || {};
-var NoesisCodeModels = NoesisCodeModels || objectApi.extend(NoesisCode, "com.noesiscode.models");
+var NoesisCodeModels = NoesisCode.namespace("com.noesiscode.models");
 NoesisCodeModels.Email = function Email(emailAddress, primaryEmail, type) {
 	"use strict";
 	/**

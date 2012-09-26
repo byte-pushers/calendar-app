@@ -1,4 +1,4 @@
-/*global NoesisCodeExceptions.InvalidParameterException,CalendarApi.DateRange, $, CalendarApi.ExpectedToHaveCurrentDayOfMonthException, utils, objectApi*/
+/*global $, utils*/
 
 var CalendarApp = CalendarApp || {};
 var CalendarApi = CalendarApp.namespace("com.noesiscode.calendar");
@@ -84,8 +84,8 @@ CalendarApi.Day = function (date, weekIndex, currentDayOfWeek) {
 	this.getDate = function () {
 		return this.date;
 	};
-	this.toString = function(){
-		alert("Day[weekday: " + this.weekday +", day: " + this.day + ", weekIndex: " + this.weekIndex + "]");
+	this.toString = function () {
+		return "Day[weekday: " + this.weekday + ", day: " + this.day + ", weekIndex: " + this.weekIndex + "]";
 	};
 	/**
 	 * <p>Set the events that are scheduled for the appropriate days.</p>

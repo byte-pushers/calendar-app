@@ -1,4 +1,4 @@
-/*global NoesisCodeExceptions.InvalidParameterException, NoesisCodeExceptions.NullPointerException, NoesisCodeExceptions.InvalidDateRangeException*/
+/*global NoesisCodeExceptions*/
 /**
  * Creates a CalendarApi.DateRange object that represents a date range.
  * 
@@ -15,7 +15,7 @@ var CalendarApi = CalendarApp.namespace("com.noesiscode.calendar");
 CalendarApi.DateRange = function (start, end) {
 	"use strict";
 	if (start === "undefined" || start === null) {
-		throw new NoesisCode.NoesisCodeExceptions.NullPointerException("start can not be null.");
+		throw new NoesisCodeExceptions.NullPointerException("start can not be null.");
 	}
 	if (start.getClassType() !== "[class Date]") {
 		throw new NoesisCodeExceptions.InvalidParameterException("start must be an NoesisCodeModels.Person object.");
@@ -47,7 +47,7 @@ CalendarApi.DateRange = function (start, end) {
 		}
 		return false;
 	};
-}
+};
 /**
  * Creates a CalendarApi.Attendee object that represents an attendee of an event.
  * 
@@ -63,7 +63,7 @@ CalendarApi.DateRange = function (start, end) {
 CalendarApi.Attendee = function (person, organizer, /* self, resource,*/ optional) {
 	"use strict";
 	if (person === "undefined" || person === null) {
-		throw new NoesisCode.NoesisCodeExceptions.NullPointerException("person can not be null.");
+		throw new NoesisCodeExceptions.NullPointerException("person can not be null.");
 	}
 	if (person.getClassType() !== "[class Person]") {
 		throw new NoesisCodeExceptions.InvalidParameterException("person must be of class type NoesisCodeModels.Person.");
@@ -209,7 +209,7 @@ CalendarApi.Attendee = function (person, organizer, /* self, resource,*/ optiona
 		}
 		this.additionalGuests[this.additionalGuests.length] = attendee;
 	};
-}
+};
 
 CalendarApi.Event = function () {
 	"use strict";
@@ -623,8 +623,8 @@ CalendarApi.Event = function () {
 	*/
 	this.guestCanSeeOtherGuests = function (guestCanSeeOtherGuestsFlag) {
 		if (guestCanSeeOtherGuestsFlag !== undefined && guestCanSeeOtherGuestsFlag !== null && guestCanSeeOtherGuestsFlag.getObjectType() !== "[object Boolean]") {
-			throw new InvalidParameterException("guestCanSeeOtherGuestsFlag must be of type Boolean.");
+			throw new NoesisCodeExceptions.InvalidParameterException("guestCanSeeOtherGuestsFlag must be of type Boolean.");
 		}
 		this.guestCanSeeOtherGuestsFlag = guestCanSeeOtherGuestsFlag;
 	};
-}
+};

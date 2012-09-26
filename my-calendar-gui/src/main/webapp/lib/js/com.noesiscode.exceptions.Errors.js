@@ -33,19 +33,19 @@ NoesisCodeExceptions.InvalidDateRangeException = function (message) {
 };
 
 var CalendarApp = CalendarApp || {};
-var CalendarApi = objectApi.extend(CalendarApp, "com.noesiscode.calendar.api.exceptions"); 
+var CalendarApi = NoesisCode.namespace("com.noesiscode.calendar.api.exceptions");
 CalendarApi.ExpectedToHaveCurrentDayOfMonthException = function (message) {
 	"use strict";
 	Error.call(this, message);
 	CalendarApi.ExpectedToHaveCurrentDayOfMonthException.prototype = new Error();
 	this.name = "CalendarApi.ExpectedToHaveCurrentDayOfMonthException";
 	this.message = message;
-}
+};
 
 CalendarApi.ExpectedToHaveCurrentDayOfWeekException = function (message) {
 	"use strict";
 	Error.call(this, message);
-	ExpectedToHaveCurrentDayOfWeekException.prototype = new Error();
+	CalendarApi.ExpectedToHaveCurrentDayOfWeekException.prototype = new Error();
 	this.name = CalendarApi.ExpectedToHaveCurrentDayOfWeekException;
 	this.message = message;
-}
+};

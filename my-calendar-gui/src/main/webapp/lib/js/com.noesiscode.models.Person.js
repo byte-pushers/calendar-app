@@ -1,4 +1,4 @@
-/*global NoesisCodeExceptions.InvalidParameterException, NoesisCodeExceptions.NullPointerException, NoesisCodeExceptions.ExpectedArrayIsEmptyException*/
+/*global NoesisCodeExceptions*/
 /**
  * Creates a Email object that represents an email address.
  * 
@@ -67,7 +67,7 @@ NoesisCodeModels.Email = function Email(emailAddress, primaryEmail, type) {
 	this.getEmail = function () {
 		return this.emailAddress;
 	};
-}
+};
 
 /**
  * Creates a Person object that represents an actual person.
@@ -185,8 +185,6 @@ NoesisCodeModels.Person = function Person(firstName, middleName, lastName) {
 	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 	*/
 	this.addEmail = function (email) {
-		console.log("email.classType: " + email.getClassType());
-		console.log("email.objectType: " + email.getObjectType());
 		if (email.getClassType() !== '[class Email]') {
 			throw new NoesisCodeExceptions.InvalidParameterException("email must be of class type Email.");
 		}
@@ -235,4 +233,4 @@ NoesisCodeModels.Person = function Person(firstName, middleName, lastName) {
 	this.setNickName = function (nickName) {
 		this.nickName = nickName;
 	};
-}
+};

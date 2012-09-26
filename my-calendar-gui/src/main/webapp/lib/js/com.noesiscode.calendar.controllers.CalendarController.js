@@ -1,4 +1,3 @@
-/*global Month,CalendarApi.Event*/
 var CalendarApp = CalendarApp || {};
 var CalendarApi = CalendarApp.namespace("com.noesiscode.calendar");
 CalendarApp.getTestEvents = function () {
@@ -14,15 +13,15 @@ CalendarApp.getTestEvents = function () {
 	event2.getStart().setDate(26);
 	event2.setEnd(new Date());
 	event2.getEnd().setDate(26);
-	month = new Month();
+	month = new CalendarApi.Month();
 	month.setEvents([event, event2]);
 	return month.getEvents();
 };
 /* App Controllers */
 CalendarApp.controller = function ($scope) {
 	"use strict";
-	$scope.month = new Month();
-	$scope.month.setEvents(getTestEvents());
+	$scope.month = new CalendarApi.Month();
+	$scope.month.setEvents(CalendarApp.getTestEvents());
 	$scope.weeks = $scope.month.weeks;
 	$scope.todaysEvents = $scope.month.findEventsByDate(new Date());
 	$scope.getCalendarDayClass = function (day) {

@@ -12,7 +12,7 @@ TestCase("EventTestCases", {
 		try{
 			var dateRange = new CalendarApi.DateRange(end, start);
 		} catch (e){
-			assertTrue(e.name === "NoesisCode.InvalidDateRangeException");
+			assertTrue(e.name === "NoesisCodeExceptions.InvalidDateRangeException");
 		}
 	}, testAttendeeCreation: function(){
 		var person = getTontePouncil();
@@ -125,7 +125,7 @@ TestCase("EventTestCases", {
 });
 
 function getJamesDean(email){
-	var person = new Person("James", null, "Dean");
+	var person = new NoesisCodeModels.Person("James", null, "Dean");
 	if(email !== undefined && email !== null){
 		person.addEmail(email);
 	}
@@ -133,7 +133,7 @@ function getJamesDean(email){
 }
 
 function getWalterSturghill(email){
-	var person = new Person("Walter", null, "Sturghill");
+	var person = new NoesisCodeModels.Person("Walter", null, "Sturghill");
 	if(email !== undefined && email !== null){
 		person.addEmail(email);
 	}
@@ -141,7 +141,7 @@ function getWalterSturghill(email){
 }
 
 function getTontePouncil(email){
-	var person = new Person("Tonte", "Torrance", "Pouncil");
+	var person = new NoesisCodeModels.Person("Tonte", "Torrance", "Pouncil");
 	if(email !== undefined && email !== null){
 		person.addEmail(email);
 	}
@@ -149,7 +149,7 @@ function getTontePouncil(email){
 }
 
 function getJames(email){
-	var person = new Person("James", null, null);
+	var person = new NoesisCodeModels.Person("James", null, null);
 	if(email !== undefined && email !== null){
 		person.addEmail(email);
 	}
@@ -157,15 +157,15 @@ function getJames(email){
 }
 
 function getJamesHomeEmailAddress(){
-	return new Email("james@james.com", true, "Home");
+	return new NoesisCodeModels.Email("james@james.com", true, "Home");
 }
 
 function getTonteHomeEmailAddress(){
-	return new Email("tonte.pouncil@gmail.com", true, "Home");
+	return new NoesisCodeModels.Email("tonte.pouncil@gmail.com", true, "Home");
 }
 
 function getWalterHomeEmailAddress(){
-	return new Email("wsj@wsjmedia.com", true, "Home");
+	return new NoesisCodeModels.Email("wsj@wsjmedia.com", true, "Home");
 }
 
 function getAishaGraduationAttendees(){

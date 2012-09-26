@@ -1,39 +1,39 @@
 var NoesisCode = NoesisCode || {};
-
-NoesisCode.InvalidParameterException = function (message) {
+var NoesisCodeExceptions = NoesisCodeExceptions || objectApi.extend(NoesisCode, "com.noesiscode.exceptions");
+NoesisCodeExceptions.InvalidParameterException = function (message) {
 	"use strict";
 	Error.call(this, message);
-	NoesisCode.InvalidParameterException.prototype = new Error();
-	this.name = "NoesisCode.InvalidParameterException";
+	NoesisCodeExceptions.InvalidParameterException.prototype = new Error();
+	this.name = "NoesisCodeExceptions.InvalidParameterException";
 	this.message = message;
-}
+};
 
-NoesisCode.NullPointerException = function (message) {
+NoesisCodeExceptions.NullPointerException = function (message) {
 	"use strict";
 	Error.call(this, message);
-	NoesisCode.NullPointerException.prototype = new Error();
-	this.name = "NoesisCode.NullPointerException";
+	NoesisCodeExceptions.NullPointerException.prototype = new Error();
+	this.name = "NoesisCodeExceptions.NullPointerException";
 	this.message = message;
-}
+};
 
-NoesisCode.ExpectedArrayIsEmptyException = function (message) {
+NoesisCodeExceptions.ExpectedArrayIsEmptyException = function (message) {
 	"use strict";
 	Error.call(this, message);
-	NoesisCode.ExpectedArrayIsEmptyException.prototype = new Error();
-	this.name = "NoesisCode.ExpectedArrayIsEmptyException";
+	NoesisCodeExceptions.ExpectedArrayIsEmptyException.prototype = new Error();
+	this.name = "NoesisCodeExceptions.ExpectedArrayIsEmptyException";
 	this.message = message;
-}
+};
 
-NoesisCode.InvalidDateRangeException = function (message) {
+NoesisCodeExceptions.InvalidDateRangeException = function (message) {
 	"use strict";
 	Error.call(this, message);
-	NoesisCode.InvalidDateRangeException.prototype = new Error();
-	this.name = "NoesisCode.InvalidDateRangeException";
+	NoesisCodeExceptions.InvalidDateRangeException.prototype = new Error();
+	this.name = "NoesisCodeExceptions.InvalidDateRangeException";
 	this.message = message;
-}
+};
 
 var CalendarApp = CalendarApp || {};
-var CalendarApi = objectApi.extend(CalendarApp, "com.noesiscode.calendar.api"); 
+var CalendarApi = objectApi.extend(CalendarApp, "com.noesiscode.calendar.api.exceptions"); 
 CalendarApi.ExpectedToHaveCurrentDayOfMonthException = function (message) {
 	"use strict";
 	Error.call(this, message);

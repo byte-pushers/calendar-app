@@ -1,6 +1,6 @@
 // the interface 
-var com = com || {};
-var utils = objectApi.extend(com, "com.pouncilt.utils");
+var NoesisCode = NoesisCode || {};
+var utils = utils || objectApi.extend(NoesisCode, "com.noesiscode.utils");
 utils.addListener = null;
 utils.removeListener = null;
 utils.querySelector = null;

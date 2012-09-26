@@ -1,7 +1,6 @@
 var CalendarApp = CalendarApp || {};
 var CalendarApi = CalendarApp.namespace("com.noesiscode.calendar");
 CalendarApp.getTestEvents = function () {
-	"use strict";
 	var event = new CalendarApi.Event(), month, event2 = new CalendarApi.Event();
 	event.setId(1);
 	event.setSummary("Aisha's Graduation");
@@ -18,8 +17,7 @@ CalendarApp.getTestEvents = function () {
 	return month.getEvents();
 };
 /* App Controllers */
-CalendarApp.controller = function ($scope) {
-	"use strict";
+function CalendarController ($scope) {
 	$scope.month = new CalendarApi.Month();
 	$scope.month.setEvents(CalendarApp.getTestEvents());
 	$scope.weeks = $scope.month.weeks;

@@ -2,27 +2,26 @@
 <html ng-app>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title><html ng-app></title>
-    <link rel="stylesheet" href="lib/css/calendar-month-view-layout.css">
-    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
-    <!--script type="text/javascript" src="../../../../main/webapp/lib/js/jquery/jquery-1.7.2.js"></script-->
-    <script src="http://code.angularjs.org/angular-1.0.0rc5.min.js"></script>
-    <script src="../../../../main/webapp/lib/js/ObjectExtention.js"></script>
-    <script src="../../../../main/webapp/lib/js/ArrayExtention.js"></script>
-    <script src="../../../../main/webapp/lib/js/DateExtention.js"></script>
-    <script src="../../../../main/webapp/lib/js/StringExtention.js"></script>
-    <script src="../../../../main/webapp/lib/js/com.noesiscode.js"></script>
-    <script src="../../../../main/webapp/lib/js/com.noesiscode.utils.Utility.js"></script>
-    <script src="../../../../main/webapp/lib/js/com.noesiscode.exceptions.Errors.js"></script>
-    <script src="../../../../main/webapp/lib/js/com.noesiscode.models.Person.js"></script>
-    <script src="../../../../main/webapp/lib/js/com.noesiscode.calendar.js"></script>
-    <script src="../../../../main/webapp/lib/js/com.noesiscode.calendar.models.Event.js"></script>
-    <script src="../../../../main/webapp/lib/js/com.noesiscode.calendar.CalendarAPI.js"></script>
-    <script src="../../../../main/webapp/lib/js/com.noesiscode.calendar.controllers.CalendarController.js"></script>
+    <title>Calendar GUI</title>
+    <link rel="stylesheet" href="lib/css/calendar-month-view-layout.css"/>
+    <script src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <script src="http://code.angularjs.org/1.0.2/angular.js"></script>
+    <script src="lib/js/ObjectExtention.js"></script>
+    <script src="lib/js/ArrayExtention.js"></script>
+    <script src="lib/js/DateExtention.js"></script>
+    <script src="lib/js/StringExtention.js"></script>
+    <script src="lib/js/com.noesiscode.js"></script>
+    <script src="lib/js/com.noesiscode.utils.Utility.js"></script>
+    <script src="lib/js/com.noesiscode.exceptions.Errors.js"></script>
+    <script src="lib/js/com.noesiscode.models.Person.js"></script>
+    <script src="lib/js/com.noesiscode.calendar.js"></script>
+    <script src="lib/js/com.noesiscode.calendar.models.Event.js"></script>
+    <script src="lib/js/com.noesiscode.calendar.CalendarAPI.js"></script>
+    <script src="lib/js/com.noesiscode.calendar.controllers.CalendarController.js"></script>
 </head>
 <body>
     <!-- HTML5 TABS CODE -->
-	<div id="calendar-container" ng-controller="CalendarCtrl">Container
+	<div id="calendar-container" ng-controller="CalendarController">Container
 		<div id="calendar-menu-container">Menu</div>
 		<div id="calendar-nav-container">
 			<div id="calendar-header-container">{{month.selectedMonthName}} <button ng-click="selectFirstDayOfPreviousMonth()"><<</button> <button ng-click="selectFirstDayOfNextMonth()">>></button></div>

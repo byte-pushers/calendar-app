@@ -1,31 +1,31 @@
-/*global NoesisCodeExceptions*/
+/*global NoesisCode.exceptions*/
 /**
- * Creates a CalendarApi.DateRange object that represents a date range.
+ * Creates a CalendarApp.models.DateRange object that represents a date range.
  * 
  * @class Represents a date range.
  * @param {<a href="http://www.w3schools.com/js/jsref_obj_date.asp">Date</a>} start The start date of the date range.
  * @param {<a href="http://www.w3schools.com/js/jsref_obj_date.asp">Date</a>} end The end date of the date range.
  * 
- * @returns An instance of the CalendarApi.DateRange class.
+ * @returns An instance of the CalendarApp.models.DateRange class.
  * 
  * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 */
 var CalendarApp = CalendarApp || {};
-var CalendarApi = CalendarApp.namespace("com.noesiscode.calendar");
-CalendarApi.DateRange = function (start, end) {
+CalendarApp.models = CalendarApp.namespace("com.noesiscode.calendar.models");
+CalendarApp.models.DateRange = function (start, end) {
 	"use strict";
 	if (start === "undefined" || start === null) {
-		throw new NoesisCodeExceptions.NullPointerException("start can not be null.");
+		throw new NoesisCode.exceptions.NullPointerException("start can not be null.");
 	}
 	if (start.getClassType() !== "[class Date]") {
-		throw new NoesisCodeExceptions.InvalidParameterException("start must be an NoesisCodeModels.Person object.");
+		throw new NoesisCode.exceptions.InvalidParameterException("start must be an NoesisCodeModels.Person object.");
 	}
 	if (end !== undefined && end !== null) {
 		if (end.getClassType() !== "[class Date]") {
-			throw new NoesisCodeExceptions.InvalidParameterException("end must be an NoesisCodeModels.Person object.");
+			throw new NoesisCode.exceptions.InvalidParameterException("end must be an NoesisCodeModels.Person object.");
 		}
 		if (end.getTime() < start.getTime()) {
-			var idre = new NoesisCodeExceptions.InvalidDateRangeException("end date can not come before start date.");
+			var idre = new NoesisCode.exceptions.InvalidDateRangeException("end date can not come before start date.");
 			throw idre;
 		}
 	}
@@ -49,24 +49,24 @@ CalendarApi.DateRange = function (start, end) {
 	};
 };
 /**
- * Creates a CalendarApi.Attendee object that represents an attendee of an event.
+ * Creates a CalendarApp.models.Attendee object that represents an attendee of an event.
  * 
  * @class Represents an attendee of an event.
  * @param {@link NoesisCodeModels.Person} person The person that will be attending the event.
  * @param {<a href="http://www.w3schools.com/js/jsref_obj_boolean.asp">Boolean</a>} organizer Indicates if this attendee is the organizer of the event.
  * @param {<a href="http://www.w3schools.com/js/jsref_obj_boolean.asp">Boolean</a>} optional Indicates if this is an optional attendee.
  * 
- * @returns An instance of the CalendarApi.DateRange class.
+ * @returns An instance of the CalendarApp.models.DateRange class.
  * 
  * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 */
-CalendarApi.Attendee = function (person, organizer, /* self, resource,*/ optional) {
+CalendarApp.models.Attendee = function (person, organizer, /* self, resource,*/ optional) {
 	"use strict";
 	if (person === "undefined" || person === null) {
-		throw new NoesisCodeExceptions.NullPointerException("person can not be null.");
+		throw new NoesisCode.exceptions.NullPointerException("person can not be null.");
 	}
 	if (person.getClassType() !== "[class Person]") {
-		throw new NoesisCodeExceptions.InvalidParameterException("person must be of class type NoesisCodeModels.Person.");
+		throw new NoesisCode.exceptions.InvalidParameterException("person must be of class type NoesisCodeModels.Person.");
 	}
 	this.person = person;
 	this.organizer = false;
@@ -200,18 +200,18 @@ CalendarApi.Attendee = function (person, organizer, /* self, resource,*/ optiona
 	/**
 	 * <p>Adds the an additional guest to the attendee's list.</p>
 	 *
-	 * @param {CalendarApi.Attendee} attendee An additional guest of the attendee.
+	 * @param {CalendarApp.models.Attendee} attendee An additional guest of the attendee.
 	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 	*/
 	this.addAdditionalGuest = function (attendee) {
-		if (attendee !== undefined && attendee !== null && attendee.getClassType() !== "[class CalendarApi.Attendee]") {
-			throw new NoesisCodeExceptions.InvalidParameterException("attendee must be of class type CalendarApi.Attendee.");
+		if (attendee !== undefined && attendee !== null && attendee.getClassType() !== "[class CalendarApp.models.Attendee]") {
+			throw new NoesisCode.exceptions.InvalidParameterException("attendee must be of class type CalendarApp.models.Attendee.");
 		}
 		this.additionalGuests[this.additionalGuests.length] = attendee;
 	};
 };
 
-CalendarApi.Event = function () {
+CalendarApp.models.Event = function () {
 	"use strict";
 	this.id = null;
 	this.status = null;
@@ -253,7 +253,7 @@ CalendarApi.Event = function () {
 	*/
 	this.setId = function (id) {
 		if (id !== undefined && id !== null && id.getObjectType() !== "[object Number]") {
-			throw new NoesisCodeExceptions.InvalidParameterException("id must be of type Number.");
+			throw new NoesisCode.exceptions.InvalidParameterException("id must be of type Number.");
 		}
 		this.id = id;
 	};
@@ -274,7 +274,7 @@ CalendarApi.Event = function () {
 	*/
 	this.setStatus = function (status) {
 		if (status !== undefined && status !== null && status.getObjectType() !== "[object String]") {
-			throw new NoesisCodeExceptions.InvalidParameterException("status must be of type String.");
+			throw new NoesisCode.exceptions.InvalidParameterException("status must be of type String.");
 		}
 		this.status = status;
 	};
@@ -295,7 +295,7 @@ CalendarApi.Event = function () {
 	*/
 	this.setHtmlLink = function (htmlLink) {
 		if (htmlLink !== undefined && htmlLink !== null && htmlLink.getObjectType() !== "[object String]") {
-			throw new NoesisCodeExceptions.InvalidParameterException("htmlLink must be of type String.");
+			throw new NoesisCode.exceptions.InvalidParameterException("htmlLink must be of type String.");
 		}
 		this.htmlLink = htmlLink;
 	};
@@ -316,7 +316,7 @@ CalendarApi.Event = function () {
 	*/
 	this.setCreated = function (created) {
 		if (created !== undefined && created !== null && created.getObjectType() !== "[object Date]") {
-			throw new NoesisCodeExceptions.InvalidParameterException("created must be of type Date.");
+			throw new NoesisCode.exceptions.InvalidParameterException("created must be of type Date.");
 		}
 		this.created = created;
 	};
@@ -337,7 +337,7 @@ CalendarApi.Event = function () {
 	*/
 	this.setUpdated = function (updated) {
 		if (updated !== undefined && updated !== null && updated.getObjectType() !== "[object Date]") {
-			throw new NoesisCodeExceptions.InvalidParameterException("updated must be of type Date.");
+			throw new NoesisCode.exceptions.InvalidParameterException("updated must be of type Date.");
 		}
 		this.updated = updated;
 	};
@@ -358,7 +358,7 @@ CalendarApi.Event = function () {
 	*/
 	this.setSummary = function (summary) {
 		if (summary !== undefined && summary !== null && summary.getObjectType() !== "[object String]") {
-			throw new NoesisCodeExceptions.InvalidParameterException("summary must be of type String.");
+			throw new NoesisCode.exceptions.InvalidParameterException("summary must be of type String.");
 		}
 		this.summary = summary;
 	};
@@ -379,7 +379,7 @@ CalendarApi.Event = function () {
 	*/
 	this.setDescription = function (description) {
 		if (description !== undefined && description !== null && description.getObjectType() !== "[object String]") {
-			throw new NoesisCodeExceptions.InvalidParameterException("summary must be of type String.");
+			throw new NoesisCode.exceptions.InvalidParameterException("summary must be of type String.");
 		}
 		this.description = description;
 	};
@@ -400,7 +400,7 @@ CalendarApi.Event = function () {
 	*/
 	this.setLocation = function (location) {
 		if (location !== undefined && location !== null && location.getObjectType() !== "[object String]") {
-			throw new NoesisCodeExceptions.InvalidParameterException("location must be of type String.");
+			throw new NoesisCode.exceptions.InvalidParameterException("location must be of type String.");
 		}
 		this.location = location;
 	};
@@ -421,7 +421,7 @@ CalendarApi.Event = function () {
 	*/
 	this.setColorId = function (colorId) {
 		if (colorId !== undefined && colorId !== null && colorId.getObjectType() !== "[object String]") {
-			throw new NoesisCodeExceptions.InvalidParameterException("colorId must be of type String.");
+			throw new NoesisCode.exceptions.InvalidParameterException("colorId must be of type String.");
 		}
 		this.colorId = colorId;
 	};
@@ -442,7 +442,7 @@ CalendarApi.Event = function () {
 	*/
 	this.setCreator = function (creator) {
 		if (creator !== undefined && creator !== null && creator.getClassType() !== "[class Person]") {
-			throw new NoesisCodeExceptions.InvalidParameterException("creator must be of class type NoesisCodeModels.Person.");
+			throw new NoesisCode.exceptions.InvalidParameterException("creator must be of class type NoesisCodeModels.Person.");
 		}
 		this.creator = creator;
 	};
@@ -463,7 +463,7 @@ CalendarApi.Event = function () {
 	*/
 	this.setOrganizer = function (organizer) {
 		if (organizer !== undefined && organizer !== null && organizer.getClassType() !== "[class Person]") {
-			throw new NoesisCodeExceptions.InvalidParameterException("organizer must be of class type NoesisCodeModels.Person.");
+			throw new NoesisCode.exceptions.InvalidParameterException("organizer must be of class type NoesisCodeModels.Person.");
 		}
 		this.organizer = organizer;
 	};
@@ -524,10 +524,10 @@ CalendarApi.Event = function () {
 	*/
 	this.setVisibility = function (visibility) {
 		if (visibility !== undefined && visibility !== null && visibility.getObjectType() !== "[object String]") {
-			throw new NoesisCodeExceptions.InvalidParameterException("visibility must be of type String.");
+			throw new NoesisCode.exceptions.InvalidParameterException("visibility must be of type String.");
 		}
 		if (visibility !== "default" && visibility !== "public" && visibility !== "private" && visibility !== "confidential") {
-			throw new NoesisCodeExceptions.InvalidParameterException("Acceptable value for the visibility parameter are: default, public, private, or confidential.");
+			throw new NoesisCode.exceptions.InvalidParameterException("Acceptable value for the visibility parameter are: default, public, private, or confidential.");
 		}
 		this.visibility = visibility;
 	};
@@ -548,19 +548,19 @@ CalendarApi.Event = function () {
 	*/
 	this.setAttendees = function (attendees) {
 		if (attendees !== undefined && attendees !== null && !Array.isArray(attendees)) {
-			throw new NoesisCodeExceptions.InvalidParameterException("attendees must be of type Array.");
+			throw new NoesisCode.exceptions.InvalidParameterException("attendees must be of type Array.");
 		}
 		this.attendees = attendees;
 	};
 	/**
 	 * <p>Adds an attendee to the the event's attendees list.</p>
 	 *
-	 * @param {CalendarApi.Attendee} attendee Specifies an attendee of the event.
+	 * @param {CalendarApp.models.Attendee} attendee Specifies an attendee of the event.
 	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 	*/
 	this.addAttendee = function (attendee) {
-		if (attendee !== undefined && attendee !== null && attendee.getClassType() !== "[class CalendarApi.Attendee]") {
-			throw new NoesisCodeExceptions.InvalidParameterException("attendees must be of class type Array.");
+		if (attendee !== undefined && attendee !== null && attendee.getClassType() !== "[class CalendarApp.models.Attendee]") {
+			throw new NoesisCode.exceptions.InvalidParameterException("attendees must be of class type Array.");
 		}
 		this.attendees[this.attendees.length] = attendee;
 	};
@@ -581,7 +581,7 @@ CalendarApi.Event = function () {
 	*/
 	this.anyOneCanAddSelf = function (anyOneCanAddSelfFlag) {
 		if (anyOneCanAddSelfFlag !== undefined && anyOneCanAddSelfFlag !== null && anyOneCanAddSelfFlag.getObjectType() !== "[object Boolean]") {
-			throw new NoesisCodeExceptions.InvalidParameterException("anyOneCanAddSelfFlag must be of type Boolean.");
+			throw new NoesisCode.exceptions.InvalidParameterException("anyOneCanAddSelfFlag must be of type Boolean.");
 		}
 		this.anyOneCanAddSelfFlag = anyOneCanAddSelfFlag;
 	};
@@ -602,7 +602,7 @@ CalendarApi.Event = function () {
 	*/
 	this.guestCanInviteOthers = function (guestCanInviteOthersFlag) {
 		if (guestCanInviteOthersFlag !== undefined && guestCanInviteOthersFlag !== null && guestCanInviteOthersFlag.getObjectType() !== "[object Boolean]") {
-			throw new NoesisCodeExceptions.InvalidParameterException("guestCanInviteOthersFlag must be of type Boolean.");
+			throw new NoesisCode.exceptions.InvalidParameterException("guestCanInviteOthersFlag must be of type Boolean.");
 		}
 		this.guestCanInviteOthersFlag = guestCanInviteOthersFlag;
 	};
@@ -623,8 +623,12 @@ CalendarApi.Event = function () {
 	*/
 	this.guestCanSeeOtherGuests = function (guestCanSeeOtherGuestsFlag) {
 		if (guestCanSeeOtherGuestsFlag !== undefined && guestCanSeeOtherGuestsFlag !== null && guestCanSeeOtherGuestsFlag.getObjectType() !== "[object Boolean]") {
-			throw new NoesisCodeExceptions.InvalidParameterException("guestCanSeeOtherGuestsFlag must be of type Boolean.");
+			throw new NoesisCode.exceptions.InvalidParameterException("guestCanSeeOtherGuestsFlag must be of type Boolean.");
 		}
 		this.guestCanSeeOtherGuestsFlag = guestCanSeeOtherGuestsFlag;
+	};
+	this.reschedule = function (newDate) {
+		start.setFullYear(newDate.getYear(), newDate.getMonth(), newDate.getFullYear());
+		end.setFullYear(newDate.getYear(), newDate.getMonth(), newDate.getFullYear());
 	};
 };

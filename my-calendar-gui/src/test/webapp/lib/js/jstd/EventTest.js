@@ -2,7 +2,7 @@ TestCase("EventTestCases", {
 	testCreatingDateRange: function() {
 		var start = new Date(2012, 7, 16, 17, 0, 0); //6 o'clock PM
 		var end = new Date(2012, 7, 16, 21, 0, 0); //10 o'clock PM
-		var dateRange = new CalendarApi.DateRange(start, end);
+		var dateRange = new CalendarApp.models.DateRange(start, end);
 		assertNotUndefined("dateRange should be defined.", dateRange);
 		assertEquals(start, dateRange.getStartDate());
 		assertEquals(end, dateRange.getEndDate());
@@ -10,14 +10,14 @@ TestCase("EventTestCases", {
 		var start = new Date(2012, 7, 16, 17, 0, 0); //10 o'clock PM
 		var end = new Date(2012, 7, 16, 21, 0, 0); //6 o'clock PM
 		try{
-			var dateRange = new CalendarApi.DateRange(end, start);
+			var dateRange = new CalendarApp.models.DateRange(end, start);
 		} catch (e){
 			assertTrue(e.name === "NoesisCodeExceptions.InvalidDateRangeException");
 		}
 	}, testAttendeeCreation: function(){
 		var person = getTontePouncil();
 		var expected = person.getFirstName() + " " + person.getLastName();
-		var attendee = new CalendarApi.Attendee(person, true, false);
+		var attendee = new CalendarApp.models.(person, true, false);
 		assertNotUndefined("attendee should be defined.", attendee);
 		assertTrue("Attendee should be the organizer", attendee.isOrganizer());
 		assertFalse("Attendee should be optional", attendee.isOptional());
@@ -26,9 +26,9 @@ TestCase("EventTestCases", {
 		var walter = getWalterStrughill();
 		var james = getJamesDean();
 		var tonte = getTontePouncil();
-		var guest1 = new CalendarApi.Attendee(walter, walter, false);
-		var guest2 = new CalendarApi.Attendee(james, james, true);
-		var attendee = new CalendarApi.Attendee(tonte, tonte, true);
+		var guest1 = new CalendarApp.models.(walter, walter, false);
+		var guest2 = new CalendarApp.models.(james, james, true);
+		var attendee = new CalendarApp.models.(tonte, tonte, true);
 		assertTrue("Attendee should not be optional", attendee.isOptional());
 		attendee.addAdditionalGuest(guest1);
 		attendee.addAdditionalGuest(guest2);
@@ -37,29 +37,29 @@ TestCase("EventTestCases", {
 		var walter = getWalterSturghill();
 		var james = getJamesDean();
 		var tonte = getTontePouncil();
-		var guest1 = new CalendarApi.Attendee(walter, walter, false);
-		var guest2 = new CalendarApi.Attendee(james, james, true);
+		var guest1 = new CalendarApp.models.(walter, walter, false);
+		var guest2 = new CalendarApp.models.(james, james, true);
 		var additionalGuests = [guest1, guest2];
-		var attendee = new CalendarApi.Attendee(tonte, true, false);
+		var attendee = new CalendarApp.models.(tonte, true, false);
 		attendee.setAdditionalGuests(additionalGuests);
 		assertEquals("Attendee's additional guests list has the wrong size.", 2, attendee.getAdditionalGuests().length);
 	}, testAttendeeComments: function(){
 		var james = getJames();
-		var attendee = new CalendarApi.Attendee(james, false, true);
+		var attendee = new CalendarApp.models.(james, false, true);
 		var comment = "I may not be able to attend because of prior engagement.";
 		attendee.setComment(comment);
 		assertTrue("Attendee should be optional", attendee.isOptional());
 		assertEquals("Attendee comment was not set properly.", comment, attendee.getComment());
 	}, testAttendeeResponseStatus: function(){
 		var james = getJames();
-		var attendee = new CalendarApi.Attendee(james, false, true);
+		var attendee = new CalendarApp.models.(james, false, true);
 		var responseStatus = "tentative";
 		attendee.setResponseStatus(responseStatus);
 		assertEquals("Attendee response status was not set properly.", responseStatus, attendee.getResponseStatus());
 	}, testAttendeeEmail: function(){
 		var email = getJamesHomeEmailAddress();
 		var james = getJames(email);
-		var attendee = new CalendarApi.Attendee(james, false, true);
+		var attendee = new CalendarApp.models.(james, false, true);
 		var responseStatus = "tentative";
 		attendee.setResponseStatus(responseStatus);
 		assertEquals("Attendee email was not set properly.", email, attendee.getEmail());
@@ -82,7 +82,7 @@ TestCase("EventTestCases", {
 		var anyOneCanAddSelfFlag = false;
 		var guestCanInviteOthersFlag = false;
 		var guestCanSeeOtherGuestsFlag = true;
-		var event = new CalendarApi.Event();
+		var event = new CalendarApp.models.Event();
 		event.anyOneCanAddSelf(anyOneCanAddSelfFlag);
 		event.guestCanInviteOthers(guestCanInviteOthersFlag);
 		event.guestCanSeeOtherGuests(guestCanSeeOtherGuestsFlag);
@@ -125,7 +125,7 @@ TestCase("EventTestCases", {
 });
 
 function getJamesDean(email){
-	var person = new NoesisCodeModels.Person("James", null, "Dean");
+	var person = new NoesisCode.models.Person("James", null, "Dean");
 	if(email !== undefined && email !== null){
 		person.addEmail(email);
 	}
@@ -133,7 +133,7 @@ function getJamesDean(email){
 }
 
 function getWalterSturghill(email){
-	var person = new NoesisCodeModels.Person("Walter", null, "Sturghill");
+	var person = new NoesisCode.models.Person("Walter", null, "Sturghill");
 	if(email !== undefined && email !== null){
 		person.addEmail(email);
 	}
@@ -141,7 +141,7 @@ function getWalterSturghill(email){
 }
 
 function getTontePouncil(email){
-	var person = new NoesisCodeModels.Person("Tonte", "Torrance", "Pouncil");
+	var person = new NoesisCode.models.Person("Tonte", "Torrance", "Pouncil");
 	if(email !== undefined && email !== null){
 		person.addEmail(email);
 	}
@@ -149,7 +149,7 @@ function getTontePouncil(email){
 }
 
 function getJames(email){
-	var person = new NoesisCodeModels.Person("James", null, null);
+	var person = new NoesisCode.models.Person("James", null, null);
 	if(email !== undefined && email !== null){
 		person.addEmail(email);
 	}
@@ -157,20 +157,20 @@ function getJames(email){
 }
 
 function getJamesHomeEmailAddress(){
-	return new NoesisCodeModels.Email("james@james.com", true, "Home");
+	return new NoesisCode.models.Email("james@james.com", true, "Home");
 }
 
 function getTonteHomeEmailAddress(){
-	return new NoesisCodeModels.Email("tonte.pouncil@gmail.com", true, "Home");
+	return new NoesisCode.models.Email("tonte.pouncil@gmail.com", true, "Home");
 }
 
 function getWalterHomeEmailAddress(){
-	return new NoesisCodeModels.Email("wsj@wsjmedia.com", true, "Home");
+	return new NoesisCode.models.Email("wsj@wsjmedia.com", true, "Home");
 }
 
 function getAishaGraduationAttendees(){
-	var attendees = [new CalendarApi.Attendee(getTontePouncil(getTonteHomeEmailAddress()), true, false),
-	                 new CalendarApi.Attendee(getWalterSturghill(getWalterHomeEmailAddress()), false, false),
-	                 new CalendarApi.Attendee(getJamesDean(getJamesHomeEmailAddress()), false, true)];
+	var attendees = [new CalendarApp.models.(getTontePouncil(getTonteHomeEmailAddress()), true, false),
+	                 new CalendarApp.models.(getWalterSturghill(getWalterHomeEmailAddress()), false, false),
+	                 new CalendarApp.models.(getJamesDean(getJamesHomeEmailAddress()), false, true)];
 	return attendees;
 }

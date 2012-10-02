@@ -1,51 +1,33 @@
 var NoesisCode = NoesisCode || {};
-var NoesisCodeExceptions = NoesisCode.namespace("com.noesiscode.exceptions");
-NoesisCodeExceptions.InvalidParameterException = function (message) {
+NoesisCode.exceptions = NoesisCode.namespace("com.noesiscode.exceptions");
+NoesisCode.exceptions.InvalidParameterException = function (message) {
 	"use strict";
 	Error.call(this, message);
-	NoesisCodeExceptions.InvalidParameterException.prototype = new Error();
-	this.name = "NoesisCodeExceptions.InvalidParameterException";
+	NoesisCode.exceptions.InvalidParameterException.prototype = new Error();
+	this.name = "NoesisCode.exceptions.InvalidParameterException";
 	this.message = message;
 };
 
-NoesisCodeExceptions.NullPointerException = function (message) {
+NoesisCode.exceptions.NullPointerException = function (message) {
 	"use strict";
 	Error.call(this, message);
-	NoesisCodeExceptions.NullPointerException.prototype = new Error();
-	this.name = "NoesisCodeExceptions.NullPointerException";
+	NoesisCode.exceptions.NullPointerException.prototype = new Error();
+	this.name = "NoesisCode.exceptions.NullPointerException";
 	this.message = message;
 };
 
-NoesisCodeExceptions.ExpectedArrayIsEmptyException = function (message) {
+NoesisCode.exceptions.ExpectedArrayIsEmptyException = function (message) {
 	"use strict";
 	Error.call(this, message);
-	NoesisCodeExceptions.ExpectedArrayIsEmptyException.prototype = new Error();
-	this.name = "NoesisCodeExceptions.ExpectedArrayIsEmptyException";
+	NoesisCode.exceptions.ExpectedArrayIsEmptyException.prototype = new Error();
+	this.name = "NoesisCode.exceptions.ExpectedArrayIsEmptyException";
 	this.message = message;
 };
 
-NoesisCodeExceptions.InvalidDateRangeException = function (message) {
+NoesisCode.exceptions.InvalidDateRangeException = function (message) {
 	"use strict";
 	Error.call(this, message);
-	NoesisCodeExceptions.InvalidDateRangeException.prototype = new Error();
-	this.name = "NoesisCodeExceptions.InvalidDateRangeException";
-	this.message = message;
-};
-
-var CalendarApp = CalendarApp || {};
-var CalendarApi = NoesisCode.namespace("com.noesiscode.calendar.api.exceptions");
-CalendarApi.ExpectedToHaveCurrentDayOfMonthException = function (message) {
-	"use strict";
-	Error.call(this, message);
-	CalendarApi.ExpectedToHaveCurrentDayOfMonthException.prototype = new Error();
-	this.name = "CalendarApi.ExpectedToHaveCurrentDayOfMonthException";
-	this.message = message;
-};
-
-CalendarApi.ExpectedToHaveCurrentDayOfWeekException = function (message) {
-	"use strict";
-	Error.call(this, message);
-	CalendarApi.ExpectedToHaveCurrentDayOfWeekException.prototype = new Error();
-	this.name = CalendarApi.ExpectedToHaveCurrentDayOfWeekException;
+	NoesisCode.exceptions.InvalidDateRangeException.prototype = new Error();
+	this.name = "NoesisCode.exceptions.InvalidDateRangeException";
 	this.message = message;
 };

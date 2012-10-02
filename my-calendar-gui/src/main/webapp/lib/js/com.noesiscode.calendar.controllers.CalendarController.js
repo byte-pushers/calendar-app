@@ -1,7 +1,5 @@
-var CalendarApp = CalendarApp || {};
-var CalendarApi = CalendarApp.namespace("com.noesiscode.calendar");
-CalendarApp.getTestEvents = function () {
-	var event = new CalendarApi.Event(), month, event2 = new CalendarApi.Event();
+getTestEvents = function () {
+	var event = new CalendarApp.models.Event(), event2 = new CalendarApp.models.Event();
 	event.setId(1);
 	event.setSummary("Aisha's Graduation");
 	event.setStart(new Date());
@@ -12,16 +10,14 @@ CalendarApp.getTestEvents = function () {
 	event2.getStart().setDate(26);
 	event2.setEnd(new Date());
 	event2.getEnd().setDate(26);
-	month = new CalendarApi.Month();
-	month.setEvents([event, event2]);
-	return month.getEvents();
+	return [event, event2];
 };
 /* App Controllers */
 function CalendarController ($scope) {
-	$scope.month = new CalendarApi.Month();
-	$scope.month.setEvents(CalendarApp.getTestEvents());
+	$scope.month = new CalendarApp.models.Month();
+	$scope.month.setEvents(getTestEvents());
 	$scope.weeks = $scope.month.weeks;
-	$scope.todaysEvents = $scope.month.findEventsByDate(new Date());
+	CalendarApp.todaysEvents = $scope.todaysEvents = $scope.month.findEventsByDate(new Date());
 	$scope.getCalendarDayClass = function (day) {
 		var cssClass;
 		if (day.hasEvents() && day.isCurrentDayOfWeek()) {
@@ -37,7 +33,7 @@ function CalendarController ($scope) {
 	};
 	$scope.selectDay = function (selectedDate) {
 		var previouslySelectedDate = new Date($scope.month.getSelectedDate().getTime());
-		$scope.todaysEvents = $scope.month.selectDay(selectedDate).getEvents();
+		CalendarApp.todaysEvents = $scope.todaysEvents = $scope.month.selectDay(selectedDate).getEvents();
 		$scope.month.highLightSelectedDay(previouslySelectedDate);
 	};
 	$scope.selectNextDay = function () {
@@ -46,7 +42,7 @@ function CalendarController ($scope) {
 		if (previouslySelectedDate.getMonth() !== nextDay.getMonth()) {
 			$scope.selectFirstDayOfNextMonth();
 		} else {
-			$scope.todaysEvents = $scope.month.selectNextDay().getEvents();
+			CalendarApp.todaysEvents = $scope.todaysEvents = $scope.month.selectNextDay().getEvents();
 			$scope.month.highLightSelectedDay(previouslySelectedDate);
 		}
 	};
@@ -56,20 +52,25 @@ function CalendarController ($scope) {
 		if (previouslySelectedDate.getMonth() !== previousDay.getMonth()) {
 			$scope.selectLastDayOfPreviousMonth();
 		} else {
-			$scope.todaysEvents = $scope.month.selectPreviousDay().getEvents();
+			CalendarApp.todaysEvents = $scope.todaysEvents = $scope.month.selectPreviousDay().getEvents();
 			$scope.month.highLightSelectedDay(previouslySelectedDate);
 		}
 	};
 	$scope.selectFirstDayOfNextMonth = function () {
-		$scope.todaysEvents = $scope.month.selectFirstDayOfNextMonth().getEvents();
+		CalendarApp.todaysEvents = $scope.todaysEvents = $scope.month.selectFirstDayOfNextMonth().getEvents();
 		$scope.weeks = $scope.month.weeks;
 	};
 	$scope.selectFirstDayOfPreviousMonth = function () {
-		$scope.todaysEvents = $scope.month.selectFirstDayOfPreviousMonth().getEvents();
+		CalendarApp.todaysEvents = $scope.todaysEvents = $scope.month.selectFirstDayOfPreviousMonth().getEvents();
 		$scope.weeks = $scope.month.weeks;
 	};
 	$scope.selectLastDayOfPreviousMonth = function () {
-		$scope.todaysEvents = $scope.month.selectLastDayOfPreviousMonth().getEvents();
+		CalendarApp.todaysEvents = $scope.todaysEvents = $scope.month.selectLastDayOfPreviousMonth().getEvents();
 		$scope.weeks = $scope.month.weeks;
+	};
+	$scope.rescheduleEvent = function (event, targetDate) {
+		var events = CalendarApp.rescheduleEvent(event, targetDate, $scope.month.getEvents());
+		$scope.month.setEvents(events);
+		CalendarApp.todaysEvents = $scope.todaysEvents = $scope.month.findEventsByDate(new Date());
 	};
 };

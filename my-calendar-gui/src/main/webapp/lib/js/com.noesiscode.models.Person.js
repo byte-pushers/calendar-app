@@ -12,8 +12,8 @@
  * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 */
 var NoesisCode = NoesisCode || {};
-var NoesisCodeModels = NoesisCode.namespace("com.noesiscode.models");
-NoesisCodeModels.Email = function Email(emailAddress, primaryEmail, type) {
+NoesisCode.models = NoesisCode.namespace("com.noesiscode.models");
+NoesisCode.models.Email = function Email(emailAddress, primaryEmail, type) {
 	"use strict";
 	/**
 	 * <p>Represents an email address.</p>
@@ -30,7 +30,7 @@ NoesisCodeModels.Email = function Email(emailAddress, primaryEmail, type) {
 	// ToDo: need to re-factor this into an enum.
 	if (type !== undefined || type !== null) {
 		if (type !== "Home" && type !== "School" && type !== "Work" && type !== "Other") {
-			throw new NoesisCodeExceptions.InvalidParameterException("Parameter type must be equal to: 'Home', 'School', 'Work', or 'Other'");
+			throw new NoesisCode.exceptions.InvalidParameterException("Parameter type must be equal to: 'Home', 'School', 'Work', or 'Other'");
 		}
 	}
 	/**
@@ -81,10 +81,10 @@ NoesisCodeModels.Email = function Email(emailAddress, primaryEmail, type) {
  * 
  * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 */
-NoesisCodeModels.Person = function Person(firstName, middleName, lastName) {
+NoesisCode.models.Person = function Person(firstName, middleName, lastName) {
 	"use strict";
 	if (firstName === "undefined" || firstName === null) {
-		throw new NoesisCodeExceptions.NullPointerException("firstName can not be null.");
+		throw new NoesisCode.exceptions.NullPointerException("firstName can not be null.");
 	}
 	/**
 	 * <p>Represents the first name of a person.</p>
@@ -170,7 +170,7 @@ NoesisCodeModels.Person = function Person(firstName, middleName, lastName) {
 	*/
 	this.setEmails = function (emails) {
 		if (!Array.isArray(emails)) {
-			throw new NoesisCodeExceptions.InvalidParameterException("emails must be an Arrary.");
+			throw new NoesisCode.exceptions.InvalidParameterException("emails must be an Arrary.");
 		}
 		this.emails = emails;
 	};
@@ -186,7 +186,7 @@ NoesisCodeModels.Person = function Person(firstName, middleName, lastName) {
 	*/
 	this.addEmail = function (email) {
 		if (email.getClassType() !== '[class Email]') {
-			throw new NoesisCodeExceptions.InvalidParameterException("email must be of class type Email.");
+			throw new NoesisCode.exceptions.InvalidParameterException("email must be of class type Email.");
 		}
 		this.emails[this.emails.length] = email;
 	};
@@ -199,7 +199,7 @@ NoesisCodeModels.Person = function Person(firstName, middleName, lastName) {
 	this.findEmailByType = function (type) {
 		var i;
 		if (type === "undefined" || type === null) {
-			throw new NoesisCodeExceptions.NullPointerException("type can not be null.");
+			throw new NoesisCode.exceptions.NullPointerException("type can not be null.");
 		}
 		for (i = 0; i < this.emails.length; i = i + 1) {
 			if (this.emails[i].getType() === type) {

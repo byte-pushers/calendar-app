@@ -1,9 +1,90 @@
-/*global $, utils*/
-
+/*global $, NoesisCodeUtility*/
 var CalendarApp = CalendarApp || {};
-var CalendarApi = CalendarApp.namespace("com.noesiscode.calendar");
-CalendarApi.dragSourceElement = null;
-CalendarApi.monthNames = [{"name": "January", "abbr": "Jan", "getTotalDays": function (year) { "use strict"; return 31; } },
+CalendarApp.todaysEvents = [];
+CalendarApp.handleDragStart = function (event) {
+	"use strict";
+	event.target.style.opacity = '0.4';  // this / event.target is the source node.
+	this.dragSourceElement = event.target;
+	event.dataTransfer.effectAllowed = "move";
+	event.dataTransfer.setData("text/html", event.target.id);
+};
+CalendarApp.handleDragOver = function (event) {
+	"use strict";
+	if (event.preventDefault) {
+		event.preventDefault();
+	}
+	event.dataTransfer.dropEffect = "move";
+	return false;
+};
+CalendarApp.handleDragEnter = function (event) {
+	"use strict";
+	event.target.classList.add("over");
+};
+CalendarApp.handleDragLeave = function (event) {
+	"use strict";
+	event.target.classList.remove("over");
+};
+CalendarApp.handleDrop = function (event) {
+	'use strict';
+	var calendarEventId = null,
+		calendarEvent = null,
+		calendarDay = null,
+		targetDate = null;
+	if (event.stopPropagation) {
+		event.stopPropagation();
+	}
+	if (this.dragSourceElement !== event.target) {
+		calendarEventId = event.dataTransfer.getData("text/html");
+		targetDate = NoesisCode.converters.DateConverter.convertToDate(event.target.id, NoesisCode.converters.DateConverter.MMMDDYYYY_DATE_FORMAT);
+		calendarEvent = CalendarApp.models.findEventById(calendarEventId, CalendarApp.todaysEvents);
+		calendarEvent.reschedule(targetDate);
+		//CalendarApp.rescheduleEvent(event, targetDate);
+	}
+};
+CalendarApp.handleDragEnd = function (event) {
+	"use strict";
+	var calendarEventSummaries = NoesisCodeUtility.querySelectorAll(".calendar-event-summary"), calendarDayContainers = NoesisCodeUtility.querySelectorAll(".calendar-day-container");
+	[].forEach.call(calendarEventSummaries, function (calendarEventSummary) {
+		calendarEventSummary.classList.remove("over");
+	});
+	[].forEach.call(calendarDayContainers, function (calendarDayContainer) {
+		calendarDayContainer.classList.remove("over");
+	});
+	event.target.style.opacity = '1';
+};
+CalendarApp.initialize = function () {
+	"use strict";
+	var calendarEventSummaries = NoesisCodeUtility.querySelectorAll(".calendar-event-summary"), calendarDayContainers = NoesisCodeUtility.querySelectorAll(".calendar-day-container");
+	[].forEach.call(calendarEventSummaries, function (calendarEventSummary) {
+		NoesisCodeUtility.addListener(calendarEventSummary, "dragstart", CalendarApp.handleDragStart);
+		NoesisCodeUtility.addListener(calendarEventSummary, "dragenter", CalendarApp.handleDragEnter);
+		NoesisCodeUtility.addListener(calendarEventSummary, "dragover", CalendarApp.handleDragOver);
+		NoesisCodeUtility.addListener(calendarEventSummary, "dragleave", CalendarApp.handleDragLeave);
+		NoesisCodeUtility.addListener(calendarEventSummary, "drop", CalendarApp.handleDrop);
+		NoesisCodeUtility.addListener(calendarEventSummary, "dragend", CalendarApp.handleDragEnd);
+	});
+	[].forEach.call(calendarDayContainers, function (calendarDayContainer) {
+		//NoesisCodeUtility.addListener(calendarDayContainer, "dragstart", CalendarApp.handleDragStart);
+		NoesisCodeUtility.addListener(calendarDayContainer, "dragenter", CalendarApp.handleDragEnter);
+		NoesisCodeUtility.addListener(calendarDayContainer, "dragover", CalendarApp.handleDragOver);
+		NoesisCodeUtility.addListener(calendarDayContainer, "dragleave", CalendarApp.handleDragLeave);
+		NoesisCodeUtility.addListener(calendarDayContainer, "drop", CalendarApp.handleDrop);
+		NoesisCodeUtility.addListener(calendarDayContainer, "dragend", CalendarApp.handleDragEnd);
+	});
+};
+CalendarApp.models.findEventById = function (id, events) {
+	'use strict';
+	var i, targetEvent = null;
+	for (i = 0; i < events.length; i = i + 1) {
+		if (events[i] !== undefined && events[i] !== null) {
+			if (events[i].id == id) {
+				targetEvent = events[i];
+			}
+		}
+	}
+	return targetEvent;
+};
+CalendarApp.monthNames = [{"name": "January", "abbr": "Jan", "getTotalDays": function (year) { "use strict"; return 31; } },
 		                  {"name": "February", "abbr": "Feb", "getTotalDays": function (year) { "use strict"; if (year) { return (year % 4 === 0) ? 29 : 28; } else { throw ("Expected parameter(Year) is not defined."); } } },
 		                  {"name": "March", "abbr": "Mar", "getTotalDays": function (year) { "use strict"; return 31; }},
 		                  {"name": "April", "abbr": "Apr", "getTotalDays": function (year) { "use strict"; return 30; }},
@@ -11,18 +92,18 @@ CalendarApi.monthNames = [{"name": "January", "abbr": "Jan", "getTotalDays": fun
 		                  {"name": "June", "abbr": "Jun", "getTotalDays": function (year) { "use strict"; return 30; }},
 		                  {"name": "July", "abbr": "Jul", "getTotalDays": function (year) { "use strict"; return 31; }},
 		                  {"name": "August", "abbr": "Aug", "getTotalDays": function (year) { "use strict"; return 31; }},
-		                  {"name": "September", "abbr": "Sept", "getTotalDays": function (year) { "use strict"; return 30; }},
+		                  {"name": "September", "abbr": "Sep", "getTotalDays": function (year) { "use strict"; return 30; }},
 		                  {"name": "October", "abbr": "Oct", "getTotalDays": function (year) { "use strict"; return 31; }},
 		                  {"name": "November", "abbr": "Nov", "getTotalDays": function (year) { "use strict"; return 30; }},
 		                  {"name": "December", "abbr": "Dec", "getTotalDays": function (year) { "use strict"; return 31; }}];
-CalendarApi.weekdayNames = [{"name": "Sunday", "abbr": "Sun."},
+CalendarApp.weekdayNames = [{"name": "Sunday", "abbr": "Sun."},
                             {"name": "Monday", "abbr": "Mon."},
 		                    {"name": "Tuesday", "abbr": "Tue."},
 		                    {"name": "Wednesday", "abbr": "Wed."},
 		                    {"name": "Thursday", "abbr": "Thu."},
 		                    {"name": "Friday", "abbr": "Fri."},
 		                    {"name": "Saturday", "abbr": "Sat."}];
-
+CalendarApp.models = CalendarApp.namespace("com.noesiscode.calendar.models");
 /**
  * Creates a Day object that represents the day of the {@link Week}.
  * 
@@ -35,18 +116,12 @@ CalendarApi.weekdayNames = [{"name": "Sunday", "abbr": "Sun."},
  * 
  * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 */
-CalendarApi.Day = function (date, weekIndex, currentDayOfWeek) {
+CalendarApp.models.Day = function (date, weekIndex, currentDayOfWeek) {
 	"use strict";
 	this.date = date;
 	this.weekIndex = (weekIndex === "undefined" || weekIndex === null) ? -1 : weekIndex;
 	this.currentDayOfWeek = (currentDayOfWeek === "undefined" || currentDayOfWeek === null) ? false : currentDayOfWeek;
-	this.weekdayNames = [{"name": "Sunday", "abbr": "Sun."},
-	                     {"name": "Monday", "abbr": "Mon."},
-	                     {"name": "Tuesday", "abbr": "Tue."},
-	                     {"name": "Wednesday", "abbr": "Wed."},
-	                     {"name": "Thursday", "abbr": "Thu."},
-	                     {"name": "Friday", "abbr": "Fri."},
-	                     {"name": "Saturday", "abbr": "Sat."}];
+	this.weekdayNames = CalendarApp.weekdayNames;
 	this.events = [];
 	this.lastWeekInMonth = false;
 	/**
@@ -90,14 +165,14 @@ CalendarApi.Day = function (date, weekIndex, currentDayOfWeek) {
 	/**
 	 * <p>Set the events that are scheduled for the appropriate days.</p>
 	 * 
-	 * @param {@link CalendarApi.Event} The events that are scheduled for the day.
+	 * @param {@link CalendarApp.models.Event} The events that are scheduled for the day.
 	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 	 */
 	this.setEvents = function (events) {
 		var i, eventStartEndTime, endTime;
 		for (i = 0; i < events.length; i = i + 1) {
 			if (events[i] !== undefined && events[i] !== null) {
-				eventStartEndTime = new CalendarApi.DateRange(events[i].getStart(), events[i].getEnd());
+				eventStartEndTime = new CalendarApp.models.DateRange(events[i].getStart(), events[i].getEnd());
 				if (eventStartEndTime.isBetweenRange(this.date)) {
 					this.events[this.events.length] = events[i];
 				}
@@ -107,7 +182,7 @@ CalendarApi.Day = function (date, weekIndex, currentDayOfWeek) {
 	/**
 	 * <p>Get the events that are scheduled for the week from the appropriate days.</p>
 	 * 
-	 * @returns {@link CalendarApi.Event}s The events that are scheduled for the week.
+	 * @returns {@link CalendarApp.models.Event}s The events that are scheduled for the week.
 	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 	 */
 	this.getEvents = function () {
@@ -141,7 +216,11 @@ CalendarApi.Day = function (date, weekIndex, currentDayOfWeek) {
 	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 	 */
 	this.getId = function () {
-		return CalendarApi.monthNames[this.getDate().getMonth()].abbr + this.getWeekDate() + this.getDate().getFullYear();
+		var day = this.getWeekDate();
+		if(NoesisCode.NumberUtility.isSingleDigit(day)){
+			day = NoesisCode.NumberUtility.padLeft(day, 2);
+		}
+		return CalendarApp.monthNames[this.getDate().getMonth()].abbr + day + this.getDate().getFullYear();
 	};
 	this.setLastWeekInMonth = function (lastWeekInMonth) {
 		this.lastWeekInMonth = lastWeekInMonth;
@@ -160,7 +239,7 @@ CalendarApi.Day = function (date, weekIndex, currentDayOfWeek) {
  * 
  * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 */
-CalendarApi.Week = function (weekdays) {
+CalendarApp.models.Week = function (weekdays) {
 	"use strict";
 	var that = this;
 	this.weekdays = (weekdays === "undefined") ? [] : weekdays;
@@ -202,7 +281,7 @@ CalendarApi.Week = function (weekdays) {
 			monthIndex = this.weekdays[i].getDate().getMonth();
 			year = this.weekdays[i].getDate().getFullYear();
 			weekdate = this.weekdays[i].getWeekDate();
-			totalDaysInMonth = this.monthNames[monthIndex].getTotalDays(year);
+			totalDaysInMonth = CalendarApp.monthNames[monthIndex].getTotalDays(year);
 			if (weekdate === totalDaysInMonth) {
 				lastWeekInMonth = true;
 				this.weekdays[i].setLastWeekInMonth(true);
@@ -213,7 +292,7 @@ CalendarApi.Week = function (weekdays) {
 	/**
 	 * <p>Set the events that are scheduled for the week to the appropriate days.</p>
 	 * 
-	 * @param {@link CalendarApi.Event} The events that are scheduled for the week.
+	 * @param {@link CalendarApp.models.Event} The events that are scheduled for the week.
 	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 	 */
 	this.setEvents = function (events) {
@@ -227,7 +306,7 @@ CalendarApi.Week = function (weekdays) {
 	/**
 	 * <p>Get the events that are scheduled for the week from the appropriate days.</p>
 	 * 
-	 * @returns {@link CalendarApi.Event}s The events that are scheduled for the week.
+	 * @returns {@link CalendarApp.models.Event}s The events that are scheduled for the week.
 	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 	 */
 	this.getEvents = function () {
@@ -271,7 +350,7 @@ CalendarApi.Week = function (weekdays) {
  * @field
  * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 */
-CalendarApi.Week.prototype.monthNames = CalendarApi.monthNames;
+CalendarApp.models.Week.monthNames = CalendarApp.monthNames;
 /**
  * Creates a {@link Month} object that represents the current calendar month.
  * 
@@ -280,7 +359,7 @@ CalendarApi.Week.prototype.monthNames = CalendarApi.monthNames;
  * 
  * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 */
-CalendarApi.Month = function () {
+CalendarApp.models.Month = function () {
 	"use strict";
 	var that = this, selectedDate = new Date();
 	this.TOTAL_WEEKDAYS = 7;
@@ -296,9 +375,9 @@ CalendarApi.Month = function () {
 	*/
 	function getMonthName(index, getAbbr) {
 		if (getAbbr) {
-			return CalendarApi.monthNames[index].abbr;
+			return CalendarApp.monthNames[index].abbr;
 		} else {
-			return CalendarApi.monthNames[index].name;
+			return CalendarApp.monthNames[index].name;
 		}
 	}
 	/**
@@ -314,7 +393,7 @@ CalendarApi.Month = function () {
 		do {
 			if (weekday > -1) {
 				d.setDate(d.getDate() - 1);
-				weekdays[weekday] = new CalendarApi.Day(new Date(d.getTime()), null, false);
+				weekdays[weekday] = new CalendarApp.models.Day(new Date(d.getTime()), null, false);
 				weekday = weekday - 1;
 			}
 		} while (weekday > -1);
@@ -333,7 +412,7 @@ CalendarApi.Month = function () {
 		do {
 			if (weekday < that.TOTAL_WEEKDAYS) {
 				d.setDate(d.getDate() + 1);
-				weekdays[weekday] = new CalendarApi.Day(new Date(d.getTime()), null, false);
+				weekdays[weekday] = new CalendarApp.models.Day(new Date(d.getTime()), null, false);
 				weekday = weekday + 1;
 			}
 		} while (weekday < that.TOTAL_WEEKDAYS);
@@ -354,13 +433,13 @@ CalendarApi.Month = function () {
 				weekdays[weekdays.length] = weekDaysBeforeArray[weekDaysBeforeArrayIndex];
 			}
 		}
-		weekdays[weekdays.length] = new CalendarApi.Day(new Date(date.getTime()), null, true);
+		weekdays[weekdays.length] = new CalendarApp.models.Day(new Date(date.getTime()), null, true);
 		for (weekDaysAfterArrayIndex = 0; weekDaysAfterArrayIndex < weekDaysAfterArray.length; weekDaysAfterArrayIndex = weekDaysAfterArrayIndex + 1) {
 			if (weekDaysAfterArray[weekDaysAfterArrayIndex] !== undefined) {
 				weekdays[weekdays.length] = weekDaysAfterArray[weekDaysAfterArrayIndex];
 			}
 		}
-		return new CalendarApi.Week(weekdays);
+		return new CalendarApp.models.Week(weekdays);
 	}
 	/**
 	 * <p>Gets {@link Week} before the <a href="http://www.w3schools.com/jsref/jsref_obj_date.asp">Date</a> pass in.</p> 
@@ -376,10 +455,10 @@ CalendarApi.Month = function () {
 			d.setDate(d.getDate() - 1);
 			if (totalDays <= that.TOTAL_WEEKDAYS) {
 				weekday = totalDays - 1;
-				weekdays[weekday] = new CalendarApi.Day(new Date(d));
+				weekdays[weekday] = new CalendarApp.models.Day(new Date(d));
 			}
 		} while ((totalDays = totalDays - 1) > 0);
-		return new CalendarApi.Week(weekdays);
+		return new CalendarApp.models.Week(weekdays);
 	}
 	/**
 	 * <p>Gets {@link Week} after the <a href="http://www.w3schools.com/jsref/jsref_obj_date.asp">Date</a> pass in.</p> 
@@ -395,10 +474,10 @@ CalendarApi.Month = function () {
 			d.setDate(d.getDate() + 1);
 			if (totalDays <= that.TOTAL_WEEKDAYS) {
 				weekday = that.TOTAL_WEEKDAYS - totalDays;
-				weekdays[weekday] = new CalendarApi.Day(new Date(d));
+				weekdays[weekday] = new CalendarApp.models.Day(new Date(d));
 			}
 		} while ((totalDays = totalDays - 1) > 0);
-		return new CalendarApi.Week(weekdays);
+		return new CalendarApp.models.Week(weekdays);
 	}
 	/**
 	 * <p>Retrieves the first week in the calendar month.
@@ -494,7 +573,7 @@ CalendarApi.Month = function () {
 	/**
 	 * <p>Set the events that are scheduled for the month to the appropriate days.</p>
 	 * 
-	 * @param {@link CalendarApi.Event} The events that are scheduled for the month.
+	 * @param {@link CalendarApp.models.Event} The events that are scheduled for the month.
 	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 	 */
 	this.setEvents = function (events) {
@@ -504,7 +583,7 @@ CalendarApi.Month = function () {
 	/**
 	 * <p>Gets the events that are scheduled for the month.</p>
 	 * 
-	 * @returns {@link CalendarApi.Event} The events that are scheduled for the month.
+	 * @returns {@link CalendarApp.models.Event} The events that are scheduled for the month.
 	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 	 */
 	this.getEvents = function () {
@@ -513,7 +592,7 @@ CalendarApi.Month = function () {
 	/**
 	 * <p>Convenience method to find events on given date.</p>
 	 * 
-	 * @returns {@link CalendarApi.Event}s The events that are scheduled for the day.
+	 * @returns {@link CalendarApp.models.Event}s The events that are scheduled for the day.
 	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 	 */
 	this.findEventsByDate = function (date) {
@@ -526,6 +605,17 @@ CalendarApi.Month = function () {
 			}
 		}
 		return todaysEvents;
+	};
+	this.findEventById = function (id) {
+		var events = this.getEvents(), i, targetEvent;
+		for (i = 0; i < events.length; i = i + 1) {
+			if (events[i] !== undefined && events[i] !== null) {
+				if (events[i].id === id) {
+					targetEvent = events[i];
+				}
+			}
+		}
+		return targetEvent;
 	};
 	this.getSelectedMonthName = function () {
 		return getMonthName(selectedDate.getMonth(), false);
@@ -540,7 +630,7 @@ CalendarApi.Month = function () {
 		var month = getMonthName(selectedDate.getMonth(), false),
 			year = selectedDate.getFullYear(),
 			date = selectedDate.getDate(),
-			day = CalendarApi.weekdayNames[selectedDate.getDay()].name;
+			day = CalendarApp.weekdayNames[selectedDate.getDay()].name;
 		return day + " " + month + " " + date + ", " + year;
 	};
 	this.setSelectedMonthName = function () {
@@ -581,13 +671,13 @@ CalendarApi.Month = function () {
 		return this.getCurrentDayOfMonth(this.getSelectedDate());
 	};
 	this.selectLastDayOfPreviousMonth = function () {
-		setWeeksInMonth(getPreviousMonthDate(this.getPreviousMonthTotalDays(this.getSelectedDate())));
+		setWeeksInMonth(getPreviousMonthDate(CalendarApp.models.Month.getPreviousMonthTotalDays(this.getSelectedDate())));
 		this.setSelectedMonthName();
 		this.setSelectedDateDisplayName();
 		return this.getCurrentDayOfMonth(this.getSelectedDate());
 	};
 	this.highLightSelectedDay = function (previouslySelectedDate) {
-		var selector = "div#" + (new CalendarApi.Day(selectedDate)).getId();
+		var selector = "div#" + (new CalendarApp.models.Day(selectedDate)).getId();
 		if (this.findEventsByDate(selectedDate).length < 1) {
 			$(selector).removeClass("calendar-day-selected-with-events calendar-day-with-no-events calendar-day-with-events");
 			$(selector).addClass("calendar-day-selected");
@@ -595,7 +685,7 @@ CalendarApi.Month = function () {
 			$(selector).removeClass("calendar-day-selected calendar-day-with-no-events calendar-day-with-events");
 			$(selector).addClass("calendar-day-selected-with-events");
 		}
-		selector = "div#" + (new CalendarApi.Day(previouslySelectedDate)).getId();
+		selector = "div#" + (new CalendarApp.models.Day(previouslySelectedDate)).getId();
 		if (this.findEventsByDate(previouslySelectedDate).length < 1) {
 			$(selector).removeClass("calendar-day-selected calendar-day-selected-with-events calendar-day-with-events");
 			$(selector).addClass("calendar-day-with-no-events");
@@ -623,7 +713,7 @@ CalendarApi.Month = function () {
 			}
 		}
 		if (currentDayOfMonth === "undefined" || currentDayOfMonth === null) {
-			throw new CalendarApi.ExpectedToHaveCurrentDayOfMonthException("Expected to have a current day in the month.");
+			throw new CalendarApp.exceptions.ExpectedToHaveCurrentDayOfMonthException("Expected to have a current day in the month.");
 		}
 		return currentDayOfMonth;
 	};
@@ -637,8 +727,16 @@ CalendarApi.Month = function () {
  * @field
  * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 */
-CalendarApi.Month.prototype.monthNames = CalendarApi.monthNames;
-
+CalendarApp.models.Month.monthNames = CalendarApp.monthNames;
+CalendarApp.models.Month.getMonthIndex = function (abbr) {
+	var i; 
+	for(i = 0; i < CalendarApp.monthNames.length; i = i + 1){
+		if(CalendarApp.monthNames[i].abbr === abbr){
+			return i;
+		}
+	}
+	return -1;
+};
 /**
  * <p>Static field that is used to get calendar total calendar days of the previous month.</p>
  * @static
@@ -647,12 +745,12 @@ CalendarApi.Month.prototype.monthNames = CalendarApi.monthNames;
  * @return {@link <a href="http://www.w3schools.com/jsref/jsref_obj_number.asp">Number</a>} The total days in the previous month.
  * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 */
-CalendarApi.Month.prototype.getPreviousMonthTotalDays = function (date) {
+CalendarApp.models.Month.getPreviousMonthTotalDays = function (date) {
 	"use strict";
 	if (date.getMonth() === 0) {
-		return this.monthNames[11].getTotalDays(date.getFullYear());
+		return CalendarApp.models.Month.monthNames[11].getTotalDays(date.getFullYear());
 	} else {
-		return this.monthNames[date.getMonth() - 1].getTotalDays(date.getFullYear());
+		return CalendarApp.models.Month.monthNames[date.getMonth() - 1].getTotalDays(date.getFullYear());
 	}
 };
 /**
@@ -663,83 +761,11 @@ CalendarApi.Month.prototype.getPreviousMonthTotalDays = function (date) {
  * @return {@link <a href="http://www.w3schools.com/jsref/jsref_obj_number.asp">Number</a>} The total days in the next month.
  * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 */
-CalendarApi.Month.prototype.getNextMonthTotalDays = function (date) {
+CalendarApp.models.Month.getNextMonthTotalDays = function (date) {
 	"use strict";
 	if (date.getMonth() === 11) {
-		return this.monthNames[0].getTotalDays(date.getFullYear());
+		return CalendarApp.models.Month.monthNames[0].getTotalDays(date.getFullYear());
 	} else {
-		return this.monthNames[date.getMonth() + 1].getTotalDays(date.getFullYear());
+		return CalendarApp.models.Month.monthNames[date.getMonth() + 1].getTotalDays(date.getFullYear());
 	}
-};
-CalendarApi.handleDragStart = function (event) {
-	"use strict";
-	event.target.style.opacity = '0.4';  // this / event.target is the source node.
-	this.dragSourceElement = event.target;
-	event.dataTransfer.effectAllowed = "move";
-	event.dataTransfer.setData("text/html", event.target.id);
-};
-CalendarApi.handleDragOver = function (event) {
-	"use strict";
-	if (event.preventDefault) {
-		event.preventDefault();
-	}
-	event.dataTransfer.dropEffect = "move";
-	return false;
-};
-CalendarApi.handleDragEnter = function (event) {
-	"use strict";
-	event.target.classList.add("over");
-};
-CalendarApi.handleDragLeave = function (event) {
-	"use strict";
-	event.target.classList.remove("over");
-};
-CalendarApi.handleDrop = function (event) {
-	"use strict";
-	var calendarEventId = null,
-		calendarEvent = null,
-		calendarDay = null,
-		targetDate = null;
-	if (event.stopPropagation) {
-		event.stopPropagation();
-	}
-	if (this.dragSourceElement !== event.target) {
-		calendarEventId = event.dataTransfer.getData("text/html");
-		calendarDay = event.target.children[0];
-		targetDate = calendarDay.id;
-		//calendarEvent = CalendarApi.findEventById(calendarEventId);
-		//CalendarApi.rescheduleEvent(event, targetDate);
-	}
-	return false;
-};
-CalendarApi.handleDragEnd = function (event) {
-	"use strict";
-	var calendarEventSummaries = utils.querySelectorAll(".calendar-event-summary"), calendarDayContainers = utils.querySelectorAll(".calendar-day-container");
-	[].forEach.call(calendarEventSummaries, function (calendarEventSummary) {
-		calendarEventSummary.classList.remove("over");
-	});
-	[].forEach.call(calendarDayContainers, function (calendarDayContainer) {
-		calendarDayContainer.classList.remove("over");
-	});
-	event.target.style.opacity = '1';
-};
-CalendarApp.initialize = function () {
-	"use strict";
-	var calendarEventSummaries = utils.querySelectorAll(".calendar-event-summary"), calendarDayContainers = utils.querySelectorAll(".calendar-day-container");
-	[].forEach.call(calendarEventSummaries, function (calendarEventSummary) {
-		utils.addListener(calendarEventSummary, "dragstart", CalendarApi.handleDragStart);
-		utils.addListener(calendarEventSummary, "dragenter", CalendarApi.handleDragEnter);
-		utils.addListener(calendarEventSummary, "dragover", CalendarApi.handleDragOver);
-		utils.addListener(calendarEventSummary, "dragleave", CalendarApi.handleDragLeave);
-		utils.addListener(calendarEventSummary, "drop", CalendarApi.handleDrop);
-		utils.addListener(calendarEventSummary, "dragend", CalendarApi.handleDragEnd);
-	});
-	[].forEach.call(calendarDayContainers, function (calendarDayContainer) {
-		//utils.addListener(calendarDayContainer, "dragstart", CalendarApi.handleDragStart);
-		utils.addListener(calendarDayContainer, "dragenter", CalendarApi.handleDragEnter);
-		utils.addListener(calendarDayContainer, "dragover", CalendarApi.handleDragOver);
-		utils.addListener(calendarDayContainer, "dragleave", CalendarApi.handleDragLeave);
-		utils.addListener(calendarDayContainer, "drop", CalendarApi.handleDrop);
-		utils.addListener(calendarDayContainer, "dragend", CalendarApi.handleDragEnd);
-	});
 };

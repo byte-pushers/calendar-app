@@ -628,7 +628,7 @@ CalendarApp.models.Event = function () {
 		this.guestCanSeeOtherGuestsFlag = guestCanSeeOtherGuestsFlag;
 	};
 	this.reschedule = function (newDate) {
-		start.setFullYear(newDate.getYear(), newDate.getMonth(), newDate.getFullYear());
-		end.setFullYear(newDate.getYear(), newDate.getMonth(), newDate.getFullYear());
+		this.start.setFullYear(newDate.getFullYear(), newDate.getMonth(), newDate.getDate());
+		this.end.setFullYear(newDate.getFullYear(), newDate.getMonth(), newDate.getDate());
 	};
 };

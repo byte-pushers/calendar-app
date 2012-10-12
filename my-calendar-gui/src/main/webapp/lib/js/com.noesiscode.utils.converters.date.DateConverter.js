@@ -28,21 +28,23 @@ NoesisCode.converters.DateConverter.convertToDate_MMMDDYYYY = function (d) {
 		throw new NoesisCode.exceptions.InvalidParameterException("Date String: " + d + " must be numeric.");
 	}
 	
-	month = new Number(CalendarApp.models.Month.getMonthIndex(d.substring(0, 2)));
-	day = new Number(d.substring(2, 4));
-	year = new Number(d.substring(4));
+	month = new Number(CalendarApp.models.Month.getMonthIndex(d.substring(0, 3)));
+	day = new Number(d.substring(3, 5));
+	year = new Number(d.substring(5));
 	date.setFullYear(year, month, day);
 	return date;
 };
 NoesisCode.converters.DateConverter.convertToDate = function (d, dateFormat){
 	'use strict';
+	var date;
 	switch(dateFormat){
 		case NoesisCode.converters.DateConverter.MMDDYYYY_DATE_FORMAT:
-			NoesisCode.converters.DateConverter.convertToDate_MMDDYYYY(d);
+			date = NoesisCode.converters.DateConverter.convertToDate_MMDDYYYY(d);
 			break;
 		case NoesisCode.converters.DateConverter.MMMDDYYYY_DATE_FORMAT:
-			NoesisCode.converters.DateConverter.convertToDate_MMMDDYYYY(d);
+			date = NoesisCode.converters.DateConverter.convertToDate_MMMDDYYYY(d);
 			break;
 
 	};
+	return date;
 };

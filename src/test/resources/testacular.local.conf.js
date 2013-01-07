@@ -47,10 +47,7 @@ exclude = ['src/main/webapp/lib/angular/angular-*.min.js'];
 // use dots reporter, as travis terminal does not support escaping sequences
 // possible values: 'dots', 'progress', 'junit'
 // CLI --reporters progress
-reporters = ['dots','junit'];
-junitReporter = {
-    outputFile: 'test-results.xml'
-};
+reporters = ['progress'];
 
 // web server port
 // CLI --port 9876
@@ -90,7 +87,7 @@ captureTimeout = 5000;
 
 // Auto run tests on start (when browsers are captured) and exit
 // CLI --single-run --no-single-run
-singleRun = true;
+singleRun = false;
 
 // report which specs are slower than 500ms
 // CLI --report-slower-than 500

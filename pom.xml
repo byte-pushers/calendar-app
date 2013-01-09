@@ -10,6 +10,10 @@
 	<name>A MyCalendar GUI Project</name>
 	<url>http://github.com/searls/jasmine-maven-plugin</url>
 
+    <properties>
+        <testacular.config>src/test/resources/testacular.ci.conf.js</testacular.config>
+    </properties>
+
 	<build>
 		<plugins>
 			<plugin>
@@ -84,6 +88,26 @@
 					</execution>
 				</executions>
 			</plugin>
+            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.7</version>
+                <executions>
+                    <execution>
+                        <phase>test </phase>
+                        <configuration>
+                            <target>
+                                <exec executable="testacular">
+                                    <arg value="start"/>
+                                    <arg value="${testacular.config}"/>
+                                </exec>
+                            </target>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
 		</plugins>
 	</build>
 

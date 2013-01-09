@@ -1,3 +1,10 @@
+/**
+ * Created with IntelliJ IDEA.
+ * User: pouncilt
+ * Date: 1/7/13
+ * Time: 12:52 PM
+ * To change this template use File | Settings | File Templates.
+ */
 basePath = '../../../';
 
 files = [
@@ -40,10 +47,7 @@ exclude = ['src/main/webapp/lib/angular/angular-*.min.js'];
 // use dots reporter, as travis terminal does not support escaping sequences
 // possible values: 'dots', 'progress', 'junit'
 // CLI --reporters progress
-reporters = ['dots','junit'];
-junitReporter = {
-    outputFile: 'test-results.xml'
-};
+reporters = ['progress'];
 
 // web server port
 // CLI --port 9876
@@ -75,7 +79,7 @@ autoWatch = true;
 // - PhantomJS
 // - IE (only Windows)
 // CLI --browsers Chrome,Firefox,Safari
-browsers = ['Chrome', 'Firefox'];
+browsers = ['Safari', 'Firefox'];
 
 // If browser does not capture in given timeout [ms], kill it
 // CLI --capture-timeout 5000
@@ -83,7 +87,7 @@ captureTimeout = 5000;
 
 // Auto run tests on start (when browsers are captured) and exit
 // CLI --single-run --no-single-run
-singleRun = true;
+singleRun = false;
 
 // report which specs are slower than 500ms
 // CLI --report-slower-than 500

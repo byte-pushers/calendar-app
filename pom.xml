@@ -114,12 +114,14 @@
                 <version>0.0.1-SNAPSHOT</version>
                 <executions>
                     <execution>
+                        <id>connect-to-saucelabs</id>
                         <phase>integration-test</phase>
                         <goals>
                             <goal>start</goal>
                         </goals>
                     </execution>
                     <execution>
+                        <id>disconnect-from-saucelabs</id>
                         <phase>post-integration-test</phase>
                         <goals>
                             <goal>stop</goal>

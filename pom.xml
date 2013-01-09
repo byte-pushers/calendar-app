@@ -119,15 +119,21 @@
                             <goal>start</goal>
                         </goals>
                     </execution>
+                    <execution>
+                        <phase>post-integration-test</phase>
+                        <goals>
+                            <goal>stop</goal>
+                        </goals>
+                    </execution>
                 </executions>
                 <configuration>
                     <remoteUrl>http://pouncilt:0aaf398d-07cf-4d23-8fd2-b8d4435b46cd@ondemand.saucelabs.com:80/wd/hub</remoteUrl>
                     <targetUrl>https://noesiscode.ci.cloudbees.com:9876/</targetUrl>
                     <wait>1</wait>
                     <desiredPlatformDetails>
-                        <desiredPlatform>firefox, 8, Mac, Testing Selenium 1 with Java on Sauce</desiredPlatform>
+                        <!--desiredPlatform>firefox, 8, Mac, Testing Selenium 1 with Java on Sauce</desiredPlatform>
                         <desiredPlatform>firefox, 9, Mac, Testing Selenium 1 with Java on Sauce</desiredPlatform>
-                        <desiredPlatform>firefox, 10, Mac, Testing Selenium 1 with Java on Sauce</desiredPlatform>
+                        <desiredPlatform>firefox, 10, Mac, Testing Selenium 1 with Java on Sauce</desiredPlatform-->
                         <desiredPlatform>firefox, 11, Mac, Testing Selenium 1 with Java on Sauce</desiredPlatform>
                         <!--desiredPlatform>ie, 6, XP, Testing Selenium 1 with Java on Sauce</desiredPlatform>
                         <desiredPlatform>ie, 7, XP, Testing Selenium 1 with Java on Sauce</desiredPlatform>
@@ -136,19 +142,6 @@
                     </desiredPlatformDetails>
                 </configuration>
             </plugin>
-            <!--plugin>
-                <groupId>org.pouncilt.plugins</groupId>
-                <artifactId>saucelabs-maven-plugin</artifactId>
-                <version>0.0.1-SNAPSHOT</version>
-                <executions>
-                    <execution>
-                        <phase>post-integration-test</phase>
-                        <goals>
-                            <goal>stop</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin-->
 		</plugins>
 	</build>
 

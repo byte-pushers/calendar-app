@@ -35,7 +35,7 @@ files = [
     'src/test/unit/jasmine/PersonSpec.js'
 ];
 // list of files to exclude
-exclude = ['src/main/webapp/lib/angular/angular-*.min.js'];
+exclude = ['/usr/bin/firefox', '/usr/bin/google-chrome'];
 
 // use dots reporter, as travis terminal does not support escaping sequences
 // possible values: 'dots', 'progress', 'junit'

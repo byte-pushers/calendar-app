@@ -139,7 +139,7 @@
                         <desiredPlatform>firefox, 11, Mac, Testing Selenium 1 with Java on Sauce</desiredPlatform>
                         <desiredPlatform>ie, 6, Windows, Testing Selenium 1 with Java on Sauce</desiredPlatform>
                         <desiredPlatform>ie, 7, Windows, Testing Selenium 1 with Java on Sauce</desiredPlatform-->
-                        <desiredPlatform>ie, 8, Windows, Testing Selenium 1 with Java on Sauce</desiredPlatform>
+                        <desiredPlatform>internet explorer, 8, Windows, Testing Selenium 1 with Java on Sauce</desiredPlatform>
                         <!--desiredPlatform>ie, 9, Windows, Testing Selenium 1 with Java on Sauce</desiredPlatform-->
                     </desiredPlatformDetails>
                 </configuration>

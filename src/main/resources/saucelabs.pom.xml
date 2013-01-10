@@ -1,0 +1,34 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+                      http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.apache.maven.plugin.my.unit</groupId>
+    <artifactId>project-to-test</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
+    <name>Test MyMojo</name>
+
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>saucelabs-maven-plugin</artifactId>
+                <configuration>
+                    <remoteUrl>http://pouncilt:0aaf398d-07cf-4d23-8fd2-b8d4435b46cd@ondemand.saucelabs.com:80/wd/hub</remoteUrl>
+                    <targetUrl>https://noesiscode.ci.cloudbees.com:9876/</targetUrl>
+                    <wait>3</wait>
+                    <desiredPlatformDetails>
+                        <!--desiredPlatform>firefox, 8, Mac, Testing Selenium 1 with Java on Sauce</desiredPlatform>
+                        <desiredPlatform>firefox, 9, Mac, Testing Selenium 1 with Java on Sauce</desiredPlatform>
+                        <desiredPlatform>firefox, 10, Mac, Testing Selenium 1 with Java on Sauce</desiredPlatform>
+                        <desiredPlatform>firefox, 11, Mac, Testing Selenium 1 with Java on Sauce</desiredPlatform>
+                        <desiredPlatform>internet explorer, 6, Windows, Testing Selenium 1 with Java on Sauce</desiredPlatform>
+                        <desiredPlatform>internet explorer, 7, Windows, Testing Selenium 1 with Java on Sauce</desiredPlatform>
+                        <desiredPlatform>internet explorer, 8, Windows, Testing Selenium 1 with Java on Sauce</desiredPlatform-->
+                        <desiredPlatform>internet explorer, 9, Windows, Testing Selenium 1 with Java on Sauce</desiredPlatform>
+                    </desiredPlatformDetails>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>

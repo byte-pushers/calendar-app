@@ -93,7 +93,7 @@
                 <version>1.7</version>
                 <executions>
                     <execution>
-                        <phase>test</phase>
+                        <phase>integration-test</phase>
                         <configuration>
                             <target>
                                 <exec executable="testacular">
@@ -108,7 +108,7 @@
                     </execution>
                 </executions>
             </plugin>
-            <!--plugin>
+            <plugin>
                 <groupId>org.pouncilt.plugins</groupId>
                 <artifactId>saucelabs-maven-plugin</artifactId>
                 <version>0.0.1-SNAPSHOT</version>
@@ -133,17 +133,17 @@
                     <targetUrl>https://noesiscode.ci.cloudbees.com:9876/</targetUrl>
                     <wait>5</wait>
                     <desiredPlatformDetails>
-                        <desiredPlatform>firefox, 8, Mac, Testing Selenium 1 with Java on Sauce</desiredPlatform>
+                        <!--desiredPlatform>firefox, 8, Mac, Testing Selenium 1 with Java on Sauce</desiredPlatform>
                         <desiredPlatform>firefox, 9, Mac, Testing Selenium 1 with Java on Sauce</desiredPlatform>
                         <desiredPlatform>firefox, 10, Mac, Testing Selenium 1 with Java on Sauce</desiredPlatform>
                         <desiredPlatform>firefox, 11, Mac, Testing Selenium 1 with Java on Sauce</desiredPlatform>
-                        <desiredPlatform>ie, 6, XP, Testing Selenium 1 with Java on Sauce</desiredPlatform>
-                        <desiredPlatform>ie, 7, XP, Testing Selenium 1 with Java on Sauce</desiredPlatform>
-                        <desiredPlatform>ie, 8, XP, Testing Selenium 1 with Java on Sauce</desiredPlatform>
-                        <desiredPlatform>ie, 9, XP, Testing Selenium 1 with Java on Sauce</desiredPlatform>
+                        <desiredPlatform>ie, 6, Windows, Testing Selenium 1 with Java on Sauce</desiredPlatform>
+                        <desiredPlatform>ie, 7, Windows, Testing Selenium 1 with Java on Sauce</desiredPlatform-->
+                        <desiredPlatform>ie, 8, Windows, Testing Selenium 1 with Java on Sauce</desiredPlatform>
+                        <!--desiredPlatform>ie, 9, Windows, Testing Selenium 1 with Java on Sauce</desiredPlatform-->
                     </desiredPlatformDetails>
                 </configuration>
-            </plugin-->
+            </plugin>
 		</plugins>
 	</build>
 

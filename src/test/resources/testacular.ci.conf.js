@@ -75,7 +75,7 @@ autoWatch = true;
 // - PhantomJS
 // - IE (only Windows)
 // CLI --browsers Chrome,Firefox,Safari
-browsers = ['src/main/resources/saucelabs-start.sh'];
+browsers = ['src/main/resources/saucelabs-browsers.sh'];
 
 // If browser does not capture in given timeout [ms], kill it
 // CLI --capture-timeout 5000

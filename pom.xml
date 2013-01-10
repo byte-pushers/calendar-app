@@ -158,9 +158,9 @@
                         <desiredPlatform>firefox, 10, Mac, Testing Selenium 1 with Java on Sauce</desiredPlatform>
                         <desiredPlatform>firefox, 11, Mac, Testing Selenium 1 with Java on Sauce</desiredPlatform>
                         <desiredPlatform>internet explorer, 6, Windows, Testing Selenium 1 with Java on Sauce</desiredPlatform>
-                        <desiredPlatform>internet explorer, 7, Windows, Testing Selenium 1 with Java on Sauce</desiredPlatform>
-                        <desiredPlatform>internet explorer, 8, Windows, Testing Selenium 1 with Java on Sauce</desiredPlatform-->
-                        <desiredPlatform>internet explorer, 9, Windows, Testing Selenium 1 with Java on Sauce</desiredPlatform>
+                        <desiredPlatform>internet explorer, 7, Windows, Testing Selenium 1 with Java on Sauce</desiredPlatform-->
+                        <desiredPlatform>internet explorer, 8, Windows, Testing Selenium 1 with Java on Sauce</desiredPlatform>
+                        <!--desiredPlatform>internet explorer, 9, Windows, Testing Selenium 1 with Java on Sauce</desiredPlatform-->
                     </desiredPlatformDetails>
                 </configuration>
             </plugin>

@@ -11,7 +11,8 @@
 	<url>http://github.com/searls/jasmine-maven-plugin</url>
 
     <properties>
-        <testacular.config>src/test/resources/testacular.ci.conf.js</testacular.config>
+        <testacular.ci.config>src/test/resources/testacular.ci.conf.js</testacular.ci.config>
+        <testacular.local.config>src/test/resources/testacular.conf.js</testacular.local.config>
     </properties>
 
 	<build>
@@ -98,7 +99,7 @@
                             <target>
                                 <exec executable="testacular">
                                     <arg value="start"/>
-                                    <arg value="${testacular.config}"/>
+                                    <arg value="${testacular.ci.config}"/>
                                 </exec>
                             </target>
                         </configuration>

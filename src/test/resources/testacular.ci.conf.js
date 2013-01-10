@@ -35,7 +35,7 @@ files = [
     'src/test/unit/jasmine/PersonSpec.js'
 ];
 // list of files to exclude
-exclude = ['/usr/bin/firefox', '/usr/bin/google-chrome'];
+exclude = ['src/main/webapp/lib/angular/angular-*.min.js'];
 
 // use dots reporter, as travis terminal does not support escaping sequences
 // possible values: 'dots', 'progress', 'junit'
@@ -75,7 +75,7 @@ autoWatch = true;
 // - PhantomJS
 // - IE (only Windows)
 // CLI --browsers Chrome,Firefox,Safari
-browsers = ['src/main/resources/saucelabs-browsers.sh'];
+browsers = ['/usr/bin/firefox','/usr/bin/google-chrome'];
 
 // If browser does not capture in given timeout [ms], kill it
 // CLI --capture-timeout 5000

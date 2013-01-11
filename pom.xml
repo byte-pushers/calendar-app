@@ -97,9 +97,8 @@
                         <phase>test</phase>
                         <configuration>
                             <target>
-                                <exec executable="testacular">
-                                    <arg value="start"/>
-                                    <arg value="${testacular.ci.config}"/>
+                                <exec executable="src/test/scripts/test.sh">
+                                    <arg value="${testacular.config}"/>
                                 </exec>
                             </target>
                         </configuration>
@@ -188,4 +187,43 @@
             <url>http://jsdoctk-plugin.googlecode.com/svn/repo</url>
         </pluginRepository>
     </pluginRepositories>
+    <profiles>
+        <profile>
+            <id>ci-server-config</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>cloudbees</value>
+                </property>
+            </activation>
+            <properties>
+                <testacular.config>src/test/resources/testacular.ci.conf.js</testacular.config>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>ci-saucelabs-server-config</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>cloudbees-and-saucelabs</value>
+                </property>
+            </activation>
+            <properties>
+                <testacular.config>src/test/resources/testacular.ci.saucelabs.conf.js</testacular.config>
+            </properties>
+        </profile>
+        <profile>
+                <id>local-config</id>
+                <activation>
+                <property>
+                    <name>env</name>
+                    <value>local</value>
+                </property>
+            </activation>
+            <properties>
+                <testacular.config>testacular.conf.js</testacular.config>
+            </properties>
+        </profile>
+    </profiles>
 </project>

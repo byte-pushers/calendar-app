@@ -94,7 +94,7 @@
                 <version>1.7</version>
                 <executions>
                     <execution>
-                        <phase>integration-test</phase>
+                        <phase>test</phase>
                         <configuration>
                             <target>
                                 <exec executable="src/test/scripts/test.sh">
@@ -108,7 +108,7 @@
                     </execution>
                 </executions>
             </plugin>
-            <plugin>
+            <!--plugin>
                 <groupId>org.pouncilt.plugins</groupId>
                 <artifactId>saucelabs-maven-plugin</artifactId>
                 <version>0.0.1-SNAPSHOT</version>
@@ -143,7 +143,7 @@
                         <desiredPlatform>internet explorer, 9, Windows, Testing Selenium 1 with Java on Sauce</desiredPlatform>
                     </desiredPlatformDetails>
                 </configuration>
-            </plugin>
+            </plugin-->
             <plugin>
                 <groupId>org.pouncilt.plugins</groupId>
                 <artifactId>saucelabs-maven-plugin</artifactId>

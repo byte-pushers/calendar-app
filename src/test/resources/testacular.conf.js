@@ -47,7 +47,10 @@ exclude = ['src/main/webapp/lib/angular/angular-*.min.js'];
 // use dots reporter, as travis terminal does not support escaping sequences
 // possible values: 'dots', 'progress', 'junit'
 // CLI --reporters progress
-reporters = ['progress'];
+reporters = ['dots','junit'];
+junitReporter = {
+    outputFile: 'target/surefire/test-results.xml'
+};
 
 // web server port
 // CLI --port 9876

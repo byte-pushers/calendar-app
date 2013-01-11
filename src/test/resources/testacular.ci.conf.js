@@ -42,7 +42,7 @@ exclude = ['src/main/webapp/lib/angular/angular-*.min.js'];
 // CLI --reporters progress
 reporters = ['dots','junit'];
 junitReporter = {
-    outputFile: 'test-results.xml'
+    outputFile: 'target/surefire/test-results.xml'
 };
 
 // web server port

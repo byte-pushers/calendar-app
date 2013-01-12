@@ -47,7 +47,7 @@ junitReporter = {
 
 // web server port
 // CLI --port 9876
-port = 9876;
+port = 9999;
 
 // cli runner port
 // CLI --runner-port 9100

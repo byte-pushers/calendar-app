@@ -150,7 +150,7 @@
                 <version>0.0.1-SNAPSHOT</version>
                 <configuration>
                     <remoteUrl>http://pouncilt:0aaf398d-07cf-4d23-8fd2-b8d4435b46cd@ondemand.saucelabs.com:80/wd/hub</remoteUrl>
-                    <targetUrl>https://localhost:9876/</targetUrl>
+                    <targetUrl>http://localhost:9876/</targetUrl>
                     <wait>5</wait>
                     <desiredPlatformDetails>
                         <!--desiredPlatform>firefox, 8, Mac, Testing Selenium 1 with Java on Sauce</desiredPlatform>

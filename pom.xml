@@ -197,7 +197,7 @@
                 </property>
             </activation>
             <properties>
-                <testacular.config>src/test/resources/testacular.ci.conf.js</testacular.config>
+                <testacular.config>testacular.ci.conf.js</testacular.config>
             </properties>
         </profile>
 
@@ -210,7 +210,7 @@
                 </property>
             </activation>
             <properties>
-                <testacular.config>src/test/resources/testacular.ci.saucelabs.conf.js</testacular.config>
+                <testacular.config>testacular.ci.saucelabs.conf.js</testacular.config>
             </properties>
         </profile>
         <profile>

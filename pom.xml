@@ -10,11 +10,6 @@
 	<name>A MyCalendar GUI Project</name>
 	<url>http://github.com/searls/jasmine-maven-plugin</url>
 
-    <properties>
-        <testacular.ci.config>src/test/resources/testacular.ci.conf.js</testacular.ci.config>
-        <testacular.local.config>src/test/resources/testacular.conf.js</testacular.local.config>
-    </properties>
-
 	<build>
 		<plugins>
 			<plugin>
@@ -96,7 +91,7 @@
                     <execution>
                         <phase>test</phase>
                         <configuration>
-                            <target>
+                            <target unless="maven.test.skip">
                                 <exec executable="src/test/scripts/test.sh">
                                     <arg value="${testacular.config}"/>
                                 </exec>

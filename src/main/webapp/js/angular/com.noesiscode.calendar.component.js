@@ -51,7 +51,7 @@ angular.module('NoesisCodeCalendar', ['NoesisCodeCalendarService'])
                             selectedDay = scope.month.selectNextDay();
                         }
                         scope.todaysEvents = selectedDay.getEvents();
-                        scope.month.highLightSelectedDay(previouslySelectedDate);
+                        scope.month.highLightSelectedDay(selectedDay);
                     };
                     scope.selectPreviousDay = function () {
                         var previouslySelectedDate = new Date(scope.month.getSelectedDate().getTime()),

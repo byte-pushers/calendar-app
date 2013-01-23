@@ -220,5 +220,17 @@
                 <testacular.config>testacular.conf.js</testacular.config>
             </properties>
         </profile>
+        <profile>
+            <id>ide-config</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>ide</value>
+                </property>
+            </activation>
+            <properties>
+                <testacular.config>testacular.ide.conf.js</testacular.config>
+            </properties>
+        </profile>
     </profiles>
 </project>

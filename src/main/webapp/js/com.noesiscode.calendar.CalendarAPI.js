@@ -1,6 +1,6 @@
 var CalendarApp = CalendarApp || {};
 CalendarApp.todaysEvents = [];
-CalendarApp.models = CalendarApp.namespace("com.noesiscode.calendar.models");
+CalendarApp.models = CalendarApp.models || CalendarApp.namespace("com.noesiscode.calendar.models");
 CalendarApp.models.findEventById = function (id, events) {
     'use strict';
     var i, targetEvent = null;

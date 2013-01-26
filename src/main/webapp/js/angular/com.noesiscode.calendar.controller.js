@@ -1,4 +1,3 @@
-/*global CalendarApp */
 /**
  * Created with IntelliJ IDEA.
  * User: pouncilt
@@ -8,8 +7,4 @@
  */
 function CalendarController($scope, CalendarEventService) {
     "use strict";
-    //$scope.month = new CalendarApp.models.Month();
-    //$scope.events = CalendarApp.models.EventTransformer.transformJSONEvents(CalendarEventService.query());
-    //$scope.month.setEvents($scope.events);
-    //$scope.todaysEvents = $scope.month.findEventsByDate(new Date());
 }

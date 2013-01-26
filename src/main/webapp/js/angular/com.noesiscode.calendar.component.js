@@ -9,7 +9,10 @@
 angular.module('NoesisCodeCalendar', ['NoesisCodeCalendarService'])
     .directive('noesisCodeCalendarMonthView', function () {
         "use strict";
-        var month = new CalendarApp.models.Month();
+        //var month = new CalendarApp.models.Month();
+        //scope.events = CalendarApp.models.EventTransformer.transformJSONEvents(CalendarEventService.query());
+        //scope.month.setEvents(scope.events);
+        //scope.todaysEvents = scope.month.findEventsByDate(new Date());
         return {
             restrict: 'E',
             scope: {
@@ -18,7 +21,8 @@ angular.module('NoesisCodeCalendar', ['NoesisCodeCalendarService'])
             templateUrl: 'partials/calendar-month-view-template.html',
             compile: function (tElement, tAttrs, transclude) {
                 return function (scope, element, attrs, controller) {
-                    scope.month = month;
+                    "use strict";
+                    scope.month = new CalendarApp.models.Month();
                     scope.weeks = scope.month.weeks;
 
                     scope.getCalendarDayClass = function (day) {
@@ -83,6 +87,5 @@ angular.module('NoesisCodeCalendar', ['NoesisCodeCalendarService'])
                     };
                 };
             }
-
         };
     });

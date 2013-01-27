@@ -18,7 +18,7 @@ angular.module('NoesisCodeCalendar', ['NoesisCodeCalendarService'])
                 $scope.month = new CalendarApp.models.Month();
                 $scope.weeks = $scope.month.weeks;
 
-                CalendarEventService.query(function(jsonEvents){
+                CalendarEventService.query(function (jsonEvents) {
                     $scope.events = CalendarApp.models.EventTransformer.transformJSONEvents(jsonEvents);
                     $scope.month.setEvents($scope.events);
                     $scope.todaysEvents = $scope.month.findEventsByDate(new Date());

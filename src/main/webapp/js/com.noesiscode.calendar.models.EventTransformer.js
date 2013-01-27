@@ -15,7 +15,6 @@ CalendarApp.models.EventTransformer.transformJSONEvents = function (jsonEvents) 
     if ((jsonEvents === undefined) || (jsonEvents === null) || (!Array.isArray(jsonEvents))) {
         throw new NoesisCode.exceptions.InvalidParameterException("jsonEvents must be of type Array.");
     }
-    console.log("jsonEvents.length: " + jsonEvents.length);
     for (i = 0; i < jsonEvents.length; i = i + 1) {
         if (jsonEvents[i] !== undefined && jsonEvents[i] !== null) {
             events[i] = new CalendarApp.models.Event(jsonEvents[i]);

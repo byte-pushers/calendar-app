@@ -1,4 +1,4 @@
-/*global CalendarApp */
+/*global NoesisCode, CalendarApp */
 /**
  * Created with JetBrains WebStorm.
  * User: pouncilt
@@ -18,9 +18,11 @@ angular.module('NoesisCodeCalendar', ['NoesisCodeCalendarService'])
                 $scope.month = new CalendarApp.models.Month();
                 $scope.weeks = $scope.month.weeks;
 
-                $scope.events = CalendarApp.models.EventTransformer.transformJSONEvents(CalendarEventService.query());
-                $scope.month.setEvents($scope.events);
-                $scope.todaysEvents = $scope.month.findEventsByDate(new Date());
+                CalendarEventService.query(function(jsonEvents){
+                    $scope.events = CalendarApp.models.EventTransformer.transformJSONEvents(jsonEvents);
+                    $scope.month.setEvents($scope.events);
+                    $scope.todaysEvents = $scope.month.findEventsByDate(new Date());
+                });
 
                 $scope.getCalendarDayClass = function (day) {
                     var cssClass;

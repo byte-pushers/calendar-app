@@ -28,6 +28,8 @@ CalendarApp.models.Week = function (weekdays) {
     this.thursday = (this.weekdays.length >= 5) ? this.weekdays[4] : null;
     this.friday = (this.weekdays.length >= 6) ? this.weekdays[5] : null;
     this.saturday = (this.weekdays.length >= 7) ? this.weekdays[6] : null;
+    this.lastWeekInMonth = false;
+    this.firstWeekInMonth = false;
     /**
      * Determines if this instance of {@link Week} is the first week in the calendar month.
      *
@@ -62,11 +64,12 @@ CalendarApp.models.Week = function (weekdays) {
             totalDaysInMonth = CalendarApp.models.Week.monthNames[monthIndex].getTotalDays(year);
             if (weekdate === totalDaysInMonth) {
                 lastWeekInMonth = true;
-                this.weekdays[i].setLastWeekInMonth(true);
             }
         }
         return lastWeekInMonth;
     };
+
+
     /**
      * <p>Set the events that are scheduled for the week to the appropriate days.</p>
      *
@@ -97,17 +100,17 @@ CalendarApp.models.Week = function (weekdays) {
         return events;
     };
     this.setCurrentDayOfWeek = function (selectedDateOfWeek) {
-        var i, currentDayOfWeekSelectedStatus = false;
+        var i, currentDayOfWeek = null;
         for (i = 0; i < this.weekdays.length; i = i + 1) {
             if (this.weekdays[i] !== undefined && this.weekdays[i] !== null) {
                 if (this.weekdays[i].getDate().toString() === selectedDateOfWeek.toString()) {
                     this.weekdays[i].setCurrentDayOfWeek(true);
-                    currentDayOfWeekSelectedStatus = true;
+                    currentDayOfWeek = this.weekdays[i];
                     break;
                 }
             }
         }
-        return currentDayOfWeekSelectedStatus;
+        return currentDayOfWeek;
     };
     this.findCurrentDayOfWeek = function () {
         var i, currentDayOfWeek = null;
@@ -120,6 +123,24 @@ CalendarApp.models.Week = function (weekdays) {
             }
         }
         return currentDayOfWeek;
+    };
+    this.isWeekOf = function (date) {
+        var i, result = false;
+        for (i = 0; i < this.weekdays.length; i = i + 1) {
+            if (this.weekdays[i] !== undefined && this.weekdays[i] !== null) {
+                if (this.weekdays[i].getDate().getFullYear() === date.getFullYear()) {
+                    if (this.weekdays[i].getDate().getMonth() === date.getMonth()) {
+                        if (this.weekdays[i].getDate().getDate() === date.getDate()) {
+                            result = true;
+                            break;
+                        }
+                    }
+
+                }
+            }
+        }
+
+        return result;
     };
 };
 /**

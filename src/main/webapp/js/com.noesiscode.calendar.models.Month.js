@@ -20,6 +20,51 @@ CalendarApp.models.Month = function () {
     "use strict";
     var that = this, selectedDate = new Date();
     this.TOTAL_WEEKDAYS = 7;
+    this.selectedMonthEvents = [];
+    /**
+     * <p>Represents all the weeks in the Month.  This field is populated during object creation.</p>
+     * @field
+     * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
+     */
+    this.weeks = [];
+    this.bindEvents = function () {
+        var i, week;
+        if (this.selectedMonthEvents.length > 0) {
+            for (i = 0; i < this.weeks.length; i = i + 1) {
+                if (this.weeks[i] !== undefined && this.weeks[i] !== null) {
+                    week = this.weeks[i];
+                    week.setEvents(this.selectedMonthEvents);
+                }
+            }
+        }
+    };
+    /**
+     * <p>Set the events that are scheduled for the month to the appropriate days.</p>
+     *
+     * @param {@link CalendarApp.models.Event} The events that are scheduled for the month.
+     * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
+     */
+    this.setEvents = function (events) {
+        this.selectedMonthEvents = events;
+        this.bindEvents();
+    };
+    /**
+     * <p>Gets the events that are scheduled for the month.</p>
+     *
+     * @returns {@link CalendarApp.models.Event} The events that are scheduled for the month.
+     * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
+     */
+    this.getEvents = function () {
+        return this.selectedMonthEvents;
+    };
+    this.setCurrentDayOfMonth = function (selectedDateOfWeek) {
+        var i = 0, currentDayOfMonth = null;
+        while (i < this.weeks.length && currentDayOfMonth === null) {
+            currentDayOfMonth = this.weeks[i].setCurrentDayOfWeek(selectedDateOfWeek);
+            i = i + 1;
+        }
+        return currentDayOfMonth;
+    };
     /**
      * <p>Gets month name.</p>
      * @private
@@ -141,7 +186,6 @@ CalendarApp.models.Month = function () {
         } while ((totalDays = totalDays - 1) > 0);
         return new CalendarApp.models.Week(weekdays);
     }
-
     /**
      * <p>Retrieves the first week in the calendar month.
      * @private
@@ -159,9 +203,9 @@ CalendarApp.models.Month = function () {
                 someWeekInMonth = getWeekBefore(someWeekInMonth.sunday.getDate());
             }
         } while (firstWeekInMonth === null);
+        firstWeekInMonth.isFirstWeekInMonth = true;
         return firstWeekInMonth;
     }
-
     /**
      * <p>Retrieves all the weeks in a calendar month.
      * @private
@@ -176,82 +220,72 @@ CalendarApp.models.Month = function () {
         weeksInMonth[1] = getWeekAfter(weeksInMonth[0].saturday.getDate());
         weeksInMonth[2] = getWeekAfter(weeksInMonth[1].saturday.getDate());
         weeksInMonth[3] = getWeekAfter(weeksInMonth[2].saturday.getDate());
-        if (!weeksInMonth[3].isLastWeekInMonth()) {
+        if (weeksInMonth[3].isLastWeekInMonth()) {
+            weeksInMonth[3].lastWeekInMonth = true;
+        } else {
             weeksInMonth[4] = getWeekAfter(weeksInMonth[3].saturday.getDate());
-            if (!weeksInMonth[4].isLastWeekInMonth()) {
+            if (weeksInMonth[4].isLastWeekInMonth()) {
+                weeksInMonth[4].lastWeekInMonth = true;
+            } else {
                 weeksInMonth[5] = getWeekAfter(weeksInMonth[4].saturday.getDate());
-                if (!weeksInMonth[5].isLastWeekInMonth()) {
+                if (weeksInMonth[5].isLastWeekInMonth()) {
+                    weeksInMonth[5].lastWeekInMonth = true;
+                } else {
                     weeksInMonth[6] = getWeekAfter(weeksInMonth[5].saturday.getDate());
+                    weeksInMonth[6].lastWeekInMonth = true;
                 }
             }
         }
         return weeksInMonth;
     }
-
+    function findWeekInMonth(date) {
+        var i, targetWeek = null;
+        for (i = 0; i < that.weeks.length; i = i + 1) {
+            if (that.weeks[i].isWeekOf(date)) {
+                targetWeek = that.weeks[i];
+                break;
+            }
+        }
+        return targetWeek;
+    }
     function setWeeksInMonth(date) {
         that.weeks = getWeeksInMonth(date);
-        that.setCurrentDayOfMonth(date);
         that.bindEvents();
+        that.setCurrentDayOfMonth(date);
+        return that.weeks;
     }
-    function getNextDate() {
-        selectedDate.setDate(selectedDate.getDate() + 1);
-        return selectedDate;
+    function getNextDay() {
+        var nextDay = new Date(selectedDate.getTime());
+        nextDay.setDate(nextDay.getDate() + 1);
+        return nextDay;
     }
-    function getPreviousDate() {
-        selectedDate.setDate(selectedDate.getDate() - 1);
-        return selectedDate;
+    function getPreviousDay() {
+        var previousDay = new Date(selectedDate.getTime());
+        previousDay.setDate(previousDay.getDate() - 1);
+        return previousDay;
     }
-    function getNextMonthDate(dayOfMonth) {
-        selectedDate.setMonth((selectedDate.getMonth() + 1), dayOfMonth);
-        return selectedDate;
+    function getNextMonth(dayOfMonth) {
+        var nextMonth = new Date(selectedDate.getTime());
+        nextMonth.setMonth((nextMonth.getMonth() + 1), dayOfMonth);
+        return nextMonth;
     }
-    function getPreviousMonthDate(dayOfMonth) {
-        selectedDate.setMonth((selectedDate.getMonth() - 1), dayOfMonth);
-        return selectedDate;
+    function getPreviousMonth(dayOfMonth) {
+        var previousMonth = new Date(selectedDate.getTime());
+        previousMonth.setMonth((previousMonth.getMonth() - 1), dayOfMonth);
+        return previousMonth;
     }
     /**
      * <p>Represents all the weeks in the Month.  This field is populated during object creation.</p>
      * @field
      * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
      */
-    this.weeks = getWeeksInMonth(selectedDate);
+    this.weeks = setWeeksInMonth(selectedDate);
     /**
      * <p>Represents the name of the Month.  This field is populated during object creation.</p>
      * @field
      * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
      */
     this.name = getMonthName((new Date()).getMonth(), false);
-    this.selectedMonthEvents = [];
-    this.bindEvents = function () {
-        var i, week;
-        if (this.selectedMonthEvents.length > 0) {
-            for (i = 0; i < this.weeks.length; i = i + 1) {
-                if (this.weeks[i] !== undefined && this.weeks[i] !== null) {
-                    week = this.weeks[i];
-                    week.setEvents(this.selectedMonthEvents);
-                }
-            }
-        }
-    };
-    /**
-     * <p>Set the events that are scheduled for the month to the appropriate days.</p>
-     *
-     * @param {@link CalendarApp.models.Event} The events that are scheduled for the month.
-     * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
-     */
-    this.setEvents = function (events) {
-        this.selectedMonthEvents = events;
-        this.bindEvents();
-    };
-    /**
-     * <p>Gets the events that are scheduled for the month.</p>
-     *
-     * @returns {@link CalendarApp.models.Event} The events that are scheduled for the month.
-     * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
-     */
-    this.getEvents = function () {
-        return this.selectedMonthEvents;
-    };
     /**
      * <p>Convenience method to find events on given date.</p>
      *
@@ -294,7 +328,7 @@ CalendarApp.models.Month = function () {
         var month = getMonthName(selectedDate.getMonth(), false),
             year = selectedDate.getFullYear(),
             date = selectedDate.getDate(),
-            day = CalendarApp.models.Month.monthNames[selectedDate.getDay()].name;
+            day = CalendarApp.models.Month.weekdayNames[selectedDate.getDay()].name;
         return day + " " + month + " " + date + ", " + year;
     };
     this.setSelectedMonthName = function () {
@@ -305,40 +339,45 @@ CalendarApp.models.Month = function () {
     };
     this.selectDay = function (selectedDate) {
         this.setSelectedDate(selectedDate);
-        setWeeksInMonth(this.getSelectedDate());
         this.setSelectedMonthName();
         this.setSelectedDateDisplayName();
-        return this.getCurrentDayOfMonth(this.getSelectedDate());
+        return this.setCurrentDayOfMonth(this.getSelectedDate());
     };
     this.selectNextDay = function () {
-        setWeeksInMonth(getNextDate());
+        this.setSelectedDate(getNextDay());
         this.setSelectedMonthName();
         this.setSelectedDateDisplayName();
-        return this.getCurrentDayOfMonth(this.getSelectedDate());
+        return this.setCurrentDayOfMonth(this.getSelectedDate());
     };
     this.selectPreviousDay = function () {
-        setWeeksInMonth(getPreviousDate());
+        this.setSelectedDate(getPreviousDay());
         this.setSelectedMonthName();
         this.setSelectedDateDisplayName();
-        return this.getCurrentDayOfMonth(this.getSelectedDate());
+        return this.setCurrentDayOfMonth(this.getSelectedDate());
     };
     this.selectFirstDayOfNextMonth = function () {
-        setWeeksInMonth(getNextMonthDate(1));
+        this.setSelectedDate(getNextMonth(1));
         this.setSelectedMonthName();
         this.setSelectedDateDisplayName();
-        return this.getCurrentDayOfMonth(this.getSelectedDate());
+        return this.setCurrentDayOfMonth(this.getSelectedDate());
+    };
+    this.selectDayOfMonth = function (day) {
+        this.setSelectedDate(day);
+        this.setSelectedMonthName();
+        this.setSelectedDateDisplayName();
+        return this.setCurrentDayOfMonth(this.getSelectedDate());
     };
     this.selectFirstDayOfPreviousMonth = function () {
-        setWeeksInMonth(getPreviousMonthDate(1));
+        this.setSelectedDate(getPreviousMonth(1));
         this.setSelectedMonthName();
         this.setSelectedDateDisplayName();
-        return this.getCurrentDayOfMonth(this.getSelectedDate());
+        return this.setCurrentDayOfMonth(this.getSelectedDate());
     };
     this.selectLastDayOfPreviousMonth = function () {
-        setWeeksInMonth(getPreviousMonthDate(CalendarApp.models.Month.getPreviousMonthTotalDays(this.getSelectedDate())));
+        this.setSelectedDate(getPreviousMonth(CalendarApp.models.Month.getPreviousMonthTotalDays(this.getSelectedDate())));
         this.setSelectedMonthName();
         this.setSelectedDateDisplayName();
-        return this.getCurrentDayOfMonth(this.getSelectedDate());
+        return this.setCurrentDayOfMonth(this.getSelectedDate());
     };
     this.highLightSelectedDay = function (previouslySelectedDate) {
         var selector = "div#" + (new CalendarApp.models.Day(selectedDate)).getId();
@@ -358,15 +397,6 @@ CalendarApp.models.Month = function () {
             $(selector).addClass("calendar-day-with-events");
         }
     };
-    this.setCurrentDayOfMonth = function (selectedDateOfWeek) {
-        var i, week;
-        for (i = 0; i < this.weeks.length; i = i + 1) {
-            week = this.weeks[i];
-            if (week.setCurrentDayOfWeek(selectedDateOfWeek)) {
-                break;
-            }
-        }
-    };
     this.getCurrentDayOfMonth = function () {
         var i, week, currentDayOfMonth = null;
         for (i = 0; i < this.weeks.length; i = i + 1) {
@@ -380,6 +410,10 @@ CalendarApp.models.Month = function () {
             throw new CalendarApp.exceptions.ExpectedToHaveCurrentDayOfMonthException("Expected to have a current day in the month.");
         }
         return currentDayOfMonth;
+    };
+    this.isLastWeekInMonth = function (date) {
+        var targetWeek = findWeekInMonth(date);
+        return targetWeek.lastWeekInMonth;
     };
     this.selectedMonthName = this.getSelectedMonthName();
     this.selectedDateDisplayName = this.getSelectedDateDisplayName();

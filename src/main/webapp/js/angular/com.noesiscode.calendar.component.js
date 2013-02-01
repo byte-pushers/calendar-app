@@ -39,7 +39,7 @@ angular.module('NoesisCodeCalendar', ['NoesisCodeCalendarService'])
                 };
                 $scope.selectDay = function (selectedDate) {
                     var previouslySelectedDate = new Date($scope.month.getSelectedDate().getTime()),
-                        selectedDay = $scope.month.selectDay(selectedDate);
+                        selectedDay = $scope.month.selectDayOfMonth(selectedDate);
                     $scope.todaysEvents = selectedDay.getEvents();
                     $scope.month.highLightSelectedDay(previouslySelectedDate);
                 };
@@ -83,6 +83,12 @@ angular.module('NoesisCodeCalendar', ['NoesisCodeCalendarService'])
                     var selectedDay = $scope.month.selectLastDayOfPreviousMonth();
                     $scope.todaysEvents = selectedDay.getEvents();
                     $scope.weeks = $scope.month.weeks;
+                };
+                $scope.selectDayOfMonth = function (day) {
+                    var selectedDay = $scope.month.selectDayOfMonth(day);
+                    $scope.todaysEvents = selectedDay.getEvents();
+                    $scope.weeks = $scope.month.weeks;
+                    return selectedDay;
                 };
             },
             templateUrl: 'partials/calendar-month-view-template.html',

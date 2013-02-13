@@ -93,6 +93,7 @@
                         <configuration>
                             <target unless="maven.test.skip">
                                 <exec executable="src/test/scripts/test.sh">
+                                    <arg value="${testacular.path}"/>
                                     <arg value="${testacular.config}"/>
                                 </exec>
                             </target>
@@ -193,6 +194,7 @@
             </activation>
             <properties>
                 <testacular.config>testacular.ci.conf.js</testacular.config>
+                <testacular.path></testacular.path>
             </properties>
         </profile>
 
@@ -206,6 +208,7 @@
             </activation>
             <properties>
                 <testacular.config>testacular.ci.saucelabs.conf.js</testacular.config>
+                <testacular.path></testacular.path>
             </properties>
         </profile>
         <profile>
@@ -218,6 +221,7 @@
             </activation>
             <properties>
                 <testacular.config>testacular.conf.js</testacular.config>
+                <testacular.path>/usr/local/bin</testacular.path>
             </properties>
         </profile>
         <profile>
@@ -230,6 +234,7 @@
             </activation>
             <properties>
                 <testacular.config>testacular.ide.conf.js</testacular.config>
+                <testacular.path>/usr/local/bin</testacular.path>
             </properties>
         </profile>
     </profiles>

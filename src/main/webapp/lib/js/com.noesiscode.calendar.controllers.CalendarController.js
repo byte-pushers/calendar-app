@@ -17,7 +17,7 @@ function CalendarController ($scope, $rootScope) {
 	$scope.month = new CalendarApp.models.Month();
 	$scope.month.setEvents(getTestEvents());
 	$scope.weeks = $scope.month.weeks;
-	CalendarApp.todaysEvents = $scope.todaysEvents = $scope.month.findEventsByDate(new Date());
+	CalendarApp.todaysEvents = $scope.todaysEvents = $scope.month.findEventsForToday();
 	$rootScope.$on('handleDrop', function(event){
 		$scope.rescheduleEvent(event, null);
 	});
@@ -36,7 +36,6 @@ function CalendarController ($scope, $rootScope) {
 	};
 	$scope.selectDay = function (selectedDate) {
 		var previouslySelectedDate = new Date($scope.month.getSelectedDate().getTime());
-		CalendarApp.todaysEvents = $scope.todaysEvents = $scope.month.selectDay(selectedDate).getEvents();
 		$scope.month.highLightSelectedDay(previouslySelectedDate);
 	};
 	$scope.selectNextDay = function () {
@@ -74,6 +73,6 @@ function CalendarController ($scope, $rootScope) {
 	$scope.rescheduleEvent = function (event, targetDate) {
 		var events = CalendarApp.rescheduleEvent(event, targetDate, $scope.month.getEvents());
 		$scope.month.setEvents(events);
-		CalendarApp.todaysEvents = $scope.todaysEvents = $scope.month.findEventsByDate(new Date());
+		$scope.todaysEvents = $scope.month.findEventsForToday();
 	};
 };

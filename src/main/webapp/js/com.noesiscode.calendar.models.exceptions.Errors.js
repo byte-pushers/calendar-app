@@ -6,6 +6,7 @@ CalendarApp.exceptions.ExpectedToHaveCurrentDayOfMonthException = function (mess
 	CalendarApp.exceptions.ExpectedToHaveCurrentDayOfMonthException.prototype = new Error();
 	this.name = "CalendarApp.exceptions.ExpectedToHaveCurrentDayOfMonthException";
 	this.message = message;
+    this.toString(this.name + ": " + message);
 };
 
 CalendarApp.exceptions.ExpectedToHaveCurrentDayOfWeekException = function (message) {

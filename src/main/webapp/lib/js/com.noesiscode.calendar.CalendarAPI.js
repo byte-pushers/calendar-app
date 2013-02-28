@@ -528,7 +528,7 @@ CalendarApp.models.Month = function () {
 	}
 	function setWeeksInMonth(date) {
 		that.weeks = getWeeksInMonth(date);
-		that.setCurrentDayOfMonth(date);
+		that.setCurrentDayOfTheMonth(date);
 		that.bindEvents();
 	}
 	function getNextDate() {
@@ -618,7 +618,7 @@ CalendarApp.models.Month = function () {
 		}
 		return targetEvent;
 	};
-	this.getSelectedMonthName = function () {
+	this.getMonthNameOfSelectedDate = function () {
 		return getMonthName(selectedDate.getMonth(), false);
 	};
 	this.getSelectedDate = function () {
@@ -635,7 +635,7 @@ CalendarApp.models.Month = function () {
 		return day + " " + month + " " + date + ", " + year;
 	};
 	this.setSelectedMonthName = function () {
-		this.selectedMonthName = this.getSelectedMonthName();
+		this.selectedMonthName = this.getMonthNameOfSelectedDate();
 	};
 	this.setSelectedDateDisplayName = function () {
 		this.selectedDateDisplayName = this.getSelectedDateDisplayName();
@@ -645,37 +645,37 @@ CalendarApp.models.Month = function () {
 		setWeeksInMonth(this.getSelectedDate());
 		this.setSelectedMonthName();
 		this.setSelectedDateDisplayName();
-		return this.getCurrentDayOfMonth(this.getSelectedDate());
+		return this.getCurrentDayOfTheMonth(this.getSelectedDate());
 	};
 	this.selectNextDay = function () {
 		setWeeksInMonth(getNextDate());
 		this.setSelectedMonthName();
 		this.setSelectedDateDisplayName();
-		return this.getCurrentDayOfMonth(this.getSelectedDate());
+		return this.getCurrentDayOfTheMonth(this.getSelectedDate());
 	};
 	this.selectPreviousDay = function () {
 		setWeeksInMonth(getPreviousDate());
 		this.setSelectedMonthName();
 		this.setSelectedDateDisplayName();
-		return this.getCurrentDayOfMonth(this.getSelectedDate());
+		return this.getCurrentDayOfTheMonth(this.getSelectedDate());
 	};
 	this.selectFirstDayOfNextMonth = function () {
 		setWeeksInMonth(getNextMonthDate(1));
 		this.setSelectedMonthName();
 		this.setSelectedDateDisplayName();
-		return this.getCurrentDayOfMonth(this.getSelectedDate());
+		return this.getCurrentDayOfTheMonth(this.getSelectedDate());
 	};
 	this.selectFirstDayOfPreviousMonth = function () {
 		setWeeksInMonth(getPreviousMonthDate(1));
 		this.setSelectedMonthName();
 		this.setSelectedDateDisplayName();
-		return this.getCurrentDayOfMonth(this.getSelectedDate());
+		return this.getCurrentDayOfTheMonth(this.getSelectedDate());
 	};
 	this.selectLastDayOfPreviousMonth = function () {
 		setWeeksInMonth(getPreviousMonthDate(CalendarApp.models.Month.getPreviousMonthTotalDays(this.getSelectedDate())));
 		this.setSelectedMonthName();
 		this.setSelectedDateDisplayName();
-		return this.getCurrentDayOfMonth(this.getSelectedDate());
+		return this.getCurrentDayOfTheMonth(this.getSelectedDate());
 	};
 	this.highLightSelectedDay = function (previouslySelectedDate) {
 		var selector = "div#" + (new CalendarApp.models.Day(selectedDate)).getId();
@@ -695,7 +695,7 @@ CalendarApp.models.Month = function () {
 			$(selector).addClass("calendar-day-with-events");
 		}
 	};
-	this.setCurrentDayOfMonth = function (selectedDateOfWeek) {
+	this.setCurrentDayOfTheMonth = function (selectedDateOfWeek) {
 		var i, week;
 		for (i = 0; i < this.weeks.length; i = i + 1) {
 			week = this.weeks[i];
@@ -704,7 +704,7 @@ CalendarApp.models.Month = function () {
 			}
 		}
 	};
-	this.getCurrentDayOfMonth = function () {
+	this.getCurrentDayOfTheMonth = function () {
 		var i, week, currentDayOfMonth = null;
 		for (i = 0; i < this.weeks.length; i = i + 1) {
 			week = this.weeks[i];
@@ -718,9 +718,9 @@ CalendarApp.models.Month = function () {
 		}
 		return currentDayOfMonth;
 	};
-	this.selectedMonthName = this.getSelectedMonthName();
+	this.selectedMonthName = this.getMonthNameOfSelectedDate();
 	this.selectedDateDisplayName = this.getSelectedDateDisplayName();
-	this.setCurrentDayOfMonth(this.getSelectedDate());
+	this.setCurrentDayOfTheMonth(this.getSelectedDate());
 };
 /**
  * <p>Static field that is used to get calendar full name, abbreviated names, and total calendar days.</p>

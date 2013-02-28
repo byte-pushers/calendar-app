@@ -15,6 +15,7 @@ files = [
     'src/main/webapp/js/com.noesiscode.utils.converters.date.DateConverter.js',
     'src/main/webapp/js/com.noesiscode.models.Person.js',
     'src/main/webapp/js/com.noesiscode.calendar.js',
+    'src/main/webapp/js/com.noesiscode.calendar.utils.MonthUtility.js',
     'src/main/webapp/js/com.noesiscode.calendar.models.exceptions.Errors.js',
     'src/main/webapp/js/com.noesiscode.calendar.models.Event.js',
     'src/main/webapp/js/com.noesiscode.calendar.models.EventTransformer.js',

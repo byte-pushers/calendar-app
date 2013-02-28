@@ -15,8 +15,10 @@ angular.module('NoesisCodeCalendar', ['NoesisCodeCalendarService'])
 
             },
             controller: function CalendarController($scope, CalendarEventService) {
-                $scope.month = new CalendarApp.models.Month();
-                $scope.weeks = $scope.month.weeks;
+                $scope.calendar = new CalendarApp.models.Calendar();
+                $scope.month = $scope.calendar.getCurrentMonth();
+                //$scope.month = new CalendarApp.models.Month();
+                $scope.weeks = $scope.month.getWeeks();
 
                 CalendarEventService.query(function (jsonEvents) {
                     $scope.events = CalendarApp.models.EventTransformer.transformJSONEvents(jsonEvents);
@@ -39,21 +41,20 @@ angular.module('NoesisCodeCalendar', ['NoesisCodeCalendarService'])
                 };
                 $scope.selectDay = function (selectedDate) {
                     var previouslySelectedDate = new Date($scope.month.getSelectedDate().getTime()),
-                        selectedDay = $scope.month.selectDayOfMonth(selectedDate);
+                        selectedDay = $scope.month.selectDayOfTheMonth(selectedDate);
                     $scope.todaysEvents = selectedDay.getEvents();
                     $scope.month.highLightSelectedDay(previouslySelectedDate);
                 };
                 $scope.selectNextDay = function () {
                     var previouslySelectedDate = new Date($scope.month.getSelectedDate().getTime()),
-                        nextDay = new Date(previouslySelectedDate.getTime()),
-                        selectedDay = null;
-                    nextDay.setDate(nextDay.getDate() + 1);
-                    if (previouslySelectedDate.getMonth() !== nextDay.getMonth()) {
-                        selectedDay = $scope.selectFirstDayOfNextMonth();
-                    } else {
+                        cachedWeeks = $scope.calendar.getCachedMonth().getWeeks(),
                         selectedDay = $scope.month.selectNextDay();
+
+                    if (CalendarApp.MonthUtility.isDateNotInMonthView(selectedDay.getDate(), cachedWeeks)) {
+                        $scope.weeks = $scope.month.getWeeks();
+                        $scope.todaysEvents = selectedDay.getEvents();
                     }
-                    $scope.todaysEvents = selectedDay.getEvents();
+
                     $scope.month.highLightSelectedDay(previouslySelectedDate);
                 };
                 $scope.selectPreviousDay = function () {
@@ -72,22 +73,22 @@ angular.module('NoesisCodeCalendar', ['NoesisCodeCalendarService'])
                 $scope.selectFirstDayOfPreviousMonth = function () {
                     var selectedDay = $scope.month.selectFirstDayOfPreviousMonth();
                     $scope.todaysEvents = selectedDay.getEvents();
-                    $scope.weeks = $scope.month.weeks;
+                    $scope.weeks = $scope.month.getWeeks();
                 };
                 $scope.selectFirstDayOfNextMonth = function () {
                     var selectedDay = $scope.month.selectFirstDayOfNextMonth();
                     $scope.todaysEvents = selectedDay.getEvents();
-                    $scope.weeks = $scope.month.weeks;
+                    $scope.weeks = $scope.month.getWeeks();
                 };
                 $scope.selectLastDayOfPreviousMonth = function () {
                     var selectedDay = $scope.month.selectLastDayOfPreviousMonth();
                     $scope.todaysEvents = selectedDay.getEvents();
-                    $scope.weeks = $scope.month.weeks;
+                    $scope.weeks = $scope.month.getWeeks();
                 };
-                $scope.selectDayOfMonth = function (day) {
-                    var selectedDay = $scope.month.selectDayOfMonth(day);
+                $scope.selectDayOfTheMonth = function (day) {
+                    var selectedDay = $scope.month.selectDayOfTheMonth(day);
                     $scope.todaysEvents = selectedDay.getEvents();
-                    $scope.weeks = $scope.month.weeks;
+                    $scope.weeks = $scope.month.getWeeks();
                     return selectedDay;
                 };
             },

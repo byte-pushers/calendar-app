@@ -106,7 +106,8 @@ CalendarApp.models.Week = function (weekdays) {
                 if (this.weekdays[i].getDate().toString() === selectedDateOfWeek.toString()) {
                     this.weekdays[i].setCurrentDayOfWeek(true);
                     currentDayOfWeek = this.weekdays[i];
-                    break;
+                } else {
+                    this.weekdays[i].setCurrentDayOfWeek(false);
                 }
             }
         }

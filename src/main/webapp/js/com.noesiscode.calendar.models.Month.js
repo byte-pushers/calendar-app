@@ -118,7 +118,7 @@ CalendarApp.models.Month = function () {
     /**
      * <p>Gets the events that are scheduled for the month.</p>
      *
-     * @returns {CalendarApp.models.Event} The events that are scheduled for the month.
+     * @returns {CalendarApp.models.Event[]} The events that are scheduled for the month.
      * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
      */
     this.getEvents = function () {
@@ -128,7 +128,7 @@ CalendarApp.models.Month = function () {
      * <p>Convenience method to find events on given date.</p>
      *
      * @param {<a href="http://www.w3schools.com/jsref/jsref_obj_date.asp">Date</a>} someDate Represents some arbitrary calendar date that is used as a search criteria.
-     * @returns {CalendarApp.models.Event}s The events that are scheduled for the day.
+     * @returns {CalendarApp.models.Event[]} The events that are scheduled for the day.
      * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
      */
     this.findEventsByDate = function (someDate) {
@@ -145,7 +145,7 @@ CalendarApp.models.Month = function () {
     /**
      * <p>Convenience method to find events for today.</p>
      *
-     * @returns {CalendarApp.models.Event}s The events that are scheduled for today.
+     * @returns {CalendarApp.models.Event[]} The events that are scheduled for today.
      * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
      */
     this.findEventsForToday = function () {
@@ -164,7 +164,7 @@ CalendarApp.models.Month = function () {
      * <p>Convenience method to find an event by its identifier.</p>
      *
      * @param {<a href="http://www.w3schools.com/jsref/jsref_obj_number.asp">Number</a>} id Represents an event identifier that is used as a search criteria.
-     * @returns {CalendarApp.models.Event}s The event that is scheduled for the month.
+     * @returns {CalendarApp.models.Event[]} The event that is scheduled for the month.
      * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
      */
     this.findEventById = function (id) {
@@ -430,7 +430,7 @@ CalendarApp.models.Month = function () {
      * @private
      * @param {<a href="http://www.w3schools.com/jsref/jsref_obj_date.asp">Date</a>} date Represents some arbitrary calendar date.
      *
-     * @returns {Array} An array of the remaining weekdays of the week before is the <a href="http://www.w3schools.com/jsref/jsref_obj_date.asp">Date</a> passed in.
+     * @returns {CalendarApp.models.Day[]} An array of the remaining weekdays of the week before is the <a href="http://www.w3schools.com/jsref/jsref_obj_date.asp">Date</a> passed in.
      * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
      */
     function getRemainingWeekDaysBefore(date) {
@@ -449,7 +449,7 @@ CalendarApp.models.Month = function () {
      * @private
      * @param {<a href="http://www.w3schools.com/jsref/jsref_obj_date.asp">Date</a>} date Represents some arbitrary calendar date.
      *
-     * @returns {Array} An array of the remaining weekdays of the week after the <a href="http://www.w3schools.com/jsref/jsref_obj_date.asp">Date</a> passed in.
+     * @returns {CalendarApp.models.Day[]} An array of the remaining weekdays of the week after the <a href="http://www.w3schools.com/jsref/jsref_obj_date.asp">Date</a> passed in.
      * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
      */
     function getRemainingWeekDaysAfter(date) {
@@ -468,7 +468,7 @@ CalendarApp.models.Month = function () {
      * @private
      * @param {<a href="http://www.w3schools.com/jsref/jsref_obj_date.asp">Date</a>} date Represents some arbitrary calendar date.
      *
-     * @returns {Week} An array of weekdays that represents an entire week that contains the <a href="http://www.w3schools.com/jsref/jsref_obj_date.asp">Date</a> passed in.
+     * @returns {CalendarApp.models.Week[]} An array of weekdays that represents an entire week that contains the <a href="http://www.w3schools.com/jsref/jsref_obj_date.asp">Date</a> passed in.
      * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
      */
     function getWeek(date) {
@@ -491,7 +491,7 @@ CalendarApp.models.Month = function () {
      * @private
      * @param {<a href="http://www.w3schools.com/jsref/jsref_obj_date.asp">Date</a>} date Represents some arbitrary calendar date.
      *
-     * @returns {Week} An array of weekdays that represents an entire week that is before the <a href="http://www.w3schools.com/jsref/jsref_obj_date.asp">Date</a> passed in.
+     * @returns {CalendarApp.models.Week[]} An array of weekdays that represents an entire week that is before the <a href="http://www.w3schools.com/jsref/jsref_obj_date.asp">Date</a> passed in.
      * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
      */
     function getWeekBefore(date) {
@@ -510,7 +510,7 @@ CalendarApp.models.Month = function () {
      * @private
      * @param {<a href="http://www.w3schools.com/jsref/jsref_obj_date.asp">Date</a>} date Represents some arbitrary calendar date.
      *
-     * @returns {Week} An array of weekdays that represents an entire week that is after the <a href="http://www.w3schools.com/jsref/jsref_obj_date.asp">Date</a> passed in up to and including the last day in the week.
+     * @returns {CalendarApp.models.Week[]} An array of weekdays that represents an entire week that is after the <a href="http://www.w3schools.com/jsref/jsref_obj_date.asp">Date</a> passed in up to and including the last day in the week.
      * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
      */
     function getWeekAfter(date) {
@@ -545,16 +545,100 @@ CalendarApp.models.Month = function () {
         return firstWeekInMonth;
     }
     /**
-     * <p>Retrieves all the weeks in a calendar month.
-     * @private
-     * @param {<a href="http://www.w3schools.com/jsref/jsref_obj_date.asp">Date</a>} Represents some arbitrary calendar Date in a calendar month.
+     * <p>Convenience method that finds the week in the current month for the specified date</p>
+     * <p>The specified date should be in the current month.</p>
      *
-     * @returns {Week} The all the {@link Week}s in the calendar month.
+     * @private
+     * @param {<a href="http://www.w3schools.com/jsref/jsref_obj_date.asp">Date</a>} someDate Represents an arbitrary calendar date.
+     * @returns {CalendarApp.models.Week} Week of the current month.
      * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
      */
-    function getWeeksInMonth(date) {
-        var weeksInMonth = [], firstWeekInMonth = getFirstWeekInMonth(getWeek(date), date.getMonth()),
-            i = 0;
+    function findWeekInMonth(someDate) {
+        var i, targetWeek = null;
+        for (i = 0; i < weeks.length; i = i + 1) {
+            if (weeks[i].isWeekOf(someDate)) {
+                targetWeek = weeks[i];
+                break;
+            }
+        }
+        return targetWeek;
+    }
+    /**
+     * <p>Convenience method that sets and returns the {@link Week}s of the current Month.
+     * The specified date object is used to determine which month to use when returning the weeks
+     * in the month.</p>
+     *
+     * @private
+     * @param {<a href="http://www.w3schools.com/jsref/jsref_obj_date.asp">Date</a>} someDate Represents an arbitrary calendar date.
+     * @return {CalendarApp.models.Week[]} An array of weeks of the month.
+     * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
+     */
+    function setWeeksInMonth(date) {
+        weeks = that.getWeeksInMonth(date);
+        that.bindEvents();
+        //that.setCurrentDayOfTheMonth(date);
+        return weeks;
+    }
+    /**
+     * <p>Convenience method that returns the next {@link Day} after the selected date on the calendar.</p>
+     *
+     * @private
+     * @returns {CalendarApp.models.Day} The next day after the selected date.
+     * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
+     */
+    function getNextDay() {
+        var nextDay = new Date(selectedDate.getTime());
+        nextDay.setDate(nextDay.getDate() + 1);
+        return nextDay;
+    }
+    /**
+     * <p>Convenience method that returns the previous {@link Day} before the selected date on the calendar.</p>
+     *
+     * @private
+     * @returns {CalendarApp.models.Day} The previous day before the selected date.
+     * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
+     */
+    function getPreviousDay() {
+        var previousDay = new Date(selectedDate.getTime());
+        previousDay.setDate(previousDay.getDate() - 1);
+        return previousDay;
+    }
+    /**
+     * <p>Convenience method that returns the next {@link Month} after the selected date on the calendar.</p>
+     *
+     * @private
+     * @param {<a href="http://www.w3schools.com/jsref/jsref_obj_number.asp">Number</a>} dayOfTheMonth Represents the day of the month.
+     * @returns {CalendarApp.models.Day} The next month after the selected date.
+     * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
+     */
+    function getNextMonth(dayOfTheMonth) {
+        var nextMonth = new Date(selectedDate.getTime());
+        nextMonth.setMonth((nextMonth.getMonth() + 1), dayOfTheMonth);
+        return nextMonth;
+    }
+    /**
+     * <p>Convenience method that returns the previous {@link Month} before the selected date on the calendar.</p>
+     *
+     * @private
+     * @param {<a href="http://www.w3schools.com/jsref/jsref_obj_number.asp">Number</a>} dayOfTheMonth Represents the day of the month.
+     * @returns CalendarApp.models.Day} The previous month before the selected date.
+     * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
+     */
+    function getPreviousMonth(dayOfTheMonth) {
+        var previousMonth = new Date(selectedDate.getTime());
+        previousMonth.setMonth((previousMonth.getMonth() - 1), dayOfTheMonth);
+        return previousMonth;
+    }
+    /**
+     * <p>Retrieves all the weeks in a calendar month.
+     *
+     * @param {<a href="http://www.w3schools.com/jsref/jsref_obj_date.asp">Date</a>} Represents some arbitrary calendar Date in a calendar month.
+     *
+     * @returns {CalendarApp.models.Week[]} The all the {@link Week}s in the calendar month.
+     * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
+     */
+    this.getWeeksInMonth = function (date) {
+        var weeksInMonth = [], firstWeekInMonth = getFirstWeekInMonth(getWeek(date), date.getMonth()), i = 0;
         weeksInMonth[0] = firstWeekInMonth;
         weeksInMonth[1] = getWeekAfter(weeksInMonth[0].saturday.getDate());
         weeksInMonth[2] = getWeekAfter(weeksInMonth[1].saturday.getDate());
@@ -580,92 +664,7 @@ CalendarApp.models.Month = function () {
         }
 
         return weeksInMonth;
-    }
-    /**
-     * <p>Convenience method that finds the week in the current month for the specified date</p>
-     * <p>The specified date should be in the current month.</p>
-     *
-     * @private
-     * @param {<a href="http://www.w3schools.com/jsref/jsref_obj_date.asp">Date</a>} someDate Represents an arbitrary calendar date.
-     * @return {@link Week} Week of the current month.
-     * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
-     */
-    function findWeekInMonth(someDate) {
-        var i, targetWeek = null;
-        for (i = 0; i < weeks.length; i = i + 1) {
-            if (weeks[i].isWeekOf(someDate)) {
-                targetWeek = weeks[i];
-                break;
-            }
-        }
-        return targetWeek;
-    }
-    /**
-     * <p>Convenience method that sets and returns the {@link Week}s of the current Month.
-     * The specified date object is used to determine which month to use when returning the weeks
-     * in the month.</p>
-     *
-     * @private
-     * @param {<a href="http://www.w3schools.com/jsref/jsref_obj_date.asp">Date</a>} someDate Represents an arbitrary calendar date.
-     * @return {@link Week} An array of weeks of the month.
-     * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
-     */
-    function setWeeksInMonth(date) {
-        weeks = getWeeksInMonth(date);
-        that.bindEvents();
-        //that.setCurrentDayOfTheMonth(date);
-        return weeks;
-    }
-    /**
-     * <p>Convenience method that returns the next {@link Day} after the selected date on the calendar.</p>
-     *
-     * @private
-     * @return {@link Day} The next day after the selected date.
-     * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
-     */
-    function getNextDay() {
-        var nextDay = new Date(selectedDate.getTime());
-        nextDay.setDate(nextDay.getDate() + 1);
-        return nextDay;
-    }
-    /**
-     * <p>Convenience method that returns the previous {@link Day} before the selected date on the calendar.</p>
-     *
-     * @private
-     * @return {@link Day} The previous day before the selected date.
-     * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
-     */
-    function getPreviousDay() {
-        var previousDay = new Date(selectedDate.getTime());
-        previousDay.setDate(previousDay.getDate() - 1);
-        return previousDay;
-    }
-    /**
-     * <p>Convenience method that returns the next {@link Month} after the selected date on the calendar.</p>
-     *
-     * @private
-     * @param {<a href="http://www.w3schools.com/jsref/jsref_obj_number.asp">Number</a>} dayOfTheMonth Represents the day of the month.
-     * @return {@link Day} The next month after the selected date.
-     * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
-     */
-    function getNextMonth(dayOfTheMonth) {
-        var nextMonth = new Date(selectedDate.getTime());
-        nextMonth.setMonth((nextMonth.getMonth() + 1), dayOfTheMonth);
-        return nextMonth;
-    }
-    /**
-     * <p>Convenience method that returns the previous {@link Month} before the selected date on the calendar.</p>
-     *
-     * @private
-     * @param {<a href="http://www.w3schools.com/jsref/jsref_obj_number.asp">Number</a>} dayOfTheMonth Represents the day of the month.
-     * @return {@link Day} The previous month before the selected date.
-     * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
-     */
-    function getPreviousMonth(dayOfTheMonth) {
-        var previousMonth = new Date(selectedDate.getTime());
-        previousMonth.setMonth((previousMonth.getMonth() - 1), dayOfTheMonth);
-        return previousMonth;
-    }
+    };
     weeks = setWeeksInMonth(selectedDate);
     name = getMonthName((new Date()).getMonth(), false);
     selectedMonthName = this.getMonthNameOfSelectedDate();
@@ -693,7 +692,7 @@ CalendarApp.models.Month.getMonthIndex = function (abbr) {
  * @static
  * @function
  * @param {<a href="http://www.w3schools.com/jsref/jsref_obj_date.asp">Date</a>} date Represents some arbitrary calendar date.
- * @return {@link <a href="http://www.w3schools.com/jsref/jsref_obj_number.asp">Number</a>} The total days in the previous month.
+ * @returns {@link <a href="http://www.w3schools.com/jsref/jsref_obj_number.asp">Number</a>} The total days in the previous month.
  * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
  */
 CalendarApp.models.Month.getPreviousMonthTotalDays = function (date) {
@@ -709,7 +708,7 @@ CalendarApp.models.Month.getPreviousMonthTotalDays = function (date) {
  * @static
  * @function
  * @param {<a href="http://www.w3schools.com/jsref/jsref_obj_date.asp">Date</a>} date Represents some arbitrary calendar date.
- * @return {@link <a href="http://www.w3schools.com/jsref/jsref_obj_number.asp">Number</a>} The total days in the next month.
+ * @returns {@link <a href="http://www.w3schools.com/jsref/jsref_obj_number.asp">Number</a>} The total days in the next month.
  * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
  */
 CalendarApp.models.Month.getNextMonthTotalDays = function (date) {

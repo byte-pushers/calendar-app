@@ -53,6 +53,8 @@ angular.module('NoesisCodeCalendar', ['NoesisCodeCalendarService'])
                     if (CalendarApp.MonthUtility.isDateNotInMonthView(selectedDay.getDate(), cachedWeeks)) {
                         $scope.weeks = $scope.month.getWeeks();
                         $scope.todaysEvents = selectedDay.getEvents();
+                        //$scope.calendar.setCachedMonth();
+
                     }
 
                     $scope.month.highLightSelectedDay(previouslySelectedDate);

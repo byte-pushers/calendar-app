@@ -29,7 +29,7 @@ describe("MyCalendar API", function(){
         date.setFullYear(2012, 3, 25);
         var month = (new Tester()).getInstance(CalendarApp.models.Month);
         expect(month).toBeDefined();
-        var weeks = month._privates.getWeeksInMonth(date);
+        var weeks = month.getWeeksInMonth(date);
         expect(weeks).toBeDefined();
         expect(weeks[0].weekdays.length).toBe(7);
         expect(weeks[0].weekdays[0].getWeekDay()).toBe("Sunday");

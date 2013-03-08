@@ -41,7 +41,7 @@
         </div>
     </div>
     <div id="calendar-nav-container">
-        <div class="calendar-month-nav-container">Today {{month.selectedDateDisplayName}} <button ng-click="selectPreviousDay()"><<</button> <button ng-click="selectNextDay()">>></button></div>
+        <div class="calendar-month-nav-container">Today {{month.getSelectedDateDisplayName()}} <button ng-click="selectPreviousDay()"><<</button> <button ng-click="selectNextDay()">>></button></div>
     </div>
     <div id="calendar-event-summary-list-container" ng-repeat="event in todaysEvents">
         <div id="calendar-event-summary">

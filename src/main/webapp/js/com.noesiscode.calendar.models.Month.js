@@ -16,7 +16,7 @@ CalendarApp.models = CalendarApp.models || CalendarApp.namespace("com.noesiscode
  *
  * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
  */
-CalendarApp.models.Month = function () {
+CalendarApp.models.Month = function (targetDate) {
     "use strict";
     var that = this,
         /**
@@ -25,7 +25,7 @@ CalendarApp.models.Month = function () {
          * @field
          * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
          */
-        selectedDate = new Date(),
+        selectedDate = (targetDate !== undefined && targetDate !== null) ? targetDate : new Date(),
         /**
          * <p>Represents the name of the selected month a user has selected.
          * @private
@@ -203,42 +203,66 @@ CalendarApp.models.Month = function () {
      * <p>Sets the current day of the month.</p>
      *
      * @param {<a href="http://www.w3schools.com/jsref/jsref_obj_date.asp">Date</a>} someDate Represents a some arbitrary calendar date to set the current day of the month.
+     * @param {<a href="http://www.w3schools.com/jsref/jsref_obj_boolean.asp">Boolean</a>} resetWeeksInMonth Indicates whether or not to reset the weeks in the month.
      * @returns {CalendarApp.models.Day} The current day of the month.
      * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
      */
-    this.setCurrentDayOfTheMonth = function (someDate) {
-        var i = 0, currentDayOfTheMonth = null;
+    this.setCurrentDayOfTheMonth = function (someDate, resetWeeksInMonth) {
+        var i = 0, currentDayOfTheMonth = null,
+            resetWeeksInMonth = (resetWeeksInMonth !== undefined && resetWeeksInMonth !== null) ? resetWeeksInMonth : false; //TODO: Check type for boolean.
 
-        try {
+        if(resetWeeksInMonth){
+            setWeeksInMonth(someDate);
             currentDayOfTheMonth = this.getCurrentDayOfTheMonth();
-        } catch (e) {
-            console.log(e.message);
-        }
+        } else {
+            try {
+                currentDayOfTheMonth = this.getCurrentDayOfTheMonth();
+            } catch (e) {
+                console.log(e.message);
+            }
 
-        if (currentDayOfTheMonth !== null) {
-            if (currentDayOfTheMonth.getDate().getMonth() !== selectedDate.getMonth()) {
-                setWeeksInMonth(someDate);
-                currentDayOfTheMonth = this.getCurrentDayOfTheMonth();
-            } else if (currentDayOfTheMonth.getDate().getDate() < selectedDate.getDate()) {
-                setWeeksInMonth(someDate);
-                currentDayOfTheMonth = this.getCurrentDayOfTheMonth();
+            if (currentDayOfTheMonth !== null) {
+                if (CalendarApp.getInstance().getCachedMonth() !== undefined && CalendarApp.getInstance().getCachedMonth() !== null) {
+                    if (CalendarApp.utils.MonthUtility.isDateNotInMonthView(someDate, CalendarApp.getInstance().getCachedMonth().getWeeks())) {
+                        setWeeksInMonth(someDate);
+                        currentDayOfTheMonth = this.getCurrentDayOfTheMonth();
+                    }
+                } else if (currentDayOfTheMonth.getDate().getDate() !== selectedDate.getDate()) {
+                    setWeeksInMonth(someDate);
+                    currentDayOfTheMonth = this.getCurrentDayOfTheMonth();
+                }
+                /*if (currentDayOfTheMonth.getDate().getMonth() !== selectedDate.getMonth()) {
+                    setWeeksInMonth(someDate);
+                    currentDayOfTheMonth = this.getCurrentDayOfTheMonth();
+                } else if (currentDayOfTheMonth.getDate().getDate() < selectedDate.getDate()) {
+                    setWeeksInMonth(someDate);
+                    currentDayOfTheMonth = this.getCurrentDayOfTheMonth();
+                }  else if (currentDayOfTheMonth.getDate().getDate() > selectedDate.getDate()) {
+                    setWeeksInMonth(someDate);
+                    currentDayOfTheMonth = this.getCurrentDayOfTheMonth();
+                }*/
             }
         }
 
         return currentDayOfTheMonth;
     };
     /**
-     * <p>Convenience method that sets and selects the day of the month on the calendar based on the specified day.</p>
+     * <p>Gets the date of the first day of the next month.</p>
      *
-     * @param {<a href="http://www.w3schools.com/jsref/jsref_obj_date.asp">Date</a>} someDate Represents a some arbitrary calendar date to set the current day of the month.
-     * @returns {CalendarApp.models.Day} The day on the month on the calendar.
+     * @returns {<a href="http://www.w3schools.com/jsref/jsref_obj_date.asp">Date</a>} The date corresponding to the first day of the next month.
      * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
      */
-    this.selectDayOfTheMonth = function (someDate) {
-        this.setSelectedDate(someDate);
-        this.setSelectedMonthName();
-        this.setSelectedDateDisplayName();
-        return this.setCurrentDayOfTheMonth(this.getSelectedDate());
+    this.getDateFor1stDayOfNextMonth = function () {
+        return getNextMonth(1);
+    };
+    /**
+     * <p>Gets the date of the first day of the next month.</p>
+     *
+     * @returns {<a href="http://www.w3schools.com/jsref/jsref_obj_date.asp">Date</a>} The date corresponding to the first day of the next month.
+     * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
+     */
+    this.getDateFor1stDayOfPreviousMonth = function () {
+        return getPreviousMonth(1);
     };
     /**
      * <p>Convenience method to gets the name of the month for the selected date on the calendar.</p>
@@ -288,7 +312,16 @@ CalendarApp.models.Month = function () {
      * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
      */
     this.setSelectedMonthName = function () {
-        this.selectedMonthName = this.getMonthNameOfSelectedDate();
+        selectedMonthName = this.getMonthNameOfSelectedDate();
+    };
+    /**
+     * <p>Convenience method that gets the calendar's selected month name.</p>
+     *
+     * @return {Void}
+     * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
+     */
+    this.getSelectedMonthName = function () {
+        return selectedMonthName;
     };
     /**
      * <p>Convenience method that sets the display name of the calendar's selected date.</p>
@@ -303,14 +336,15 @@ CalendarApp.models.Month = function () {
      * <p>Convenience method that sets and selects a day on the calendar based on the selected date.</p>
      *
      * @param {<a href="http://www.w3schools.com/jsref/jsref_obj_date.asp">Date</a>} selectedDate Represents a selected date on the calendar.
+     * @param {<a href="http://www.w3schools.com/jsref/jsref_obj_boolean.asp">Boolean</a>} resetWeeksInMonth Indicates whether or not to reset the weeks in the month.
      * @returns {CalendarApp.models.Day} The selected day on the calendar.
      * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
      */
-    this.selectDay = function (selectedDate) {
+    this.selectDay = function (selectedDate, resetWeeksInMonth) {
         this.setSelectedDate(selectedDate);
         this.setSelectedMonthName();
         this.setSelectedDateDisplayName();
-        return this.setCurrentDayOfTheMonth(this.getSelectedDate());
+        return this.setCurrentDayOfTheMonth(this.getSelectedDate(), resetWeeksInMonth);
     };
     /**
      * <p>Convenience method that selects the next day on the calendar.</p>
@@ -358,7 +392,7 @@ CalendarApp.models.Month = function () {
         this.setSelectedDate(getPreviousMonth(1));
         this.setSelectedMonthName();
         this.setSelectedDateDisplayName();
-        return this.setCurrentDayOfTheMonth(this.getSelectedDate());
+        return this.setCurrentDayOfTheMonth(this.getSelectedDate(), true);
     };
     /**
      * <p>Convenience method that selects the last day of the previous month on the calendar.</p>
@@ -370,7 +404,7 @@ CalendarApp.models.Month = function () {
         this.setSelectedDate(getPreviousMonth(CalendarApp.models.Month.getPreviousMonthTotalDays(this.getSelectedDate())));
         this.setSelectedMonthName();
         this.setSelectedDateDisplayName();
-        return this.setCurrentDayOfTheMonth(this.getSelectedDate());
+        return this.setCurrentDayOfTheMonth(this.getSelectedDate(), true);
     };
     /**
      * <p>Convenience method to high light the selected day on the calendar.</p>

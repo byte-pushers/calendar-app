@@ -103,7 +103,7 @@ CalendarApp.weekdayNames = [{"name": "Sunday", "abbr": "Sun."},
 		                    {"name": "Thursday", "abbr": "Thu."},
 		                    {"name": "Friday", "abbr": "Fri."},
 		                    {"name": "Saturday", "abbr": "Sat."}];
-CalendarApp.models = CalendarApp.namespace("com.noesiscode.calendar.models");
+CalendarApp.models = NoesisCode.namespace("com.noesiscode.calendar.models");
 /**
  * Creates a Day object that represents the day of the {@link Week}.
  * 

@@ -1,5 +1,5 @@
 var CalendarApp = CalendarApp || {};
-CalendarApp.exceptions = CalendarApp.namespace("com.noesiscode.calendar.models.exceptions");
+CalendarApp.exceptions = NoesisCode.namespace("com.noesiscode.calendar.models.exceptions");
 CalendarApp.exceptions.ExpectedToHaveCurrentDayOfMonthException = function (message) {
 	"use strict";
 	Error.call(this, message);

@@ -1,54 +1,78 @@
-var CalendarApp = CalendarApp || {};
-CalendarApp.todaysEvents = [];
-CalendarApp.models = CalendarApp.models || CalendarApp.namespace("com.noesiscode.calendar.models");
-CalendarApp.models.findEventById = function (id, events) {
-    'use strict';
-    var i, targetEvent = null;
-    for (i = 0; i < events.length; i = i + 1) {
-        if (events[i] !== undefined && events[i] !== null) {
-            if (events[i].id === id) {
-                targetEvent = events[i];
+/*global $, NoesisCode */
+function CalendarApp () {
+    var classProps = [], instance;   // cached instance
+
+    function doNotFilterClassProperties(prop){
+        var filters = ["getClassType", "getObjectType"], i, doFilter = true;
+        if(prop !== undefined){
+            for(i = 0; i < filters.length; i = i + 1){
+                if(prop === filters[i]){
+                    doFilter = false;
+                    break;
+                }
             }
+        } else {
+            doFilter = false;
+        }
+
+        return doFilter;
+    }
+
+    for(var prop in CalendarApp) {
+        if (doNotFilterClassProperties(prop) === true) {
+            classProps[classProps.length] = {name: prop, value: CalendarApp[prop]};
         }
     }
-    return targetEvent;
-};
-/*global $, NoesisCode */
-var CalendarApp = CalendarApp || {};
-CalendarApp.models = CalendarApp.models || CalendarApp.namespace("com.noesiscode.calendar.models");
-/**
- * Creates a {@link Month} object that represents the current calendar month.
- *
- * @class Represents a calendar month.
- * @returns An instance of the Week class.
- *
- * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
- */
-CalendarApp.models.Calendar = function () {
-    "use strict";
-    var that = this,
+    // rewrite the constructor
+    CalendarApp = function CalendarApp () {
+        return instance;
+    };
+    // carry over prototype properties
+    CalendarApp.prototype = this;
+    for(i = 0; i < classProps.length; i = i + 1){
+        CalendarApp[classProps[i].name] = classProps[i].value;
+    }
+    // the instance
+    instance = new CalendarApp();
+    // the rest of the constructor pointer
+    instance.constructor = CalendarApp;
+
+    instance.todaysEvents = [];
+    instance.cachedWeeks = [];
     /**
      * <p>Represents the current calendar month.</p>
      * @private
      * @field
      * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
      */
-        currentMonth = new CalendarApp.models.Month(),
+    instance.currentMonth;
     /**
      * <p>Represents a cached calendar month.
      * @private
      * @field
      * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
      */
-        cachedMonth = new CalendarApp.models.Month();
+    instance.cachedMonth;
+    instance.findEventById = function (id, events) {
+        'use strict';
+        var i, targetEvent = null;
+        for (i = 0; i < events.length; i = i + 1) {
+            if (events[i] !== undefined && events[i] !== null) {
+                if (events[i].id === id) {
+                    targetEvent = events[i];
+                }
+            }
+        }
+        return targetEvent;
+    };
     /**
      * <p>Gets the {@link Calendar.models.Month} object for the current month.</p>
      *
      * @returns {Calendar.models.Month} The {@link Calendar.models.Month} object for the current month.
      * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
      */
-    this.getCurrentMonth = function () {
-        return currentMonth;
+    instance.getCurrentMonth = function () {
+        return instance.currentMonth;
     };
     /**
      * <p>Sets the {@link Calendar.models.Month} object for the current month.</p>
@@ -57,8 +81,8 @@ CalendarApp.models.Calendar = function () {
      * @returns {Void}
      * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
      */
-    this.setCurrentMonth = function (cMonth) {
-        currentMonth = cMonth;
+    instance.setCurrentMonth = function (cMonth) {
+        instance.currentMonth = cMonth;
     };
     /**
      * <p>Gets the cached {@link Calendar.models.Month} object for the current calendar view.</p>
@@ -66,8 +90,8 @@ CalendarApp.models.Calendar = function () {
      * @returns {Calendar.models.Month} The cached {@link Calendar.models.Month} object for the current calendar view.
      * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
      */
-    this.getCachedMonth = function () {
-        return cachedMonth;
+    instance.getCachedMonth = function () {
+        return instance.cachedMonth;
     };
     /**
      * <p>Sets the cached {@link Calendar.models.Month} object for the current calendar view.</p>
@@ -76,10 +100,32 @@ CalendarApp.models.Calendar = function () {
      * @returns {Void}
      * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
      */
-    this.setCurrentMonth = function (cMonth) {
-        cachedMonth = cMonth;
+    instance.setCachedMonth = function (cMonth) {
+        instance.cachedMonth = cMonth;
     };
-}
 
-
-
+    return instance;
+};
+CalendarApp.getInstance = function getInstance(){
+    var instance;
+    instance = new CalendarApp();
+    return instance;
+};
+CalendarApp.namespace = function (ns_string) {
+    'use strict';
+    var parts = ns_string.split('.'), parent = CalendarApp, i;
+    // strip redundant leading global
+    if (parts[0] === "CalendarApp") {
+        parts = parts.slice(1);
+    }
+    for (i = 0; i < parts.length; i += 1) {
+        // create a property if it doesn't exist
+        if (typeof parent[parts[i]] === "undefined") {
+            parent[parts[i]] = {};
+        }
+        parent = parent[parts[i]];
+    }
+    return parent;
+};
+CalendarApp.views = CalendarApp.views || CalendarApp.namespace("com.noesiscode.calendar.views");
+CalendarApp.models = CalendarApp.models || CalendarApp.namespace("com.noesiscode.calendar.models");

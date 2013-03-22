@@ -1,4 +1,9 @@
 describe("MyCalendar API", function(){
+    iit("can create singleton object CalendarApp.", function(){
+        var app = new CalendarApp();
+        expect(app).toBeDefined();
+    });
+
     it("can get the first week in month.", function(){
         var date = new Date();
         date.setFullYear(2012, 3, 25);

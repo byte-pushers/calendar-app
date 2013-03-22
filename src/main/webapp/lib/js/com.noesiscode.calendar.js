@@ -1,5 +1,5 @@
 var CalendarApp = CalendarApp || {};
-CalendarApp.namespace = function (ns_string) {
+NoesisCode.namespace = function (ns_string) {
 	'use strict';
 	var parts = ns_string.split('.'), parent = CalendarApp, i;
 	// strip redundant leading global

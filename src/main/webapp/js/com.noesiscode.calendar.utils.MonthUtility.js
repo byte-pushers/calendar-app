@@ -6,8 +6,9 @@
  * To change this template use File | Settings | File Templates.
  */
 var CalendarApp = CalendarApp || {};
-CalendarApp.MonthUtility = CalendarApp.models || CalendarApp.namespace("com.noesiscode.calendar.utils.MonthUtility");
-CalendarApp.MonthUtility.isDateInMonthView = function (targetDate, monthView) {
+CalendarApp.utils = CalendarApp.utils || {};
+CalendarApp.utils.MonthUtility = CalendarApp.utils || CalendarApp.namespace("com.noesiscode.calendar.utils.MonthUtility");
+CalendarApp.utils.MonthUtility.isDateInMonthView = function (targetDate, monthView) {
     var i, dateFoundInMonthView = false;
     for (i = 0; i < monthView.length; i = i + 1) {
         if (monthView[i].isWeekOf(targetDate)) {
@@ -17,7 +18,7 @@ CalendarApp.MonthUtility.isDateInMonthView = function (targetDate, monthView) {
     }
     return dateFoundInMonthView;
 };
-CalendarApp.MonthUtility.isDateNotInMonthView = function (targetDate, monthView) {
+CalendarApp.utils.MonthUtility.isDateNotInMonthView = function (targetDate, monthView) {
     var i, dateFoundInMonthView = true;
     for (i = 0; i < monthView.length; i = i + 1) {
         if (monthView[i].isWeekOf(targetDate)) {

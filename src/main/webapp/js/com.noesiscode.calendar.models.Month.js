@@ -226,21 +226,13 @@ CalendarApp.models.Month = function (targetDate) {
                     if (CalendarApp.utils.MonthUtility.isDateNotInMonthView(someDate, CalendarApp.getInstance().getCachedMonth().getWeeks())) {
                         setWeeksInMonth(someDate);
                         currentDayOfTheMonth = this.getCurrentDayOfTheMonth();
+                    } else {
+                        currentDayOfTheMonth.setCurrentDayOfWeek(false);
+                        currentDayOfTheMonth = this.findDayInMonth(someDate);
+                        currentDayOfTheMonth.setCurrentDayOfWeek(true);
+                        currentDate = someDate;
                     }
-                } else if (currentDayOfTheMonth.getDate().getDate() !== selectedDate.getDate()) {
-                    setWeeksInMonth(someDate);
-                    currentDayOfTheMonth = this.getCurrentDayOfTheMonth();
                 }
-                /*if (currentDayOfTheMonth.getDate().getMonth() !== selectedDate.getMonth()) {
-                    setWeeksInMonth(someDate);
-                    currentDayOfTheMonth = this.getCurrentDayOfTheMonth();
-                } else if (currentDayOfTheMonth.getDate().getDate() < selectedDate.getDate()) {
-                    setWeeksInMonth(someDate);
-                    currentDayOfTheMonth = this.getCurrentDayOfTheMonth();
-                }  else if (currentDayOfTheMonth.getDate().getDate() > selectedDate.getDate()) {
-                    setWeeksInMonth(someDate);
-                    currentDayOfTheMonth = this.getCurrentDayOfTheMonth();
-                }*/
             }
         }
 
@@ -434,13 +426,80 @@ CalendarApp.models.Month = function (targetDate) {
     /**
      * <p>Convenience method to determine the if the arbitrary date is in the last week of the month.</p>
      *
-     * @param {<a href="http://www.w3schools.com/jsref/jsref_obj_date.asp">Date</a>} someDate Represents the previously selected calendar date.
+     * @param {<a href="http://www.w3schools.com/jsref/jsref_obj_date.asp">Date</a>} someDate Represents the a calendar date.
      * @return {<a href="http://www.w3schools.com/jsref/jsref_obj_boolean.asp">Boolean</a>} True if the arbitrary date is in the last week of the month; otherwise return false.
      * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
      */
     this.isLastWeekInMonth = function (someDate) {
         var targetWeek = findWeekInMonth(someDate);
         return targetWeek.lastWeekInMonth;
+    };
+    /**
+     * <p>Convenience method to determine the if the arbitrary date is in the first week of the month.</p>
+     *
+     * @param {<a href="http://www.w3schools.com/jsref/jsref_obj_date.asp">Date</a>} someDate Represents the a calendar date.
+     * @return {<a href="http://www.w3schools.com/jsref/jsref_obj_boolean.asp">Boolean</a>} True if the arbitrary date is in the first week of the month; otherwise return false.
+     * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
+     */
+    this.isFirstWeekInMonth = function (someDate) {
+        var targetWeek = findWeekInMonth(someDate);
+        return targetWeek.firstWeekInMonth;
+    };
+    /**
+     * <p>Convenience method to determine the if the arbitrary date is in the first day of the first week of the month.</p>
+     *
+     * @param {<a href="http://www.w3schools.com/jsref/jsref_obj_date.asp">Date</a>} someDate Represents the a calendar date.
+     * @return {<a href="http://www.w3schools.com/jsref/jsref_obj_boolean.asp">Boolean</a>} True if the arbitrary date is in the first day of the first week of the month; otherwise return false.
+     * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
+     */
+    this.isFirstDayInFirstWeekInMonth = function (someDate) {
+        var isFirstDayInFirstWeekOfMonth = false;
+
+        if(this.isFirstWeekInMonth(someDate) && someDate.getDay() == 0){
+            isFirstDayInFirstWeekOfMonth = true;
+        }
+
+        return isFirstDayInFirstWeekOfMonth;
+    };
+    /**
+     * <p>Convenience method to determine the if the arbitrary date is in the last day of the last week of the month.</p>
+     *
+     * @param {<a href="http://www.w3schools.com/jsref/jsref_obj_date.asp">Date</a>} someDate Represents the a calendar date.
+     * @return {<a href="http://www.w3schools.com/jsref/jsref_obj_boolean.asp">Boolean</a>} True if the arbitrary date is in the last day of the last week of the month; otherwise return false.
+     * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
+     */
+    this.isLastDayInLastWeekInMonth = function (someDate) {
+        var isLastDayInLastWeekOfMonth = false;
+
+        if(this.isLastWeekInMonth(someDate) && someDate.getDay() == 6){
+            isLastDayInLastWeekOfMonth = true;
+        }
+
+        return isLastDayInLastWeekOfMonth;
+    };
+    /**
+     * <p>Convenience method to tries to find a day of the month with the specified date.</p>
+     *
+     * @param {<a href="http://www.w3schools.com/jsref/jsref_obj_date.asp">Date</a>} someDate Represents the a calendar date of the current month.
+     * @return {<a href="http://www.w3schools.com/jsref/jsref_obj_boolean.asp">Boolean</a>} Day of the month; otherwise return null.
+     * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
+     */
+    this.findDayInMonth = function (someDate) {
+        var weekInMonth = findWeekInMonth(someDate),
+            dayInMonth = null,
+            i = 0;
+        if (weekInMonth !== undefined && weekInMonth !== null) {
+            for(i = 0; i < weekInMonth.weekdays.length; i = i + 1){
+                dayInMonth = weekInMonth.weekdays[i];
+                if(dayInMonth !== undefined && dayInMonth !== null){
+                    if(dayInMonth.getDate().getTime() === someDate.getTime()){
+                        break;
+                    }
+                }
+            }
+        }
+
+        return dayInMonth;
     };
     /**
      * <p>Gets month name.</p>

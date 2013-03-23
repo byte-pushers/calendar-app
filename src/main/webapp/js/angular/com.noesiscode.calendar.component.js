@@ -43,8 +43,6 @@ angular.module('NoesisCodeCalendar', ['NoesisCodeCalendarService'])
                     var previouslySelectedDate = new Date($scope.month.getSelectedDate().getTime()),
                         resetWeeks = (resetWeeks !== undefined && resetWeeks !== null)? resetWeeks : false, //Todo: Check for type boolean.
                         selectedDay = $scope.month.selectDay(selectedDate, resetWeeks);
-
-                    if (resetWeeks) $scope.weeks = $scope.month.getWeeks();
                     $scope.todaysEvents = selectedDay.getEvents();
                     $scope.month.highLightSelectedDay(previouslySelectedDate);
                 };
@@ -55,10 +53,10 @@ angular.module('NoesisCodeCalendar', ['NoesisCodeCalendarService'])
 
                     if (CalendarApp.utils.MonthUtility.isDateNotInMonthView(selectedDay.getDate(), cachedWeeks)) {
                         $scope.weeks = $scope.month.getWeeks();
-                        $scope.todaysEvents = selectedDay.getEvents();
                         CalendarApp.getInstance().setCachedMonth(new CalendarApp.models.Month(selectedDay.getDate()));
                     }
 
+                    $scope.todaysEvents = selectedDay.getEvents();
                     $scope.month.highLightSelectedDay(previouslySelectedDate);
                 };
                 $scope.selectPreviousDay = function () {
@@ -68,22 +66,24 @@ angular.module('NoesisCodeCalendar', ['NoesisCodeCalendarService'])
 
                     if (CalendarApp.utils.MonthUtility.isDateNotInMonthView(selectedDay.getDate(), cachedWeeks)) {
                         $scope.weeks = $scope.month.getWeeks();
-                        $scope.todaysEvents = selectedDay.getEvents();
                         CalendarApp.getInstance().setCachedMonth(new CalendarApp.models.Month(selectedDay.getDate()));
                     }
 
+
+                    $scope.todaysEvents = selectedDay.getEvents();
                     $scope.month.highLightSelectedDay(previouslySelectedDate);
                 };
                 $scope.selectFirstDayOfPreviousMonth = function () {
-                    $scope.selectDay($scope.month.getDateFor1stDayOfPreviousMonth(), true);
+                    var selectedDate = $scope.month.getDateFor1stDayOfPreviousMonth();
+                    $scope.selectDay(selectedDate, true);
+                    $scope.weeks = $scope.month.getWeeks();
+                    CalendarApp.getInstance().setCachedMonth(new CalendarApp.models.Month(selectedDate));
                 };
                 $scope.selectFirstDayOfNextMonth = function () {
-                    $scope.selectDay($scope.month.getDateFor1stDayOfNextMonth(), true);
-                };
-                $scope.selectLastDayOfPreviousMonth = function () {
-                    var selectedDay = $scope.month.selectLastDayOfPreviousMonth();
-                    $scope.todaysEvents = selectedDay.getEvents();
+                    var selectedDate = $scope.month.getDateFor1stDayOfNextMonth();
+                    $scope.selectDay(selectedDate, true);
                     $scope.weeks = $scope.month.getWeeks();
+                    CalendarApp.getInstance().setCachedMonth(new CalendarApp.models.Month(selectedDate));
                 };
             },
             templateUrl: 'partials/calendar-month-view-template.html',

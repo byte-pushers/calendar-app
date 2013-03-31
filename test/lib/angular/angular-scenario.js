@@ -15008,7 +15008,7 @@ function $LocationProvider(){
          $scope.message = 'Hello World!';
        }
      </file>
-     <file name="index.html">
+     <file name="index-original.html">
        <div ng-controller="LogCtrl">
          <p>Reload this page with open console, enter text and hit the log button...</p>
          Message:
@@ -16530,7 +16530,7 @@ function $RouteProvider(){
        to get it working on jsfiddle as well.
 
      <example module="ngView">
-       <file name="index.html">
+       <file name="index-original.html">
          <div ng-controller="MainCntl">
            Choose:
            <a href="Book/Moby">Moby</a> |
@@ -16869,7 +16869,7 @@ function $RouteProvider(){
  * @example
  * <pre>
  *  // Given:
- *  // URL: http://server.com/index.html#/Chapter/1/Section/2?search=moby
+ *  // URL: http://server.com/index-original.html#/Chapter/1/Section/2?search=moby
  *  // Route: /Chapter/:chapterId/Section/:sectionId
  *  //
  *  // Then
@@ -18172,7 +18172,7 @@ function $HttpProvider() {
      *
      * @example
       <example>
-        <file name="index.html">
+        <file name="index-original.html">
           <div ng-controller="FetchCtrl">
             <select ng-model="method">
               <option>GET</option>
@@ -21288,7 +21288,7 @@ var VALID_CLASS = 'ng-valid',
           };
         });
     </file>
-    <file name="index.html">
+    <file name="index-original.html">
       <form name="myForm">
        <div contenteditable
             name="myWidget" ng-model="userContent"
@@ -21923,7 +21923,7 @@ function classDirective(name, selector) {
  *
  * @example
    <example>
-     <file name="index.html">
+     <file name="index-original.html">
       <input type="button" value="set" ng-click="myVar='my-class'">
       <input type="button" value="clear" ng-click="myVar=''">
       <br>
@@ -21972,7 +21972,7 @@ var ngClassDirective = classDirective('', true);
  *
  * @example
    <example>
-     <file name="index.html">
+     <file name="index-original.html">
         <ol ng-init="names=['John', 'Mary', 'Cate', 'Suz']">
           <li ng-repeat="name in names">
            <span ng-class-odd="'odd'" ng-class-even="'even'">
@@ -22019,7 +22019,7 @@ var ngClassOddDirective = classDirective('Odd', 0);
  *
  * @example
    <example>
-     <file name="index.html">
+     <file name="index-original.html">
         <ol ng-init="names=['John', 'Mary', 'Cate', 'Suz']">
           <li ng-repeat="name in names">
            <span ng-class-odd="'odd'" ng-class-even="'even'">
@@ -22484,7 +22484,7 @@ var ngSubmitDirective = ngDirective(function(scope, element, attrs) {
  *
  * @example
   <example>
-    <file name="index.html">
+    <file name="index-original.html">
      <div ng-controller="Ctrl">
        <select ng-model="template" ng-options="t.name for t in templates">
         <option value="">(blank)</option>
@@ -23142,7 +23142,7 @@ var ngHideDirective = ngDirective(function(scope, element, attr){
  *
  * @example
    <example>
-     <file name="index.html">
+     <file name="index-original.html">
         <input type="button" value="set" ng-click="myStyle={color:'red'}">
         <input type="button" value="clear" ng-click="myStyle={}">
         <br/>
@@ -23352,14 +23352,14 @@ var ngTranscludeDirective = ngDirective({
  * @description
  * # Overview
  * `ngView` is a directive that complements the {@link ng.$route $route} service by
- * including the rendered template of the current route into the main layout (`index.html`) file.
+ * including the rendered template of the current route into the main layout (`index-original.html`) file.
  * Every time the current route changes, the included view changes with it according to the
  * configuration of the `$route` service.
  *
  * @scope
  * @example
     <example module="ngView">
-      <file name="index.html">
+      <file name="index-original.html">
         <div ng-controller="MainCntl">
           Choose:
           <a href="Book/Moby">Moby</a> |

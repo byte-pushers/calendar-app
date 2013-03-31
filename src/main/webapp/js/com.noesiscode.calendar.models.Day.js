@@ -26,13 +26,13 @@ CalendarApp.models.Day = function (date, weekIndex, currentDayOfWeek) {
     this.weekIndex = (weekIndex === "undefined" || weekIndex === null) ? -1 : weekIndex;
     this.currentDayOfWeek = (currentDayOfWeek === "undefined" || currentDayOfWeek === null) ? false : currentDayOfWeek;
     this.weekdayNames = [
-        {"name": "Sunday", "abbr": "Sun."},
-        {"name": "Monday", "abbr": "Mon."},
-        {"name": "Tuesday", "abbr": "Tue."},
-        {"name": "Wednesday", "abbr": "Wed."},
-        {"name": "Thursday", "abbr": "Thu."},
-        {"name": "Friday", "abbr": "Fri."},
-        {"name": "Saturday", "abbr": "Sat."}
+        {"name": "Sunday", "abbr": "Sun"},
+        {"name": "Monday", "abbr": "Mon"},
+        {"name": "Tuesday", "abbr": "Tue"},
+        {"name": "Wednesday", "abbr": "Wed"},
+        {"name": "Thursday", "abbr": "Thu"},
+        {"name": "Friday", "abbr": "Fri"},
+        {"name": "Saturday", "abbr": "Sat"}
     ];
     this.events = [];
     this.lastWeekInMonth = false;
@@ -50,8 +50,8 @@ CalendarApp.models.Day = function (date, weekIndex, currentDayOfWeek) {
      */
     this.getWeekDay = function (abbr) {
         return (abbr !== undefined && abbr === true) ?
-                this.weekdayNames[this.date.getDay()].abbr :
-                this.weekdayNames[this.date.getDay()].name;
+                this.weekdayNames[this.getDate().getDay()].abbr :
+                this.weekdayNames[this.getDate().getDay()].name;
     };
     /**
      * <p>Gets the date for a specific day of the month.</p>
@@ -75,12 +75,21 @@ CalendarApp.models.Day = function (date, weekIndex, currentDayOfWeek) {
         return "Day[weekday: " + this.weekday + ", day: " + this.day + ", weekIndex: " + this.weekIndex + "]";
     };
     /**
+     * <p>Clear the events that are scheduled for the day.</p>
+     *
+     * @param {@link CalendarApp.models.Event} The events that are scheduled for the day.
+     * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
+     */
+    this.clearEvents = function () {
+        this.events = [];
+    };
+    /**
      * <p>Set the events that are scheduled for the appropriate days.</p>
      *
      * @param {@link CalendarApp.models.Event} The events that are scheduled for the day.
      * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
      */
-    this.setEvents = function (events) {
+    this.setEvents = function (events) {//TODO: Need to rename to addEvents because the current logic does not reset events.
         var i, eventStartEndTime;
         for (i = 0; i < events.length; i = i + 1) {
             if (events[i] !== undefined && events[i] !== null) {

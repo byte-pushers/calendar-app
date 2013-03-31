@@ -105,14 +105,31 @@ CalendarApp.models.Month = function (targetDate) {
         }
     };
     /**
+     * <p>Clear the events that are scheduled for the days of the current month.</p>
+     *
+     * @return {Void}
+     * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
+     */
+    this.clearEvents = function () {
+        var i, week;
+
+        for (i = 0; i < weeks.length; i = i + 1) {
+            if (weeks[i] !== undefined && weeks[i] !== null) {
+                week = weeks[i];
+                week.clearEvents();
+            }
+        }
+    };
+    /**
      * <p>Set the events that are scheduled for the month to the appropriate days.</p>
      *
      * @param {@link CalendarApp.models.Event} The events that are scheduled for the month.
      * @return {Void}
      * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
      */
-    this.setEvents = function (newEvents) {
+    this.setEvents = function (newEvents) {//TODO: Need to rename to addEvents because the current logic does not reset events.
         events = newEvents;
+        this.clearEvents();
         this.bindEvents();
     };
     /**
@@ -414,12 +431,30 @@ CalendarApp.models.Month = function (targetDate) {
             $(selector).removeClass("calendar-day-selected calendar-day-with-no-events calendar-day-with-events");
             $(selector).addClass("calendar-day-selected-with-events");
         }
-        selector = "div#" + (new CalendarApp.models.Day(previousSelectedDate)).getId();
-        if (this.findEventsByDate(previousSelectedDate).length < 1) {
-            $(selector).removeClass("calendar-day-selected calendar-day-selected-with-events calendar-day-with-events");
-            $(selector).addClass("calendar-day-with-no-events");
-        } else {
-            $(selector).removeClass("calendar-day-selected calendar-day-with-no-events calendar-day-selected-with-events");
+        if(!selectedDate.isDateEqualTo(previousSelectedDate)){
+            selector = "div#" + (new CalendarApp.models.Day(previousSelectedDate)).getId();
+            if (this.findEventsByDate(previousSelectedDate).length < 1) {
+                $(selector).removeClass("calendar-day-selected calendar-day-selected-with-events calendar-day-with-events");
+                $(selector).addClass("calendar-day-with-no-events");
+            } else {
+                $(selector).removeClass("calendar-day-selected calendar-day-with-no-events calendar-day-selected-with-events");
+                $(selector).addClass("calendar-day-with-events");
+            }
+        }
+    };
+
+    /**
+     * <p>Convenience method to high light the selected day on the calendar.</p>
+     *
+     * @param {<a href="http://www.w3schools.com/jsref/jsref_obj_date.asp">Date</a>} previousSelectedDate Represents the previously selected calendar date.
+     * @return {Void}
+     * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
+     */
+    this.highLightTargetDayWithEvents = function (targetDate) {
+        var selector = "div#" + (new CalendarApp.models.Day(targetDate)).getId();
+
+        if (this.findEventsByDate(targetDate).length > 0 && !$(selector).hasClass("calendar-day-selected")) {
+            $(selector).removeClass("calendar-day-selected calendar-day-with-no-events calendar-day-with-events");
             $(selector).addClass("calendar-day-with-events");
         }
     };
@@ -432,7 +467,7 @@ CalendarApp.models.Month = function (targetDate) {
      */
     this.isLastWeekInMonth = function (someDate) {
         var targetWeek = findWeekInMonth(someDate);
-        return targetWeek.lastWeekInMonth;
+        return (targetWeek !== undefined && targetWeek !== null) ? targetWeek.lastWeekInMonth : false;
     };
     /**
      * <p>Convenience method to determine the if the arbitrary date is in the first week of the month.</p>
@@ -492,8 +527,12 @@ CalendarApp.models.Month = function (targetDate) {
             for(i = 0; i < weekInMonth.weekdays.length; i = i + 1){
                 dayInMonth = weekInMonth.weekdays[i];
                 if(dayInMonth !== undefined && dayInMonth !== null){
-                    if(dayInMonth.getDate().getTime() === someDate.getTime()){
-                        break;
+                    if(dayInMonth.getDate().getFullYear() === someDate.getFullYear()){
+                        if(dayInMonth.getDate().getMonth() === someDate.getMonth()){
+                            if(dayInMonth.getDate().getDate() == someDate.getDate()){
+                                break;
+                            }
+                        }
                     }
                 }
             }

@@ -115,3 +115,23 @@
 	//display: block;
 	background: #C4F3FF;
 }
+
+.calendar-day-container.over {
+    border: 1px dashed #000;
+}
+
+.calendar-day-selected.over{
+    border: 1px dashed #000;
+}
+
+.calendar-day-selected-with-events.over{
+    border: 1px dashed #000;
+}
+
+.calendar-day-with-no-events.over{
+    border: 1px dashed #000;
+}
+
+.calendar-day-with-events.over{
+    border: 1px dashed #000;
+}

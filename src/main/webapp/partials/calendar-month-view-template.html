@@ -1,5 +1,5 @@
 <!-- HTML5 TABS CODE -->
-<div id="calendar-container" ng-controller="CalendarController">Container
+<div id="calendar-container" ng-controller="CalendarController"><!--Container //-->
     <div id="calendar-menu-container">Menu</div>
     <div id="calendar-nav-container">
         <div id="calendar-header-container">{{month.getSelectedMonthName()}} <button ng-click="selectFirstDayOfPreviousMonth()"><<</button> <button ng-click="selectFirstDayOfNextMonth()">>></button></div>
@@ -33,10 +33,10 @@
     <div id="calendar-month-grid-container">
         <div class="calendar-week-container" ng-repeat="week in weeks">
             <div class="calendar-day-container" ng-repeat="day in week.weekdays">
-                <div id="{{day.getId()}}" class="ng-class:getCalendarDayClass(day);" ng-click="selectDay(day.getDate());">
-                    <div class="calendar-date">{{day.getWeekDate()}}</div>
-                    <div class="calendar-day-summary"></div>
-                </div>
+                    <div calendar-day id="{{day.getId()}}" class="ng-class:getCalendarDayClass(day);" ng-click="selectDay(day.getDate());">
+                        {{day.getWeekDate()}}<br><br>
+                    </div>
+
             </div>
         </div>
     </div>
@@ -44,7 +44,7 @@
         <div class="calendar-month-nav-container">Today {{month.getSelectedDateDisplayName()}} <button ng-click="selectPreviousDay()"><<</button> <button ng-click="selectNextDay()">>></button></div>
     </div>
     <div id="calendar-event-summary-list-container" ng-repeat="event in todaysEvents">
-        <div id="calendar-event-summary">
+        <div calendar-event-summary id="{{event.getId()}}" class="calendar-event-summary" draggable="true">
             <div class="calendar-event-startTime"><center>{{event.getStart() | date:'h:mm'}} {{event.getStart() | date:'a'}}</center></div>
             <div class="calendar-event-info">
                 <div class="calendar-event-title">{{event.getSummary()}}</div>

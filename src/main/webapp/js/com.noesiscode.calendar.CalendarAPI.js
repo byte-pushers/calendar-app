@@ -37,7 +37,7 @@ function CalendarApp () {
     // the rest of the constructor pointer
     instance.constructor = CalendarApp;
 
-    instance.todaysEvents = [];
+    instance.events = [];
     instance.cachedWeeks = [];
     /**
      * <p>Represents the current calendar month.</p>
@@ -53,17 +53,48 @@ function CalendarApp () {
      * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
      */
     instance.cachedMonth;
-    instance.findEventById = function (id, events) {
+    instance.setEvents = function (events) {
+        this.events = events;
+    };
+    instance.getEvents = function () {
+        return this.events;
+    };
+    instance.applyEvents = function () {
+        if(this.currentMonth !== undefined && this.currentMonth !== null) {
+            this.currentMonth.setEvents(this.events);
+        }
+    };
+    instance.getTodaysEvents = function () {
+        return this.findEventsByDate(new Date());
+    };
+    instance.findEventsByDate = function (someDate) {
+        var i, selectedEvents = [];
+        for (i = 0; i < this.events.length; i = i + 1) {
+            if (this.events[i] !== undefined && this.events[i] !== null) {
+                if (this.events[i].getStart().isDateEqualTo(someDate)) {
+                    selectedEvents[selectedEvents.length] = this.events[i];
+                }
+            }
+        }
+        return selectedEvents;
+    };
+    instance.findEventById = function (id, someEvents) {
         'use strict';
-        var i, targetEvent = null;
+        var i, targetEvent = null,
+            events = (someEvents !== undefined && someEvents !== null) ? someEvents : this.events;
         for (i = 0; i < events.length; i = i + 1) {
             if (events[i] !== undefined && events[i] !== null) {
-                if (events[i].id === id) {
+                if (events[i].getId() === parseInt(id)) {
                     targetEvent = events[i];
                 }
             }
         }
         return targetEvent;
+    };
+    instance.rescheduleEvent = function (calendarEventId, targetDate) {
+        var calendarEvent = CalendarApp.getInstance().findEventById(calendarEventId);
+        calendarEvent.reschedule(targetDate);
+        return this.events;
     };
     /**
      * <p>Gets the {@link Calendar.models.Month} object for the current month.</p>

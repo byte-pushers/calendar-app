@@ -68,15 +68,27 @@ CalendarApp.models.Week = function (weekdays) {
         }
         return lastWeekInMonth;
     };
-
-
+    /**
+     * <p>Clear the events that are scheduled for the week.</p>
+     *
+     * @param {@link CalendarApp.models.Event} The events that are scheduled for the week.
+     * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
+     */
+    this.clearEvents = function () {
+        var i;
+        for (i = 0; i < this.weekdays.length; i = i + 1) {
+            if (this.weekdays[i] !== undefined) {
+                this.weekdays[i].clearEvents();
+            }
+        }
+    };
     /**
      * <p>Set the events that are scheduled for the week to the appropriate days.</p>
      *
      * @param {@link CalendarApp.models.Event} The events that are scheduled for the week.
      * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
      */
-    this.setEvents = function (events) {
+    this.setEvents = function (events) {//TODO: Need to rename to addEvents because the current logic does not reset events.
         var i;
         for (i = 0; i < this.weekdays.length; i = i + 1) {
             if (this.weekdays[i] !== undefined) {

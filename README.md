@@ -1,3 +1,3 @@
-# CODENOESIS CALENDAR APP PROJECT — A calendar GUI app for web and mobile devices.
+# NoesisCode Calendar App Project — A calendar GUI app for web and mobile devices.
 
-<iframe src="http://calendar-app.noesiscode.cloudbees.net"></iframe>
+[embed]http://calendar-app.noesiscode.cloudbees.net[/embed]

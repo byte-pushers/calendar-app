@@ -1,12 +1,13 @@
-/*global $, NoesisCode */
-function CalendarApp () {
-    var classProps = [], instance;   // cached instance
+/*global $, NoesisCode, CalendarApp:true, CalendarApp */
+function CalendarApp() {
+    "use strict";
+    var classProps = [], instance, prop, i;   // cached instance
 
-    function doNotFilterClassProperties(prop){
+    function doNotFilterClassProperties(prop) {
         var filters = ["getClassType", "getObjectType"], i, doFilter = true;
-        if(prop !== undefined){
-            for(i = 0; i < filters.length; i = i + 1){
-                if(prop === filters[i]){
+        if (prop !== undefined) {
+            for (i = 0; i < filters.length; i = i + 1) {
+                if (prop === filters[i]) {
                     doFilter = false;
                     break;
                 }
@@ -18,18 +19,20 @@ function CalendarApp () {
         return doFilter;
     }
 
-    for(var prop in CalendarApp) {
-        if (doNotFilterClassProperties(prop) === true) {
-            classProps[classProps.length] = {name: prop, value: CalendarApp[prop]};
+    for (prop in CalendarApp) {
+        if (CalendarApp.hasOwnProperty(prop)) {
+            if (doNotFilterClassProperties(prop) === true) {
+                classProps[classProps.length] = {name: prop, value: CalendarApp[prop]};
+            }
         }
     }
     // rewrite the constructor
-    CalendarApp = function CalendarApp () {
+    CalendarApp = function CalendarApp() {
         return instance;
     };
     // carry over prototype properties
     CalendarApp.prototype = this;
-    for(i = 0; i < classProps.length; i = i + 1){
+    for (i = 0; i < classProps.length; i = i + 1) {
         CalendarApp[classProps[i].name] = classProps[i].value;
     }
     // the instance
@@ -45,14 +48,14 @@ function CalendarApp () {
      * @field
      * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
      */
-    instance.currentMonth;
+    instance.currentMonth = null;
     /**
      * <p>Represents a cached calendar month.
      * @private
      * @field
      * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
      */
-    instance.cachedMonth;
+    instance.cachedMonth = null;
     instance.setEvents = function (events) {
         this.events = events;
     };
@@ -60,7 +63,7 @@ function CalendarApp () {
         return this.events;
     };
     instance.applyEvents = function () {
-        if(this.currentMonth !== undefined && this.currentMonth !== null) {
+        if (this.currentMonth !== undefined && this.currentMonth !== null) {
             this.currentMonth.setEvents(this.events);
         }
     };
@@ -79,12 +82,11 @@ function CalendarApp () {
         return selectedEvents;
     };
     instance.findEventById = function (id, someEvents) {
-        'use strict';
         var i, targetEvent = null,
             events = (someEvents !== undefined && someEvents !== null) ? someEvents : this.events;
         for (i = 0; i < events.length; i = i + 1) {
             if (events[i] !== undefined && events[i] !== null) {
-                if (events[i].getId() === parseInt(id)) {
+                if (events[i].getId() === parseInt(id, 10)) {
                     targetEvent = events[i];
                 }
             }
@@ -136,8 +138,9 @@ function CalendarApp () {
     };
 
     return instance;
-};
-CalendarApp.getInstance = function getInstance(){
+}
+CalendarApp.getInstance = function getInstance() {
+    'use strict';
     var instance;
     instance = new CalendarApp();
     return instance;

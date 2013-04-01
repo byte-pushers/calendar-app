@@ -17,7 +17,7 @@
 				<artifactId>jsdoctk-plugin</artifactId>
 				<version>2.3.2</version>
 				<configuration>
-					<srcDir>${basedir}/src/main/webapp/js</srcDir>
+					<srcDir>${basedir}/app/js</srcDir>
 					<recurse>5</recurse><!-- This is the *level of recursion*, not a boolean -->
                     <allFunctions>true</allFunctions>
                     <AllFunctions>true</AllFunctions>
@@ -54,7 +54,7 @@
 						<configuration>
 							<failOnError>true</failOnError>
 							<sourceFolders>
-								<sourceFolder>${basedir}/src/main/webapp/js</sourceFolder>
+								<sourceFolder>${basedir}/app/js</sourceFolder>
 							</sourceFolders>
 							<options>
 								<undef>true</undef>
@@ -84,7 +84,7 @@
 					</execution>
 				</executions>
 			</plugin>
-            <plugin>
+            <!--plugin>
                 <artifactId>maven-antrun-plugin</artifactId>
                 <version>1.7</version>
                 <executions>
@@ -103,7 +103,7 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
+            </plugin-->
             <!--plugin>
                 <groupId>org.pouncilt.plugins</groupId>
                 <artifactId>saucelabs-maven-plugin</artifactId>
@@ -140,7 +140,7 @@
                     </desiredPlatformDetails>
                 </configuration>
             </plugin-->
-            <plugin>
+            <!--plugin>
                 <groupId>org.pouncilt.plugins</groupId>
                 <artifactId>saucelabs-maven-plugin</artifactId>
                 <version>0.0.1-SNAPSHOT</version>
@@ -148,18 +148,18 @@
                     <remoteUrl>http://pouncilt:0aaf398d-07cf-4d23-8fd2-b8d4435b46cd@ondemand.saucelabs.com:80/wd/hub</remoteUrl>
                     <targetUrl>http://localhost:9876/</targetUrl>
                     <wait>5</wait>
-                    <desiredPlatformDetails>
+                    <desiredPlatformDetails-->
                         <!--desiredPlatform>firefox, 8, Mac, Testing Selenium 1 with Java on Sauce</desiredPlatform>
                         <desiredPlatform>firefox, 9, Mac, Testing Selenium 1 with Java on Sauce</desiredPlatform>
                         <desiredPlatform>firefox, 10, Mac, Testing Selenium 1 with Java on Sauce</desiredPlatform>
                         <desiredPlatform>firefox, 11, Mac, Testing Selenium 1 with Java on Sauce</desiredPlatform>
                         <desiredPlatform>internet explorer, 6, Windows, Testing Selenium 1 with Java on Sauce</desiredPlatform>
                         <desiredPlatform>internet explorer, 7, Windows, Testing Selenium 1 with Java on Sauce</desiredPlatform-->
-                        <desiredPlatform>internet explorer, 8, Windows, Testing Selenium 1 with Java on Sauce</desiredPlatform>
+                        <!--desiredPlatform>internet explorer, 8, Windows, Testing Selenium 1 with Java on Sauce</desiredPlatform-->
                         <!--desiredPlatform>internet explorer, 9, Windows, Testing Selenium 1 with Java on Sauce</desiredPlatform-->
-                    </desiredPlatformDetails>
+                    <!--/desiredPlatformDetails>
                 </configuration>
-            </plugin>
+            </plugin-->
 		</plugins>
 	</build>
 

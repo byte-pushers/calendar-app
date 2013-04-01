@@ -1,4 +1,4 @@
-/*global NoesisCode, CalendarApp */
+/*global NoesisCode, CalendarApp, CalendarController */
 /**
  * Created with JetBrains WebStorm.
  * User: pouncilt
@@ -27,15 +27,13 @@ angular.module('NoesisCodeCalendar', ['NoesisCodeCalendarService'])
         "use strict";
         return {
             restrict: 'A', //attribute only
-            link: function(scope, elem, attr, ctrl) {
+            link: function (scope, elem, attr, ctrl) {
                 elem.bind('dragstart', function (event) {
-                    "use strict";
                     event.target.style.opacity = '0.4';  // this / event.target is the source node.
                     event.originalEvent.dataTransfer.effectAllowed = "move";
                     event.originalEvent.dataTransfer.setData("text/html", event.target.id);
                 });
                 elem.bind('dragend', function (event) {
-                    "use strict";
                     var calendarEventSummaries = NoesisCode.DOMUtility.querySelectorAll(".calendar-event-summary"),
                         calendarDayContainers = NoesisCode.DOMUtility.querySelectorAll(".calendar-day-container");
                     [].forEach.call(calendarEventSummaries, function (calendarEventSummary) {
@@ -54,11 +52,10 @@ angular.module('NoesisCodeCalendar', ['NoesisCodeCalendarService'])
         return {
             require: "^noesisCodeCalendarMonthView",
             restrict: 'A', //attribute only
-            link: function(scope, elem, attr, ctrl) {
+            link: function (scope, elem, attr, ctrl) {
 
 
                 elem.bind('dragenter', function (event) {
-                    "use strict";
                     var targetDate = NoesisCode.converters.DateConverter.convertToDate(event.target.id, NoesisCode.converters.DateConverter.MMMDDYYYY_DATE_FORMAT);/*,
                         correspondingLastWeekInMonthDate = new Date(targetDate.getTime()),
                         correspondingLastWeekInMonthDay = null,
@@ -66,7 +63,7 @@ angular.module('NoesisCodeCalendar', ['NoesisCodeCalendarService'])
 
                     correspondingLastWeekInMonthDate.setDate(correspondingLastWeekInMonthDate.getDate() + 7);*/
                     event.target.classList.remove("calendar-day-top-border");
-                    if(CalendarApp.getInstance().getCurrentMonth().isLastWeekInMonth(targetDate)){
+                    if (CalendarApp.getInstance().getCurrentMonth().isLastWeekInMonth(targetDate)) {
                         event.target.classList.remove("calendar-day-bottom-border");
                     }
                     /*if(CalendarApp.getInstance().getCurrentMonth().isLastWeekInMonth(correspondingLastWeekInMonthDate)){
@@ -86,7 +83,6 @@ angular.module('NoesisCodeCalendar', ['NoesisCodeCalendarService'])
                     return false;
                 });
                 elem.bind('drop', function (event) {
-                    'use strict';
                     var targetDate = NoesisCode.converters.DateConverter.convertToDate(event.target.id, NoesisCode.converters.DateConverter.MMMDDYYYY_DATE_FORMAT),
                         calendarEventId = null;
                     if (event.stopPropagation) {
@@ -98,7 +94,7 @@ angular.module('NoesisCodeCalendar', ['NoesisCodeCalendarService'])
 
                     event.target.classList.remove("over");
                     event.target.classList.add("calendar-day-top-border");
-                    if(CalendarApp.getInstance().getCurrentMonth().isLastWeekInMonth(targetDate)){
+                    if (CalendarApp.getInstance().getCurrentMonth().isLastWeekInMonth(targetDate)) {
                         event.target.classList.add("calendar-day-bottom-border");
                     }
 
@@ -108,7 +104,6 @@ angular.module('NoesisCodeCalendar', ['NoesisCodeCalendarService'])
                     return false;
                 });
                 elem.bind('dragleave', function (event) {
-                    "use strict";
                     var targetDate = NoesisCode.converters.DateConverter.convertToDate(event.target.id, NoesisCode.converters.DateConverter.MMMDDYYYY_DATE_FORMAT);/*,
                         correspondingLastWeekInMonthDate = new Date(targetDate.getTime()),
                         correspondingLastWeekInMonthDay = null,
@@ -117,7 +112,7 @@ angular.module('NoesisCodeCalendar', ['NoesisCodeCalendarService'])
                     correspondingLastWeekInMonthDate.setDate(correspondingLastWeekInMonthDate.getDate() + 7);*/
                     event.target.classList.remove("over");
                     event.target.classList.add("calendar-day-top-border");
-                    if(CalendarApp.getInstance().getCurrentMonth().isLastWeekInMonth(targetDate)){
+                    if (CalendarApp.getInstance().getCurrentMonth().isLastWeekInMonth(targetDate)) {
                         event.target.classList.add("calendar-day-bottom-border");
                     }
                     /*if(CalendarApp.getInstance().getCurrentMonth().isLastWeekInMonth(correspondingLastWeekInMonthDate)){

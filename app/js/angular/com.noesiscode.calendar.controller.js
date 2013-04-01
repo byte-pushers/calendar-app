@@ -1,3 +1,4 @@
+/*global CalendarApp*/
 /**
  * Created with IntelliJ IDEA.
  * User: pouncilt
@@ -13,8 +14,7 @@ function CalendarController($scope, CalendarEventService) {
     $scope.month = CalendarApp.getInstance().getCurrentMonth();
     $scope.weeks = $scope.month.getWeeks();
     $scope.todaysEvents = [];
-
-        CalendarEventService.query(function (jsonEvents) {
+    CalendarEventService.query(function (jsonEvents) {
         CalendarApp.getInstance().setEvents(CalendarApp.models.EventTransformer.transformJSONEvents(jsonEvents));
         CalendarApp.getInstance().applyEvents();
         $scope.todaysEvents = CalendarApp.getInstance().getTodaysEvents();
@@ -23,7 +23,7 @@ function CalendarController($scope, CalendarEventService) {
     $scope.getCalendarDayClass = function (day) {
         var cssClass = ($scope.month.isLastWeekInMonth(day.getDate())) ? "calendar-day-top-border calendar-day-bottom-border " : "calendar-day-top-border ";
 
-        if(day.getWeekDay(true) === "Sun") {
+        if (day.getWeekDay(true) === "Sun") {
             cssClass += "calendar-day-left-border ";
         }
 
@@ -40,9 +40,9 @@ function CalendarController($scope, CalendarEventService) {
         return cssClass;
     };
     $scope.selectDay = function (selectedDate, resetWeeks) {
-        var previouslySelectedDate = new Date($scope.month.getSelectedDate().getTime()),
-            resetWeeks = (resetWeeks !== undefined && resetWeeks !== null)? resetWeeks : false, //Todo: Check for type boolean.
-            selectedDay = $scope.month.selectDay(selectedDate, resetWeeks);
+        var previouslySelectedDate = new Date($scope.month.getSelectedDate().getTime()), selectedDay;
+        selectedDay = $scope.month.selectDay(selectedDate, resetWeeks);
+        resetWeeks = (resetWeeks !== undefined && resetWeeks !== null) ? resetWeeks : false; //Todo: Check for type boolean.
         $scope.todaysEvents = selectedDay.getEvents();
         $scope.month.highLightSelectedDay(previouslySelectedDate);
     };
@@ -93,7 +93,7 @@ function CalendarController($scope, CalendarEventService) {
         //$scope.weeks = $scope.month.getWeeks();//CalendarApp.getInstance().getCurrentMonth().getWeeks();
         $scope.selectDay(currentlySelectedDate, false);
         $scope.month.highLightTargetDayWithEvents(targetDate);
-        $scope.$apply( function() {
+        $scope.$apply(function () {
             $scope.todaysEvents = CalendarApp.getInstance().findEventsByDate(currentlySelectedDate);
         });
 

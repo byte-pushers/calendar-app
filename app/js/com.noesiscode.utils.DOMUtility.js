@@ -11,8 +11,9 @@ NoesisCode.DOMUtility.addListener = null;
 NoesisCode.DOMUtility.removeListener = null;
 NoesisCode.DOMUtility.querySelector = null;
 NoesisCode.DOMUtility.querySelectorAll = null;
-NoesisCode.DOMUtility.filterMetaData = function (data){
-    data = data.replace(/<meta\s.*>/gi, "");
+NoesisCode.DOMUtility.filterMetaData = function (data) {
+    "use strict";
+    data = data.replace(/<meta\s[\w\W]*>/gi, "");
     return data;
 };
 

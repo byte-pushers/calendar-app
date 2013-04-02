@@ -197,16 +197,16 @@ NoesisCode.models.Person = function Person(firstName, middleName, lastName) {
 	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 	*/
 	this.findEmailByType = function (type) {
-		var i;
-		if (type === "undefined" || type === null) {
+		var emailResult = null;
+        if (type === "undefined" || type === null) {
 			throw new NoesisCode.exceptions.NullPointerException("type can not be null.");
 		}
-		for (i = 0; i < this.emails.length; i = i + 1) {
-			if (this.emails[i].getType() === type) {
-				return this.emails[i];
-			}
-		}
-		return null;
+        this.emails.forEach(function (email, index){
+            if (email.getType() === type) {
+                emailResult =  email;
+            }
+        });
+		return emailResult;
 	};
 	/**
 	 * <p>A convenience method to find the primary email address.</p>
@@ -214,13 +214,13 @@ NoesisCode.models.Person = function Person(firstName, middleName, lastName) {
 	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 	*/
 	this.findPrimaryEmail = function () {
-		var i;
-		for (i = 0; i < this.emails.length; i = i + 1) {
-			if (this.emails[i].isPrimaryEmail()) {
-				return this.emails[i];
-			}
-		}
-		return null;
+		var emailResult = null;
+        this.emails.forEach(function (email, index) {
+            if (email.isPrimaryEmail()) {
+                emailResult = email;
+            }
+        });
+		return emailResult;
 	};
 	/**
 	 * <p>Sets the nick name of the person.</p> 

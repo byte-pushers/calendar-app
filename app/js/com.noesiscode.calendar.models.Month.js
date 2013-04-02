@@ -144,17 +144,17 @@ CalendarApp.models.Month = function (targetDate) {
      */
     function getWeek(date) {
         var weekdays = [], weekDaysBeforeArray = getRemainingWeekDaysBefore(new Date(date.getTime())), weekDaysBeforeArrayIndex, weekDaysAfterArray = getRemainingWeekDaysAfter(new Date(date.getTime())), weekDaysAfterArrayIndex;
-        for (weekDaysBeforeArrayIndex = 0; weekDaysBeforeArrayIndex < weekDaysBeforeArray.length; weekDaysBeforeArrayIndex = weekDaysBeforeArrayIndex + 1) {
-            if (weekDaysBeforeArray[weekDaysBeforeArrayIndex] !== undefined) {
-                weekdays[weekdays.length] = weekDaysBeforeArray[weekDaysBeforeArrayIndex];
+        weekDaysBeforeArray.forEach(function (weekDay, index) {
+            if (weekDay !== undefined) {
+                weekdays[weekdays.length] = weekDay;
             }
-        }
+        });
         weekdays[weekdays.length] = new CalendarApp.models.Day(new Date(date.getTime()), null, true);
-        for (weekDaysAfterArrayIndex = 0; weekDaysAfterArrayIndex < weekDaysAfterArray.length; weekDaysAfterArrayIndex = weekDaysAfterArrayIndex + 1) {
-            if (weekDaysAfterArray[weekDaysAfterArrayIndex] !== undefined) {
-                weekdays[weekdays.length] = weekDaysAfterArray[weekDaysAfterArrayIndex];
+        weekDaysAfterArray.forEach(function (weekDay, index) {
+            if (weekDay !== undefined) {
+                weekdays[weekdays.length] = weekDay;
             }
-        }
+        });
         return new CalendarApp.models.Week(weekdays);
     }
     /**
@@ -226,12 +226,13 @@ CalendarApp.models.Month = function (targetDate) {
      */
     function findWeekInMonth(someDate) {
         var i, targetWeek = null;
-        for (i = 0; i < weeks.length; i = i + 1) {
-            if (weeks[i].isWeekOf(someDate)) {
-                targetWeek = weeks[i];
-                break;
+        weeks.every(function (week) {
+            if (week.isWeekOf(someDate)) {
+                targetWeek = week;
+                return false;
             }
-        }
+            return true;
+        });
         return targetWeek;
     }
     /**
@@ -316,14 +317,12 @@ CalendarApp.models.Month = function (targetDate) {
      * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
      */
     this.bindEvents = function () {
-        var i, week;
         if (events.length > 0) {
-            for (i = 0; i < weeks.length; i = i + 1) {
-                if (weeks[i] !== undefined && weeks[i] !== null) {
-                    week = weeks[i];
+            weeks.forEach(function (week, index) {
+                if (week !== undefined && week !== null) {
                     week.setEvents(events);
                 }
-            }
+            });
         }
     };
     /**
@@ -333,14 +332,11 @@ CalendarApp.models.Month = function (targetDate) {
      * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
      */
     this.clearEvents = function () {
-        var i, week;
-
-        for (i = 0; i < weeks.length; i = i + 1) {
-            if (weeks[i] !== undefined && weeks[i] !== null) {
-                week = weeks[i];
+        weeks.forEach(function (week, index) {
+            if (week !== undefined && week !== null) {
                 week.clearEvents();
             }
-        }
+        });
     };
     /**
      * <p>Set the events that are scheduled for the month to the appropriate days.</p>
@@ -371,14 +367,14 @@ CalendarApp.models.Month = function (targetDate) {
      * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
      */
     this.findEventsByDate = function (someDate) {
-        var events = this.getEvents(), i, selectedEvents = [];
-        for (i = 0; i < events.length; i = i + 1) {
-            if (events[i] !== undefined && events[i] !== null) {
-                if (events[i].getStart().isDateEqualTo(someDate)) {
-                    selectedEvents[selectedEvents.length] = events[i];
+        var selectedEvents = [];
+        events.forEach(function (event, index) {
+            if (event !== undefined && event !== null) {
+                if (event.getStart().isDateEqualTo(someDate)) {
+                    selectedEvents[selectedEvents.length] = event;
                 }
             }
-        }
+        });
         return selectedEvents;
     };
     /**
@@ -388,16 +384,15 @@ CalendarApp.models.Month = function (targetDate) {
      * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
      */
     this.findEventsForToday = function () {
-        var events = this.getEvents(), i, date = new Date();
-        CalendarApp.todaysEvents = [];
-        for (i = 0; i < events.length; i = i + 1) {
-            if (events[i] !== undefined && events[i] !== null) {
-                if (events[i].getStart().isDateEqualTo(date)) {
-                    CalendarApp.todaysEvents[CalendarApp.todaysEvents.length] = events[i];
+        var date = new Date(), todaysEvents = [];
+        events.forEach(function (event, index) {
+            if (event !== undefined && event !== null) {
+                if (event.getStart().isDateEqualTo(date)) {
+                    todaysEvents[todaysEvents.length] = event;
                 }
             }
-        }
-        return CalendarApp.todaysEvents;
+        });
+        return todaysEvents;
     };
     /**
      * <p>Convenience method to find an event by its identifier.</p>
@@ -407,14 +402,14 @@ CalendarApp.models.Month = function (targetDate) {
      * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
      */
     this.findEventById = function (id) {
-        var events = this.getEvents(), i, targetEvent = null;
-        for (i = 0; i < events.length; i = i + 1) {
-            if (events[i] !== undefined && events[i] !== null) {
-                if (events[i].id === id) {
-                    targetEvent = events[i];
+        var targetEvent = null;
+        events.forEach(function (event, index) {
+            if (event !== undefined && event !== null) {
+                if (event.id === id) {
+                    targetEvent = event;
                 }
             }
-        }
+        });
         return targetEvent;
     };
     /**
@@ -425,13 +420,14 @@ CalendarApp.models.Month = function (targetDate) {
      */
     this.getCurrentDayOfTheMonth = function () {
         var i, week, currentDayOfMonth = null;
-        for (i = 0; i < weeks.length; i = i + 1) {
-            week = weeks[i];
+        weeks.every(function (week) {
             currentDayOfMonth = week.findCurrentDayOfWeek();
             if (currentDayOfMonth !== undefined && currentDayOfMonth !== null) {
-                break;
+                return true;
             }
-        }
+
+            return false;
+        });
         if (currentDayOfMonth === "undefined" || currentDayOfMonth === null) {
             throw new CalendarApp.exceptions.ExpectedToHaveCurrentDayOfMonthException("Expected to have a current day in the month.");
         }
@@ -743,21 +739,21 @@ CalendarApp.models.Month = function (targetDate) {
      */
     this.findDayInMonth = function (someDate) {
         var weekInMonth = findWeekInMonth(someDate),
-            dayInMonth = null,
-            i = 0;
+            dayInMonth = null;
         if (weekInMonth !== undefined && weekInMonth !== null) {
-            for (i = 0; i < weekInMonth.weekdays.length; i = i + 1) {
-                dayInMonth = weekInMonth.weekdays[i];
-                if (dayInMonth !== undefined && dayInMonth !== null) {
-                    if (dayInMonth.getDate().getFullYear() === someDate.getFullYear()) {
-                        if (dayInMonth.getDate().getMonth() === someDate.getMonth()) {
-                            if (dayInMonth.getDate().getDate() === someDate.getDate()) {
-                                break;
+            weekInMonth.weekdays.every(function (weekDay) {
+                if (weekDay !== undefined && weekDay !== null) {
+                    if (weekDay.getDate().getFullYear() === someDate.getFullYear()) {
+                        if (weekDay.getDate().getMonth() === someDate.getMonth()) {
+                            if (weekDay.getDate().getDate() === someDate.getDate()) {
+                                dayInMonth = weekDay;
+                                return true;
                             }
                         }
                     }
                 }
-            }
+                return false;
+            });
         }
 
         return dayInMonth;
@@ -771,7 +767,7 @@ CalendarApp.models.Month = function (targetDate) {
      * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
      */
     this.getWeeksInMonth = function (date) {
-        var weeksInMonth = [], firstWeekInMonth = getFirstWeekInMonth(getWeek(date), date.getMonth()), i = 0;
+        var weeksInMonth = [], firstWeekInMonth = getFirstWeekInMonth(getWeek(date), date.getMonth());
         weeksInMonth[0] = firstWeekInMonth;
         weeksInMonth[1] = getWeekAfter(weeksInMonth[0].saturday.getDate());
         weeksInMonth[2] = getWeekAfter(weeksInMonth[1].saturday.getDate());
@@ -792,9 +788,9 @@ CalendarApp.models.Month = function (targetDate) {
                 }
             }
         }
-        for (i; i < weeksInMonth.length; i = i + 1) {
-            weeksInMonth[i].setCurrentDayOfWeek(date);
-        }
+        weeksInMonth.forEach(function (week, index) {
+            week.setCurrentDayOfWeek(date);
+        });
 
         return weeksInMonth;
     };
@@ -812,13 +808,13 @@ CalendarApp.models.Month = function (targetDate) {
  */
 CalendarApp.models.Month.getMonthIndex = function (abbr) {
     "use strict";
-    var i;
-    for (i = 0; i < CalendarApp.models.Month.monthNames.length; i = i + 1) {
-        if (CalendarApp.models.Month.monthNames[i].abbr === abbr) {
-            return i;
+    var i = -1;
+    CalendarApp.models.Month.monthNames.forEach(function (monthName, index) {
+        if (monthName.abbr === abbr) {
+            i = index;
         }
-    }
-    return -1;
+    });
+    return i;
 };
 /**
  * <p>Static field that is used to get calendar total calendar days of the previous month.</p>

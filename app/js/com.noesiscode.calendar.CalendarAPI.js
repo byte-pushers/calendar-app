@@ -1,17 +1,18 @@
 /*global $, NoesisCode, CalendarApp:true, CalendarApp */
 function CalendarApp() {
     "use strict";
-    var classProps = [], instance, prop, i;   // cached instance
+    var classProps = [], instance, prop;   // cached instance
 
     function doNotFilterClassProperties(prop) {
-        var filters = ["getClassType", "getObjectType"], i, doFilter = true;
+        var filters = ["getClassType", "getObjectType"], doFilter = true;
         if (prop !== undefined) {
-            for (i = 0; i < filters.length; i = i + 1) {
-                if (prop === filters[i]) {
+            filters.every(function (element) {
+                if (prop === element) {
                     doFilter = false;
-                    break;
+                    return false;
                 }
-            }
+                return true;
+            });
         } else {
             doFilter = false;
         }
@@ -32,9 +33,9 @@ function CalendarApp() {
     };
     // carry over prototype properties
     CalendarApp.prototype = this;
-    for (i = 0; i < classProps.length; i = i + 1) {
-        CalendarApp[classProps[i].name] = classProps[i].value;
-    }
+    classProps.forEach(function (prop, index) {
+        CalendarApp[prop.name] = prop.value;
+    });
     // the instance
     instance = new CalendarApp();
     // the rest of the constructor pointer
@@ -71,26 +72,26 @@ function CalendarApp() {
         return this.findEventsByDate(new Date());
     };
     instance.findEventsByDate = function (someDate) {
-        var i, selectedEvents = [];
-        for (i = 0; i < this.events.length; i = i + 1) {
-            if (this.events[i] !== undefined && this.events[i] !== null) {
-                if (this.events[i].getStart().isDateEqualTo(someDate)) {
-                    selectedEvents[selectedEvents.length] = this.events[i];
+        var selectedEvents = [];
+        this.events.forEach(function(event, index){
+            if (event !== undefined && event !== null) {
+                if (event.getStart().isDateEqualTo(someDate)) {
+                    selectedEvents[selectedEvents.length] = event;
                 }
             }
-        }
+        });
         return selectedEvents;
     };
     instance.findEventById = function (id, someEvents) {
-        var i, targetEvent = null,
+        var targetEvent = null,
             events = (someEvents !== undefined && someEvents !== null) ? someEvents : this.events;
-        for (i = 0; i < events.length; i = i + 1) {
-            if (events[i] !== undefined && events[i] !== null) {
-                if (events[i].getId() === parseInt(id, 10)) {
-                    targetEvent = events[i];
+        events.forEach(function (event, index){
+            if (event !== undefined && event !== null) {
+                if (event.getId() === parseInt(id, 10)) {
+                    targetEvent = event;
                 }
             }
-        }
+        });
         return targetEvent;
     };
     instance.rescheduleEvent = function (calendarEventId, targetDate) {
@@ -147,18 +148,25 @@ CalendarApp.getInstance = function getInstance() {
 };
 CalendarApp.namespace = function (ns_string) {
     'use strict';
-    var parts = ns_string.split('.'), parent = CalendarApp, i;
+    var parts = ns_string.split('.'), parent = CalendarApp;
     // strip redundant leading global
     if (parts[0] === "CalendarApp") {
         parts = parts.slice(1);
     }
-    for (i = 0; i < parts.length; i += 1) {
+    parts.forEach(function (part, index) {
+        // create a property if it doesn't exist
+        if (typeof parent[part] === "undefined") {
+            parent[part] = {};
+        }
+        parent = parent[part];
+    });
+    /*for (i = 0; i < parts.length; i = i + 1) {
         // create a property if it doesn't exist
         if (typeof parent[parts[i]] === "undefined") {
             parent[parts[i]] = {};
         }
         parent = parent[parts[i]];
-    }
+    }*/
     return parent;
 };
 CalendarApp.views = CalendarApp.views || CalendarApp.namespace("com.noesiscode.calendar.views");

@@ -11,14 +11,14 @@ CalendarApp.models = CalendarApp.models || CalendarApp.namespace("com.noesiscode
 CalendarApp.models.EventTransformer = CalendarApp.namespace("com.noesiscode.calendar.models.EventTransformer");
 CalendarApp.models.EventTransformer.transformJSONEvents = function (jsonEvents) {
     'use strict';
-    var i, events = [];
+    var events = [];
     if ((jsonEvents === undefined) || (jsonEvents === null) || (!Array.isArray(jsonEvents))) {
         throw new NoesisCode.exceptions.InvalidParameterException("jsonEvents must be of type Array.");
     }
-    for (i = 0; i < jsonEvents.length; i = i + 1) {
-        if (jsonEvents[i] !== undefined && jsonEvents[i] !== null) {
-            events[i] = new CalendarApp.models.Event(jsonEvents[i]);
+    jsonEvents.forEach(function (event, index) {
+        if (event !== undefined && event !== null) {
+            events[events.length] = new CalendarApp.models.Event(event);
         }
-    }
+    });
     return events;
 };

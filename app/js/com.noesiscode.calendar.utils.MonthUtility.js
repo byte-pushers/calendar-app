@@ -10,23 +10,22 @@ CalendarApp.utils = CalendarApp.utils || {};
 CalendarApp.utils.MonthUtility = CalendarApp.utils || CalendarApp.namespace("com.noesiscode.calendar.utils.MonthUtility");
 CalendarApp.utils.MonthUtility.isDateInMonthView = function (targetDate, monthView) {
     "use strict";
-    var i, dateFoundInMonthView = false;
-    for (i = 0; i < monthView.length; i = i + 1) {
-        if (monthView[i].isWeekOf(targetDate)) {
+    var dateFoundInMonthView = false;
+    monthView.every(function (week, index) {
+        if (week.isWeekOf(targetDate)) {
             dateFoundInMonthView = true;
-            break;
+            return true;
         }
-    }
+        return false;
+    });
     return dateFoundInMonthView;
 };
 CalendarApp.utils.MonthUtility.isDateNotInMonthView = function (targetDate, monthView) {
     "use strict";
-    var i, dateFoundInMonthView = true;
-    for (i = 0; i < monthView.length; i = i + 1) {
-        if (monthView[i].isWeekOf(targetDate)) {
-            dateFoundInMonthView = false;
-            break;
+    return monthView.every(function (week, index){
+        if (week.isWeekOf(targetDate)) {
+            return true;
         }
-    }
-    return dateFoundInMonthView;
+        return false;
+    });
 };

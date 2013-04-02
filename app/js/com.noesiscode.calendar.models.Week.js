@@ -38,14 +38,14 @@ CalendarApp.models.Week = function (weekdays) {
      * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
      */
     this.isFirstWeekInMonth = function (month) {
-        var i, firstWeekInMonth = false;
-        for (i = this.weekdays.length - 1; i > -1; i = i - 1) {
-            if (this.weekdays[i] !== undefined) {
-                if (this.weekdays[i].getWeekDate() === 1 && this.weekdays[i].getDate().getMonth() === month) {
+        var firstWeekInMonth = false;
+        this.weekdays.forEach(function (week, index) {
+            if (week !== undefined) {
+                if (week.getWeekDate() === 1 && week.getDate().getMonth() === month) {
                     firstWeekInMonth = true;
                 }
             }
-        }
+        });
         return firstWeekInMonth;
     };
     /**
@@ -56,16 +56,16 @@ CalendarApp.models.Week = function (weekdays) {
      * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
      */
     this.isLastWeekInMonth = function () {
-        var i, monthIndex, year, weekdate, totalDaysInMonth, lastWeekInMonth = false;
-        for (i = 0; i < this.weekdays.length; i = i + 1) {
-            monthIndex = this.weekdays[i].getDate().getMonth();
-            year = this.weekdays[i].getDate().getFullYear();
-            weekdate = this.weekdays[i].getWeekDate();
+        var monthIndex, year, weekdate, totalDaysInMonth, lastWeekInMonth = false;
+        this.weekdays.forEach(function (weekday, index) {
+            monthIndex = weekday.getDate().getMonth();
+            year = weekday.getDate().getFullYear();
+            weekdate = weekday.getWeekDate();
             totalDaysInMonth = CalendarApp.models.Week.monthNames[monthIndex].getTotalDays(year);
             if (weekdate === totalDaysInMonth) {
                 lastWeekInMonth = true;
             }
-        }
+        });
         return lastWeekInMonth;
     };
     /**
@@ -75,12 +75,11 @@ CalendarApp.models.Week = function (weekdays) {
      * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
      */
     this.clearEvents = function () {
-        var i;
-        for (i = 0; i < this.weekdays.length; i = i + 1) {
-            if (this.weekdays[i] !== undefined) {
-                this.weekdays[i].clearEvents();
+        this.weekdays.forEach(function(weekday, index) {
+            if (weekday !== undefined) {
+                weekday.clearEvents();
             }
-        }
+        });
     };
     /**
      * <p>Set the events that are scheduled for the week to the appropriate days.</p>
@@ -89,12 +88,11 @@ CalendarApp.models.Week = function (weekdays) {
      * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
      */
     this.setEvents = function (events) {//TODO: Need to rename to addEvents because the current logic does not reset events.
-        var i;
-        for (i = 0; i < this.weekdays.length; i = i + 1) {
-            if (this.weekdays[i] !== undefined) {
-                this.weekdays[i].setEvents(events);
+        this.weekdays.forEach(function (weekday, index) {
+            if (weekday !== undefined) {
+                weekday.setEvents(events);
             }
-        }
+        });
     };
     /**
      * <p>Get the events that are scheduled for the week from the appropriate days.</p>
@@ -103,57 +101,55 @@ CalendarApp.models.Week = function (weekdays) {
      * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
      */
     this.getEvents = function () {
-        var i, events = [];
-        for (i = 0; i < this.weekdays.length; i = i + 1) {
-            if (this.weekdays[i] !== undefined && this.weekdays[i] !== null) {
-                events = events.concat(this.weekdays[i].getEvents());
+        var events = [];
+        this.weekdays.forEach(function(weekday, index) {
+            if (weekday !== undefined && weekday !== null) {
+                events = events.concat(weekday.getEvents());
             }
-        }
+        });
         return events;
     };
     this.setCurrentDayOfWeek = function (selectedDateOfWeek) {
-        var i, currentDayOfWeek = null;
-        for (i = 0; i < this.weekdays.length; i = i + 1) {
-            if (this.weekdays[i] !== undefined && this.weekdays[i] !== null) {
-                if (this.weekdays[i].getDate().toString() === selectedDateOfWeek.toString()) {
-                    this.weekdays[i].setCurrentDayOfWeek(true);
-                    currentDayOfWeek = this.weekdays[i];
+        var currentDayOfWeek = null;
+        this.weekdays.forEach(function (weeday, index) {
+            if (weeday !== undefined && weeday !== null) {
+                if (weeday.getDate().toString() === selectedDateOfWeek.toString()) {
+                    weeday.setCurrentDayOfWeek(true);
+                    currentDayOfWeek = weeday;
                 } else {
-                    this.weekdays[i].setCurrentDayOfWeek(false);
+                    weeday.setCurrentDayOfWeek(false);
                 }
             }
-        }
+        });
         return currentDayOfWeek;
     };
     this.findCurrentDayOfWeek = function () {
-        var i, currentDayOfWeek = null;
-        for (i = 0; i < this.weekdays.length; i = i + 1) {
-            if (this.weekdays[i] !== undefined && this.weekdays[i] !== null) {
-                if (this.weekdays[i].isCurrentDayOfWeek()) {
-                    currentDayOfWeek = this.weekdays[i];
-                    break;
+        var currentDayOfWeek = null;
+        this.weekdays.every(function (weeday) {
+            if (weeday !== undefined && weeday !== null) {
+                if (weeday.isCurrentDayOfWeek()) {
+                    currentDayOfWeek = weeday;
+                    return true;
                 }
             }
-        }
+            return false;
+        });
         return currentDayOfWeek;
     };
     this.isWeekOf = function (date) {
-        var i, result = false;
-        for (i = 0; i < this.weekdays.length; i = i + 1) {
-            if (this.weekdays[i] !== undefined && this.weekdays[i] !== null) {
-                if (this.weekdays[i].getDate().getFullYear() === date.getFullYear()) {
-                    if (this.weekdays[i].getDate().getMonth() === date.getMonth()) {
-                        if (this.weekdays[i].getDate().getDate() === date.getDate()) {
-                            result = true;
-                            break;
+        return this.weekdays.every(function(weeday){
+            if (weeday !== undefined && weeday !== null) {
+                if (weeday.getDate().getFullYear() === date.getFullYear()) {
+                    if (weeday.getDate().getMonth() === date.getMonth()) {
+                        if (weeday.getDate().getDate() === date.getDate()) {
+                            return true;
                         }
                     }
 
                 }
             }
-        }
-
-        return result;
+            return false;
+        });
     };
 };
 /**

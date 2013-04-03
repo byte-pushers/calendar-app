@@ -22,7 +22,7 @@ CalendarApp.utils.MonthUtility.isDateInMonthView = function (targetDate, monthVi
 };
 CalendarApp.utils.MonthUtility.isDateNotInMonthView = function (targetDate, monthView) {
     "use strict";
-    return monthView.every(function (week, index){
+    return monthView.every(function (week, index) {
         if (week.isWeekOf(targetDate)) {
             return true;
         }

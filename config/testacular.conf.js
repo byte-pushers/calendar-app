@@ -43,7 +43,7 @@ exclude = ['app/lib/angular/angular-*.min.js'];
 
 // enable / disable watching file and executing tests whenever any file changes
 // CLI --auto-watch --no-auto-watch
-autoWatch = true;
+autoWatch = false;
 
 // Start these browsers, currently available:
 // - Chrome

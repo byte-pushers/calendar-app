@@ -75,7 +75,7 @@ CalendarApp.models.Week = function (weekdays) {
      * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
      */
     this.clearEvents = function () {
-        this.weekdays.forEach(function(weekday, index) {
+        this.weekdays.forEach(function (weekday, index) {
             if (weekday !== undefined) {
                 weekday.clearEvents();
             }
@@ -102,7 +102,7 @@ CalendarApp.models.Week = function (weekdays) {
      */
     this.getEvents = function () {
         var events = [];
-        this.weekdays.forEach(function(weekday, index) {
+        this.weekdays.forEach(function (weekday, index) {
             if (weekday !== undefined && weekday !== null) {
                 events = events.concat(weekday.getEvents());
             }
@@ -137,7 +137,7 @@ CalendarApp.models.Week = function (weekdays) {
         return currentDayOfWeek;
     };
     this.isWeekOf = function (date) {
-        return this.weekdays.every(function(weeday){
+        return this.weekdays.every(function (weeday) {
             if (weeday !== undefined && weeday !== null) {
                 if (weeday.getDate().getFullYear() === date.getFullYear()) {
                     if (weeday.getDate().getMonth() === date.getMonth()) {

@@ -201,7 +201,7 @@ NoesisCode.models.Person = function Person(firstName, middleName, lastName) {
         if (type === "undefined" || type === null) {
 			throw new NoesisCode.exceptions.NullPointerException("type can not be null.");
 		}
-        this.emails.forEach(function (email, index){
+        this.emails.forEach(function (email, index) {
             if (email.getType() === type) {
                 emailResult =  email;
             }

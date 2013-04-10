@@ -55,7 +55,7 @@ autoWatch = false;
 // - PhantomJS
 // - IE (only Windows)
 // CLI --browsers Chrome,Firefox,Safari
-browsers = ['Chrome'];
+browsers = ['Firefox'];
 // use dots reporter, as travis terminal does not support escaping sequences
 // possible values: 'dots', 'progress', 'junit'
 // CLI --reporters progress
@@ -93,8 +93,3 @@ singleRun = true;
 // report which specs are slower than 500ms
 // CLI --report-slower-than 500
 reportSlowerThan = 500;
-
-// compile coffee scripts
-preprocessors = {
-    '**/*.coffee': 'coffee'
-};

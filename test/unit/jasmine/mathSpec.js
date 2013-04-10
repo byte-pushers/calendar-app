@@ -10,6 +10,6 @@
 		var negativeNumber = -5;
 		var biggerNumber = 5;
 		
-		expect(negativeNumber<biggerNumber).toEqual(true	);
+		expect(negativeNumber<biggerNumber).toEqual(true);
 	});
 });

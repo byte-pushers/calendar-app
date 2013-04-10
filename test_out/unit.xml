@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<testsuites>
+  <testsuite name="Chrome 26.0" package="unit" timestamp="2013-04-10T21:44:07" id="0" hostname="Tonte-Pouncils-MacBook-Pro.local" tests="49" errors="0" failures="0" time="0.086">
+    <properties>
+      <property name="browser.fullName" value="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_3) AppleWebKit/537.31 (KHTML, like Gecko) Chrome/26.0.1410.65 Safari/537.31"/>
+    </properties>
+    <testcase name="should be able to call private methods" time="0.017" classname="unit Chrome 26.0.Tester"/>
+    <testcase name="can convert strings into date with the following date format: MMMDDYYYY" time="0.001" classname="unit Chrome 26.0.Date Converter Test Suite"/>
+    <testcase name="can get the month index using abbreviated month" time="0" classname="unit Chrome 26.0.Date Converter Test Suite"/>
+    <testcase name="can get the day index using abbreviated month" time="0" classname="unit Chrome 26.0.Date Converter Test Suite"/>
+    <testcase name="can get the year index using abbreviated month" time="0" classname="unit Chrome 26.0.Date Converter Test Suite"/>
+    <testcase name="can create date with numbers" time="0.001" classname="unit Chrome 26.0.Date Converter Test Suite"/>
+    <testcase name="can pad left" time="0" classname="unit Chrome 26.0.Number Utility Test Suite"/>
+    <testcase name="can test not a number" time="0" classname="unit Chrome 26.0.Number Utility Test Suite"/>
+    <testcase name="can create namespace" time="0.001" classname="unit Chrome 26.0.Namespace Test Suite"/>
+    <testcase name="can create nested namespace" time="0" classname="unit Chrome 26.0.Namespace Test Suite"/>
+    <testcase name="can reference objects in Array" time="0" classname="unit Chrome 26.0.Array Test Suite"/>
+    <testcase name="can create date range" time="0.002" classname="unit Chrome 26.0.Event Test Suite"/>
+    <testcase name="can not create improper date range" time="0" classname="unit Chrome 26.0.Event Test Suite"/>
+    <testcase name="can create attendee" time="0.001" classname="unit Chrome 26.0.Event Test Suite"/>
+    <testcase name="can adding attendee guess associations one-by-one" time="0.001" classname="unit Chrome 26.0.Event Test Suite"/>
+    <testcase name="can adding attendee guess associations all-at-once" time="0" classname="unit Chrome 26.0.Event Test Suite"/>
+    <testcase name="can set attendee&apos;s response status" time="0.001" classname="unit Chrome 26.0.Event Test Suite"/>
+    <testcase name="can set attendee&apos;s email address" time="0.002" classname="unit Chrome 26.0.Event Test Suite"/>
+    <testcase name="can create an calendar event" time="0.003" classname="unit Chrome 26.0.Event Test Suite"/>
+    <testcase name="can add calendar events to calendar month" time="0.006" classname="unit Chrome 26.0.Event Test Suite"/>
+    <testcase name="can find calendar events for a given day" time="0.002" classname="unit Chrome 26.0.Event Test Suite"/>
+    <testcase name="can create an Email object" time="0" classname="unit Chrome 26.0.Person Test Suite"/>
+    <testcase name="can create a Person object" time="0.001" classname="unit Chrome 26.0.Person Test Suite"/>
+    <testcase name="can assign an email address to a person object" time="0" classname="unit Chrome 26.0.Person Test Suite"/>
+    <testcase name="can assign an email addresses to a person one-by-one" time="0" classname="unit Chrome 26.0.Person Test Suite"/>
+    <testcase name="can find email address of type &quot;Home&quot;" time="0.001" classname="unit Chrome 26.0.Person Test Suite"/>
+    <testcase name="can assign an email addresses to a person all at once" time="0" classname="unit Chrome 26.0.Person Test Suite"/>
+    <testcase name="can create singleton object CalendarApp." time="0.001" classname="unit Chrome 26.0.MyCalendar API"/>
+    <testcase name="can get the first week in month." time="0.004" classname="unit Chrome 26.0.MyCalendar API"/>
+    <testcase name="can get all the weeks in the month." time="0.016" classname="unit Chrome 26.0.MyCalendar API"/>
+    <testcase name="Get days remaining in the week before Feb. 15, 2012." time="0.002" classname="unit Chrome 26.0.MyCalendar API"/>
+    <testcase name="Get days remaining in the week after Feb. 15, 2012." time="0.001" classname="unit Chrome 26.0.MyCalendar API"/>
+    <testcase name="Get week before Feb. 19, 2012." time="0.002" classname="unit Chrome 26.0.MyCalendar API"/>
+    <testcase name="Get week after Feb. 19, 2012." time="0.002" classname="unit Chrome 26.0.MyCalendar API"/>
+    <testcase name="Get days remaining in the week after Feb. 27, 2012." time="0.001" classname="unit Chrome 26.0.MyCalendar API"/>
+    <testcase name="Get days remaining in the week before Feb. 1, 2012." time="0.003" classname="unit Chrome 26.0.MyCalendar API"/>
+    <testcase name="Get week before Feb. 1, 2012." time="0.001" classname="unit Chrome 26.0.MyCalendar API"/>
+    <testcase name="Get week after Feb. 1, 2012." time="0.001" classname="unit Chrome 26.0.MyCalendar API"/>
+    <testcase name="Get week of Feb. 1, 2012." time="0.001" classname="unit Chrome 26.0.MyCalendar API"/>
+    <testcase name="Get week of Feb. 29, 2012." time="0.001" classname="unit Chrome 26.0.MyCalendar API"/>
+    <testcase name="Get previous months total days, when current month is February 2012." time="0.001" classname="unit Chrome 26.0.MyCalendar API"/>
+    <testcase name="Get total days in February 2012." time="0.001" classname="unit Chrome 26.0.MyCalendar API"/>
+    <testcase name="Get previous months total days, when current month is March 2012." time="0" classname="unit Chrome 26.0.MyCalendar API"/>
+    <testcase name="Verify that subtracting one day from Jan 1, 2012 results in Dec 31, 2011." time="0" classname="unit Chrome 26.0.MyCalendar API"/>
+    <testcase name="Verify that the first week in Jan 2012 is from Sun. 1st to Sat. 7th." time="0.005" classname="unit Chrome 26.0.MyCalendar API"/>
+    <testcase name="Verify that the last week in Jan 2012 is from Sun. 29th to Sat. 4th." time="0.001" classname="unit Chrome 26.0.MyCalendar API"/>
+    <testcase name="can get remaining week days after July 7, 2012." time="0.001" classname="unit Chrome 26.0.MyCalendar API"/>
+    <testcase name="can get remaining week days before July 1, 2012." time="0.001" classname="unit Chrome 26.0.MyCalendar API"/>
+    <testcase name="can get month index." time="0" classname="unit Chrome 26.0.MyCalendar API"/>
+    <system-out/>
+    <system-err/>
+  </testsuite>
+</testsuites>

@@ -17,16 +17,16 @@ CalendarApp.models.DateRange = function (start, end) {
 	if (start === "undefined" || start === null) {
 		throw new NoesisCode.exceptions.NullPointerException("start can not be null.");
 	}
-	if (start.getClassType() !== "[class Date]") {
-		throw new NoesisCode.exceptions.InvalidParameterException("start must be an NoesisCodeModels.Person object.");
+
+    if (start.getClassType() !== "[class Date]") {
+		throw new NoesisCode.exceptions.InvalidParameterException("start must be an Date object.");
 	}
 	if (end !== undefined && end !== null) {
 		if (end.getClassType() !== "[class Date]") {
-			throw new NoesisCode.exceptions.InvalidParameterException("end must be an NoesisCodeModels.Person object.");
+			throw new NoesisCode.exceptions.InvalidParameterException("end must be an Date object.");
 		}
 		if (end.getTime() < start.getTime()) {
-			var idre = new NoesisCode.exceptions.InvalidDateRangeException("end date can not come before start date.");
-			throw idre;
+			throw new NoesisCode.exceptions.InvalidDateRangeException("end date can not come before start date.");
 		}
 	}
 	this.start = start;

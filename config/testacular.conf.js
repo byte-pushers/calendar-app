@@ -7,6 +7,7 @@ files = [
   'app/lib/angular/angular-*.js',
   'app/lib/jquery/jquery-1.7.2.js',
   'app/js/com.noesiscode.js',
+  'app/js/com.noesiscode.extentions.Console.js',
   'app/js/com.noesiscode.extentions.ObjectExtention.js',
   'app/js/com.noesiscode.extentions.StringExtention.js',
   'app/js/com.noesiscode.extentions.DateExtention.js',
@@ -43,7 +44,7 @@ exclude = ['app/lib/angular/angular-*.min.js'];
 
 // enable / disable watching file and executing tests whenever any file changes
 // CLI --auto-watch --no-auto-watch
-autoWatch = false;
+autoWatch = true;
 
 // Start these browsers, currently available:
 // - Chrome
@@ -87,7 +88,7 @@ captureTimeout = 10000;
 
 // Auto run tests on start (when browsers are captured) and exit
 // CLI --single-run --no-single-run
-singleRun = true;
+singleRun = false;
 
 // report which specs are slower than 500ms
 // CLI --report-slower-than 500

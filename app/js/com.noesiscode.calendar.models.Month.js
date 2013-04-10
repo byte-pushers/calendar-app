@@ -419,16 +419,23 @@ CalendarApp.models.Month = function (targetDate) {
      * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
      */
     this.getCurrentDayOfTheMonth = function () {
-        var i, week, currentDayOfMonth = null;
+        var loopCount = 0, weeksLength = weeks.length, currentDayOfMonth = null;
+
         weeks.every(function (week) {
+            if (loopCount <= weeksLength) {
+                return true;
+            }
+
             currentDayOfMonth = week.findCurrentDayOfWeek();
             if (currentDayOfMonth !== undefined && currentDayOfMonth !== null) {
                 return true;
             }
 
+
+            loopCount = loopCount + 1;
             return false;
         });
-        if (currentDayOfMonth === "undefined" || currentDayOfMonth === null) {
+        if (currentDayOfMonth === undefined || currentDayOfMonth === null) {
             throw new CalendarApp.exceptions.ExpectedToHaveCurrentDayOfMonthException("Expected to have a current day in the month.");
         }
         currentDate = currentDayOfMonth.getDate();
@@ -453,7 +460,7 @@ CalendarApp.models.Month = function (targetDate) {
             try {
                 currentDayOfTheMonth = this.getCurrentDayOfTheMonth();
             } catch (e) {
-                console.log(e.message);
+                //console.log(e.message);
             }
 
             if (currentDayOfTheMonth !== null) {

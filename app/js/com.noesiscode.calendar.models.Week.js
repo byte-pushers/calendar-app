@@ -20,7 +20,7 @@ CalendarApp.models = CalendarApp.models || CalendarApp.namespace("com.noesiscode
 CalendarApp.models.Week = function (weekdays) {
     "use strict";
     var that = this;
-    this.weekdays = (weekdays === "undefined") ? [] : weekdays;
+    this.weekdays = (weekdays === undefined || weekdays === null || !Array.isArray(weekdays)) ? [] : weekdays;
     this.sunday = (this.weekdays.length >= 1) ? this.weekdays[0] : null;
     this.monday = (this.weekdays.length >= 2) ? this.weekdays[1] : null;
     this.tuesday = (this.weekdays.length >= 3) ? this.weekdays[2] : null;
@@ -124,14 +124,20 @@ CalendarApp.models.Week = function (weekdays) {
         return currentDayOfWeek;
     };
     this.findCurrentDayOfWeek = function () {
-        var currentDayOfWeek = null;
+        var loopCount = 0, weekdaysLength = this.weekdays.length, currentDayOfWeek = null;
         this.weekdays.every(function (weeday) {
+            if (loopCount <= weekdaysLength) {
+                return true;
+            }
+
             if (weeday !== undefined && weeday !== null) {
                 if (weeday.isCurrentDayOfWeek()) {
                     currentDayOfWeek = weeday;
                     return true;
                 }
             }
+
+            loopCount = loopCount + 1;
             return false;
         });
         return currentDayOfWeek;

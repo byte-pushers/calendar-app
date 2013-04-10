@@ -1,3 +1,8 @@
+Object.prototype.getName = function() {
+    var funcNameRegex = /function (.{1,})\(/;
+    var results = (funcNameRegex).exec((this).constructor.toString());
+    return (results && results.length > 1) ? results[1] : "";
+};
 
 Object.prototype.getClassType = function () {
 	"use strict";
@@ -8,7 +13,8 @@ Object.prototype.getClassType = function () {
 		} catch (e) {
 		}
 	}
-    className = (className === "") ? this.getClassName() : className;
+
+    className = (this.getName() === undefined || this.getName() === null || this.getName() === "") ? this.getClassName() : this.getName(); //(className === "") ? this.getClassName() : className;
 	return "[class " + className + "]";
 };
 Object.prototype.getObjectType = function () {
@@ -20,6 +26,6 @@ Object.prototype.getObjectType = function () {
 		} catch (e) {
 		}
 	}
-    className = (className === "") ? this.getClassName() : className;
+    className = (this.getName() === undefined || this.getName() === null || this.getName() === "") ? this.getClassName() : this.getName(); //(className === "") ? this.getClassName() : className;
 	return "[object " + className + "]";
 };

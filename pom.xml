@@ -17,7 +17,7 @@
 				<artifactId>jsdoctk-plugin</artifactId>
 				<version>2.3.2</version>
 				<configuration>
-					<srcDir>${basedir}/app/js</srcDir>
+					<srcDir>${basedir}/src/main/webapp/js</srcDir>
 					<recurse>5</recurse><!-- This is the *level of recursion*, not a boolean -->
                     <allFunctions>true</allFunctions>
                     <AllFunctions>true</AllFunctions>
@@ -39,7 +39,7 @@
 				<version>1.0.1</version> <executions> <execution> <goals> <goal>jslint</goal> 
 				<goal>test-jslint</goal> </goals> </execution> </executions> <configuration> 
 				<sourceJsFolder>${basedir}/src/main/webapp/lib/js</sourceJsFolder> </configuration> 
-				</plugin -->
+				</plugin-->
 			<plugin>
 				<groupId>com.googlecode.jslint4java</groupId>
 				<artifactId>jslint4java-maven-plugin</artifactId>
@@ -52,9 +52,12 @@
 							<goal>lint</goal>
 						</goals>
 						<configuration>
-							<failOnError>true</failOnError>
+                            <excludes>
+                                <exclude>com.noesiscode.extentions.Array.js,filters.js,services.js,directives.js,controllers.js</exclude>
+                            </excludes>
+							<failOnError>false</failOnError>
 							<sourceFolders>
-								<sourceFolder>${basedir}/app/js</sourceFolder>
+								<sourceFolder>${basedir}/src/main/webapp/js</sourceFolder>
 							</sourceFolders>
 							<options>
 								<undef>true</undef>
@@ -63,6 +66,31 @@
 					</execution>
 				</executions>
 			</plugin>
+            <!--plugin>
+                <groupId>ro.isdc.wro4j</groupId>
+                <artifactId>wro4j-maven-plugin</artifactId>
+                <version>1.3.5</version>
+                <executions>
+                    <execution>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>jshint</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <options>devel,noarg</options>
+                    <comment-targetGroups>all</targetGroups->
+                    <minimize>false</minimize>
+                    <comment-destinationFolder>${basedir}/src/main/webapp/wro/</destinationFolder->
+                    <comment-cssDestinationFolder>d:/static/css/</cssDestinationFolder->
+                    <comment-jsDestinationFolder>d:/static/js/</jsDestinationFolder->
+                    <contextFolder>${basedir}/src/main/webapp/</contextFolder>
+                    <wroFile>${basedir}/src/main/resources/wro.xml</wroFile>
+                    <comment-wroManagerFactory>com.mycompany.MyCustomWroManagerFactory</wroManagerFactory->
+                    <ignoreMissingResources>false</ignoreMissingResources>
+                </configuration>
+            </plugin-->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
@@ -84,7 +112,7 @@
 					</execution>
 				</executions>
 			</plugin>
-            <!--plugin>
+            <plugin>
                 <artifactId>maven-antrun-plugin</artifactId>
                 <version>1.7</version>
                 <executions>
@@ -103,7 +131,7 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin-->
+            </plugin>
             <!--plugin>
                 <groupId>org.pouncilt.plugins</groupId>
                 <artifactId>saucelabs-maven-plugin</artifactId>
@@ -193,7 +221,7 @@
                 </property>
             </activation>
             <properties>
-                <testacular.config>testacular.ci.conf.js</testacular.config>
+                <testacular.config>karma.ci.conf.js</testacular.config>
                 <testacular.path></testacular.path>
             </properties>
         </profile>
@@ -220,7 +248,7 @@
                 </property>
             </activation>
             <properties>
-                <testacular.config>testacular.conf.js</testacular.config>
+                <testacular.config>karma.ide.conf.js</testacular.config>
                 <testacular.path>/usr/local/bin</testacular.path>
             </properties>
         </profile>
@@ -233,7 +261,7 @@
                 </property>
             </activation>
             <properties>
-                <testacular.config>testacular.ide.conf.js</testacular.config>
+                <testacular.config>karma.ide.conf.js</testacular.config>
                 <testacular.path>/usr/local/bin</testacular.path>
             </properties>
         </profile>

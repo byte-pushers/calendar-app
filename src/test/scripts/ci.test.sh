@@ -22,7 +22,7 @@ node_home=$PWD/$install_name
 
 export PATH=$PATH:$node_home/bin
 
-src/test/scripts/test.sh  #--single-run --browsers="Chrome,Firefox" --reporters="dots,junit" --no-colors
+test.sh  #--single-run --browsers="Chrome,Firefox" --reporters="dots,junit" --no-colors
 
 #
 # skipping the Angular.js e2e tests (this requires a server too)

@@ -120,9 +120,9 @@
                         <phase>test</phase>
                         <configuration>
                             <target unless="maven.test.skip">
-                                <exec executable="src/test/scripts/ci.test.sh">
-                                    <arg value="${testacular.path}"/>
-                                    <arg value="${testacular.config}"/>
+                                <exec executable="src/test/scripts/cloudbees.ci.master.test.sh">
+                                    <!--arg value="${testacular.path}"/>
+                                    <arg value="${testacular.config}"/-->
                                 </exec>
                             </target>
                         </configuration>

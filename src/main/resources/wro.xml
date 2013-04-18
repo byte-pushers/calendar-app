@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<groups xmlns="http://www.isdc.ro/wro">
+    <group name='core'>
+        <css>/css/calendar-month-view-layout.css</css>
+        <js>/js/com.noesiscode.js</js>
+        <js>/js/com.noesiscode.extentions.Console.js</js>
+        <js>/js/com.noesiscode.extentions.ObjectExtention.js</js>
+        <js>/js/com.noesiscode.extentions.StringExtention.js</js>
+        <js>/js/com.noesiscode.extentions.DateExtention.js</js>
+        <js>/js/com.noesiscode.exceptions.Errors.js</js>
+        <js>/js/com.noesiscode.utils.NumberUtility.js</js>
+        <js>/js/com.noesiscode.utils.converters.date.DateConverter.js</js>
+        <js>/js/com.noesiscode.models.Person.js</js>
+        <js>/js/com.noesiscode.calendar.CalendarAPI.js</js>
+        <js>/js/com.noesiscode.calendar.utils.MonthUtility.js</js>
+        <js>/js/com.noesiscode.calendar.models.exceptions.Errors.js</js>
+        <js>/js/com.noesiscode.calendar.models.Event.js</js>
+        <js>/js/com.noesiscode.calendar.models.EventTransformer.js</js>
+        <js>/js/com.noesiscode.calendar.models.Day.js</js>
+        <js>/js/com.noesiscode.calendar.models.Week.js</js>
+        <js>/js/com.noesiscode.calendar.models.Month.js</js>
+        <js>/js/angular/com.noesiscode.calendar.app.js</js>
+        <js>/js/angular/com.noesiscode.calendar.controller.js</js>
+        <js>/js/angular/com.noesiscode.calendar.component.js</js>
+        <js>/js/angular/com.noesiscode.calendar.service.js</js>
+    </group>
+</groups>

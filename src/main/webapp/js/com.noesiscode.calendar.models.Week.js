@@ -125,14 +125,14 @@ CalendarApp.models.Week = function (weekdays) {
     };
     this.findCurrentDayOfWeek = function () {
         var loopCount = 0, weekdaysLength = this.weekdays.length, currentDayOfWeek = null;
-        this.weekdays.every(function (weeday) {
+        this.weekdays.every(function (weekday) {
             if (loopCount >= weekdaysLength) {
                 return false;
             }
 
-            if (weeday !== undefined && weeday !== null) {
-                if (weeday.isCurrentDayOfWeek()) {
-                    currentDayOfWeek = weeday;
+            if (weekday !== undefined && weekday !== null) {
+                if (weekday.isCurrentDayOfWeek()) {
+                    currentDayOfWeek = weekday;
                     return false;
                 }
             }

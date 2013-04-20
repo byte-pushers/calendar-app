@@ -90,15 +90,14 @@ CalendarApp.models.Day = function (date, weekIndex, currentDayOfWeek) {
      * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
      */
     this.setEvents = function (events) {//TODO: Need to rename to addEvents because the current logic does not reset events.
-        var eventStartEndTime;
-        this.events.forEach(function (event, i) {
+        events.forEach(function (event, index, array) {
             if (event !== undefined && event !== null) {
-                eventStartEndTime = new CalendarApp.models.DateRange(event.getStart(), event.getEnd());
-                if (eventStartEndTime.isBetweenRange(this.date)) {
+                var eventStartEndTime = new CalendarApp.models.DateRange(event.getStart(), event.getEnd());
+                if (eventStartEndTime.isBetweenRange(this.getDate())) {
                     this.events[this.events.length] = event;
                 }
             }
-        });
+        }, this);
     };
     /**
      * <p>Get the events that are scheduled for the week from the appropriate days.</p>

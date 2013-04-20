@@ -66,7 +66,7 @@
 }
 
 .calendar-day-with-no-events.over{
-    border: 1px dashed #000;
+    border: 1px dashed #000099;
 }
 
 .calendar-day-with-events{

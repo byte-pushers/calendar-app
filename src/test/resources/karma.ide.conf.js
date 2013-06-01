@@ -87,7 +87,7 @@ autoWatch = true;
 // - PhantomJS
 // - IE (only Windows)
 // CLI --browsers Chrome,Firefox,Safari
-browsers = ['Safari', 'Firefox'];
+browsers = ['Safari', 'Firefox', 'src/test/scripts/ie6.sh'];
 
 // If browser does not capture in given timeout [ms], kill it
 // CLI --capture-timeout 5000

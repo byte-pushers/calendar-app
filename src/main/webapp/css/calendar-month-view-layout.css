@@ -1,23 +1,47 @@
 #calendar-container{
 	/*border: 1px solid black;*/
 	display: block;
+    margin: 0px;
+    padding: 0px;
 	/*background: #F0F8FF;*/
 }
 
 #calendar-menu-container{
 	display: block;
 	background: #D2E9FF;
+    /*border: 1px solid;*/
+    margin: 0px;
+    padding: 0px;
 }
 
-#calendar-nav-container{
+.calendar-nav-container{
 	display: table;
 	width: 100%;
 	background: #F0FFFF;
 	/*border: 1px solid;*/
+    margin: 0px;
+    padding: 1px;
 }
 
 #calendar-header-container{
 	display: table-cell;
+    width: 100%;
+    /*border: 1px solid;*/
+}
+
+.calendar-month-display-info{
+    display: block;
+    width: 250px;
+    height: 19px;
+    float: left;
+    /*border: 1px solid;*/
+}
+
+.calendar-month-nav-bar{
+    display: block;
+    float: right;
+    margin: 0px;
+    padding: 0px;
 }
 
 #calendar-month-grid-container{

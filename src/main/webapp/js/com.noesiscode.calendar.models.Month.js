@@ -532,6 +532,24 @@ CalendarApp.models.Month = function (targetDate) {
      * @returns {String} The display name of the selected date on the calendar.
      * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
      */
+    this.getSelectedDateDecoratedDisplayName = function () {
+        var currentDate = new Date(), selectedDateDisplayName = this.getSelectedDateDisplayName();
+        if (currentDate.isDateEqualTo(selectedDate)) {
+            return "Today " + selectedDateDisplayName;
+        } else if (currentDate.isDateEqualToTomorrow(selectedDate)) {
+            return "Tomorrow " + selectedDateDisplayName;
+        } else if (currentDate.isDateEqualToYesterday(selectedDate)) {
+            return "Yesterday " + selectedDateDisplayName;
+        } else {
+            return selectedDateDisplayName;
+        }
+    }
+    /**
+     * <p>Convenience method that gets the display name of the selected date on the calendar.</p>
+     *
+     * @returns {String} The display name of the selected date on the calendar.
+     * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
+     */
     this.getSelectedDateDisplayName = function () {
         var month = getMonthName(selectedDate.getMonth(), false),
             year = selectedDate.getFullYear(),

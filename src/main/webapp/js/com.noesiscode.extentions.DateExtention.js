@@ -24,14 +24,14 @@ Date.prototype.isDateEqualToTomorrow = function (date) {
             if (this.getDate() + 1 === date.getDate()) {
                 return true;
             }
-        } else if(this.getMonth() + 1 === date.getMonth()) {
+        } else if (this.getMonth() + 1 === date.getMonth()) {
             if (this.isLastDayInMonth() && date.getDate() === 1) {
                 return true;
             }
         }
     }
     return false;
-}
+};
 Date.prototype.isDateEqualToYesterday = function (date) {
     "use strict";
     if (this.getFullYear() === date.getFullYear()) {
@@ -39,23 +39,23 @@ Date.prototype.isDateEqualToYesterday = function (date) {
             if (this.getDate() - 1 === date.getDate()) {
                 return true;
             }
-        } else if(this.getMonth() === date.getMonth() + 1) {
-            if (this.getDate() == 1 && date.isLastDayInMonth()) {
+        } else if (this.getMonth() === date.getMonth() + 1) {
+            if (this.getDate() === 1 && date.isLastDayInMonth()) {
                 return true;
             }
         }
     }
     return false;
-}
+};
 Date.prototype.isLastDayInMonth = function (date) {
     "use strict";
     var targetDate = (date === undefined) ? this : date, lastDayInMonth;
     lastDayInMonth = targetDate.getCurrentMonthTotalDays();
-    if(targetDate.getDate() === lastDayInMonth){
+    if (targetDate.getDate() === lastDayInMonth) {
         return true;
     }
     return false;
-}
+};
 /**
  * <p>Static field that is used to get calendar total calendar days of the previous month.</p>
  * @static
@@ -124,7 +124,7 @@ Date.prototype.getMonthName = function (index, getAbbr) {
     } else {
         return this.monthNames[index].name;
     }
-}
+};
 /**
  * <p>Static field for the list of month.</p>
  * @static

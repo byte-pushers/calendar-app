@@ -543,7 +543,7 @@ CalendarApp.models.Month = function (targetDate) {
         } else {
             return selectedDateDisplayName;
         }
-    }
+    };
     /**
      * <p>Convenience method that gets the display name of the selected date on the calendar.</p>
      *

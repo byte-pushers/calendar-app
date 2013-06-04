@@ -14,7 +14,7 @@ angular.module('NoesisCodeCalendar', ['NoesisCodeCalendarService'])
             scope: {
 
             },
-            controller: CalendarController,
+            controller: CalendarMonthViewController,
             templateUrl: 'partials/calendar-month-view-template.html',
             compile: function (tElement, tAttrs, transclude) {
                 return function (scope, element, attrs, controller) {

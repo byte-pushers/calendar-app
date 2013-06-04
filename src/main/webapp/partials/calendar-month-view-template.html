@@ -1,6 +1,6 @@
 <!-- HTML5 TABS CODE -->
-<div id="calendar-container" ng-controller="CalendarController"><!--Container //-->
-    <div id="calendar-menu-container"><center><button>Day</button><button>Month</button></center></div>
+<!--div id="calendar-container" ng-controller="CalendarMonthViewController"--><!--Container //-->
+    <!--div id="calendar-menu-container"><center><button>Day</button><button>Month</button></center></div-->
     <div class="calendar-nav-container">
         <div id="calendar-header-container">
             <div class="calendar-month-display-info">{{month.getSelectedMonthName()}}</div>
@@ -38,7 +38,6 @@
                     <div calendar-day id="{{day.getId()}}" class="ng-class:getCalendarDayClass(day);" ng-click="selectDay(day.getDate());">
                         {{day.getWeekDate()}}<br><br>
                     </div>
-
             </div>
         </div>
     </div>
@@ -55,5 +54,5 @@
             </div>
         </div>
     </div>
-</div>
+<!--/div//-->
 <!-- /HTML5 TABS CODE -->

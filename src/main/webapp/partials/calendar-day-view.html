@@ -1,0 +1,12 @@
+<div id="calendar-day-view-container">
+    <div id="calendar-day-view-right-header" class="column"></div>
+    <div id="calendar-day-view-left-header" class="column"></div>
+    <div ng-repeat="hour in hours">
+        <div class="calendar-day-view-right-half-hour-block calendar-day-view-top-of-the-hour-block column"></div>
+        <div class="calendar-day-view-left-half-hour-block column">
+            <div class="calendar-day-view-bottom-of-the-hour-label">{{hour}}</div>
+        </div>
+        <div class="calendar-day-view-right-half-hour-block calendar-day-view-bottom-of-the-hour-block column"></div>
+        <div class="calendar-day-view-left-half-hour-block column"></div>
+    </div>
+</div>

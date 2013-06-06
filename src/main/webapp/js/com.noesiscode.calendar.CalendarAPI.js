@@ -138,6 +138,12 @@ function CalendarApp() {
     instance.setCachedMonth = function (cMonth) {
         instance.cachedMonth = cMonth;
     };
+    instance.getCalendarDayViewUrl = function (redirectTo) {
+        location.href= redirectTo + instance.currentMonth.getSelectedDate().getTime();
+    };
+    instance.getCalendarMonthViewUrl = function (redirectTo) {
+        location.href= redirectTo + instance.currentMonth.getSelectedDate().getTime();
+    };
 
     return instance;
 }

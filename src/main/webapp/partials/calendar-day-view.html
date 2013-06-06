@@ -1,4 +1,8 @@
 <div id="calendar-day-view-container">
+    <div class="calendar-day-nav-container">
+        <div class="calendar-month-display-info">{{getSelectedDayDecoratedDisplayName()}}</div>
+        <div class="calendar-month-nav-bar"><button ng-click="selectPreviousDay()"><<</button><button ng-click="selectToday()">Today</button><button ng-click="selectNextDay()">>></button></div>
+    </div>
     <div id="calendar-day-view-right-header" class="column"></div>
     <div id="calendar-day-view-left-header" class="column"></div>
     <div ng-repeat="hour in hours">
@@ -8,5 +12,9 @@
         </div>
         <div class="calendar-day-view-right-half-hour-block calendar-day-view-bottom-of-the-hour-block column"></div>
         <div class="calendar-day-view-left-half-hour-block column"></div>
+    </div>
+    <div class="calendar-day-nav-container">
+        <div class="calendar-month-display-info">{{month.getSelectedDateDecoratedDisplayName()}}</div>
+        <div class="calendar-month-nav-bar"><button ng-click="selectPreviousDay()"><<</button><button ng-click="selectToday()">Today</button><button ng-click="selectNextDay()">>></button></div>
     </div>
 </div>

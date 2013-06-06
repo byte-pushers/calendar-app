@@ -26,7 +26,7 @@ CalendarApp.models.Month = function (targetDate) {
          * @field
          * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
          */
-        selectedDate = (targetDate !== undefined && targetDate !== null) ? targetDate : new Date(),
+        selectedDate = (targetDate !== undefined && targetDate !== null && targetDate.getClassType() === "[class Date]") ? targetDate : new Date(),
         /**
          * <p>Represents the name of the selected month a user has selected.
          * @private
@@ -252,28 +252,28 @@ CalendarApp.models.Month = function (targetDate) {
         return weeks;
     }
     /**
-     * <p>Convenience method that returns the next {@link Day} after the selected date on the calendar.</p>
+     * <p>Convenience method that returns the next date after the selected date on the calendar.</p>
      *
-     * @private
+     * * @param {<a href="http://www.w3schools.com/jsref/jsref_obj_date.asp">Date</a>} someDate Represents an arbitrary calendar date.
      * @returns {CalendarApp.models.Day} The next day after the selected date.
      * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
      */
-    function getNextDay() {
-        var nextDay = new Date(selectedDate.getTime());
-        nextDay.setDate(nextDay.getDate() + 1);
-        return nextDay;
+    this.getNextDate = function (targetDate) {
+        var nextDate = (targetDate !== undefined && targetDate !== null && targetDate.getClassType() === "[class Date]") ? targetDate : new Date(selectedDate.getTime());
+        nextDate.setDate(nextDate.getDate() + 1);
+        return nextDate;
     }
     /**
      * <p>Convenience method that returns the previous {@link Day} before the selected date on the calendar.</p>
      *
-     * @private
+     * @param {<a href="http://www.w3schools.com/jsref/jsref_obj_date.asp">Date</a>} someDate Represents an arbitrary calendar date.
      * @returns {CalendarApp.models.Day} The previous day before the selected date.
      * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
      */
-    function getPreviousDay() {
-        var previousDay = new Date(selectedDate.getTime());
-        previousDay.setDate(previousDay.getDate() - 1);
-        return previousDay;
+    this.getPreviousDate = function (targetDate) {
+        var previousDate = (targetDate !== undefined && targetDate !== null && targetDate.getClassType() === "[class Date]") ? targetDate : new Date(selectedDate.getTime());
+        previousDate.setDate(previousDate.getDate() - 1);
+        return previousDate;
     }
     /**
      * <p>Convenience method that returns the next {@link Month} after the selected date on the calendar.</p>
@@ -601,26 +601,28 @@ CalendarApp.models.Month = function (targetDate) {
     /**
      * <p>Convenience method that selects the next day on the calendar.</p>
      *
+     * @param {<a href="http://www.w3schools.com/jsref/jsref_obj_boolean.asp">Boolean</a>} resetWeeks An optional boolean flag to determine if the weeks in the month should be reset.
      * @returns {CalendarApp.models.Day} The next {@link CalendarApp.models.Day} on the calendar.
      * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
      */
-    this.selectNextDay = function () {
-        this.setSelectedDate(getNextDay());
+    this.selectNextDay = function (resetWeeks) {
+        this.setSelectedDate(this.getNextDate());
         this.setSelectedMonthName();
         this.setSelectedDateDisplayName();
-        return this.setCurrentDayOfTheMonth(this.getSelectedDate());
+        return this.setCurrentDayOfTheMonth(this.getSelectedDate(), resetWeeks);
     };
     /**
      * <p>Convenience method that selects the previous day on the calendar.</p>
      *
+     * @param {<a href="http://www.w3schools.com/jsref/jsref_obj_boolean.asp">Boolean</a>} resetWeeks An optional boolean flag to determine if the weeks in the month should be reset.
      * @returns {CalendarApp.models.Day} The previous {@link CalendarApp.models.Day} on the calendar.
      * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
      */
-    this.selectPreviousDay = function () {
-        this.setSelectedDate(getPreviousDay());
+    this.selectPreviousDay = function (resetWeeks) {
+        this.setSelectedDate(this.getPreviousDate());
         this.setSelectedMonthName();
         this.setSelectedDateDisplayName();
-        return this.setCurrentDayOfTheMonth(this.getSelectedDate());
+        return this.setCurrentDayOfTheMonth(this.getSelectedDate(), resetWeeks);
     };
     /**
      * <p>Convenience method that selects the first day of the next month on the calendar.</p>

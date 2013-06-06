@@ -102,4 +102,9 @@ body {
 .calendar-day-view-bottom-of-the-hour-label{
     margin-top: -5px;
 }
+.calendar-day-nav-container{
+    display: block;
+    background: cornflowerblue;
+    width: 100%;
+}
 

@@ -100,7 +100,7 @@ body {
     border-bottom: 1px dotted grey;
 }
 .calendar-day-view-bottom-of-the-hour-label{
-    margin-top: -5px;
+    margin-top: -8px;
 }
 .calendar-day-nav-container{
     display: block;

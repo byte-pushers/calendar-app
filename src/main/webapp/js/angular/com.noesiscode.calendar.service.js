@@ -11,4 +11,10 @@ angular.module('NoesisCodeCalendarService', ['ngResource']).
         return $resource('data/events/:eventId.json', {}, {
             query: {method: 'GET', params: {eventId: 'events'}, isArray: true}
         });
+    }).
+    factory('CalendarDayHoursService', function ($resource) {
+        "use strict";
+        return $resource('data/:dayHoursId.json', {}, {
+            query: {method: 'GET', params: {dayHoursId: 'dayHours'}, isArray: true}
+        });
     });

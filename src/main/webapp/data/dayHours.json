@@ -1,0 +1,146 @@
+[
+    {
+        "name": "12 AM",
+        "label": "",
+        "hour": "00",
+        "minutes": "00"
+    },
+    {
+        "name": "1 AM",
+        "label": "1 AM",
+        "hour": "01",
+        "minutes": "00"
+    },
+    {
+        "name": "2 AM",
+        "label": "2 AM",
+        "hour": "02",
+        "minutes": "00"
+    },
+    {
+        "name": "3 AM",
+        "label": "3 AM",
+        "hour": "03",
+        "minutes": "00"
+    },
+    {
+        "name": "4 AM",
+        "label": "4 AM",
+        "hour": "04",
+        "minutes": "00"
+    },
+    {
+        "name": "5 AM",
+        "label": "5 AM",
+        "hour": "05",
+        "minutes": "00"
+    },
+    {
+        "name": "6 AM",
+        "label": "6 AM",
+        "hour": "06",
+        "minutes": "00"
+    },
+    {
+        "name": "7 AM",
+        "label": "7 AM",
+        "hour": "07",
+        "minutes": "00"
+    },
+    {
+        "name": "8 AM",
+        "label": "8 AM",
+        "hour": "08",
+        "minutes": "00"
+    },
+    {
+        "name": "9 AM",
+        "label": "9 AM",
+        "hour": "09",
+        "minutes": "00"
+    },
+    {
+        "name": "10 AM",
+        "label": "10 AM",
+        "hour": "10",
+        "minutes": "00"
+    },
+    {
+        "name": "11 AM",
+        "label": "11 AM",
+        "hour": "11",
+        "minutes": "00"
+    },
+    {
+        "name": "Noon",
+        "label": "Noon",
+        "hour": "12",
+        "minutes": "00"
+    },
+    {
+        "name": "1 PM",
+        "label": "1 PM",
+        "hour": "13",
+        "minutes": "00"
+    },
+    {
+        "name": "2 PM",
+        "label": "2 PM",
+        "hour": "14",
+        "minutes": "00"
+    },
+    {
+        "name": "3 PM",
+        "label": "3 PM",
+        "hour": "15",
+        "minutes": "00"
+    },
+    {
+        "name": "4 PM",
+        "label": "4 PM",
+        "hour": "16",
+        "minutes": "00"
+    },
+    {
+        "name": "5 PM",
+        "label": "5 PM",
+        "hour": "17",
+        "minutes": "00"
+    },
+    {
+        "name": "6 PM",
+        "label": "6 PM",
+        "hour": "18",
+        "minutes": "00"
+    },
+    {
+        "name": "7 PM",
+        "label": "7 PM",
+        "hour": "19",
+        "minutes": "00"
+    },
+    {
+        "name": "8 PM",
+        "label": "8 PM",
+        "hour": "20",
+        "minutes": "00"
+    },
+    {
+        "name": "9 PM",
+        "label": "9 PM",
+        "hour": "21",
+        "minutes": "00"
+    },
+    {
+        "name": "10 PM",
+        "label": "10 PM",
+        "hour": "22",
+        "minutes": "00"
+    },
+    {
+        "name": "11 PM",
+        "label": "11 PM",
+        "hour": "23",
+        "minutes": "00"
+    }
+]

@@ -123,13 +123,24 @@ function CalendarMonthViewController($scope, CalendarEventService, $routeParams)
     };
 }
 CalendarMonthViewController.$inject = ['$scope', 'CalendarEventService', '$routeParams'];
-function CalendarDayViewController($scope, CalendarEventService, $routeParams) {
+function CalendarDayViewController($scope, CalendarEventService, CalendarDayHoursService, $routeParams) {
     "use strict";
-    $scope.hours = ["", "1 AM", "2 AM", "3 AM", "4 AM", "5 AM", "6 AM", "7 AM", "8 AM", "9 AM", "10 AM", "11 AM",
-    "Noon", "1 PM", "2 PM", "3 PM", "4 PM", "5 PM", "6 PM", "7 PM", "8 PM", "9 PM", "10 PM", "11 PM"];
     $scope.selectedDate = new Date();
-    $scope.selectedDate.setTime($routeParams.selectedDate);
     $scope.todaysEvents = [];
+    $scope.dayHours = [];
+
+    if (!CalendarApp.getInstance().getCurrentMonth()) {
+        if ($routeParams.selectedDate !== undefined &&
+            $routeParams.selectedDate !== null &&
+            NoesisCode.NumberUtility.isANumber($routeParams.selectedDate)) {
+            $scope.selectedDate.setTime($routeParams.selectedDate);
+        }
+        CalendarApp.getInstance().setCurrentMonth(new CalendarApp.models.Month($scope.selectedDate));
+    }
+
+    CalendarDayHoursService.query(function (jsonEvents) {
+        $scope.dayHours = jsonEvents;
+    });
 
     $scope.findEventsWithStartTime = function (startTime) {
 
@@ -166,12 +177,23 @@ function CalendarDayViewController($scope, CalendarEventService, $routeParams) {
         $scope.todaysEvents = selectedDay.getEvents();
     };
     $scope.selectToday = function () {
-        var selectedDay = CalendarApp.getInstance().getCurrentMonth().selectDay(new Date());
-        CalendarApp.getInstance().setCachedMonth(new CalendarApp.models.Month(selectedDay.getDate()));
+        var cachedWeeks = CalendarApp.getInstance().getCachedMonth().getWeeks(),
+            selectedDay;
+
+        $scope.selectedDate = new Date();
+
+        if (CalendarApp.utils.MonthUtility.isDateNotInMonthView($scope.selectedDate, cachedWeeks)) {
+            selectedDay = CalendarApp.getInstance().getCurrentMonth().selectDay(new Date(), true);
+            CalendarApp.getInstance().setCachedMonth(new CalendarApp.models.Month(selectedDay.getDate()));
+        } else {
+            selectedDay = CalendarApp.getInstance().getCurrentMonth().selectDay(new Date());
+        }
+
+        $scope.selectedDate = selectedDay.getDate();
         $scope.todaysEvents = selectedDay.getEvents();
     };
     $scope.getSelectedDayDecoratedDisplayName = function () {
         return CalendarApp.getInstance().getCurrentMonth().getSelectedDateDecoratedDisplayName();
     };
 }
-CalendarDayViewController.$inject = ['$scope', 'CalendarEventService','$routeParams'];
+CalendarDayViewController.$inject = ['$scope', 'CalendarEventService','CalendarDayHoursService','$routeParams'];

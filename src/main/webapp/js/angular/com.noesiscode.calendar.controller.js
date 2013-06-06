@@ -126,16 +126,17 @@ CalendarMonthViewController.$inject = ['$scope', 'CalendarEventService', '$route
 function CalendarDayViewController($scope, CalendarEventService, CalendarDayHoursService, $routeParams) {
     "use strict";
     $scope.selectedDate = new Date();
+    if ($routeParams.selectedDate !== undefined &&
+        $routeParams.selectedDate !== null &&
+        NoesisCode.NumberUtility.isANumber($routeParams.selectedDate)) {
+        $scope.selectedDate.setTime($routeParams.selectedDate);
+    }
     $scope.todaysEvents = [];
     $scope.dayHours = [];
 
     if (!CalendarApp.getInstance().getCurrentMonth()) {
-        if ($routeParams.selectedDate !== undefined &&
-            $routeParams.selectedDate !== null &&
-            NoesisCode.NumberUtility.isANumber($routeParams.selectedDate)) {
-            $scope.selectedDate.setTime($routeParams.selectedDate);
-        }
         CalendarApp.getInstance().setCurrentMonth(new CalendarApp.models.Month($scope.selectedDate));
+        CalendarApp.getInstance().setCachedMonth(new CalendarApp.models.Month($scope.selectedDate));
     }
 
     CalendarDayHoursService.query(function (jsonEvents) {

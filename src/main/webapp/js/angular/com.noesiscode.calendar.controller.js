@@ -139,13 +139,21 @@ function CalendarDayViewController($scope, CalendarEventService, CalendarDayHour
         CalendarApp.getInstance().setCachedMonth(new CalendarApp.models.Month($scope.selectedDate));
     }
 
-    CalendarDayHoursService.query(function (jsonEvents) {
-        $scope.dayHours = jsonEvents;
+    CalendarEventService.query(function (jsonEvents) {
+        CalendarApp.getInstance().setEvents(CalendarApp.models.EventTransformer.transformJSONEvents(jsonEvents));
+        CalendarApp.getInstance().applyEvents();
+        $scope.todaysEvents = CalendarApp.getInstance().getTodaysEvents();
     });
 
-    $scope.findEventsWithStartTime = function (startTime) {
+    CalendarDayHoursService.query(function (jsonDayHours) {
+        $scope.dayHours = jsonDayHours;
+        $scope.dayHours.forEach(function (dayHour, index) {
+            if (dayHour !== undefined && dayHour !== null) {
+                dayHour.events = $scope.findEventsWithStartTime(dayHour.hour, dayHour.minutes);
+            }
+        });
+    });
 
-    };
     $scope.selectNextDay = function () {
         var cachedWeeks = CalendarApp.getInstance().getCachedMonth().getWeeks(),
             selectedDay;
@@ -195,6 +203,26 @@ function CalendarDayViewController($scope, CalendarEventService, CalendarDayHour
     };
     $scope.getSelectedDayDecoratedDisplayName = function () {
         return CalendarApp.getInstance().getCurrentMonth().getSelectedDateDecoratedDisplayName();
+    };
+    $scope.findEventsWithStartTime = function (startTimeHour, startTimeMinutes) {
+        $scope.selectedDate.setHours(startTimeHour);
+        $scope.selectedDate.setMinutes(startTimeMinutes);
+        return CalendarApp.getInstance().findEventsByDateAndTime($scope.selectedDate);
+    };
+    $scope.getSelectedDate = function () {
+        return $scope.selectedDate.getMonth() + "-" +$scope.selectedDate.getDate() + "-" + $scope.selectedDate.getFullYear();
+    };
+    $scope.calculateHeight = function (baseHeight, eventStartTime, eventEndTime) {
+        var halfUnit = baseHeight / 2,
+            heightUnit = (eventEndTime.getMinutes() === 0) ? 0: eventEndTime.getMinutes()/15,
+            calculatedHeight;
+
+        heightUnit = (heightUnit == 1)? halfUnit : (heightUnit == 2)? baseHeight: (heightUnit == 3) ? baseHeight + halfUnit : 0;
+        calculatedHeight = (baseHeight * ((eventEndTime.getHours() - eventStartTime.getHours()) * 2)) + heightUnit;
+        calculatedHeight += "px";
+        var cssObj = new Object();
+        cssObj.height = calculatedHeight;
+        return cssObj;
     };
 }
 CalendarDayViewController.$inject = ['$scope', 'CalendarEventService','CalendarDayHoursService','$routeParams'];

@@ -83,6 +83,17 @@ function CalendarApp() {
         });
         return selectedEvents;
     };
+    instance.findEventsByDateAndTime = function (someDate) {
+        var selectedEvents = [];
+        this.events.forEach(function (event, index) {
+            if (event !== undefined && event !== null) {
+                if (event.getStart().isDateEqualToDateAndTime(someDate)) {
+                    selectedEvents[selectedEvents.length] = event;
+                }
+            }
+        });
+        return selectedEvents;
+    };
     instance.findEventById = function (id, someEvents) {
         var targetEvent = null,
             events = (someEvents !== undefined && someEvents !== null) ? someEvents : this.events;

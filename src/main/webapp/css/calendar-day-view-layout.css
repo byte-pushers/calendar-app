@@ -86,6 +86,7 @@ body {
     width: 100%;
     border-left: 1px solid grey;
     border-right: 1px solid grey;
+    /*background-color: lightyellow;*/
 }
 .calendar-day-view-left-half-hour-block{
     height: 20px;
@@ -106,5 +107,16 @@ body {
     display: block;
     background: cornflowerblue;
     width: 100%;
+}
+.calendar-day-display-event-container{
+    dispay: inline;
+    height: 18px;
+    width: 125px;
+    border-radius: 2px;
+    border: 1px solid darkgreen;
+    background: darkseagreen;
+    opacity:0.5;
+    float: left;
+    margin-left: 5px;
 }
 

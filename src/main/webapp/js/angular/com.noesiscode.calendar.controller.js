@@ -156,7 +156,8 @@ function CalendarDayViewController($scope, CalendarEventService, CalendarDayHour
 
     $scope.selectNextDay = function () {
         var cachedWeeks = CalendarApp.getInstance().getCachedMonth().getWeeks(),
-            selectedDay;
+            selectedDay,
+            redirectTo = "#/calendarDayView/";
 
         $scope.selectedDate = CalendarApp.getInstance().getCurrentMonth().getNextDate($scope.selectedDate);
 
@@ -169,10 +170,12 @@ function CalendarDayViewController($scope, CalendarEventService, CalendarDayHour
 
         $scope.selectedDate = selectedDay.getDate();
         $scope.todaysEvents = selectedDay.getEvents();
+        location.href= redirectTo + $scope.selectedDate.getTime();
     };
     $scope.selectPreviousDay = function () {
         var cachedWeeks = CalendarApp.getInstance().getCachedMonth().getWeeks(),
-            selectedDay;
+            selectedDay,
+            redirectTo = "#/calendarDayView/";
 
         $scope.selectedDate = CalendarApp.getInstance().getCurrentMonth().getPreviousDate($scope.selectedDate);
 
@@ -184,10 +187,12 @@ function CalendarDayViewController($scope, CalendarEventService, CalendarDayHour
         }
         $scope.selectedDate = selectedDay.getDate();
         $scope.todaysEvents = selectedDay.getEvents();
+        location.href= redirectTo + $scope.selectedDate.getTime();
     };
     $scope.selectToday = function () {
         var cachedWeeks = CalendarApp.getInstance().getCachedMonth().getWeeks(),
-            selectedDay;
+            selectedDay,
+            redirectTo = "#/calendarDayView/";
 
         $scope.selectedDate = new Date();
 
@@ -200,6 +205,7 @@ function CalendarDayViewController($scope, CalendarEventService, CalendarDayHour
 
         $scope.selectedDate = selectedDay.getDate();
         $scope.todaysEvents = selectedDay.getEvents();
+        location.href= redirectTo + $scope.selectedDate.getTime();
     };
     $scope.getSelectedDayDecoratedDisplayName = function () {
         return CalendarApp.getInstance().getCurrentMonth().getSelectedDateDecoratedDisplayName();

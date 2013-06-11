@@ -89,7 +89,7 @@ CalendarApp.models.Day = function (date, weekIndex, currentDayOfWeek) {
      * @param {@link CalendarApp.models.Event} The events that are scheduled for the day.
      * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
      */
-    this.setEvents = function (events) {//TODO: Need to rename to addEvents because the current logic does not reset events.
+    this.addEvents = function (events) {
         events.forEach(function (event, index, array) {
             if (event !== undefined && event !== null) {
                 var eventStartEndTime = new CalendarApp.models.DateRange(event.getStart(), event.getEnd());
@@ -162,4 +162,150 @@ CalendarApp.models.Day.monthNames = [
     {"name": "October", "abbr": "Oct", "getTotalDays": function (year) { "use strict"; return 31; }},
     {"name": "November", "abbr": "Nov", "getTotalDays": function (year) { "use strict"; return 30; }},
     {"name": "December", "abbr": "Dec", "getTotalDays": function (year) { "use strict"; return 31; }}
+];
+CalendarApp.models.Day.hours = [
+    {
+        "name": "12AM",
+        "label": "",
+        "hour": 0,
+        "minutes": 0
+    },
+    {
+        "name": "1AM",
+        "label": "1 AM",
+        "hour": 1,
+        "minutes": 0
+    },
+    {
+        "name": "2AM",
+        "label": "2 AM",
+        "hour": 2,
+        "minutes": 0
+    },
+    {
+        "name": "3AM",
+        "label": "3 AM",
+        "hour": 3,
+        "minutes": 0
+    },
+    {
+        "name": "4AM",
+        "label": "4 AM",
+        "hour": 4,
+        "minutes": 0
+    },
+    {
+        "name": "5AM",
+        "label": "5 AM",
+        "hour": 5,
+        "minutes": 0
+    },
+    {
+        "name": "6AM",
+        "label": "6 AM",
+        "hour": 6,
+        "minutes": 0
+    },
+    {
+        "name": "7AM",
+        "label": "7 AM",
+        "hour": 7,
+        "minutes": 0
+    },
+    {
+        "name": "8AM",
+        "label": "8 AM",
+        "hour": 8,
+        "minutes": 0
+    },
+    {
+        "name": "9AM",
+        "label": "9 AM",
+        "hour": 9,
+        "minutes": 0
+    },
+    {
+        "name": "10AM",
+        "label": "10 AM",
+        "hour": 10,
+        "minutes": 0
+    },
+    {
+        "name": "11AM",
+        "label": "11 AM",
+        "hour": 11,
+        "minutes": 0
+    },
+    {
+        "name": "Noon",
+        "label": "Noon",
+        "hour": 12,
+        "minutes": 0
+    },
+    {
+        "name": "1PM",
+        "label": "1 PM",
+        "hour": 13,
+        "minutes": 0
+    },
+    {
+        "name": "2PM",
+        "label": "2 PM",
+        "hour": 14,
+        "minutes": 0
+    },
+    {
+        "name": "3PM",
+        "label": "3 PM",
+        "hour": 15,
+        "minutes": 0
+    },
+    {
+        "name": "4PM",
+        "label": "4 PM",
+        "hour": 16,
+        "minutes": 0
+    },
+    {
+        "name": "5PM",
+        "label": "5 PM",
+        "hour": 17,
+        "minutes": 0
+    },
+    {
+        "name": "6PM",
+        "label": "6 PM",
+        "hour": 18,
+        "minutes": 0
+    },
+    {
+        "name": "7PM",
+        "label": "7 PM",
+        "hour": 19,
+        "minutes": 0
+    },
+    {
+        "name": "8PM",
+        "label": "8 PM",
+        "hour": 20,
+        "minutes": 0
+    },
+    {
+        "name": "9PM",
+        "label": "9 PM",
+        "hour": 21,
+        "minutes": 0
+    },
+    {
+        "name": "10PM",
+        "label": "10 PM",
+        "hour": 22,
+        "minutes": 0
+    },
+    {
+        "name": "11PM",
+        "label": "11 PM",
+        "hour": 23,
+        "minutes": 0
+    }
 ];

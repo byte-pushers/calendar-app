@@ -87,10 +87,10 @@ CalendarApp.models.Week = function (weekdays) {
      * @param {@link CalendarApp.models.Event} The events that are scheduled for the week.
      * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
      */
-    this.setEvents = function (events) {//TODO: Need to rename to addEvents because the current logic does not reset events.
+    this.addEvents = function (events) {
         this.weekdays.forEach(function (weekday, index) {
             if (weekday !== undefined) {
-                weekday.setEvents(events);
+                weekday.addEvents(events);
             }
         });
     };

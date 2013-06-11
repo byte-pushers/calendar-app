@@ -24,7 +24,12 @@ function CalendarMonthViewController($scope, CalendarEventService, $routeParams)
 
 
     CalendarEventService.query(function (jsonEvents) {
-        CalendarApp.getInstance().setEvents(CalendarApp.models.EventTransformer.transformJSONEvents(jsonEvents));
+        // TODO: Once the persistence layer is in place, remove if statement but keep if statement body.
+        // This if statement is only in place to keep the day view from reloading the events when they
+        // are re-scheduled on the month view.
+        if (CalendarApp.getInstance().getEvents().length == 0) {
+            CalendarApp.getInstance().setEvents(CalendarApp.models.EventTransformer.transformJSONEvents(jsonEvents));
+        }
         CalendarApp.getInstance().applyEvents();
         $scope.todaysEvents = CalendarApp.getInstance().getTodaysEvents();
     });
@@ -146,9 +151,10 @@ function CalendarDayViewController($scope, CalendarEventService, CalendarDayHour
         // are re-scheduled on the month view.
         if (CalendarApp.getInstance().getEvents().length == 0) {
             CalendarApp.getInstance().setEvents(CalendarApp.models.EventTransformer.transformJSONEvents(jsonEvents));
-            CalendarApp.getInstance().applyEvents();
-            $scope.todaysEvents = CalendarApp.getInstance().getTodaysEvents();
         }
+        CalendarApp.getInstance().applyEvents();
+        $scope.todaysEvents = CalendarApp.getInstance().getTodaysEvents();
+
     });
 
     CalendarDayHoursService.query(function (jsonDayHours) {

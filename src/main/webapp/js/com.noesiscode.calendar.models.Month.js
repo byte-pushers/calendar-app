@@ -320,7 +320,7 @@ CalendarApp.models.Month = function (targetDate) {
         if (events.length > 0) {
             weeks.forEach(function (week, index) {
                 if (week !== undefined && week !== null) {
-                    week.setEvents(events);
+                    week.addEvents(events);
                 }
             });
         }

@@ -43,6 +43,7 @@ function CalendarApp() {
     instance.constructor = CalendarApp;
 
     instance.events = [];
+    instance.displayedEvents = [];
     instance.cachedWeeks = [];
     /**
      * <p>Represents the current calendar month.</p>

@@ -37,7 +37,7 @@ CalendarApp.models.DateRange = function (start, end) {
 	this.getEndDate = function () {
 		return this.end;
 	};
-	this.isBetweenRange = function (date) {
+	this.isDateBetweenRange = function (date) {
 		if (start.getFullYear() <= date.getFullYear() && end.getFullYear() >= date.getFullYear()) {
 			if (start.getMonth() <= date.getMonth() && end.getMonth() >= date.getMonth()) {
 				if (start.getDate() <= date.getDate() && end.getDate() >= date.getDate()) {
@@ -240,8 +240,13 @@ CalendarApp.models.Event = function (jsonObject) {
 	this.anyOneCanAddSelfFlag = (jsonObject !== undefined && jsonObject.anyOneCanAddSelfFlag !== undefined) ? jsonObject.anyOneCanAddSelfFlag : null;
 	this.guestCanInviteOthersFlag = (jsonObject !== undefined && jsonObject.guestCanInviteOthersFlag !== undefined) ? jsonObject.guestCanInviteOthersFlag : null;
 	this.guestCanSeeOtherGuestsFlag = (jsonObject !== undefined && jsonObject.guestCanSeeOtherGuestsFlag !== undefined) ? jsonObject.guestCanSeeOtherGuestsFlag : null;
-	//this.reminders; // reminders.useDefault, reminders.overrides[], 
-					// reminder.overrides[].method, reminder.overrides[].minutes
+	//this.reminders;
+	// reminders.useDefault, reminders.overrides[],
+    // reminder.overrides[].method, reminder.overrides[].minutes
+    this.zIndex = CalendarApp.models.Event.defaultZIndex;
+    this.indentWidth = "5";
+    this.indentWidthIncreasedStatus = false;
+    this.eventsWithSameStartTime = [];
 	/**
 	 * <p>Gets the event id.</p>
 	 *
@@ -637,4 +642,85 @@ CalendarApp.models.Event = function (jsonObject) {
 		this.start.setFullYear(newDate.getFullYear(), newDate.getMonth(), newDate.getDate());
 		this.end.setFullYear(newDate.getFullYear(), newDate.getMonth(), newDate.getDate());
 	};
+    this.getTotalNumberOfEventsWithSameStartTime = function () {
+        return this.eventsWithSameStartTime.length + 1;
+    };
+    this.setZIndex = function (zIndex) {
+        this.zIndex = zIndex;
+    };
+    this.getZIndex = function () {
+        return this.zIndex;
+    };
+    this.setIndentWidth = function (indentWidth) {
+        this.indentWidth = indentWidth;
+    };
+    this.getIndentWidth = function () {
+        return this.indentWidth;
+    };
+    this.hasEventsWithSameStartTime = function () {
+        var targetEventId = this.getId();
+        return this.eventsWithSameStartTime.some(function (event, index) {
+            if (event !== undefined && event !== null) {
+                if (event.getId() !== targetEventId) {
+                    if (event.hasBeenDisplayed()) {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        });
+    };
+    this.setEventsWithSameStartTime = function (eventsWithSameStartTime) {
+        this.eventsWithSameStartTime = eventsWithSameStartTime;
+    };
+    this.getEventsWithSameStartTime = function () {
+        return this.eventsWithSameStartTime;
+    };
+    this.compareStartTimes = function (someEvent) {
+        if (this.getStart() < someEvent.getStart()) {
+            return -1;
+        } else if (this.getStart() > someEvent.getStart()) {
+            return 1;
+        }
+    };
+    this.compareEndTimes = function (someEvent) {
+        if (this.getEnd() < someEvent.getEnd()) {
+            return -1;
+        } else if (this.getEnd() > someEvent.getEnd()) {
+            return 1;
+        }
+    };
+    this.indentWidthWasIncreased = function (indentWidthIncreased){
+        this.indentWidthIncreasedStatus = (indentWidthIncreased !== undefined && indentWidthIncreased !== null) ? indentWidthIncreased : this.indentWidthIncreasedStatus;
+        return this.indentWidthIncreasedStatus;
+    }
+    this.hasConflictingStartTimes = function (someEvent) {
+        var dateRange = new CalendarApp.models.DateRange(this.start, this.end),
+            startTimeConflict = dateRange.isDateBetweenRange(someEvent.getStart()),
+            endTimeConflict = dateRange.isDateBetweenRange(someEvent.getEnd());
+
+        if (!startTimeConflict && !endTimeConflict) {
+            return 0;
+        } else if (startTimeConflict && !endTimeConflict) {
+            return 1;
+        } else if (startTimeConflict && endTimeConflict) {
+            return 2;
+        } else {
+            return 3;
+        }
+    };
+    this.hasDifferentStartTime = function (someEvent) {
+        if (this.getStart().isDateEqualToDateAndTime(someEvent.getStart())) {
+            return false;
+        }
+        return true;
+    };
 };
+CalendarApp.models.Event.compareStartTimes = function (event1, event2) {
+    return event1.compareStartTimes(event2);
+};
+CalendarApp.models.Event.compareEndTimes = function (event1, event2) {
+    return event1.compareEndTimes(event2);
+};
+CalendarApp.models.Event.defaultZIndex = 1;

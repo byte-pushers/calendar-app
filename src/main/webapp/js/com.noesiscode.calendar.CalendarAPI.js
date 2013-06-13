@@ -95,6 +95,80 @@ function CalendarApp() {
         });
         return selectedEvents;
     };
+    instance.calculateHowManyEventsHaveSameStartTime = function (targetEvent) {
+        var eventsWithSameStartTime = [];
+        targetEvent.setEventsWithSameStartTime([]);
+        this.findEventsByDateAndTime(targetEvent.getStart()).forEach(function (event, index) {
+            if (event !== undefined && event !== null) {
+                if (event.getId() !== targetEvent.getId()) {
+                    eventsWithSameStartTime[eventsWithSameStartTime.length] = event;
+                }
+            }
+        });
+        targetEvent.setEventsWithSameStartTime(eventsWithSameStartTime);
+        return eventsWithSameStartTime;
+    };
+    instance.calculateEventIndentWidth = function (events) {
+        var hasConflictingEventsWithIncreasedWidth = false;
+        events.sort(CalendarApp.models.Event.compareStartTimes);
+        events.forEach(function (event, index) {
+            if (event.getZIndex() > CalendarApp.models.Event.defaultZIndex) {
+                if (!event.indentWidthWasIncreased() && event.getEventsWithSameStartTime().length > 0) {
+                    hasConflictingEventsWithIncreasedWidth = event.getEventsWithSameStartTime().some(function (event) {
+                        if (event.indentWidthWasIncreased()) {
+                            return true;
+                        }
+
+                        return false;
+                    });
+
+                    if (!hasConflictingEventsWithIncreasedWidth) {
+                        event.setIndentWidth(event.getZIndex()*event.getIndentWidth());
+                        event.indentWidthWasIncreased(true);
+                    }
+                }
+            }
+        });
+    };
+    instance.shuffleEventsZIndex = function (targetEvent, targetEvents) {
+        targetEvents.sort(CalendarApp.models.Event.compareStartTimes);
+        targetEvents.forEach(function (event, index) {
+            if (event !== undefined && event !== null && targetEvent !== undefined && targetEvent !== null) {
+                if (event.getId() !== targetEvent.getId()) {
+                    switch(event.hasConflictingStartTimes(targetEvent)) {
+                        case 0:
+                            //No conflicting start times and no conflicting end times.
+                            break;
+                        case 1:
+                            //Conflicting start times.
+                            if (targetEvent.compareStartTimes(event) === 1) {
+                                targetEvent.setZIndex(event.getZIndex() + 1);
+                            } else if (targetEvent.compareStartTimes(event) === -1) {
+                                event.setZIndex(targetEvent.getZIndex() + 1);
+                            } else {
+                                //targetEvent.setZIndex(event.getZIndex() - 1);
+                            }
+                            break;
+                        case 2:
+                            //Conflicting start times and conflicting end times.
+                            if (targetEvent.compareStartTimes(event) === 1) {
+                                targetEvent.setZIndex(event.getZIndex() + 1);
+                            } else if (targetEvent.compareStartTimes(event) === -1) {
+                                event.setZIndex(targetEvent.getZIndex() + 1);
+                            } else {
+                                //targetEvent.setZIndex(event.getZIndex() - 1);
+                            }
+                            break;
+                        case 3:
+                            //Conflicting end times.
+                            targetEvent.setZIndex(event.getZIndex()-1);
+                            break;
+                    }
+
+                }
+            }
+        });
+    };
     instance.findEventById = function (id, someEvents) {
         var targetEvent = null,
             events = (someEvents !== undefined && someEvents !== null) ? someEvents : this.events;

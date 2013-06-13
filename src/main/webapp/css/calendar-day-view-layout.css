@@ -109,9 +109,9 @@ body {
     width: 100%;
 }
 .calendar-day-display-event-container{
-    dispay: inline;
+    display: inline;
     height: 18px;
-    width: 125px;
+    width: 45%;
     border-radius: 2px;
     border: 1px solid darkgreen;
     background: darkseagreen;

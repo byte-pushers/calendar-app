@@ -11,10 +11,10 @@
     </div>
     <div id="calendar-day-view-right-header" class="column"></div>
     <div id="calendar-day-view-left-header" class="column"></div>
-    <div ng-repeat="dayHour in dayHours">
+    <div ng-repeat="dayHour in selectedDay.getHours()">
         <div id="{{dayHour.name}}" class="calendar-day-view-right-half-hour-block calendar-day-view-top-of-the-hour-block column">
             <div ng-repeat="event in findEventsWithStartTime(dayHour.hour, dayHour.minutes)">
-                <div id="calendar-day-displayed-event:{{getSelectedDate()}}:{{event.id}}" ng-style="calculateHeight(20, event.start, event.end)" class="calendar-day-display-event-container">{{event.summary}}</div>
+                <div id="calendar-day-displayed-event:{{getSelectedDate()}}:{{event.id}}" ng-style="configureDisplayedEvent(20, event)" class="calendar-day-display-event-container">{{event.summary}}</div>
             </div>
         </div>
         <div class="calendar-day-view-left-half-hour-block column">

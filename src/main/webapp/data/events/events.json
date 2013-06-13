@@ -1,20 +1,45 @@
 [
     {
         "id": 0,
-        "summary": "Aisha's Graduation",
-        "start": "2013-06-10T00:00:00.999Z",
-        "end": "2013-06-10T01:15:00.999Z"
-    },
-    {
-        "id": 0,
-        "summary": "This is a test event.",
-        "start": "2013-06-10T00:00:00.999Z",
-        "end": "2013-06-10T01:30:00.999Z"
+        "summary": "This is a test event 0.",
+        "start": "2013-06-10T03:00:00.999Z",
+        "end": "2013-06-10T04:15:00.999Z"
     },
     {
         "id": 1,
+        "summary": "This is a test event 1.",
+        "start": "2013-06-10T03:00:00.999Z",
+        "end": "2013-06-10T04:30:00.999Z"
+    },
+    {
+        "id": 2,
         "summary": "Aisha's Graduation 2",
         "start": "2013-06-16T00:00:00.999Z",
-        "end": "2013-06-16T00:00:00.999Z"
+        "end": "2013-06-16T00:30:00.999Z"
+    },
+    {
+        "id": 3,
+        "summary": "This is a test event 3.",
+        "start": "2013-06-10T02:00:00.999Z",
+        "end": "2013-06-10T03:30:00.999Z"
+    },
+    {
+        "id": 4,
+        "summary": "This is a test event 4.",
+        "start": "2013-06-10T04:00:00.999Z",
+        "end": "2013-06-10T05:00:00.999Z"
+    },
+    {
+        "id": 5,
+        "summary": "This is a test event 5.",
+        "start": "2013-06-10T04:00:00.999Z",
+        "end": "2013-06-10T05:00:00.999Z"
+    },
+    {
+        "id": 6,
+        "summary": "This is a test event 6.",
+        "start": "2013-06-10T04:00:00.999Z",
+        "end": "2013-06-10T05:00:00.999Z"
     }
+
 ]

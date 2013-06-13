@@ -84,20 +84,29 @@ CalendarApp.models.Day = function (date, weekIndex, currentDayOfWeek) {
         this.events = [];
     };
     /**
-     * <p>Set the events that are scheduled for the appropriate days.</p>
+     * <p>Add the events that are scheduled to the appropriate days.</p>
      *
      * @param {@link CalendarApp.models.Event} The events that are scheduled for the day.
      * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
      */
     this.addEvents = function (events) {
-        events.forEach(function (event, index, array) {
+        //var eventSizeBefore = 0, eventSizeAfter = 0;
+        //console.log("Day.addEvents() Start:");
+        //console.log("Date: " + this.date.toString());
+        //console.log("Day Events Array Size At Beginning Of Method: " + this.events.length);
+        events.forEach(function (event, index, events) {
             if (event !== undefined && event !== null) {
                 var eventStartEndTime = new CalendarApp.models.DateRange(event.getStart(), event.getEnd());
-                if (eventStartEndTime.isBetweenRange(this.getDate())) {
+                if (eventStartEndTime.isDateBetweenRange(this.getDate())) {
+                    CalendarApp.getInstance().calculateHowManyEventsHaveSameStartTime(event);
+                    CalendarApp.getInstance().shuffleEventsZIndex(event, events);
+                    CalendarApp.getInstance().calculateEventIndentWidth(events);
                     this.events[this.events.length] = event;
                 }
             }
         }, this);
+        //console.log("Day Events Array Size At End Of Method: " + this.events.length);
+        //console.log("Day.addEvents() End:");
     };
     /**
      * <p>Get the events that are scheduled for the week from the appropriate days.</p>
@@ -148,6 +157,9 @@ CalendarApp.models.Day = function (date, weekIndex, currentDayOfWeek) {
     this.isLastWeekInMonth = function () {
         return this.lastWeekInMonth;
     };
+    this.getHours = function () {
+        return CalendarApp.models.Day.hours;
+    }
 };
 CalendarApp.models.Day.monthNames = [
     {"name": "January", "abbr": "Jan", "getTotalDays": function (year) { "use strict"; return 31; } },

@@ -27,7 +27,7 @@ function CalendarMonthViewController($scope, CalendarEventService, $routeParams)
         // TODO: Once the persistence layer is in place, remove if statement but keep if statement body.
         // This if statement is only in place to keep the day view from reloading the events when they
         // are re-scheduled on the month view.
-        if (CalendarApp.getInstance().getEvents().length == 0) {
+        if (CalendarApp.getInstance().getEvents().length === 0) {
             CalendarApp.getInstance().setEvents(CalendarApp.models.EventTransformer.transformJSONEvents(jsonEvents));
         }
         CalendarApp.getInstance().applyEvents();
@@ -144,6 +144,7 @@ function CalendarDayViewController($scope, CalendarEventService, CalendarDayHour
         CalendarApp.getInstance().setCachedMonth(new CalendarApp.models.Month($scope.selectedDate));
     }
 
+    $scope.selectedDay = CalendarApp.getInstance().getCurrentMonth().getCurrentDayOfTheMonth();
 
     CalendarEventService.query(function (jsonEvents) {
         // TODO: Once the persistence layer is in place, remove if statement but keep if statement body.
@@ -157,14 +158,14 @@ function CalendarDayViewController($scope, CalendarEventService, CalendarDayHour
 
     });
 
-    CalendarDayHoursService.query(function (jsonDayHours) {
+    /*CalendarDayHoursService.query(function (jsonDayHours) {
         $scope.dayHours = jsonDayHours;
         $scope.dayHours.forEach(function (dayHour, index) {
             if (dayHour !== undefined && dayHour !== null) {
                 dayHour.events = $scope.findEventsWithStartTime(dayHour.hour, dayHour.minutes);
             }
         });
-    });
+    });*/
 
     $scope.selectNextDay = function () {
         var cachedWeeks = CalendarApp.getInstance().getCachedMonth().getWeeks(),
@@ -221,22 +222,35 @@ function CalendarDayViewController($scope, CalendarEventService, CalendarDayHour
         $scope.selectedDate.setHours(startTimeHour);
         $scope.selectedDate.setMinutes(startTimeMinutes);
         events = CalendarApp.getInstance().findEventsByDateAndTime($scope.selectedDate);
-        //CalendarApp.getInstance().
         return events;
     };
     $scope.getSelectedDate = function () {
         return $scope.selectedDate.getMonth() + "-" +$scope.selectedDate.getDate() + "-" + $scope.selectedDate.getFullYear();
     };
-    $scope.calculateHeight = function (baseHeight, eventStartTime, eventEndTime) {
+    $scope.configureDisplayedEvent = function (baseHeight, event) {
         var halfUnit = baseHeight / 2,
-            heightUnit = (eventEndTime.getMinutes() === 0) ? 0: eventEndTime.getMinutes()/15,
-            calculatedHeight;
+            heightUnit = (event.getEnd().getMinutes() === 0) ? 0: event.getEnd().getMinutes()/15,
+            calculatedHeight,
+            totalNumberOfEventsWithSameStartTime = event.getTotalNumberOfEventsWithSameStartTime(),
+            calculatedWidth;
 
         heightUnit = (heightUnit == 1)? halfUnit : (heightUnit == 2)? baseHeight: (heightUnit == 3) ? baseHeight + halfUnit : 0;
-        calculatedHeight = (baseHeight * ((eventEndTime.getHours() - eventStartTime.getHours()) * 2)) + heightUnit;
+        calculatedHeight = (baseHeight * ((event.getEnd().getHours() - event.getStart().getHours()) * 2)) + heightUnit;
         calculatedHeight += "px";
+
+        calculatedWidth = (90 / totalNumberOfEventsWithSameStartTime);
+        if (totalNumberOfEventsWithSameStartTime === 1) {
+            calculatedWidth = calculatedWidth + 8;
+        }
+
+        calculatedWidth = calculatedWidth + "%";
+
         var cssObj = new Object();
         cssObj.height = calculatedHeight;
+        cssObj.width = calculatedWidth;
+        cssObj.zIndex = event.getZIndex();
+        cssObj.marginLeft =  event.indentWidth + "px";
+
         return cssObj;
     };
 }

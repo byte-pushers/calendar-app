@@ -82,7 +82,7 @@ CalendarApp.models.Week = function (weekdays) {
         });
     };
     /**
-     * <p>Set the events that are scheduled for the week to the appropriate days.</p>
+     * <p>Add the events that are scheduled for the week to the appropriate days.</p>
      *
      * @param {@link CalendarApp.models.Event} The events that are scheduled for the week.
      * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>

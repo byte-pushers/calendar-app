@@ -247,7 +247,7 @@ CalendarApp.models.Month = function (targetDate) {
      */
     function setWeeksInMonth(date) {
         weeks = that.getWeeksInMonth(date);
-        that.bindEvents();
+        that.addEvents();
         //that.setCurrentDayOfTheMonth(date);
         return weeks;
     }
@@ -311,12 +311,12 @@ CalendarApp.models.Month = function (targetDate) {
         return weeks;
     };
     /**
-     * <p>Binds the events that are scheduled for the month to the appropriate days for the current month.</p>
+     * <p>Adds the events that are scheduled for the month to the appropriate days for the current month.</p>
      *
      * @return {Void}
      * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
      */
-    this.bindEvents = function () {
+    this.addEvents = function () {
         if (events.length > 0) {
             weeks.forEach(function (week, index) {
                 if (week !== undefined && week !== null) {
@@ -348,7 +348,7 @@ CalendarApp.models.Month = function (targetDate) {
     this.setEvents = function (newEvents) {//TODO: Need to rename to addEvents because the current logic does not reset events.
         events = newEvents;
         this.clearEvents();
-        this.bindEvents();
+        this.addEvents();
     };
     /**
      * <p>Gets the events that are scheduled for the month.</p>

@@ -244,7 +244,7 @@ CalendarApp.models.Event = function (jsonObject) {
 	// reminders.useDefault, reminders.overrides[],
     // reminder.overrides[].method, reminder.overrides[].minutes
     this.zIndex = CalendarApp.models.Event.defaultZIndex;
-    this.indentWidth = "5";
+    this.indentWidth = 5;
     this.indentWidthIncreasedStatus = false;
     this.eventsWithSameStartTime = [];
 	/**
@@ -656,20 +656,6 @@ CalendarApp.models.Event = function (jsonObject) {
     };
     this.getIndentWidth = function () {
         return this.indentWidth;
-    };
-    this.hasEventsWithSameStartTime = function () {
-        var targetEventId = this.getId();
-        return this.eventsWithSameStartTime.some(function (event, index) {
-            if (event !== undefined && event !== null) {
-                if (event.getId() !== targetEventId) {
-                    if (event.hasBeenDisplayed()) {
-                        return true;
-                    }
-                }
-            }
-
-            return false;
-        });
     };
     this.setEventsWithSameStartTime = function (eventsWithSameStartTime) {
         this.eventsWithSameStartTime = eventsWithSameStartTime;

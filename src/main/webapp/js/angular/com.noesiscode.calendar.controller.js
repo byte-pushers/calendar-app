@@ -31,7 +31,7 @@ function CalendarMonthViewController($scope, CalendarEventService, $routeParams)
             CalendarApp.getInstance().setEvents(CalendarApp.models.EventTransformer.transformJSONEvents(jsonEvents));
         }
         CalendarApp.getInstance().applyEvents();
-        $scope.todaysEvents = CalendarApp.getInstance().getTodaysEvents();
+        $scope.todaysEvents = CalendarApp.getInstance().findEventsByDate($scope.targetDate);
     });
 
     $scope.getCalendarDayClass = function (day) {
@@ -72,6 +72,7 @@ function CalendarMonthViewController($scope, CalendarEventService, $routeParams)
             CalendarApp.getInstance().setCachedMonth(new CalendarApp.models.Month(todaysDate));
         } else {
             selectedDay = $scope.month.selectDay(todaysDate);
+            $scope.todaysEvents = selectedDay.getEvents();
         }
     };
     $scope.selectNextDay = function () {

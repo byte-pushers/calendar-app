@@ -123,7 +123,7 @@ function CalendarApp() {
                     });
 
                     if (!hasConflictingEventsWithIncreasedWidth) {
-                        event.setIndentWidth(event.getZIndex()*event.getIndentWidth());
+                        event.setIndentWidth((event.getZIndex()*event.getIndentWidth()));
                         event.indentWidthWasIncreased(true);
                     }
                 }

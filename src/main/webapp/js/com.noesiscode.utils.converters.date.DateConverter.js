@@ -5,6 +5,22 @@ NoesisCode.converters.DateConverter = NoesisCode.namespace("com.noesiscode.utils
 NoesisCode.converters.DateConverter.MMDDYYYY_DATE_FORMAT = 0;
 NoesisCode.converters.DateConverter.MMMDDYYYY_DATE_FORMAT = 1;
 NoesisCode.converters.DateConverter.YYYYMMDDThhmmsssTZD_DATE_FORMAT = 2;
+NoesisCode.converters.DateConverter.MDDYYYY_DATE_FORMAT = 3;
+NoesisCode.converters.DateConverter.convertToDate_MDDYYYY = function (d) {
+    'use strict';
+    var month, day, year, date = new Date();
+    if (d.length !== 7) {
+        throw new NoesisCode.exceptions.InvalidParameterException("Date String: " + d + " should be in format MDDYYYY.");
+    }
+    if (NoesisCode.NumberUtility.isNotANumber(d)) {
+        throw new NoesisCode.exceptions.InvalidParameterException("Date String: " + d + " must be numeric.");
+    }
+    month = Number(d.substring(0, 2));
+    day = Number(d.substring(2, 4));
+    year = Number(d.substring(4));
+    date.setFullYear(year, month, day);
+    return date;
+};
 NoesisCode.converters.DateConverter.convertToDate_MMDDYYYY = function (d) {
 	'use strict';
 	var month, day, year, date = new Date();
@@ -14,9 +30,9 @@ NoesisCode.converters.DateConverter.convertToDate_MMDDYYYY = function (d) {
 	if (NoesisCode.NumberUtility.isNotANumber(d)) {
 		throw new NoesisCode.exceptions.InvalidParameterException("Date String: " + d + " must be numeric.");
 	}
-	month = Number(d.substring(0, 2));
-	day = Number(d.substring(2, 4));
-	year = Number(d.substring(4));
+	month = Number(d.substring(0, 1));
+	day = Number(d.substring(1, 3));
+	year = Number(d.substring(3));
 	date.setFullYear(year, month, day);
 	return date;
 };
@@ -74,15 +90,18 @@ NoesisCode.converters.DateConverter.convertToDate = function (d, dateFormat) {
 	'use strict';
 	var date = null;
 	switch (dateFormat) {
-    case NoesisCode.converters.DateConverter.MMDDYYYY_DATE_FORMAT:
-        date = NoesisCode.converters.DateConverter.convertToDate_MMDDYYYY(d);
-        break;
-    case NoesisCode.converters.DateConverter.MMMDDYYYY_DATE_FORMAT:
-        date = NoesisCode.converters.DateConverter.convertToDate_MMMDDYYYY(d);
-        break;
-    case NoesisCode.converters.DateConverter.YYYYMMDDThhmmsssTZD_DATE_FORMAT:
-        date = NoesisCode.converters.DateConverter.convertToDate_YYYYMMDDThhmmsssTZD(d);
-        break;
+        case NoesisCode.converters.DateConverter.MDDYYYY_DATE_FORMAT:
+            date = NoesisCode.converters.DateConverter.convertToDate_MDDYYYY(d);
+            break;
+        case NoesisCode.converters.DateConverter.MMDDYYYY_DATE_FORMAT:
+            date = NoesisCode.converters.DateConverter.convertToDate_MMDDYYYY(d);
+            break;
+        case NoesisCode.converters.DateConverter.MMMDDYYYY_DATE_FORMAT:
+            date = NoesisCode.converters.DateConverter.convertToDate_MMMDDYYYY(d);
+            break;
+        case NoesisCode.converters.DateConverter.YYYYMMDDThhmmsssTZD_DATE_FORMAT:
+            date = NoesisCode.converters.DateConverter.convertToDate_YYYYMMDDThhmmsssTZD(d);
+            break;
 	}
 	return date;
 };

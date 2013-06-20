@@ -1,0 +1,28 @@
+<div id="calendar-day-view-container">
+    <div class="calendar-day-nav-container">
+        <div class="calendar-month-display-info">{{getSelectedDayDecoratedDisplayName()}}</div>
+        <div class="calendar-month-nav-bar"><button ng-click="selectPreviousDay()"><<</button><button ng-click="selectToday()">Today</button><button ng-click="selectNextDay()">>></button></div>
+    </div>
+    <div id="calendar-day-view-right-header" class="column"><div id="calendar-day-view-spacer"></div></div>
+    <div id="calendar-day-view-left-header" class="column"></div>
+    <div ng-repeat="dayHour in selectedDay.getHours()">
+        <div calendar-day-hour id="{{getDayId()}}:{{dayHour.hour}}:00" class="calendar-day-view-right-half-hour-block calendar-day-view-right-half-hour-block-regular-border calendar-day-view-top-of-the-hour-block-regular-border column">
+            <div ng-repeat="event in findEventsWithStartTime(dayHour.hour, dayHour.minutes)">
+                <div calendar-day-event draggable="true" id="calendar-day-displayed-event-at-top-of-the-hour-block:{{dayHour.hour}}:00:{{event.id}}" ng-style="configureDisplayedEvent(20, event)" class="calendar-day-display-event-container">{{event.summary}}</div>
+            </div>
+        </div>
+        <div class="calendar-day-view-left-half-hour-block column">
+            <div class="calendar-day-view-bottom-of-the-hour-label">{{dayHour.label}}</div>
+        </div>
+        <div calendar-day-hour id="{{getDayId()}}:{{dayHour.hour}}:30" class="calendar-day-view-right-half-hour-block calendar-day-view-right-half-hour-block-regular-border calendar-day-view-bottom-of-the-hour-block-regular-border column">
+            <div ng-repeat="event in findEventsWithStartTime(dayHour.hour, 30)">
+                <div calendar-day-event  draggable="true" id="calendar-day-displayed-event-at-bottom-of-the-hour-block:{{dayHour.hour}}:30:{{event.id}}" ng-style="configureDisplayedEvent(20, event)" class="calendar-day-display-event-container">{{event.summary}}</div>
+            </div>
+        </div>
+        <div class="calendar-day-view-left-half-hour-block column"></div>
+    </div>
+    <div class="calendar-day-nav-container">
+        <div class="calendar-month-display-info">{{getSelectedDayDecoratedDisplayName()}}</div>
+        <div class="calendar-month-nav-bar"><button ng-click="selectPreviousDay()"><<</button><button ng-click="selectToday()">Today</button><button ng-click="selectNextDay()">>></button></div>
+    </div>
+</div>

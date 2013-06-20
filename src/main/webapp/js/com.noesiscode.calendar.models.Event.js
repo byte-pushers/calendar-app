@@ -47,6 +47,47 @@ CalendarApp.models.DateRange = function (start, end) {
 		}
 		return false;
 	};
+    this.calculateDuration = function () {
+        var duration,
+            durationInHours,
+            durationInHoursAndMinutes,
+            durationInMinutes;
+
+        if (this.start > this.end) {
+            var msg = "EndDate("+ this.end.toString() +") can be before StartDate(" + this.start.toString() + ").";
+            throw new NoesisCode.exceptions.InvalidDateRangeException(msg);
+        }
+
+        if (this.start.isDateEqualToDateAndTime(this.end)) {
+            var msg = "StartDate(" + this.start.toString() + ") and EndDate("+ this.end.toString() +") can not equal each other.";
+            throw new NoesisCode.exceptions.InvalidDateRangeException(msg);
+        }
+
+        duration = this.end.getTime() - this.start.getTime();
+        durationInHoursAndMinutes = (duration/(1000*60*60)).toFixed(2);
+        durationInHours = Math.floor(durationInHoursAndMinutes);
+        durationInMinutes = this.roundToNearestQuarterHour(Math.abs(durationInHours - durationInHoursAndMinutes).toFixed(2));
+
+
+        return new Number(durationInHours + "." + durationInMinutes);
+    };
+    this.roundToNearestQuarterHour = function (hourFraction) {
+        if (hourFraction < 0.25){
+            return 0;
+        } else if (hourFraction == 0.25) {
+            return 15;
+        } else if (hourFraction > 0.25 && hourFraction < 0.50) {
+            return 15;
+        } else if (hourFraction == 0.50) {
+            return 30;
+        } else if (hourFraction > 0.50 && hourFraction < 0.75) {
+            return 30;
+        } else if (hourFraction == 0.75) {
+            return 45;
+        } else {
+            return 0;
+        }
+    };
 };
 /**
  * Creates a CalendarApp.models.Attendee object that represents an attendee of an event.
@@ -638,10 +679,22 @@ CalendarApp.models.Event = function (jsonObject) {
 		}
 		this.guestCanSeeOtherGuestsFlag = guestCanSeeOtherGuestsFlag;
 	};
-	this.reschedule = function (newDate) {
-		this.start.setFullYear(newDate.getFullYear(), newDate.getMonth(), newDate.getDate());
-		this.end.setFullYear(newDate.getFullYear(), newDate.getMonth(), newDate.getDate());
+	this.reschedule = function (newStartDate, newEndDate) {
+		if (newStartDate !== undefined && newStartDate !== null) {
+            this.start.setFullYear(newStartDate.getFullYear(), newStartDate.getMonth(), newStartDate.getDate());
+            this.start.setHours(newStartDate.getHours(), newStartDate.getMinutes());
+        }
+        if (newEndDate !== undefined && newEndDate !== null) {
+		    this.end.setFullYear(newEndDate.getFullYear(), newEndDate.getMonth(), newEndDate.getDate());
+            this.end.setHours(newEndDate.getHours(), newEndDate.getMinutes());
+        }
 	};
+    this.resetDisplay = function () {
+        this.zIndex = CalendarApp.models.Event.defaultZIndex;
+        this.indentWidth = 5;
+        this.indentWidthIncreasedStatus = false;
+        this.eventsWithSameStartTime = [];
+    };
     this.getTotalNumberOfEventsWithSameStartTime = function () {
         return this.eventsWithSameStartTime.length + 1;
     };

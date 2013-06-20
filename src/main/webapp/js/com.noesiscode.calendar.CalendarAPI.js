@@ -1,4 +1,4 @@
-/*global CalendarApp:true, $, NoesisCode*/
+/*global CalendarApp:true, $, NoesisCode, document*/
 
 function CalendarApp() {
     "use strict";
@@ -45,6 +45,9 @@ function CalendarApp() {
     instance.events = [];
     instance.displayedEvents = [];
     instance.cachedWeeks = [];
+    instance.lastDraggedEnterElement = [];
+    instance.lastDraggedEnterElementId;
+    instance.lastDraggedElementId;
     /**
      * <p>Represents the current calendar month.</p>
      * @private
@@ -60,22 +63,22 @@ function CalendarApp() {
      */
     instance.cachedMonth = null;
     instance.setEvents = function (events) {
-        this.events = events;
+        instance.events = events;
     };
     instance.getEvents = function () {
-        return this.events;
+        return instance.events;
     };
     instance.applyEvents = function () {
-        if (this.currentMonth !== undefined && this.currentMonth !== null) {
-            this.currentMonth.setEvents(this.events);
+        if (instance.currentMonth !== undefined && instance.currentMonth !== null) {
+            instance.currentMonth.setEvents(instance.events);
         }
     };
     instance.getTodaysEvents = function () {
-        return this.findEventsByDate(new Date());
+        return instance.findEventsByDate(new Date());
     };
     instance.findEventsByDate = function (someDate) {
         var selectedEvents = [];
-        this.events.forEach(function (event, index) {
+        instance.events.forEach(function (event, index) {
             if (event !== undefined && event !== null) {
                 if (event.getStart().isDateEqualTo(someDate)) {
                     selectedEvents[selectedEvents.length] = event;
@@ -86,7 +89,7 @@ function CalendarApp() {
     };
     instance.findEventsByDateAndTime = function (someDate) {
         var selectedEvents = [];
-        this.events.forEach(function (event, index) {
+        instance.events.forEach(function (event, index) {
             if (event !== undefined && event !== null) {
                 if (event.getStart().isDateEqualToDateAndTime(someDate)) {
                     selectedEvents[selectedEvents.length] = event;
@@ -98,7 +101,7 @@ function CalendarApp() {
     instance.calculateHowManyEventsHaveSameStartTime = function (targetEvent) {
         var eventsWithSameStartTime = [];
         targetEvent.setEventsWithSameStartTime([]);
-        this.findEventsByDateAndTime(targetEvent.getStart()).forEach(function (event, index) {
+        instance.findEventsByDateAndTime(targetEvent.getStart()).forEach(function (event, index) {
             if (event !== undefined && event !== null) {
                 if (event.getId() !== targetEvent.getId()) {
                     eventsWithSameStartTime[eventsWithSameStartTime.length] = event;
@@ -171,7 +174,7 @@ function CalendarApp() {
     };
     instance.findEventById = function (id, someEvents) {
         var targetEvent = null,
-            events = (someEvents !== undefined && someEvents !== null) ? someEvents : this.events;
+            events = (someEvents !== undefined && someEvents !== null) ? someEvents : instance.events;
         events.forEach(function (event, index) {
             if (event !== undefined && event !== null) {
                 if (event.getId() === parseInt(id, 10)) {
@@ -181,10 +184,147 @@ function CalendarApp() {
         });
         return targetEvent;
     };
-    instance.rescheduleEvent = function (calendarEventId, targetDate) {
-        var calendarEvent = CalendarApp.getInstance().findEventById(calendarEventId);
-        calendarEvent.reschedule(targetDate);
-        return this.events;
+    instance.rescheduleEvent = function (calendarEventId, targetStartDate) {
+        var calendarEvent = CalendarApp.getInstance().findEventById(calendarEventId),
+            calendarEventDuration = (new CalendarApp.models.DateRange(calendarEvent.getStart(), calendarEvent.getEnd())).calculateDuration(),
+            targetEndDate =  targetStartDate.addTime(calendarEventDuration);
+
+        calendarEvent.reschedule(targetStartDate, targetEndDate);
+        calendarEvent.resetDisplay();
+        return instance.events;
+    };
+    instance.saveLastDraggedEnterElementId = function (elementId) {
+        instance.lastDraggedEnterElementId = elementId;
+    };
+    instance.getLastDraggedEnterElementId = function () {
+        return instance.lastDraggedEnterElementId;
+    };
+    instance.saveLastDraggedElementId = function (elementId) {
+        if((instance.lastDraggedElementId === undefined || instance.lastDraggedElementId === null) &&
+            elementId !== undefined && elementId !== null) {
+            instance.lastDraggedElementId = elementId;
+        } else if (elementId === undefined || elementId === null) {
+            instance.lastDraggedElementId = elementId;
+        }
+    };
+    instance.selectHalfHourBlock = function (event) {
+        var containerId = instance.getLastDraggedEnterElementId(),
+            targetContainerId = instance.getLastDraggedElementId(),
+            targetElementIdArray = instance.getLastDraggedElementId().split(":"),
+            elementIdArray = containerId.split(":"),
+            hourBefore = Math.abs((new Number(elementIdArray[1]) - 1)),
+            containerId30MinutesBefore;
+
+        if(elementIdArray[1] !== targetElementIdArray[1] || elementIdArray[2] !== targetElementIdArray[2]) {
+            //console.log("dragenter - containerId      :" + containerId);
+            //console.log("dragenter - targetContainerId:" + targetContainerId);
+            //console.log("dragenter - targetId         :" + event.target.id);
+            document.getElementById(containerId).classList.remove("calendar-day-view-right-half-hour-block-regular-border"); // Remove Solid Line
+            document.getElementById(containerId).classList.add("calendar-day-view-right-half-hour-block-over-border"); // Remove Dashed Line
+            if(elementIdArray[2] === "00") {
+                if (elementIdArray[1] === "0") {
+                    //hourBefore = Math.abs((new Number(elementIdArray[1]) - 1)),
+                    containerId30MinutesBefore = "calendar-day-view-right-header";
+                    //console.log("dragenter - containerId30MinutesBefore: " + containerId30MinutesBefore);
+                    if (document.getElementById(containerId).classList.contains("calendar-day-view-top-of-the-hour-block-regular-border")) {
+                        document.getElementById(containerId).classList.remove("calendar-day-view-top-of-the-hour-block-regular-border");  // Remove Bottom Dotted Line
+                        document.getElementById(containerId).classList.add("calendar-day-view-top-of-the-hour-block-over-border"); // Add Bottom Dashed Line
+                    }
+                    if (document.getElementById(containerId30MinutesBefore).classList.contains("normal")) {
+                        document.getElementById(containerId30MinutesBefore).classList.remove("normal"); // Remove Bottom Solid Line
+                        document.getElementById(containerId30MinutesBefore).classList.add("over"); // Add Bottom Dashed Line
+                    }
+                } else {
+                    containerId30MinutesBefore = elementIdArray[0]+":"+hourBefore+":30";
+                    //console.log("dragenter - containerId30MinutesBefore: " + containerId30MinutesBefore);
+                    if (document.getElementById(containerId).classList.contains("calendar-day-view-top-of-the-hour-block-regular-border")) {
+                        document.getElementById(containerId).classList.remove("calendar-day-view-top-of-the-hour-block-regular-border");  // Remove Bottom Dotted Line
+                        document.getElementById(containerId).classList.add("calendar-day-view-top-of-the-hour-block-over-border"); // Add Bottom Dashed Line
+                    }
+                    if (document.getElementById(containerId30MinutesBefore).classList.contains("calendar-day-view-bottom-of-the-hour-block-regular-border")) {
+                        document.getElementById(containerId30MinutesBefore).classList.remove("calendar-day-view-bottom-of-the-hour-block-regular-border"); // Remove Bottom Solid Line
+                        document.getElementById(containerId30MinutesBefore).classList.add("calendar-day-view-bottom-of-the-hour-block-over-border"); // Add Bottom Dashed Line
+                    }
+                }
+            } else if (elementIdArray[2] === "30") {
+                containerId30MinutesBefore = elementIdArray[0]+":"+elementIdArray[1]+":00";
+                //console.log("dragenter - containerId30MinutesBefore: " + containerId30MinutesBefore);
+                if (document.getElementById(containerId30MinutesBefore).classList.contains("calendar-day-view-top-of-the-hour-block-regular-border")) {
+                    document.getElementById(containerId30MinutesBefore).classList.remove("calendar-day-view-top-of-the-hour-block-regular-border"); // Remove Bottom Dotted Line
+                    document.getElementById(containerId30MinutesBefore).classList.add("calendar-day-view-top-of-the-hour-block-over-border");  // Add Bottom Dashed Line
+                }
+                if (document.getElementById(containerId).classList.contains("calendar-day-view-bottom-of-the-hour-block-regular-border")) {
+                    document.getElementById(containerId).classList.remove("calendar-day-view-bottom-of-the-hour-block-regular-border"); // Remove Bottom Solid Line
+                    document.getElementById(containerId).classList.add("calendar-day-view-bottom-of-the-hour-block-over-border");  // Add Bottom Dashed Line
+                }
+            }
+
+            instance.lastDraggedEnterElement.push(containerId);
+        }
+    };
+    instance.deselectHalfHourBlock = function (event) {
+        var containerId = instance.lastDraggedEnterElement.pop(),
+            targetElementIdArray = instance.getLastDraggedElementId().split(":"),
+            elementIdArray,
+            hourBefore,
+            containerId30MinutesBefore;
+
+
+        if(containerId !== undefined && containerId !== null) {
+            elementIdArray = containerId.split(":");
+            hourBefore = Math.abs((new Number(elementIdArray[1]) - 1));
+            console.log("dragleave - containerId      :" + containerId);
+            if(elementIdArray[1] !== targetElementIdArray[1] || elementIdArray[2] !== targetElementIdArray[2]) {
+                document.getElementById(containerId).classList.remove("calendar-day-view-right-half-hour-block-over-border");  // Remove Dashed Line
+                document.getElementById(containerId).classList.add("calendar-day-view-right-half-hour-block-regular-border");  // Add Solid Line
+                if(elementIdArray[2] === "00") {
+                    if (elementIdArray[1] === "0") {
+                        containerId30MinutesBefore = "calendar-day-view-right-header";
+                        console.log("dragleave - containerId30MinutesBefore: " + containerId30MinutesBefore);
+                        if (document.getElementById(containerId).classList.contains("calendar-day-view-top-of-the-hour-block-over-border")) {
+                            document.getElementById(containerId).classList.remove("calendar-day-view-top-of-the-hour-block-over-border"); // Remove Bottom Dashed Line
+                            document.getElementById(containerId).classList.add("calendar-day-view-top-of-the-hour-block-regular-border"); // Add Bottom Dotted Line
+                        }
+                        if (document.getElementById(containerId30MinutesBefore).classList.contains("normal")) {
+                            document.getElementById(containerId30MinutesBefore).classList.remove("normal"); // Remove Bottom Solid Line
+                            document.getElementById(containerId30MinutesBefore).classList.add("over"); // Add Bottom Dashed Line
+                        }
+                    } else {
+                        containerId30MinutesBefore = elementIdArray[0]+":"+hourBefore+":30";
+                        console.log("dragleave - containerId30MinutesBefore: " + containerId30MinutesBefore);
+                        if (document.getElementById(containerId).classList.contains("calendar-day-view-top-of-the-hour-block-over-border")) {
+                            document.getElementById(containerId).classList.remove("calendar-day-view-top-of-the-hour-block-over-border"); // Remove Bottom Dashed Line
+                            document.getElementById(containerId).classList.add("calendar-day-view-top-of-the-hour-block-regular-border"); // Add Bottom Dotted Line
+                        }
+                        if (document.getElementById(containerId30MinutesBefore).classList.contains("calendar-day-view-bottom-of-the-hour-block-over-border")) {
+                            document.getElementById(containerId30MinutesBefore).classList.remove("calendar-day-view-bottom-of-the-hour-block-over-border"); // Remove Bottom Dashed Line
+                            document.getElementById(containerId30MinutesBefore).classList.add("calendar-day-view-bottom-of-the-hour-block-regular-border"); // Add Bottom Solid Line
+                        }
+                    }
+                } else if(elementIdArray[2] === "30") {
+                    containerId30MinutesBefore = elementIdArray[0]+":"+elementIdArray[1]+":00";
+                    console.log("dragleave - containerId30MinutesBefore: " + containerId30MinutesBefore);
+                    if (document.getElementById(containerId30MinutesBefore).classList.contains("calendar-day-view-top-of-the-hour-block-over-border")) {
+                        document.getElementById(containerId30MinutesBefore).classList.remove("calendar-day-view-top-of-the-hour-block-over-border");  // Remove Bottom Dashed Line
+                        document.getElementById(containerId30MinutesBefore).classList.add("calendar-day-view-top-of-the-hour-block-regular-border");  // Add Bottom Dotted Line
+                    }
+                    if (document.getElementById(containerId).classList.contains("calendar-day-view-bottom-of-the-hour-block-over-border")) {
+                        document.getElementById(containerId).classList.remove("calendar-day-view-bottom-of-the-hour-block-over-border"); // Remove Bottom Dashed Line
+                        document.getElementById(containerId).classList.add("calendar-day-view-bottom-of-the-hour-block-regular-border"); // Add Bottom Solid Line
+                    }
+                }
+            }
+        }
+    };
+    instance.getLastDraggedElementId = function () {
+        return instance.lastDraggedElementId;
+    };
+    instance.getDayId = function (someDate) {
+        var day = someDate.getDate();
+        if (NoesisCode.NumberUtility.isSingleDigit(day)) {
+            day = NoesisCode.NumberUtility.padLeft(day, 2);
+        }
+        return CalendarApp.models.Day.monthNames[someDate.getMonth()].abbr + day + someDate.getFullYear();
     };
     /**
      * <p>Gets the {@link Calendar.models.Month} object for the current month.</p>

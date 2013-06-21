@@ -186,7 +186,7 @@ function CalendarApp() {
     };
     instance.rescheduleEvent = function (calendarEventId, targetStartDate) {
         var calendarEvent = CalendarApp.getInstance().findEventById(calendarEventId),
-            calendarEventDuration = (new CalendarApp.models.DateRange(calendarEvent.getStart(), calendarEvent.getEnd())).calculateDuration(),
+            calendarEventDuration = (new CalendarApp.models.DateRange(calendarEvent.getStart(), calendarEvent.getEnd())).calculateDuration().toFixed(2),
             targetEndDate =  targetStartDate.addTime(calendarEventDuration);
 
         calendarEvent.reschedule(targetStartDate, targetEndDate);

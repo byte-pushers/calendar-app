@@ -134,15 +134,19 @@ Date.prototype.addTime = function (time) {
     "use strict";
     var newDate = new Date(),
         wholeNumber = (time > 0)? Math.floor(time) : Math.ceil(time),
-        fraction = time - wholeNumber,
-        hour = this.getHours() + wholeNumber,
-        minutes = fraction;
+        fraction = ((time - wholeNumber).toFixed(2) * 100),
+        hourInMilliseconds = (1000 * 60 * 60) * wholeNumber,
+        minutesInMilliseconds = (1000 * 60) * (fraction);
 
     newDate.setTime(this.getTime());
-    newDate.setHours(hour);
-    if (minutes > 0 ) {
-        newDate.setMinutes(minutes);
+    newDate.setTime(newDate.getTime() + hourInMilliseconds);
+    newDate.setTime(newDate.getTime() + minutesInMilliseconds);
+    /*if(minutes == 60){
+        newDate.setHours(newDate.getHours() + 1);
     }
+    if (minutes > 0 && minutes < 60) {
+        newDate.setMinutes(minutes);
+    }*/
 
     return newDate;
 };

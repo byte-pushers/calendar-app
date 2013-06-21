@@ -66,28 +66,33 @@ CalendarApp.models.DateRange = function (start, end) {
         duration = this.end.getTime() - this.start.getTime();
         durationInHoursAndMinutes = (duration/(1000*60*60)).toFixed(2);
         durationInHours = Math.floor(durationInHoursAndMinutes);
-        durationInMinutes = this.roundToNearestQuarterHour(Math.abs(durationInHours - durationInHoursAndMinutes).toFixed(2));
+        durationInMinutes = CalendarApp.models.DateRange.roundToNearestQuarterHour(Math.abs(durationInHours - durationInHoursAndMinutes).toFixed(2));
 
 
         return new Number(durationInHours + "." + durationInMinutes);
     };
-    this.roundToNearestQuarterHour = function (hourFraction) {
-        if (hourFraction < 0.25){
-            return 0;
-        } else if (hourFraction == 0.25) {
-            return 15;
-        } else if (hourFraction > 0.25 && hourFraction < 0.50) {
-            return 15;
-        } else if (hourFraction == 0.50) {
-            return 30;
-        } else if (hourFraction > 0.50 && hourFraction < 0.75) {
-            return 30;
-        } else if (hourFraction == 0.75) {
-            return 45;
-        } else {
-            return 0;
-        }
-    };
+};
+CalendarApp.models.DateRange.roundToNearestQuarterHour = function (hourFraction) {
+    if (hourFraction < 0.25){
+        return 0;
+    } else if (hourFraction >= 0.25 && hourFraction < 0.50) {
+        return 15;
+    } else if (hourFraction >= 0.50 && hourFraction < 0.75) {
+        return 30;
+    } else if (hourFraction >= 0.75 && hourFraction < 1)  {
+        return 45;
+    }
+};
+CalendarApp.models.DateRange.convertQuarterHourToDecimalEquivalent  = function (quarterHour) {
+    if (quarterHour < 15) {
+        return 0.00;
+    } else if (quarterHour >= 15 && quarterHour < 30) {
+        return 0.25;
+    } else if (quarterHour >= 30 && quarterHour < 45) {
+        return 0.50;
+    } else if (quarterHour >= 45 && quarterHour < 60) {
+        return 0.75;
+    }
 };
 /**
  * Creates a CalendarApp.models.Attendee object that represents an attendee of an event.

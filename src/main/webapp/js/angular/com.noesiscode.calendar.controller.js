@@ -15,6 +15,7 @@ function CalendarMonthViewController($scope, CalendarEventService, $routeParams)
         $scope.targetDate.setTime($routeParams.selectedDate);
     } else {
         $scope.targetDate = new Date();
+        $scope.todaysEvents = [];
     }
     CalendarApp.getInstance().setCurrentMonth(new CalendarApp.models.Month($scope.targetDate));
     CalendarApp.getInstance().setCachedMonth(new CalendarApp.models.Month());
@@ -219,11 +220,14 @@ function CalendarDayViewController($scope, CalendarEventService, /*CalendarDayHo
         return CalendarApp.getInstance().getCurrentMonth().getSelectedDateDecoratedDisplayName();
     };
     $scope.findEventsWithStartTime = function (startTimeHour, startTimeMinutes) {
-        var events = [];
+        var events = [], continuationEvents = [];
+        if (startTimeHour == 0 && startTimeMinutes == 0) {
+            continuationEvents = CalendarApp.getInstance().findContinuationEvents($scope.selectedDate);
+        }
         $scope.selectedDate.setHours(startTimeHour);
         $scope.selectedDate.setMinutes(startTimeMinutes);
         events = CalendarApp.getInstance().findEventsByDateAndTime($scope.selectedDate);
-        return events;
+        return continuationEvents.concat(events);
     };
     $scope.getDayId = function () {
         return CalendarApp.getInstance().getDayId($scope.selectedDate);
@@ -234,13 +238,35 @@ function CalendarDayViewController($scope, CalendarEventService, /*CalendarDayHo
             durationInHours = (Math.floor(durationInHoursAndMinutes)).toFixed(2),
             durationInMinutes =  Math.floor((durationInHoursAndMinutes - durationInHours) * 100),
             heightUnit = (durationInMinutes === 0) ? 0: durationInMinutes/15,
-            calculatedHeight,
             totalNumberOfEventsWithSameStartTime = event.getTotalNumberOfEventsWithSameStartTime(),
-            calculatedWidth;
+            calculatedHeight,
+            calculatedWidth,
+            timeToMidnightFromStartTime,
+            midnight;
 
         if (!event.getStart().isDateEqualTo(event.getEnd())) {
-            if (event.getEnd().isDateEqualToYesterday(event.getStart())) {
+            if (event.getStart().isDateEqualTo($scope.selectedDate)){
+                midnight = new Date();
+                midnight.setTime(event.getStart().getTime());
+                midnight.setDate(midnight.getDate() + 1);
+                midnight.setHours(0, 0, 0, 0);
+                timeToMidnightFromStartTime = new Number((new CalendarApp.models.DateRange(event.getStart(), midnight)).calculateDuration().toFixed(2));
 
+                if (durationInHoursAndMinutes > timeToMidnightFromStartTime) {
+                    durationInHours = Math.floor(timeToMidnightFromStartTime);
+                    if(durationInHours == 0) {
+                        durationInMinutes =  (timeToMidnightFromStartTime) * 100;
+                    } else {
+                        durationInMinutes = 0;
+                    }
+                    heightUnit = (durationInMinutes === 0) ? 0: durationInMinutes/15;
+                }
+            } else {
+                if (event.getEnd().isDateEqualToYesterday(event.getStart())) {
+                    durationInHours = event.getEnd().getHours();
+                    durationInMinutes =  event.getEnd().getMinutes();
+                    heightUnit = (durationInMinutes === 0) ? 0: durationInMinutes/15;
+                }
             }
 
         }

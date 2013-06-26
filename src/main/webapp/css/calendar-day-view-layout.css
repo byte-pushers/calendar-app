@@ -9,28 +9,30 @@ body {
     position: relative;
     float: left;
 }
-#calendar-day-view-right-header{
+
+.calendar-day-view-right-header-over {
     height: 50px;
     width: 100%;
     border-top: 1px solid grey;
-    /*border-bottom: 1px double grey;*/
+    border-bottom: 1px dashed grey;
     border-left: 1px solid grey;
     border-right: 1px solid grey;
 }
-#calendar-day-view-right-header .over{
-    border-bottom: 1px dashed grey;
-}
-#calendar-day-view-right-header .normal{
-    border-bottom: 1px double grey;
+.calendar-day-view-right-header-normal {
+    height: 50px;
+    width: 100%;
+    border-top: 1px solid grey;
+    border-bottom: 1px solid grey;
+    border-left: 1px solid grey;
+    border-right: 1px solid grey;
 }
 #calendar-day-view-spacer{
-    height: 10px;
+    height: 6px;
     width: inherit;
     /*background-color: yellow;*/
-    border-bottom: 1px double grey;
     border-top: 1px solid grey;
     position: relative;
-    bottom: -57px;
+    bottom: -42px;
 }
 #calendar-day-view-left-header{
     height: 50px;

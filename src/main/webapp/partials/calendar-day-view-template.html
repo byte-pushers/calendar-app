@@ -3,7 +3,7 @@
         <div class="calendar-month-display-info">{{getSelectedDayDecoratedDisplayName()}}</div>
         <div class="calendar-month-nav-bar"><button ng-click="selectPreviousDay()"><<</button><button ng-click="selectToday()">Today</button><button ng-click="selectNextDay()">>></button></div>
     </div>
-    <div id="calendar-day-view-right-header" class="column"><div id="calendar-day-view-spacer"></div></div>
+    <div id="calendar-day-view-right-header" class="column calendar-day-view-right-header-normal"><div id="calendar-day-view-spacer"></div></div>
     <div id="calendar-day-view-left-header" class="column"></div>
     <div ng-repeat="dayHour in selectedDay.getHours()">
         <div calendar-day-hour id="{{getDayId()}}:{{dayHour.hour}}:00" class="calendar-day-view-right-half-hour-block calendar-day-view-right-half-hour-block-regular-border calendar-day-view-top-of-the-hour-block-regular-border column">

@@ -47,6 +47,33 @@ CalendarApp.models.DateRange = function (start, end) {
 		}
 		return false;
 	};
+    this.isDateAndTimeBetweenRange = function (date) {
+        if (start.getFullYear() <= date.getFullYear() && end.getFullYear() >= date.getFullYear()) {
+            if (start.getMonth() <= date.getMonth() && end.getMonth() >= date.getMonth()) {
+                if (start.getDate() <= date.getDate() && end.getDate() >= date.getDate()) {
+                    if (start.getHours() <= date.getHours() && end.getHours() >= date.getHours()) {
+                        if (start.getHours() == date.getHours()) {
+                            if (start.getMinutes() <= date.getMinutes()) {
+                                return true;
+                            } else {
+                                return false;
+                            }
+                        }
+                        if (end.getHours() == date.getHours()) {
+                            if (end.getMinutes() >= date.getMinutes()) {
+                                return true;
+                            } else {
+                                return false;
+                            }
+                        }
+
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    };
     this.calculateDuration = function () {
         var duration,
             durationInHours,
@@ -726,6 +753,8 @@ CalendarApp.models.Event = function (jsonObject) {
             return -1;
         } else if (this.getStart() > someEvent.getStart()) {
             return 1;
+        } else {
+            return 0;
         }
     };
     this.compareEndTimes = function (someEvent) {
@@ -733,6 +762,8 @@ CalendarApp.models.Event = function (jsonObject) {
             return -1;
         } else if (this.getEnd() > someEvent.getEnd()) {
             return 1;
+        } else {
+            return 0;
         }
     };
     this.indentWidthWasIncreased = function (indentWidthIncreased){
@@ -741,8 +772,8 @@ CalendarApp.models.Event = function (jsonObject) {
     }
     this.hasConflictingStartTimes = function (someEvent) {
         var dateRange = new CalendarApp.models.DateRange(this.start, this.end),
-            startTimeConflict = dateRange.isDateBetweenRange(someEvent.getStart()),
-            endTimeConflict = dateRange.isDateBetweenRange(someEvent.getEnd());
+            startTimeConflict = dateRange.isDateAndTimeBetweenRange(someEvent.getStart()),
+            endTimeConflict = dateRange.isDateAndTimeBetweenRange(someEvent.getEnd());
 
         if (!startTimeConflict && !endTimeConflict) {
             return 0;
@@ -750,7 +781,7 @@ CalendarApp.models.Event = function (jsonObject) {
             return 1;
         } else if (startTimeConflict && endTimeConflict) {
             return 2;
-        } else {
+        } else if (!startTimeConflict && endTimeConflict) {
             return 3;
         }
     };

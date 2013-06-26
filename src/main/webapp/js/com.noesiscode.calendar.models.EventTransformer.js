@@ -17,7 +17,8 @@ CalendarApp.models.EventTransformer.transformJSONEvents = function (jsonEvents) 
     }
     jsonEvents.forEach(function (event, index) {
         if (event !== undefined && event !== null) {
-            events[events.length] = new CalendarApp.models.Event(event);
+            event = new CalendarApp.models.Event(event);
+            events[events.length] = event;
         }
     });
     return events;

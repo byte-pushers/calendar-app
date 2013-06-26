@@ -77,7 +77,8 @@ function CalendarApp() {
         return instance.findEventsByDate(new Date());
     };
     instance.findEventsByDate = function (someDate) {
-        var selectedEvents = [];
+        var selectedEvents = [], continuationEvents = instance.findContinuationEvents(someDate);
+
         instance.events.forEach(function (event, index) {
             if (event !== undefined && event !== null) {
                 if (event.getStart().isDateEqualTo(someDate)) {
@@ -85,7 +86,7 @@ function CalendarApp() {
                 }
             }
         });
-        return selectedEvents;
+        return continuationEvents.concat(selectedEvents);
     };
     instance.findEventsByDateAndTime = function (someDate) {
         var selectedEvents = [];
@@ -97,6 +98,33 @@ function CalendarApp() {
             }
         });
         return selectedEvents;
+    };
+    instance.findContinuationEvents = function (someDate) {
+        var selectedEvents = [];
+        instance.events.forEach(function (event, index) {
+            if (instance.isEventAContinuationFromDate(event, someDate)) {
+                selectedEvents[selectedEvents.length] = event;
+            }
+        });
+
+        return selectedEvents;
+    };
+    instance.isEventAContinuationFromDate = function (event, someDate) {
+        var yesterday = new Date(), result = false;
+        yesterday.setTime(someDate.getTime());
+        yesterday.setDate(yesterday.getDate() - 1);
+
+        if (event !== undefined && event !== null) {
+            if (event.getStart().isDateEqualTo(yesterday) && event.getEnd().isDateEqualTo(someDate)) {
+                if (event.getEnd().getHours() == 0 && event.getEnd().getMinutes() >=15){
+                    result = true;
+                } else if (event.getEnd().getHours() > 0){
+                    result = true;
+                }
+            }
+        }
+
+        return result;
     };
     instance.calculateHowManyEventsHaveSameStartTime = function (targetEvent) {
         var eventsWithSameStartTime = [];
@@ -129,6 +157,9 @@ function CalendarApp() {
                         event.setIndentWidth((event.getZIndex()*event.getIndentWidth()));
                         event.indentWidthWasIncreased(true);
                     }
+                } else if (!event.indentWidthWasIncreased()) {
+                    event.setIndentWidth((event.getZIndex()*event.getIndentWidth()));
+                    event.indentWidthWasIncreased(true);
                 }
             }
         });
@@ -230,9 +261,9 @@ function CalendarApp() {
                         document.getElementById(containerId).classList.remove("calendar-day-view-top-of-the-hour-block-regular-border");  // Remove Bottom Dotted Line
                         document.getElementById(containerId).classList.add("calendar-day-view-top-of-the-hour-block-over-border"); // Add Bottom Dashed Line
                     }
-                    if (document.getElementById(containerId30MinutesBefore).classList.contains("normal")) {
-                        document.getElementById(containerId30MinutesBefore).classList.remove("normal"); // Remove Bottom Solid Line
-                        document.getElementById(containerId30MinutesBefore).classList.add("over"); // Add Bottom Dashed Line
+                    if (document.getElementById(containerId30MinutesBefore).classList.contains("calendar-day-view-right-header-normal")) {
+                        document.getElementById(containerId30MinutesBefore).classList.remove("calendar-day-view-right-header-normal"); // Remove Bottom Solid Line
+                        document.getElementById(containerId30MinutesBefore).classList.add("calendar-day-view-right-header-over"); // Add Bottom Dashed Line
                     }
                 } else {
                     containerId30MinutesBefore = elementIdArray[0]+":"+hourBefore+":30";
@@ -285,9 +316,9 @@ function CalendarApp() {
                             document.getElementById(containerId).classList.remove("calendar-day-view-top-of-the-hour-block-over-border"); // Remove Bottom Dashed Line
                             document.getElementById(containerId).classList.add("calendar-day-view-top-of-the-hour-block-regular-border"); // Add Bottom Dotted Line
                         }
-                        if (document.getElementById(containerId30MinutesBefore).classList.contains("normal")) {
-                            document.getElementById(containerId30MinutesBefore).classList.remove("normal"); // Remove Bottom Solid Line
-                            document.getElementById(containerId30MinutesBefore).classList.add("over"); // Add Bottom Dashed Line
+                        if (document.getElementById(containerId30MinutesBefore).classList.contains("calendar-day-view-right-header-over")) {
+                            document.getElementById(containerId30MinutesBefore).classList.remove("calendar-day-view-right-header-over"); // Remove Bottom Solid Line
+                            document.getElementById(containerId30MinutesBefore).classList.add("calendar-day-view-right-header-normal"); // Add Bottom Dashed Line
                         }
                     } else {
                         containerId30MinutesBefore = elementIdArray[0]+":"+hourBefore+":30";

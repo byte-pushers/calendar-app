@@ -90,14 +90,18 @@ CalendarApp.models.Day = function (date, weekIndex, currentDayOfWeek) {
      * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
      */
     this.addEvents = function (events) {
-        //var eventSizeBefore = 0, eventSizeAfter = 0;
-        //console.log("Day.addEvents() Start:");
-        //console.log("Date: " + this.date.toString());
-        //console.log("Day Events Array Size At Beginning Of Method: " + this.events.length);
+        var targetStartDate = new Date(this.getDate().getTime()),
+            targetEndDate = new Date(this.getDate().getTime()),
+            continuationEvents = CalendarApp.getInstance().findContinuationEvents(targetStartDate),
+            eventStartEndDateRange;
+        targetStartDate.setHours(0, 0, 0);
+        targetEndDate.setHours(23,59, 59);
+        eventStartEndDateRange = new CalendarApp.models.DateRange(targetStartDate, targetEndDate);
         events.forEach(function (event, index, events) {
             if (event !== undefined && event !== null) {
-                var eventStartEndTime = new CalendarApp.models.DateRange(event.getStart(), event.getEnd());
-                if (eventStartEndTime.isDateBetweenRange(this.getDate())) {
+                if ((eventStartEndDateRange.isDateAndTimeBetweenRange(event.getStart()) &&
+                    eventStartEndDateRange.isDateAndTimeBetweenRange(event.getEnd())) ||
+                    CalendarApp.getInstance().isEventAContinuationFromDate(event, this.getDate())) {
                     CalendarApp.getInstance().calculateHowManyEventsHaveSameStartTime(event);
                     CalendarApp.getInstance().shuffleEventsZIndex(event, events);
                     CalendarApp.getInstance().calculateEventIndentWidth(events);

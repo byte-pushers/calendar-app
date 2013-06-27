@@ -1,4 +1,4 @@
-/*global CalendarApp:true, $, NoesisCode, document*/
+/*global CalendarApp:true, $, NoesisCode, document, console, location*/
 
 function CalendarApp() {
     "use strict";
@@ -46,8 +46,8 @@ function CalendarApp() {
     instance.displayedEvents = [];
     instance.cachedWeeks = [];
     instance.lastDraggedEnterElement = [];
-    instance.lastDraggedEnterElementId;
-    instance.lastDraggedElementId;
+    instance.lastDraggedEnterElementId = null;
+    instance.lastDraggedElementId = null;
     /**
      * <p>Represents the current calendar month.</p>
      * @private
@@ -116,9 +116,9 @@ function CalendarApp() {
 
         if (event !== undefined && event !== null) {
             if (event.getStart().isDateEqualTo(yesterday) && event.getEnd().isDateEqualTo(someDate)) {
-                if (event.getEnd().getHours() == 0 && event.getEnd().getMinutes() >=15){
+                if (event.getEnd().getHours() === 0 && event.getEnd().getMinutes() >= 15) {
                     result = true;
-                } else if (event.getEnd().getHours() > 0){
+                } else if (event.getEnd().getHours() > 0) {
                     result = true;
                 }
             }
@@ -154,11 +154,11 @@ function CalendarApp() {
                     });
 
                     if (!hasConflictingEventsWithIncreasedWidth) {
-                        event.setIndentWidth((event.getZIndex()*event.getIndentWidth()));
+                        event.setIndentWidth((event.getZIndex() * event.getIndentWidth()));
                         event.indentWidthWasIncreased(true);
                     }
                 } else if (!event.indentWidthWasIncreased()) {
-                    event.setIndentWidth((event.getZIndex()*event.getIndentWidth()));
+                    event.setIndentWidth((event.getZIndex() * event.getIndentWidth()));
                     event.indentWidthWasIncreased(true);
                 }
             }
@@ -167,36 +167,36 @@ function CalendarApp() {
     instance.shuffleEventsZIndex = function (targetEvent, targetEvents) {
         targetEvents.sort(CalendarApp.models.Event.compareStartTimes);
         targetEvents.forEach(function (event, index) {
-            if (event !== undefined && event !== null && targetEvent !== undefined && targetEvent !== null) {
-                if (event.getId() !== targetEvent.getId()) {
-                    switch(event.hasConflictingStartTimes(targetEvent)) {
-                        case 0:
-                            //No conflicting start times and no conflicting end times.
-                            break;
-                        case 1:
-                            //Conflicting start times.
-                            if (targetEvent.compareStartTimes(event) === 1) {
-                                targetEvent.setZIndex(event.getZIndex() + 1);
-                            } else if (targetEvent.compareStartTimes(event) === -1) {
-                                event.setZIndex(targetEvent.getZIndex() + 1);
-                            } else {
-                                //targetEvent.setZIndex(event.getZIndex() - 1);
-                            }
-                            break;
-                        case 2:
-                            //Conflicting start times and conflicting end times.
-                            if (targetEvent.compareStartTimes(event) === 1) {
-                                targetEvent.setZIndex(event.getZIndex() + 1);
-                            } else if (targetEvent.compareStartTimes(event) === -1) {
-                                event.setZIndex(targetEvent.getZIndex() + 1);
-                            } else {
-                                //targetEvent.setZIndex(event.getZIndex() - 1);
-                            }
-                            break;
-                        case 3:
-                            //Conflicting end times.
-                            targetEvent.setZIndex(event.getZIndex()-1);
-                            break;
+            if (targetEvent !== undefined && targetEvent !== null && event !== undefined && event !== null) {
+                if (targetEvent.getId() !== event.getId()) {
+                    switch (targetEvent.hasConflictingStartTimes(event)) {
+                    case 0:
+                        //No conflicting start times and no conflicting end times.
+                        break;
+                    case 1:
+                        //Conflicting start times.
+                        if (targetEvent.compareStartTimes(event) === 1) {
+                            targetEvent.setZIndex(event.getZIndex() + 1);
+                        } else if (targetEvent.compareStartTimes(event) === -1) {
+                            event.setZIndex(targetEvent.getZIndex() + 1);
+                        } /*else {
+                            //targetEvent.setZIndex(event.getZIndex() - 1);
+                        }*/
+                        break;
+                    case 2:
+                        //Conflicting start times and conflicting end times.
+                        if (targetEvent.compareStartTimes(event) === 1) {
+                            targetEvent.setZIndex(event.getZIndex() + 1);
+                        } else if (targetEvent.compareStartTimes(event) === -1) {
+                            event.setZIndex(targetEvent.getZIndex() + 1);
+                        } /*else {
+                            //targetEvent.setZIndex(event.getZIndex() - 1);
+                        } */
+                        break;
+                    case 3:
+                        //Conflicting end times.
+                        targetEvent.setZIndex(event.getZIndex() - 1);
+                        break;
                     }
 
                 }
@@ -231,8 +231,8 @@ function CalendarApp() {
         return instance.lastDraggedEnterElementId;
     };
     instance.saveLastDraggedElementId = function (elementId) {
-        if((instance.lastDraggedElementId === undefined || instance.lastDraggedElementId === null) &&
-            elementId !== undefined && elementId !== null) {
+        if ((instance.lastDraggedElementId === undefined || instance.lastDraggedElementId === null) &&
+                elementId !== undefined && elementId !== null) {
             instance.lastDraggedElementId = elementId;
         } else if (elementId === undefined || elementId === null) {
             instance.lastDraggedElementId = elementId;
@@ -243,16 +243,16 @@ function CalendarApp() {
             targetContainerId = instance.getLastDraggedElementId(),
             targetElementIdArray = instance.getLastDraggedElementId().split(":"),
             elementIdArray = containerId.split(":"),
-            hourBefore = Math.abs((new Number(elementIdArray[1]) - 1)),
+            hourBefore = Math.abs((elementIdArray[1]) - 1),
             containerId30MinutesBefore;
 
-        if(elementIdArray[1] !== targetElementIdArray[1] || elementIdArray[2] !== targetElementIdArray[2]) {
+        if (elementIdArray[1] !== targetElementIdArray[1] || elementIdArray[2] !== targetElementIdArray[2]) {
             //console.log("dragenter - containerId      :" + containerId);
             //console.log("dragenter - targetContainerId:" + targetContainerId);
             //console.log("dragenter - targetId         :" + event.target.id);
             document.getElementById(containerId).classList.remove("calendar-day-view-right-half-hour-block-regular-border"); // Remove Solid Line
             document.getElementById(containerId).classList.add("calendar-day-view-right-half-hour-block-over-border"); // Remove Dashed Line
-            if(elementIdArray[2] === "00") {
+            if (elementIdArray[2] === "00") {
                 if (elementIdArray[1] === "0") {
                     //hourBefore = Math.abs((new Number(elementIdArray[1]) - 1)),
                     containerId30MinutesBefore = "calendar-day-view-right-header";
@@ -266,7 +266,7 @@ function CalendarApp() {
                         document.getElementById(containerId30MinutesBefore).classList.add("calendar-day-view-right-header-over"); // Add Bottom Dashed Line
                     }
                 } else {
-                    containerId30MinutesBefore = elementIdArray[0]+":"+hourBefore+":30";
+                    containerId30MinutesBefore = elementIdArray[0] + ":" + hourBefore + ":30";
                     //console.log("dragenter - containerId30MinutesBefore: " + containerId30MinutesBefore);
                     if (document.getElementById(containerId).classList.contains("calendar-day-view-top-of-the-hour-block-regular-border")) {
                         document.getElementById(containerId).classList.remove("calendar-day-view-top-of-the-hour-block-regular-border");  // Remove Bottom Dotted Line
@@ -278,7 +278,7 @@ function CalendarApp() {
                     }
                 }
             } else if (elementIdArray[2] === "30") {
-                containerId30MinutesBefore = elementIdArray[0]+":"+elementIdArray[1]+":00";
+                containerId30MinutesBefore = elementIdArray[0] + ":" + elementIdArray[1] + ":00";
                 //console.log("dragenter - containerId30MinutesBefore: " + containerId30MinutesBefore);
                 if (document.getElementById(containerId30MinutesBefore).classList.contains("calendar-day-view-top-of-the-hour-block-regular-border")) {
                     document.getElementById(containerId30MinutesBefore).classList.remove("calendar-day-view-top-of-the-hour-block-regular-border"); // Remove Bottom Dotted Line
@@ -301,14 +301,14 @@ function CalendarApp() {
             containerId30MinutesBefore;
 
 
-        if(containerId !== undefined && containerId !== null) {
+        if (containerId !== undefined && containerId !== null) {
             elementIdArray = containerId.split(":");
-            hourBefore = Math.abs((new Number(elementIdArray[1]) - 1));
+            hourBefore = Math.abs((elementIdArray[1]) - 1);
             console.log("dragleave - containerId      :" + containerId);
-            if(elementIdArray[1] !== targetElementIdArray[1] || elementIdArray[2] !== targetElementIdArray[2]) {
+            if (elementIdArray[1] !== targetElementIdArray[1] || elementIdArray[2] !== targetElementIdArray[2]) {
                 document.getElementById(containerId).classList.remove("calendar-day-view-right-half-hour-block-over-border");  // Remove Dashed Line
                 document.getElementById(containerId).classList.add("calendar-day-view-right-half-hour-block-regular-border");  // Add Solid Line
-                if(elementIdArray[2] === "00") {
+                if (elementIdArray[2] === "00") {
                     if (elementIdArray[1] === "0") {
                         containerId30MinutesBefore = "calendar-day-view-right-header";
                         console.log("dragleave - containerId30MinutesBefore: " + containerId30MinutesBefore);
@@ -321,7 +321,7 @@ function CalendarApp() {
                             document.getElementById(containerId30MinutesBefore).classList.add("calendar-day-view-right-header-normal"); // Add Bottom Dashed Line
                         }
                     } else {
-                        containerId30MinutesBefore = elementIdArray[0]+":"+hourBefore+":30";
+                        containerId30MinutesBefore = elementIdArray[0] + ":" + hourBefore + ":30";
                         console.log("dragleave - containerId30MinutesBefore: " + containerId30MinutesBefore);
                         if (document.getElementById(containerId).classList.contains("calendar-day-view-top-of-the-hour-block-over-border")) {
                             document.getElementById(containerId).classList.remove("calendar-day-view-top-of-the-hour-block-over-border"); // Remove Bottom Dashed Line
@@ -332,8 +332,8 @@ function CalendarApp() {
                             document.getElementById(containerId30MinutesBefore).classList.add("calendar-day-view-bottom-of-the-hour-block-regular-border"); // Add Bottom Solid Line
                         }
                     }
-                } else if(elementIdArray[2] === "30") {
-                    containerId30MinutesBefore = elementIdArray[0]+":"+elementIdArray[1]+":00";
+                } else if (elementIdArray[2] === "30") {
+                    containerId30MinutesBefore = elementIdArray[0] + ":" + elementIdArray[1] + ":00";
                     console.log("dragleave - containerId30MinutesBefore: " + containerId30MinutesBefore);
                     if (document.getElementById(containerId30MinutesBefore).classList.contains("calendar-day-view-top-of-the-hour-block-over-border")) {
                         document.getElementById(containerId30MinutesBefore).classList.remove("calendar-day-view-top-of-the-hour-block-over-border");  // Remove Bottom Dashed Line
@@ -396,10 +396,10 @@ function CalendarApp() {
         instance.cachedMonth = cMonth;
     };
     instance.getCalendarDayViewUrl = function (redirectTo) {
-        location.href= redirectTo + instance.currentMonth.getSelectedDate().getTime();
+        location.href = redirectTo + instance.currentMonth.getSelectedDate().getTime();
     };
     instance.getCalendarMonthViewUrl = function (redirectTo) {
-        location.href= redirectTo + instance.currentMonth.getSelectedDate().getTime();
+        location.href = redirectTo + instance.currentMonth.getSelectedDate().getTime();
     };
 
     return instance;

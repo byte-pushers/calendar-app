@@ -262,7 +262,7 @@ CalendarApp.models.Month = function (targetDate) {
         var nextDate = (targetDate !== undefined && targetDate !== null && targetDate.getClassType() === "[class Date]") ? targetDate : new Date(selectedDate.getTime());
         nextDate.setDate(nextDate.getDate() + 1);
         return nextDate;
-    }
+    };
     /**
      * <p>Convenience method that returns the previous {@link Day} before the selected date on the calendar.</p>
      *
@@ -274,7 +274,7 @@ CalendarApp.models.Month = function (targetDate) {
         var previousDate = (targetDate !== undefined && targetDate !== null && targetDate.getClassType() === "[class Date]") ? targetDate : new Date(selectedDate.getTime());
         previousDate.setDate(previousDate.getDate() - 1);
         return previousDate;
-    }
+    };
     /**
      * <p>Convenience method that returns the next {@link Month} after the selected date on the calendar.</p>
      *

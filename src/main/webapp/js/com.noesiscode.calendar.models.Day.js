@@ -95,13 +95,13 @@ CalendarApp.models.Day = function (date, weekIndex, currentDayOfWeek) {
             continuationEvents = CalendarApp.getInstance().findContinuationEvents(targetStartDate),
             eventStartEndDateRange;
         targetStartDate.setHours(0, 0, 0);
-        targetEndDate.setHours(23,59, 59);
+        targetEndDate.setHours(23, 59, 59);
         eventStartEndDateRange = new CalendarApp.models.DateRange(targetStartDate, targetEndDate);
         events.forEach(function (event, index, events) {
             if (event !== undefined && event !== null) {
                 if ((eventStartEndDateRange.isDateAndTimeBetweenRange(event.getStart()) &&
                     eventStartEndDateRange.isDateAndTimeBetweenRange(event.getEnd())) ||
-                    CalendarApp.getInstance().isEventAContinuationFromDate(event, this.getDate())) {
+                        CalendarApp.getInstance().isEventAContinuationFromDate(event, this.getDate())) {
                     CalendarApp.getInstance().calculateHowManyEventsHaveSameStartTime(event);
                     CalendarApp.getInstance().shuffleEventsZIndex(event, events);
                     CalendarApp.getInstance().calculateEventIndentWidth(events);
@@ -163,7 +163,7 @@ CalendarApp.models.Day = function (date, weekIndex, currentDayOfWeek) {
     };
     this.getHours = function () {
         return CalendarApp.models.Day.hours;
-    }
+    };
 };
 CalendarApp.models.Day.monthNames = [
     {"name": "January", "abbr": "Jan", "getTotalDays": function (year) { "use strict"; return 31; } },

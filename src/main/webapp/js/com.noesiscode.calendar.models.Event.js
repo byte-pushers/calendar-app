@@ -52,14 +52,14 @@ CalendarApp.models.DateRange = function (start, end) {
             if (start.getMonth() <= date.getMonth() && end.getMonth() >= date.getMonth()) {
                 if (start.getDate() <= date.getDate() && end.getDate() >= date.getDate()) {
                     if (start.getHours() <= date.getHours() && end.getHours() >= date.getHours()) {
-                        if (start.getHours() == date.getHours()) {
+                        if (start.getHours() === date.getHours()) {
                             if (start.getMinutes() <= date.getMinutes()) {
                                 return true;
                             } else {
                                 return false;
                             }
                         }
-                        if (end.getHours() == date.getHours()) {
+                        if (end.getHours() === date.getHours()) {
                             if (end.getMinutes() >= date.getMinutes()) {
                                 return true;
                             } else {
@@ -78,39 +78,42 @@ CalendarApp.models.DateRange = function (start, end) {
         var duration,
             durationInHours,
             durationInHoursAndMinutes,
-            durationInMinutes;
+            durationInMinutes,
+            msg;
 
         if (this.start > this.end) {
-            var msg = "EndDate("+ this.end.toString() +") can be before StartDate(" + this.start.toString() + ").";
+            msg = "EndDate(" + this.end.toString() + ") can be before StartDate(" + this.start.toString() + ").";
             throw new NoesisCode.exceptions.InvalidDateRangeException(msg);
         }
 
         if (this.start.isDateEqualToDateAndTime(this.end)) {
-            var msg = "StartDate(" + this.start.toString() + ") and EndDate("+ this.end.toString() +") can not equal each other.";
+            msg = "StartDate(" + this.start.toString() + ") and EndDate(" + this.end.toString() + ") can not equal each other.";
             throw new NoesisCode.exceptions.InvalidDateRangeException(msg);
         }
 
         duration = this.end.getTime() - this.start.getTime();
-        durationInHoursAndMinutes = (duration/(1000*60*60)).toFixed(2);
+        durationInHoursAndMinutes = (duration / (1000 * 60 * 60)).toFixed(2);
         durationInHours = Math.floor(durationInHoursAndMinutes);
         durationInMinutes = CalendarApp.models.DateRange.roundToNearestQuarterHour(Math.abs(durationInHours - durationInHoursAndMinutes).toFixed(2));
 
 
-        return new Number(durationInHours + "." + durationInMinutes);
+        return durationInHours + (durationInMinutes / 100);
     };
 };
 CalendarApp.models.DateRange.roundToNearestQuarterHour = function (hourFraction) {
-    if (hourFraction < 0.25){
+    "use strict";
+    if (hourFraction < 0.25) {
         return 0;
     } else if (hourFraction >= 0.25 && hourFraction < 0.50) {
         return 15;
     } else if (hourFraction >= 0.50 && hourFraction < 0.75) {
         return 30;
-    } else if (hourFraction >= 0.75 && hourFraction < 1)  {
+    } else if (hourFraction >= 0.75 && hourFraction < 1) {
         return 45;
     }
 };
 CalendarApp.models.DateRange.convertQuarterHourToDecimalEquivalent  = function (quarterHour) {
+    "use strict";
     if (quarterHour < 15) {
         return 0.00;
     } else if (quarterHour >= 15 && quarterHour < 30) {
@@ -766,10 +769,10 @@ CalendarApp.models.Event = function (jsonObject) {
             return 0;
         }
     };
-    this.indentWidthWasIncreased = function (indentWidthIncreased){
+    this.indentWidthWasIncreased = function (indentWidthIncreased) {
         this.indentWidthIncreasedStatus = (indentWidthIncreased !== undefined && indentWidthIncreased !== null) ? indentWidthIncreased : this.indentWidthIncreasedStatus;
         return this.indentWidthIncreasedStatus;
-    }
+    };
     this.hasConflictingStartTimes = function (someEvent) {
         var dateRange = new CalendarApp.models.DateRange(this.start, this.end),
             startTimeConflict = dateRange.isDateAndTimeBetweenRange(someEvent.getStart()),
@@ -793,9 +796,11 @@ CalendarApp.models.Event = function (jsonObject) {
     };
 };
 CalendarApp.models.Event.compareStartTimes = function (event1, event2) {
+    "use strict";
     return event1.compareStartTimes(event2);
 };
 CalendarApp.models.Event.compareEndTimes = function (event1, event2) {
+    "use strict";
     return event1.compareEndTimes(event2);
 };
 CalendarApp.models.Event.defaultZIndex = 1;

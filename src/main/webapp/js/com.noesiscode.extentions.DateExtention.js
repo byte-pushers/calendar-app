@@ -133,7 +133,7 @@ Date.prototype.getCurrentMonthTotalDays = function (date) {
 Date.prototype.addTime = function (time) {
     "use strict";
     var newDate = new Date(),
-        wholeNumber = (time > 0)? Math.floor(time) : Math.ceil(time),
+        wholeNumber = (time > 0) ? Math.floor(time) : Math.ceil(time),
         fraction = ((time - wholeNumber).toFixed(2) * 100),
         hourInMilliseconds = (1000 * 60 * 60) * wholeNumber,
         minutesInMilliseconds = (1000 * 60) * (fraction);

@@ -20,6 +20,8 @@ NoesisCode.NumberUtility.isNotANumber = function isNotANumber(d) {
 };
 NoesisCode.NumberUtility.isANumber = function isANumber(d) {
 	'use strict';
-    if (d === "") return false;
+    if (d === "") {
+        return false;
+    }
 	return !isNaN(d);
 };

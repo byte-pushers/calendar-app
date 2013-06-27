@@ -1,4 +1,4 @@
-/*global NoesisCode, CalendarApp, CalendarController */
+/*global NoesisCode, CalendarApp, CalendarController, CalendarMonthViewController, CalendarDayViewController */
 /**
  * Created with JetBrains WebStorm.
  * User: pouncilt
@@ -189,13 +189,13 @@ angular.module('NoesisCodeCalendar', ['NoesisCodeCalendarService'])
                 elem.bind('drop', function (event) {
                     var targetEventArray = CalendarApp.getInstance().getLastDraggedElementId().split(":"),
                         eventArray = CalendarApp.getInstance().getLastDraggedEnterElementId().split(":"),
-                        calendarEventId = targetEventArray[targetEventArray.length-1],
+                        calendarEventId = targetEventArray[targetEventArray.length - 1],
                         targetStartDate = NoesisCode.converters.DateConverter.convertToDate(eventArray[0], NoesisCode.converters.DateConverter.MMMDDYYYY_DATE_FORMAT);
 
                     CalendarApp.getInstance().deselectHalfHourBlock(event);
 
-                    targetStartDate.setHours(new Number(eventArray[1]));
-                    targetStartDate.setMinutes(new Number(eventArray[2]));
+                    targetStartDate.setHours(eventArray[1]);
+                    targetStartDate.setMinutes(eventArray[2]);
 
                     scope.rescheduleEvent(calendarEventId, targetStartDate);
                     CalendarApp.getInstance().saveLastDraggedElementId(null);

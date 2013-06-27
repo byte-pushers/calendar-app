@@ -90,18 +90,18 @@ NoesisCode.converters.DateConverter.convertToDate = function (d, dateFormat) {
 	'use strict';
 	var date = null;
 	switch (dateFormat) {
-        case NoesisCode.converters.DateConverter.MDDYYYY_DATE_FORMAT:
-            date = NoesisCode.converters.DateConverter.convertToDate_MDDYYYY(d);
-            break;
-        case NoesisCode.converters.DateConverter.MMDDYYYY_DATE_FORMAT:
-            date = NoesisCode.converters.DateConverter.convertToDate_MMDDYYYY(d);
-            break;
-        case NoesisCode.converters.DateConverter.MMMDDYYYY_DATE_FORMAT:
-            date = NoesisCode.converters.DateConverter.convertToDate_MMMDDYYYY(d);
-            break;
-        case NoesisCode.converters.DateConverter.YYYYMMDDThhmmsssTZD_DATE_FORMAT:
-            date = NoesisCode.converters.DateConverter.convertToDate_YYYYMMDDThhmmsssTZD(d);
-            break;
+    case NoesisCode.converters.DateConverter.MDDYYYY_DATE_FORMAT:
+        date = NoesisCode.converters.DateConverter.convertToDate_MDDYYYY(d);
+        break;
+    case NoesisCode.converters.DateConverter.MMDDYYYY_DATE_FORMAT:
+        date = NoesisCode.converters.DateConverter.convertToDate_MMDDYYYY(d);
+        break;
+    case NoesisCode.converters.DateConverter.MMMDDYYYY_DATE_FORMAT:
+        date = NoesisCode.converters.DateConverter.convertToDate_MMMDDYYYY(d);
+        break;
+    case NoesisCode.converters.DateConverter.YYYYMMDDThhmmsssTZD_DATE_FORMAT:
+        date = NoesisCode.converters.DateConverter.convertToDate_YYYYMMDDThhmmsssTZD(d);
+        break;
 	}
 	return date;
 };

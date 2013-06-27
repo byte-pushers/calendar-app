@@ -1,4 +1,4 @@
-/*global CalendarApp*/
+/*global CalendarApp, NoesisCode*/
 /**
  * Created with IntelliJ IDEA.
  * User: pouncilt
@@ -9,8 +9,8 @@
 function CalendarMonthViewController($scope, CalendarEventService, $routeParams) {
     "use strict";
     if ($routeParams.selectedDate !== undefined &&
-        $routeParams.selectedDate !== null &&
-        NoesisCode.NumberUtility.isANumber($routeParams.selectedDate)) {
+            $routeParams.selectedDate !== null &&
+            NoesisCode.NumberUtility.isANumber($routeParams.selectedDate)) {
         $scope.targetDate =  new Date();
         $scope.targetDate.setTime($routeParams.selectedDate);
     } else {
@@ -134,8 +134,8 @@ function CalendarDayViewController($scope, CalendarEventService, /*CalendarDayHo
     "use strict";
     $scope.selectedDate = new Date();
     if ($routeParams.selectedDate !== undefined &&
-        $routeParams.selectedDate !== null &&
-        NoesisCode.NumberUtility.isANumber($routeParams.selectedDate)) {
+            $routeParams.selectedDate !== null &&
+            NoesisCode.NumberUtility.isANumber($routeParams.selectedDate)) {
         $scope.selectedDate.setTime($routeParams.selectedDate);
     }
     $scope.todaysEvents = [];
@@ -152,7 +152,7 @@ function CalendarDayViewController($scope, CalendarEventService, /*CalendarDayHo
         // TODO: Once the persistence layer is in place, remove if statement but keep if statement body.
         // This if statement is only in place to keep the day view from reloading the events when they
         // are re-scheduled on the month view.
-        if (CalendarApp.getInstance().getEvents().length == 0) {
+        if (CalendarApp.getInstance().getEvents().length === 0) {
             CalendarApp.getInstance().setEvents(CalendarApp.models.EventTransformer.transformJSONEvents(jsonEvents));
         }
         CalendarApp.getInstance().applyEvents();
@@ -221,7 +221,7 @@ function CalendarDayViewController($scope, CalendarEventService, /*CalendarDayHo
     };
     $scope.findEventsWithStartTime = function (startTimeHour, startTimeMinutes) {
         var events = [], continuationEvents = [];
-        if (startTimeHour == 0 && startTimeMinutes == 0) {
+        if (startTimeHour === 0 && startTimeMinutes === 0) {
             continuationEvents = CalendarApp.getInstance().findContinuationEvents($scope.selectedDate);
         }
         $scope.selectedDate.setHours(startTimeHour);
@@ -234,44 +234,45 @@ function CalendarDayViewController($scope, CalendarEventService, /*CalendarDayHo
     };
     $scope.configureDisplayedEvent = function (baseHeight, event) {
         var halfUnit = baseHeight / 2,
-            durationInHoursAndMinutes = new Number((new CalendarApp.models.DateRange(event.getStart(), event.getEnd())).calculateDuration().toFixed(2)),
+            durationInHoursAndMinutes = (new CalendarApp.models.DateRange(event.getStart(), event.getEnd())).calculateDuration().toFixed(2),
             durationInHours = (Math.floor(durationInHoursAndMinutes)).toFixed(2),
             durationInMinutes =  Math.floor((durationInHoursAndMinutes - durationInHours) * 100),
-            heightUnit = (durationInMinutes === 0) ? 0: durationInMinutes/15,
+            heightUnit = (durationInMinutes === 0) ? 0 : durationInMinutes / 15,
             totalNumberOfEventsWithSameStartTime = event.getTotalNumberOfEventsWithSameStartTime(),
             calculatedHeight,
             calculatedWidth,
             timeToMidnightFromStartTime,
-            midnight;
+            midnight,
+            cssObj = {};
 
         if (!event.getStart().isDateEqualTo(event.getEnd())) {
-            if (event.getStart().isDateEqualTo($scope.selectedDate)){
+            if (event.getStart().isDateEqualTo($scope.selectedDate)) {
                 midnight = new Date();
                 midnight.setTime(event.getStart().getTime());
                 midnight.setDate(midnight.getDate() + 1);
                 midnight.setHours(0, 0, 0, 0);
-                timeToMidnightFromStartTime = new Number((new CalendarApp.models.DateRange(event.getStart(), midnight)).calculateDuration().toFixed(2));
+                timeToMidnightFromStartTime = (new CalendarApp.models.DateRange(event.getStart(), midnight)).calculateDuration().toFixed(2);
 
                 if (durationInHoursAndMinutes > timeToMidnightFromStartTime) {
                     durationInHours = Math.floor(timeToMidnightFromStartTime);
-                    if(durationInHours == 0) {
+                    if (durationInHours === 0) {
                         durationInMinutes =  (timeToMidnightFromStartTime) * 100;
                     } else {
                         durationInMinutes = 0;
                     }
-                    heightUnit = (durationInMinutes === 0) ? 0: durationInMinutes/15;
+                    heightUnit = (durationInMinutes === 0) ? 0 : durationInMinutes / 15;
                 }
             } else {
                 if (event.getEnd().isDateEqualToYesterday(event.getStart())) {
                     durationInHours = event.getEnd().getHours();
                     durationInMinutes =  event.getEnd().getMinutes();
-                    heightUnit = (durationInMinutes === 0) ? 0: durationInMinutes/15;
+                    heightUnit = (durationInMinutes === 0) ? 0 : durationInMinutes / 15;
                 }
             }
 
         }
 
-        heightUnit = (heightUnit == 1)? halfUnit : (heightUnit == 2)? baseHeight: (heightUnit == 3) ? baseHeight + halfUnit : 0;
+        heightUnit = (heightUnit === 1) ? halfUnit : (heightUnit === 2) ? baseHeight : (heightUnit === 3) ? baseHeight + halfUnit : 0;
         calculatedHeight = (baseHeight * (durationInHours * 2)) + heightUnit;
         calculatedHeight += "px";
 
@@ -282,7 +283,7 @@ function CalendarDayViewController($scope, CalendarEventService, /*CalendarDayHo
 
         calculatedWidth = calculatedWidth + "%";
 
-        var cssObj = new Object();
+
         cssObj.height = calculatedHeight;
         cssObj.width = calculatedWidth;
         cssObj.zIndex = event.getZIndex();

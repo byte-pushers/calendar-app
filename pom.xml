@@ -119,12 +119,12 @@
                     <execution>
                         <phase>test</phase>
                         <configuration>
-                            <target unless="maven.test.skip">
+                            <!--target unless="maven.test.skip">
                                 <exec executable="src/test/scripts/cloudbees.ci.unit.test.sh">
                                     <arg value="${testacular.path}"/>
                                     <arg value="${testacular.config}"/>
                                 </exec>
-                            </target>
+                            </target-->
                         </configuration>
                         <goals>
                             <goal>run</goal>

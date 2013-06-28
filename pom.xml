@@ -112,26 +112,26 @@
 					</execution>
 				</executions>
 			</plugin>
-            <plugin>
+            <!--plugin>
                 <artifactId>maven-antrun-plugin</artifactId>
                 <version>1.7</version>
                 <executions>
                     <execution>
                         <phase>test</phase>
                         <configuration>
-                            <!--target unless="maven.test.skip">
-                                <exec executable="src/test/scripts/cloudbees.ci.unit.test.sh">
+                            <target unless="maven.test.skip">
+                                <exec executable="src/test/scripts/test.sh">
                                     <arg value="${testacular.path}"/>
                                     <arg value="${testacular.config}"/>
                                 </exec>
-                            </target-->
+                            </target>
                         </configuration>
                         <goals>
                             <goal>run</goal>
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
+            </plugin-->
             <!--plugin>
                 <groupId>org.pouncilt.plugins</groupId>
                 <artifactId>saucelabs-maven-plugin</artifactId>
@@ -248,7 +248,7 @@
                 </property>
             </activation>
             <properties>
-                <testacular.config>karma.ide.conf.js</testacular.config>
+                <testacular.config>karma.conf.js</testacular.config>
                 <testacular.path>/usr/local/bin</testacular.path>
             </properties>
         </profile>

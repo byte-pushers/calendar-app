@@ -50,7 +50,7 @@ exclude = ['src/main/webapp/lib/angular/angular-*.min.js'];
 
 autoWatch = true;
 
-browsers = ['Chrome','src/test/scripts/ie6.sh'];
+browsers = ['src/test/scripts/ie6.sh'];
 
 junitReporter = {
   outputFile: 'test_out/unit.xml',

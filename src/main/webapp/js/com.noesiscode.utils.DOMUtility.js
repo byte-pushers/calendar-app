@@ -58,7 +58,11 @@ if (typeof document.querySelector === 'function') {
         return document.getElementsByClassName(selector);
     };
 } else {
-    throw ("document.querySelector() method is not supported by your browser.  Please contact the administrator for this app.");
+    NoesisCode.DOMUtility.querySelector = function (selector) {
+        "use strict";
+        return document.getElementsByClassName(selector);
+    };
+    //throw ("document.querySelector() method is not supported by your browser.  Please contact the administrator for this app.");
 }
 
 if (typeof document.querySelectorAll === 'function') {

@@ -62,6 +62,17 @@ function CalendarApp() {
      * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
      */
     instance.cachedMonth = null;
+    //instance.compareStartTimesOfEventsFunction = null;
+
+    //instance.setCompareStartTimesOfEventsFunction = function (func) {
+    //    console.log("*** setting instance.compareStartTimesOfEventsFunction = " + func);
+    //    instance.compareStartTimesOfEventsFunction = func;
+    //};
+    //instance.getCompareStartTimesOfEventsFunction = function () {console.log("3.1.1");
+    //    console.log("3.1.1 - instance:"+ instance);
+    //    console.log("3.1.1 - instance.compareStartTimesOfEventsFunction:"+ instance.compareStartTimesOfEventsFunction);
+    //    return instance.compareStartTimesOfEventsFunction;
+    //}
     instance.setEvents = function (events) {
         instance.events = events;
     };
@@ -141,7 +152,7 @@ function CalendarApp() {
     };
     instance.calculateEventIndentWidth = function (events) {
         var hasConflictingEventsWithIncreasedWidth = false;
-        events.forEach(function (event, index) {
+        events.forEach(function (event, index, events) {
             if (event.getZIndex() > event.getDefaultZIndex()) {
                 if (!event.indentWidthWasIncreased() && event.getEventsWithSameStartTime().length > 0) {
                     hasConflictingEventsWithIncreasedWidth = event.getEventsWithSameStartTime().some(function (event) {
@@ -164,7 +175,7 @@ function CalendarApp() {
         });
     };
     instance.shuffleEventsZIndex = function (targetEvent, targetEvents) {
-        targetEvents.forEach(function (event, index) {
+        targetEvents.forEach(function (event, index, events) {
             if (targetEvent !== undefined && targetEvent !== null && event !== undefined && event !== null) {
                 if (targetEvent.getId() !== event.getId()) {
                     switch (targetEvent.hasConflictingStartTimes(event)) {
@@ -217,6 +228,13 @@ function CalendarApp() {
         var calendarEvent = CalendarApp.getInstance().findEventById(calendarEventId),
             calendarEventDuration = (new CalendarApp.models.DateRange(calendarEvent.getStart(), calendarEvent.getEnd())).calculateDuration().toFixed(2),
             targetEndDate =  targetStartDate.addTime(calendarEventDuration);
+
+        if (targetEndDate.getHours() === 0 &&
+            targetEndDate.getMinutes() === 0 &&
+            targetEndDate.getSeconds() === 0 ) {
+            targetEndDate.setDate(targetStartDate.getDate());
+            targetEndDate.setHours(23, 59, 59);
+        }
 
         calendarEvent.reschedule(targetStartDate, targetEndDate);
         calendarEvent.resetDisplay();

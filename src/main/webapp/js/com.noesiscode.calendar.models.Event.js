@@ -306,8 +306,8 @@ CalendarApp.models.Event = function (jsonObject) {
 	this.colorId = (jsonObject !== undefined && jsonObject.colorId !== undefined) ? jsonObject.colorId : null;
 	this.creator = (jsonObject !== undefined && jsonObject.creator !== undefined) ? jsonObject.creator : null; //Person Object with email and displayName
 	this.organizer = (jsonObject !== undefined && jsonObject.organizer !== undefined) ? jsonObject.organizer : null; //Person Object with email and displayName
-	this.start = (jsonObject !== undefined && jsonObject.start !== undefined) ? NoesisCode.converters.DateConverter.convertToISO8601Date(jsonObject !== undefined && jsonObject.start) : null;	// Start date, dateTime, timeZone
-	this.end = (jsonObject !== undefined && jsonObject.end !== undefined) ? NoesisCode.converters.DateConverter.convertToISO8601Date(jsonObject !== undefined && jsonObject.end) : null; // End date, dateTime, timeZone
+	this.start = (jsonObject !== undefined && jsonObject.start !== undefined) ? NoesisCode.converters.DateConverter.convertToISO8601Date(jsonObject.start) : null;	// Start date, dateTime, timeZone
+	this.end = (jsonObject !== undefined && jsonObject.end !== undefined) ? NoesisCode.converters.DateConverter.convertToISO8601Date(jsonObject.end) : null; // End date, dateTime, timeZone
 	this.visibility = (jsonObject !== undefined && jsonObject.visibility !== undefined) ? jsonObject.visibility : null;
 	this.attendees = (jsonObject !== undefined && jsonObject.attendees !== undefined) ? jsonObject.attendees : null; // list of attendees of the event attendee.email
 					// attendee.displayName, attendee.organizer, attendee.resource, 

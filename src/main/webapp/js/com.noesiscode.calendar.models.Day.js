@@ -90,26 +90,26 @@ CalendarApp.models.Day = function (date, weekIndex, currentDayOfWeek) {
      * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
      */
     this.addEvents = function (events) {
-        var targetStartDate = new Date(this.getDate().getTime()),
-            targetEndDate = new Date(this.getDate().getTime()),
-            continuationEvents = CalendarApp.getInstance().findContinuationEvents(targetStartDate),
-            eventStartEndDateRange;
-        targetStartDate.setHours(0, 0, 0);
-        targetEndDate.setHours(23, 59, 59);
-        eventStartEndDateRange = new CalendarApp.models.DateRange(targetStartDate, targetEndDate);
+        var eventDayRangeStartDate = new Date(this.getDate().getTime()),
+            eventDayRangeEndDate = new Date(this.getDate().getTime()),
+            continuationEvents = CalendarApp.getInstance().findContinuationEvents(eventDayRangeStartDate),
+            eventDayRange;
+        eventDayRangeStartDate.setHours(0, 0, 0);
+        eventDayRangeEndDate.setHours(23, 59, 59);
+        eventDayRange = new CalendarApp.models.DateRange(eventDayRangeStartDate, eventDayRangeEndDate);
         events.sort(CalendarApp.models.Event.compareStartTimes);
         events.forEach(function (event, index, events) {
             if (event !== undefined && event !== null) {
-                if ((eventStartEndDateRange.isDateAndTimeBetweenRange(event.getStart()) &&
-                    eventStartEndDateRange.isDateAndTimeBetweenRange(event.getEnd())) ||
+                if ((eventDayRange.isDateAndTimeBetweenRange(event.getStart()) &&
+                    eventDayRange.isDateAndTimeBetweenRange(event.getEnd())) ||
                         CalendarApp.getInstance().isEventAContinuationFromDate(event, this.getDate())) {
                     CalendarApp.getInstance().calculateHowManyEventsHaveSameStartTime(event);
                     CalendarApp.getInstance().shuffleEventsZIndex(event, events);
-                    CalendarApp.getInstance().calculateEventIndentWidth(events);
                     this.events[this.events.length] = event;
                 }
             }
         }, this);
+        CalendarApp.getInstance().calculateEventIndentWidth(events);
     };
     /**
      * <p>Get the events that are scheduled for the week from the appropriate days.</p>

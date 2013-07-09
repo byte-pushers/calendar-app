@@ -19,6 +19,7 @@ NoesisCode.converters.DateConverter.convertToDate_MDDYYYY = function (d) {
     day = Number(d.substring(2, 4));
     year = Number(d.substring(4));
     date.setFullYear(year, month, day);
+    date.setHours(0, 0, 0, 0);
     return date;
 };
 NoesisCode.converters.DateConverter.convertToDate_MMDDYYYY = function (d) {
@@ -34,6 +35,7 @@ NoesisCode.converters.DateConverter.convertToDate_MMDDYYYY = function (d) {
 	day = Number(d.substring(1, 3));
 	year = Number(d.substring(3));
 	date.setFullYear(year, month, day);
+    date.setHours(0, 0, 0, 0);
 	return date;
 };
 NoesisCode.converters.DateConverter.convertToDate_MMMDDYYYY = function (d) {
@@ -49,6 +51,7 @@ NoesisCode.converters.DateConverter.convertToDate_MMMDDYYYY = function (d) {
 	day = Number(d.substring(3, 5));
 	year = Number(d.substring(5));
 	date.setFullYear(year, month, day);
+    date.setHours(0, 0, 0, 0);
 	return date;
 };
 NoesisCode.converters.DateConverter.convertToDate_YYYYMMDDThhmmsssTZD = function (iso8601DateString) {

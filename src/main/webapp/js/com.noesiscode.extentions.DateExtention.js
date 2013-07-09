@@ -141,12 +141,6 @@ Date.prototype.addTime = function (time) {
     newDate.setTime(this.getTime());
     newDate.setTime(newDate.getTime() + hourInMilliseconds);
     newDate.setTime(newDate.getTime() + minutesInMilliseconds);
-    /*if(minutes == 60){
-        newDate.setHours(newDate.getHours() + 1);
-    }
-    if (minutes > 0 && minutes < 60) {
-        newDate.setMinutes(minutes);
-    }*/
 
     return newDate;
 };

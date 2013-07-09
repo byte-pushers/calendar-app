@@ -1,4 +1,4 @@
-/*global CalendarMonthViewController,CalendarDayViewController */
+/*global CalendarMonthViewController,CalendarDayViewController,console */
 /**
  * Created with JetBrains WebStorm.
  * User: pouncilt
@@ -8,7 +8,6 @@
  */
 angular.module('NoesisCodeCalendarApp', ['NoesisCodeCalendar', 'NoesisCodeCalendarService']).
     config(['$routeProvider', function ($routeProvider) {
-        "use strict";
         //$routeProvider.when('/calendar', {templateUrl: 'partials/calendar.html', controller: CalendarMonthViewController});
         $routeProvider.when('/calendarMonthView/:selectedDate', {templateUrl: 'partials/calendar-month-view.html', controller: CalendarMonthViewController});
         $routeProvider.when('/calendarDayView/:selectedDate', {templateUrl: 'partials/calendar-day-view.html', controller: CalendarDayViewController});

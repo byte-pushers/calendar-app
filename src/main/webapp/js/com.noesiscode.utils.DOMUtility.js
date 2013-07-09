@@ -52,13 +52,17 @@ if (typeof document.querySelector !== 'function') {
         "use strict";
         return document.querySelector(selector);
     };
-} else if (typeof document.getElementsByClassName !== 'function') {
+}else {
+    throw ("document.querySelector() method is not supported by your browser.  Please contact the administrator for this app.");
+}
+
+if (typeof document.getElementsByClassName !== 'function') {
     NoesisCode.DOMUtility.querySelector = function (selector) {
         "use strict";
         return document.getElementsByClassName(selector);
     };
 } else {
-    throw ("document.querySelector() method is not supported by your browser.  Please contact the administrator for this app.");
+    throw ("document.getElementsByClassName() method is not supported by your browser.  Please contact the administrator for this app.");
 }
 
 if (typeof document.querySelectorAll === 'function') {

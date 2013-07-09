@@ -263,8 +263,8 @@ CalendarApp.models.Attendee = function (person, organizer, /* self, resource,*/ 
 	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 	*/
 	this.setAdditionalGuests = function (additionalGuests) {
-		if (additionalGuests !== undefined && additionalGuests !== null && Array.isArray(additionalGuests)) {
-			this.additionalGuests = additionalGuests;
+        if (additionalGuests !== undefined && additionalGuests !== null && additionalGuests.isArray()) {
+            this.additionalGuests = additionalGuests;
 		}
 	};
 	/**
@@ -570,7 +570,7 @@ CalendarApp.models.Event = function (jsonObject) {
 	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 	*/
 	this.setStart = function (start) {
-		this.start = start;
+		this.start = new Date(start.getTime());
 	};
 	/**
 	 * <p>Gets the end time of event.</p>
@@ -588,7 +588,7 @@ CalendarApp.models.Event = function (jsonObject) {
 	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 	*/
 	this.setEnd = function (end) {
-		this.end = end;
+		this.end = new Date(end.getTime());
 	};
 	/**
 	 * <p>Gets the visibility of the event.</p>
@@ -634,7 +634,7 @@ CalendarApp.models.Event = function (jsonObject) {
 	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 	*/
 	this.setAttendees = function (attendees) {
-		if (attendees === undefined || attendees === null || !Array.isArray(attendees)) {
+		if (attendees === undefined || attendees === null || !attendees.isArray()) {
 			throw new NoesisCode.exceptions.InvalidParameterException("attendees must be of type Array.");
 		}
 		this.attendees = attendees;
@@ -739,6 +739,19 @@ CalendarApp.models.Event = function (jsonObject) {
     this.getZIndex = function () {
         return this.zIndex;
     };
+    /**
+     * <p>Returns the default zIndex value..</p>
+     *
+     * Note: IE8 has problems finding CalendarApp.models.Event.defaultZIndex
+     * from with inside deep nested Array.forEach Methods.  When this occurs,
+     * use this method instead.
+     *
+     * @returns {Integer} of the default zIndex value.
+     * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
+     */
+    this.getDefaultZIndex = function () {
+        return CalendarApp.models.Event.defaultZIndex;
+    }
     this.setIndentWidth = function (indentWidth) {
         this.indentWidth = indentWidth;
     };
@@ -795,12 +808,41 @@ CalendarApp.models.Event = function (jsonObject) {
         return true;
     };
 };
+/**
+ * <p>Static Method that compares the start times of two events.</p>
+ *
+ * Note: Take care in calling static methods deep inside nested Array looping function.
+ * IE8 has problems finding CalendarApp.models.Event
+ * @static
+ * @Method
+ * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
+ */
 CalendarApp.models.Event.compareStartTimes = function (event1, event2) {
-    "use strict";
     return event1.compareStartTimes(event2);
 };
+/**
+ * <p>Static Method that compares the end times of two events.</p>
+ *
+ * Note: Take care in calling static methods deep inside nested Array looping function.
+ * IE8 has problems finding CalendarApp.models.Event
+ * @static
+ * @Method
+ * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
+ */
 CalendarApp.models.Event.compareEndTimes = function (event1, event2) {
     "use strict";
     return event1.compareEndTimes(event2);
 };
+/**
+ * <p>Static Method that compares the start times of two events.</p>
+ *
+ * Note: Take care in using static fields deep inside nested Array looping function.
+ * Instead of calling this static field directly use the event.getDefaultZIndex() method.
+ * IE8 has problems finding CalendarApp.models.Event
+ *
+ *
+ * @static
+ * @Field
+ * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
+ */
 CalendarApp.models.Event.defaultZIndex = 1;

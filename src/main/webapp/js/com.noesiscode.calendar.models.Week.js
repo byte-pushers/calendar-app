@@ -20,7 +20,7 @@ CalendarApp.models = CalendarApp.models || CalendarApp.namespace("com.noesiscode
 CalendarApp.models.Week = function (weekdays) {
     "use strict";
     var that = this;
-    this.weekdays = (weekdays === undefined || weekdays === null || !Array.isArray(weekdays)) ? [] : weekdays;
+    this.weekdays = (weekdays === undefined || weekdays === null || !weekdays.isArray()) ? [] : weekdays;
     this.sunday = (this.weekdays.length >= 1) ? this.weekdays[0] : null;
     this.monday = (this.weekdays.length >= 2) ? this.weekdays[1] : null;
     this.tuesday = (this.weekdays.length >= 3) ? this.weekdays[2] : null;

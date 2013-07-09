@@ -97,6 +97,7 @@ CalendarApp.models.Day = function (date, weekIndex, currentDayOfWeek) {
         targetStartDate.setHours(0, 0, 0);
         targetEndDate.setHours(23, 59, 59);
         eventStartEndDateRange = new CalendarApp.models.DateRange(targetStartDate, targetEndDate);
+        events.sort(CalendarApp.models.Event.compareStartTimes);
         events.forEach(function (event, index, events) {
             if (event !== undefined && event !== null) {
                 if ((eventStartEndDateRange.isDateAndTimeBetweenRange(event.getStart()) &&
@@ -109,8 +110,6 @@ CalendarApp.models.Day = function (date, weekIndex, currentDayOfWeek) {
                 }
             }
         }, this);
-        //console.log("Day Events Array Size At End Of Method: " + this.events.length);
-        //console.log("Day.addEvents() End:");
     };
     /**
      * <p>Get the events that are scheduled for the week from the appropriate days.</p>

@@ -127,12 +127,12 @@ describe("Event Test Suite", function(){
         expect(event.getCreated()).toBe(created);
         expect(event.getCreator()).toBe(creator);
         expect(event.getDescription()).toBe(description);
-        expect(event.getEnd()).toBe(end);
+        expect(event.getEnd()).toEqual(end);
         expect(event.getHtmlLink()).toBe(htmlLink);
         expect(event.getId()).toBe(id);
         expect(event.getLocation()).toBe(location);
         expect(event.getOrganizer()).toBe(organizer);
-        expect(event.getStart()).toBe(start);
+        expect(event.getStart()).toEqual(start);
         expect(event.getStatus()).toBe(status);
         expect(event.getSummary()).toBe(summary);
         expect(event.getUpdated()).toBe(updated);
@@ -144,10 +144,8 @@ describe("Event Test Suite", function(){
         event.setSummary("Aisha's Graduation");
         event.setStart(new Date());
         event.setEnd(new Date());
-
         var month = new CalendarApp.models.Month();
         month.setEvents([event]);
-
         expect(month.getEvents().length).toBe(1);
         expect(month.getEvents()).toContain(event);
     });
@@ -159,6 +157,21 @@ describe("Event Test Suite", function(){
         var foundEventsForToday = month.findEventsByDate(new Date());
         expect(foundEventsForToday.length).toBe(1);
         expect(foundEventsForToday).toContain(todaysEvents[0]);
+    });
+
+    it('can use static compareStartTimes() method', function () {
+        var someDate = new Date(),
+            event1 = createEvent("Event1", someDate, 19, 0, 21, 30),
+            event2 = createEvent("Event2", someDate, 8, 0, 9, 0);
+        expect(CalendarApp.models.Event.compareStartTimes(event1, event2)).toBe(1);
+    });
+    it('can use array sort() method', function () {
+        var someDate = new Date(),
+            event1 = createEvent("Event1", someDate, 19, 0, 21, 30),
+            event2 = createEvent("Event2", someDate, 8, 0, 9, 0),
+            events = [event1, event2];
+        events.sort(CalendarApp.models.Event.compareStartTimes);
+        //expect(CalendarApp.models.Event.compareStartTimes(event1, event2)).toBe(1);
     });
 });
 
@@ -219,4 +232,16 @@ function getTodaysEvents(){
     event.setStart(new Date());
     event.setEnd(new Date());
     return [event];
+}
+
+function createEvent(description, eventDate, startTimeHour, startTimeMinute, endTimeHour, endTimeMinute){
+    var event = new CalendarApp.models.Event();
+    event.setSummary(description);
+    event.setStart(eventDate);
+    event.getStart().setHours(startTimeHour);
+    event.getStart().setMinutes(startTimeMinute);
+    event.setEnd(eventDate);
+    event.getEnd().setHours(endTimeHour);
+    event.getEnd().setMinutes(endTimeMinute);
+    return event;
 }

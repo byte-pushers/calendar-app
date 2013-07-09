@@ -12,7 +12,7 @@ CalendarApp.models.EventTransformer = CalendarApp.namespace("com.noesiscode.cale
 CalendarApp.models.EventTransformer.transformJSONEvents = function (jsonEvents) {
     'use strict';
     var events = [];
-    if ((jsonEvents === undefined) || (jsonEvents === null) || (!Array.isArray(jsonEvents))) {
+    if ((jsonEvents === undefined) || (jsonEvents === null) || (!jsonEvents.isArray())) {
         throw new NoesisCode.exceptions.InvalidParameterException("jsonEvents must be of type Array.");
     }
     jsonEvents.forEach(function (event, index) {

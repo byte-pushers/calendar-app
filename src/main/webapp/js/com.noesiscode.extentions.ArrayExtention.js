@@ -5,15 +5,8 @@
  * Time: 9:52 AM
  * To change this template use File | Settings | File Templates.
  */
-if (typeof Array.isArray === "undefined") {
-    Array.prototype.isArray = function (arg) {
-        "use strict";
-        return Object.prototype.toString.call(arg) === "[object Array]";
-    };
-}
-
 if (!Array.prototype.every) {
-    Array.prototype.every = function (fun, thisp) {
+    Array.prototype.every = function (fun /*, thisp */) {
         "use strict";
 
         if (this === null) {
@@ -117,5 +110,13 @@ if (!Array.prototype.some)
         }
 
         return false;
+    };
+}
+
+if (!Array.prototype.isArray) {
+    Array.prototype.isArray = function (arg) {
+        "use strict";
+        var targetArray = (arg)? arg: this;
+        return Object.prototype.toString.call(targetArray) === "[object Array]";
     };
 }

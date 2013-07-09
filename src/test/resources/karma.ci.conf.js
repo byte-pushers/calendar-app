@@ -6,11 +6,13 @@ files = [
     'src/main/webapp/lib/angular/angular.js',
     'src/main/webapp/lib/angular/angular-*.js',
     'src/main/webapp/lib/jquery/jquery-1.7.2.js',
-    'src/main/webapp/js/com.noesiscode.js',
-    'src/main/webapp/js/com.noesiscode.extentions.Console.js',
+    'src/main/webapp/js/com.noesiscode.extentions.ArrayExtention.js',
+    'src/main/webapp/js/com.noesiscode.extentions.JQueryExtention.js',
     'src/main/webapp/js/com.noesiscode.extentions.ObjectExtention.js',
     'src/main/webapp/js/com.noesiscode.extentions.StringExtention.js',
     'src/main/webapp/js/com.noesiscode.extentions.DateExtention.js',
+    'src/main/webapp/js/com.noesiscode.js',
+    'src/main/webapp/js/com.noesiscode.extentions.Console.js',
     'src/main/webapp/js/com.noesiscode.exceptions.Errors.js',
     'src/main/webapp/js/com.noesiscode.utils.NumberUtility.js',
     'src/main/webapp/js/com.noesiscode.utils.converters.date.DateConverter.js',
@@ -34,9 +36,9 @@ files = [
     'src/test/unit/jasmine/NumberUtilitySpec.js',
     'src/test/unit/jasmine/NameSpaceSpec.js',
     'src/test/unit/jasmine/ArraySpec.js',
-    'src/test/unit/jasmine/CalendarSpec.js',
     'src/test/unit/jasmine/EventSpec.js',
-    'src/test/unit/jasmine/PersonSpec.js'
+    'src/test/unit/jasmine/PersonSpec.js',
+    'src/test/unit/jasmine/CalendarSpec.js'
 ];
 // list of files to exclude
 exclude = ['src/main/webapp/lib/angular/angular-*.min.js'];

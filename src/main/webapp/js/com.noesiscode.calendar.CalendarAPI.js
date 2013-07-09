@@ -141,9 +141,8 @@ function CalendarApp() {
     };
     instance.calculateEventIndentWidth = function (events) {
         var hasConflictingEventsWithIncreasedWidth = false;
-        events.sort(CalendarApp.models.Event.compareStartTimes);
         events.forEach(function (event, index) {
-            if (event.getZIndex() > CalendarApp.models.Event.defaultZIndex) {
+            if (event.getZIndex() > event.getDefaultZIndex()) {
                 if (!event.indentWidthWasIncreased() && event.getEventsWithSameStartTime().length > 0) {
                     hasConflictingEventsWithIncreasedWidth = event.getEventsWithSameStartTime().some(function (event) {
                         if (event.indentWidthWasIncreased()) {
@@ -165,7 +164,6 @@ function CalendarApp() {
         });
     };
     instance.shuffleEventsZIndex = function (targetEvent, targetEvents) {
-        targetEvents.sort(CalendarApp.models.Event.compareStartTimes);
         targetEvents.forEach(function (event, index) {
             if (targetEvent !== undefined && targetEvent !== null && event !== undefined && event !== null) {
                 if (targetEvent.getId() !== event.getId()) {

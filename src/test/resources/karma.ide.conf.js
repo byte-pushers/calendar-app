@@ -13,11 +13,13 @@ files = [
     'src/main/webapp/lib/angular/angular.js',
     'src/main/webapp/lib/angular/angular-*.js',
     'src/main/webapp/lib/jquery/jquery-1.7.2.js',
-    'src/main/webapp/js/com.noesiscode.js',
-    'src/main/webapp/js/com.noesiscode.extentions.Console.js',
+    'src/main/webapp/js/com.noesiscode.extentions.ArrayExtention.js',
+    'src/main/webapp/js/com.noesiscode.extentions.JQueryExtention.js',
     'src/main/webapp/js/com.noesiscode.extentions.ObjectExtention.js',
     'src/main/webapp/js/com.noesiscode.extentions.StringExtention.js',
     'src/main/webapp/js/com.noesiscode.extentions.DateExtention.js',
+    'src/main/webapp/js/com.noesiscode.js',
+    'src/main/webapp/js/com.noesiscode.extentions.Console.js',
     'src/main/webapp/js/com.noesiscode.exceptions.Errors.js',
     'src/main/webapp/js/com.noesiscode.utils.NumberUtility.js',
     'src/main/webapp/js/com.noesiscode.utils.converters.date.DateConverter.js',
@@ -87,11 +89,11 @@ autoWatch = true;
 // - PhantomJS
 // - IE (only Windows)
 // CLI --browsers Chrome,Firefox,Safari
-browsers = ['Safari', 'Firefox'/*, 'src/test/scripts/ie6.sh'*/];
+browsers = ['Firefox', 'Chrome'/*, 'src/test/scripts/ie8.sh'*/];
 
 // If browser does not capture in given timeout [ms], kill it
 // CLI --capture-timeout 5000
-captureTimeout = 10000;
+captureTimeout = 50000;
 
 // Auto run tests on start (when browsers are captured) and exit
 // CLI --single-run --no-single-run
@@ -99,7 +101,7 @@ singleRun = false;
 
 // report which specs are slower than 500ms
 // CLI --report-slower-than 500
-reportSlowerThan = 500;
+reportSlowerThan = 50000;
 
 // compile coffee scripts
 preprocessors = {

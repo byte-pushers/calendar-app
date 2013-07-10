@@ -18,7 +18,7 @@ NoesisCode.DOMUtility.filterMetaData = function (data) {
 };
 
 // the implementation
-if (typeof window.addEventListener !== 'function') {
+if (typeof window.addEventListener === 'function') {
     NoesisCode.DOMUtility.addListener = function (el, type, fn) {
         "use strict";
         el.addEventListener(type, fn, false);
@@ -27,7 +27,7 @@ if (typeof window.addEventListener !== 'function') {
         "use strict";
         el.removeEventListener(type, fn, false);
     };
-} else if (typeof document.attachEvent !== 'function') { // IE
+} else if (typeof document.attachEvent === 'function') { // IE
     NoesisCode.DOMUtility.addListener = function (el, type, fn) {
         "use strict";
         el.attachEvent('on' + type, fn);
@@ -47,38 +47,30 @@ if (typeof window.addEventListener !== 'function') {
     };
 }
 
-if (typeof document.querySelector !== 'function') {
+if (typeof document.querySelector === 'function') {
     NoesisCode.DOMUtility.querySelector = function (selector) {
         "use strict";
         return document.querySelector(selector);
     };
-}else {
-    throw ("document.querySelector() method is not supported by your browser.  Please contact the administrator for this app.");
-}
-
-if (typeof document.getElementsByClassName !== 'function') {
+} else if (typeof document.getElementsByClassName === 'function') {
     NoesisCode.DOMUtility.querySelector = function (selector) {
         "use strict";
         return document.getElementsByClassName(selector);
     };
 } else {
-    throw ("document.getElementsByClassName() method is not supported by your browser.  Please contact the administrator for this app.");
+    throw ("document.querySelector() method is not supported by your browser.  Please contact the administrator for this app.");
 }
 
-if (typeof document.querySelectorAll !== 'function') {
+if (typeof document.querySelectorAll === 'function') {
     NoesisCode.DOMUtility.querySelectorAll = function (selector) {
         "use strict";
         return document.querySelectorAll(selector);
     };
-} else {
-    throw ("document.querySelectorAll() method is not supported by your browser.  Please contact the administrator for this app.");
-}
-
-if (typeof document.getElementsByClassName !== 'function') {
+} else if (typeof document.getElementsByClassName === 'function') {
     NoesisCode.DOMUtility.querySelectorAll = function (selector) {
         "use strict";
         return document.getElementsByClassName(selector);
     };
 } else {
-    throw ("document.getElementsByClassName() method is not supported by your browser.  Please contact the administrator for this app.");
+    throw ("document.querySelectorAll() method is not supported by your browser.  Please contact the administrator for this app.");
 }

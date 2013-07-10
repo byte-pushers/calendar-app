@@ -389,8 +389,8 @@ function CalendarApp() {
      * @returns {Void}
      * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
      */
-    instance.setCurrentMonth = function (cMonth) {
-        instance.currentMonth = cMonth;
+    instance.setCurrentMonth = function (cMonth) {console.log("instance.setCurrentMonth() method - cMonth: " + cMonth);
+        instance.currentMonth = cMonth;console.log("instance.setCurrentMonth() method - instance.currentMonth: " + instance.currentMonth);
     };
     /**
      * <p>Gets the cached {@link Calendar.models.Month} object for the current calendar view.</p>

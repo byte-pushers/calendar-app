@@ -47,29 +47,39 @@ if (typeof window.addEventListener === 'function') {
     };
 }
 
-if (typeof document.querySelector === 'function') {
+if (typeof document.querySelector === "function") {
     NoesisCode.DOMUtility.querySelector = function (selector) {
         "use strict";
         return document.querySelector(selector);
     };
-} else if (typeof document.getElementsByClassName === 'function') {
+} else if (typeof document.getElementsByClassName === "function") {
     NoesisCode.DOMUtility.querySelector = function (selector) {
         "use strict";
         return document.getElementsByClassName(selector);
+    };
+} else if (typeof $ === "function") {
+    NoesisCode.DOMUtility.querySelector = function (selector) {
+        "use strict";
+        return $(selector);
     };
 } else {
     throw ("document.querySelector() method is not supported by your browser.  Please contact the administrator for this app.");
 }
 
-if (typeof document.querySelectorAll === 'function') {
+if (typeof document.querySelectorAll === "function") {
     NoesisCode.DOMUtility.querySelectorAll = function (selector) {
         "use strict";
         return document.querySelectorAll(selector);
     };
-} else if (typeof document.getElementsByClassName === 'function') {
+} else if (typeof document.getElementsByClassName === "function") {
     NoesisCode.DOMUtility.querySelectorAll = function (selector) {
         "use strict";
         return document.getElementsByClassName(selector);
+    };
+} else if (typeof $ === "function") {
+    NoesisCode.DOMUtility.querySelector = function (selector) {
+        "use strict";
+        return $(selector);
     };
 } else {
     throw ("document.querySelectorAll() method is not supported by your browser.  Please contact the administrator for this app.");

@@ -1,10 +1,27 @@
 <!DOCTYPE html>
-<html ng-app="NoesisCodeCalendarApp">
+<html xmlns:ng="http://angularjs.org" id="ng-app" ng-app="NoesisCodeCalendarApp">
 <head>
+    <!--[if lte IE 8]>
+    <script>
+        document.createElement('ng-include');
+        document.createElement('ng-pluralize');
+        document.createElement('ng-view');
+        document.createElement('noesis-code-calendar-month-view');
+        document.createElement('noesis-code-calendar-day-view');
+
+        // Optionally these for CSS
+        document.createElement('ng:include');
+        document.createElement('ng:pluralize');
+        document.createElement('ng:view');
+    </script>
+    <![endif]-->
     <title>Angular Components</title>
     <meta name="viewport" content="user-scalable=no, width=device-width" />
     <link rel="stylesheet" type="text/css"  href="css/calendar-month-view-layout.css"/>
     <link rel="stylesheet" type="text/css"  href="css/calendar-day-view-layout.css"/>
+    <!--[if lte IE 8]>
+    <script src="/path/to/json2.js"></script>
+    <![endif]-->
     <script type="text/javascript" src="lib/jquery/jquery-1.7.2.js"></script>
     <script type="text/javascript" src="lib/angular/angular.js"></script>
     <script type="text/javascript" src="lib/angular/angular-resource.js"></script>

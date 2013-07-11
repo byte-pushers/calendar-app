@@ -389,8 +389,8 @@ function CalendarApp() {
      * @returns {Void}
      * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
      */
-    instance.setCurrentMonth = function (cMonth) {console.log("instance.setCurrentMonth() method - cMonth: " + cMonth);
-        instance.currentMonth = cMonth;console.log("instance.setCurrentMonth() method - instance.currentMonth: " + instance.currentMonth);
+    instance.setCurrentMonth = function (cMonth) {
+        instance.currentMonth = cMonth;
     };
     /**
      * <p>Gets the cached {@link Calendar.models.Month} object for the current calendar view.</p>
@@ -449,5 +449,6 @@ CalendarApp.namespace = function (ns_string) {
     }*/
     return parent;
 };
+CalendarApp.instance = null;
 CalendarApp.views = CalendarApp.views || CalendarApp.namespace("com.noesiscode.calendar.views");
 CalendarApp.models = CalendarApp.models || CalendarApp.namespace("com.noesiscode.calendar.models");

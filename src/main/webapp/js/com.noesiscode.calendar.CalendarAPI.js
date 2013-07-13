@@ -78,7 +78,7 @@ var CalendarApp = (function () {
                 if (this.isEventAContinuationFromDate(event, someDate)) {
                     selectedEvents[selectedEvents.length] = event;
                 }
-            });
+            }, this);
 
             return selectedEvents;
         };
@@ -379,8 +379,7 @@ var CalendarApp = (function () {
         this.getCalendarMonthViewUrl = function (redirectTo) {
             location.href = redirectTo + this.currentMonth.getSelectedDate().getTime();
         };
-
-    }
+    };
 
     // our this holder
     var instance;

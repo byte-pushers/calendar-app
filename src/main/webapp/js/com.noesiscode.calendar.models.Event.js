@@ -751,7 +751,7 @@ CalendarApp.models.Event = function (jsonObject) {
      */
     this.getDefaultZIndex = function () {
         return CalendarApp.models.Event.defaultZIndex;
-    }
+    };
     this.setIndentWidth = function (indentWidth) {
         this.indentWidth = indentWidth;
     };
@@ -818,6 +818,7 @@ CalendarApp.models.Event = function (jsonObject) {
  * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
  */
 CalendarApp.models.Event.compareStartTimes = function (event1, event2) {
+    "use strict";
     return event1.compareStartTimes(event2);
 };
 /**

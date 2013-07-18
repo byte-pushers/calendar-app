@@ -1,9 +1,9 @@
 /*global CalendarApp:true, $, NoesisCode, document, console, location*/
 var CalendarApp = (function () {
-
+    "use strict";
     // options: an object containing configuration options for the singleton
     // e.g var options = { name: "test", pointX: 5};
-    function Singleton()  {
+    function Singleton() {
         this.events = [];
         this.displayedEvents = [];
         this.cachedWeeks = [];
@@ -141,33 +141,33 @@ var CalendarApp = (function () {
                 if (targetEvent !== undefined && targetEvent !== null && event !== undefined && event !== null) {
                     if (targetEvent.getId() !== event.getId()) {
                         switch (targetEvent.hasConflictingStartTimes(event)) {
-                            case 0:
-                                //No conflicting start times and no conflicting end times.
-                                break;
-                            case 1:
-                                //Conflicting start times.
-                                if (targetEvent.compareStartTimes(event) === 1) {
-                                    targetEvent.setZIndex(event.getZIndex() + 1);
-                                } else if (targetEvent.compareStartTimes(event) === -1) {
-                                    event.setZIndex(targetEvent.getZIndex() + 1);
-                                } /*else {
-                             //targetEvent.setZIndex(event.getZIndex() - 1);
-                             }*/
-                                break;
-                            case 2:
-                                //Conflicting start times and conflicting end times.
-                                if (targetEvent.compareStartTimes(event) === 1) {
-                                    targetEvent.setZIndex(event.getZIndex() + 1);
-                                } else if (targetEvent.compareStartTimes(event) === -1) {
-                                    event.setZIndex(targetEvent.getZIndex() + 1);
-                                } /*else {
-                             //targetEvent.setZIndex(event.getZIndex() - 1);
-                             } */
-                                break;
-                            case 3:
-                                //Conflicting end times.
-                                targetEvent.setZIndex(event.getZIndex() - 1);
-                                break;
+                        case 0:
+                            //No conflicting start times and no conflicting end times.
+                            break;
+                        case 1:
+                            //Conflicting start times.
+                            if (targetEvent.compareStartTimes(event) === 1) {
+                                targetEvent.setZIndex(event.getZIndex() + 1);
+                            } else if (targetEvent.compareStartTimes(event) === -1) {
+                                event.setZIndex(targetEvent.getZIndex() + 1);
+                            } /*else {
+                         //targetEvent.setZIndex(event.getZIndex() - 1);
+                         }*/
+                            break;
+                        case 2:
+                            //Conflicting start times and conflicting end times.
+                            if (targetEvent.compareStartTimes(event) === 1) {
+                                targetEvent.setZIndex(event.getZIndex() + 1);
+                            } else if (targetEvent.compareStartTimes(event) === -1) {
+                                event.setZIndex(targetEvent.getZIndex() + 1);
+                            } /*else {
+                         //targetEvent.setZIndex(event.getZIndex() - 1);
+                         } */
+                            break;
+                        case 3:
+                            //Conflicting end times.
+                            targetEvent.setZIndex(event.getZIndex() - 1);
+                            break;
                         }
 
                     }
@@ -192,8 +192,8 @@ var CalendarApp = (function () {
                 targetEndDate =  targetStartDate.addTime(calendarEventDuration);
 
             if (targetEndDate.getHours() === 0 &&
-                targetEndDate.getMinutes() === 0 &&
-                targetEndDate.getSeconds() === 0 ) {
+                    targetEndDate.getMinutes() === 0 &&
+                    targetEndDate.getSeconds() === 0) {
                 targetEndDate.setDate(targetStartDate.getDate());
                 targetEndDate.setHours(23, 59, 59);
             }
@@ -210,7 +210,7 @@ var CalendarApp = (function () {
         };
         this.saveLastDraggedElementId = function (elementId) {
             if ((this.lastDraggedElementId === undefined || this.lastDraggedElementId === null) &&
-                elementId !== undefined && elementId !== null) {
+                    elementId !== undefined && elementId !== null) {
                 this.lastDraggedElementId = elementId;
             } else if (elementId === undefined || elementId === null) {
                 this.lastDraggedElementId = elementId;
@@ -379,53 +379,46 @@ var CalendarApp = (function () {
         this.getCalendarMonthViewUrl = function (redirectTo) {
             location.href = redirectTo + this.currentMonth.getSelectedDate().getTime();
         };
-    };
+    }
 
-    // our this holder
-    var instance;
+    var instance, // our this holder
+        private_static_variables_and_methods  = {  // an emulation of static variables and methods
+            name:  "CalendarApp",
 
-    // an emulation of static variables and methods
-    var _static  = {
-
-        name:  "CalendarApp",
-
-        // Method for getting an instance. It returns
-        // a singleton instance of a singleton object
-        getInstance:  function() {
-            if( instance  ===  undefined )  {
-                instance = new Singleton();
-            }
-            return  instance;
-
-        },
-        namespace: function (ns_string) {
-            'use strict';
-            var parts = ns_string.split('.'), parent = CalendarApp;
-            // strip redundant leading global
-            if (parts[0] === "CalendarApp") {
-                parts = parts.slice(1);
-            }
-            parts.forEach(function (part, index) {
-                // create a property if it doesn't exist
-                if (typeof parent[part] === "undefined") {
-                    parent[part] = {};
+            // Method for getting an instance. It returns
+            // a singleton instance of a singleton object
+            getInstance:  function () {
+                if (instance  ===  undefined) {
+                    instance = new Singleton();
                 }
-                parent = parent[part];
-            });
-            /*for (i = 0; i < parts.length; i = i + 1) {
-             // create a property if it doesn't exist
-             if (typeof parent[parts[i]] === "undefined") {
-             parent[parts[i]] = {};
-             }
-             parent = parent[parts[i]];
-             }*/
-            return parent;
-        }
-    };
+                return instance;
+            },
+            namespace: function (ns_string) {
+                var parts = ns_string.split('.'), parent = CalendarApp;
+                // strip redundant leading global
+                if (parts[0] === "CalendarApp") {
+                    parts = parts.slice(1);
+                }
+                parts.forEach(function (part, index) {
+                    // create a property if it doesn't exist
+                    if (typeof parent[part] === "undefined") {
+                        parent[part] = {};
+                    }
+                    parent = parent[part];
+                });
+                /*for (i = 0; i < parts.length; i = i + 1) {
+                 // create a property if it doesn't exist
+                 if (typeof parent[parts[i]] === "undefined") {
+                 parent[parts[i]] = {};
+                 }
+                 parent = parent[parts[i]];
+                 }*/
+                return parent;
+            }
+        };
 
-    return  _static;
-
-})();
+    return private_static_variables_and_methods;
+}());
 
 CalendarApp.views = CalendarApp.views || CalendarApp.namespace("com.noesiscode.calendar.views");
 CalendarApp.models = CalendarApp.models || CalendarApp.namespace("com.noesiscode.calendar.models");

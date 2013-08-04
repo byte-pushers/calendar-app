@@ -6,7 +6,8 @@
  * Time: 9:35 PM
  * To change this template use File | Settings | File Templates.
  */
-angular.module('NoesisCodeCalendar', ['NoesisCodeCalendarService'])
+angular.module('NoesisCodeCalendarApp.directives', [])
+//angular.module('NoesisCodeCalendarApp', [])
     .directive('noesisCodeCalendarMonthView', function () {
         "use strict";
         return {

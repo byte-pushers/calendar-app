@@ -6,13 +6,12 @@
  * Time: 7:19 PM
  * To change this template use File | Settings | File Templates.
  */
-angular.module('NoesisCodeCalendarApp', ['NoesisCodeCalendar', 'NoesisCodeCalendarService']).
+angular.module('NoesisCodeCalendarApp', ['NoesisCodeCalendarApp.services', 'NoesisCodeCalendarApp.directives']).
     config(['$routeProvider', function ($routeProvider) {
         "use strict";
-        //$routeProvider.when('/calendar', {templateUrl: 'partials/calendar.html', controller: CalendarMonthViewController});
-        $routeProvider.when('/calendarMonthView/:selectedDate', {templateUrl: 'partials/calendar-month-view.html', controller: CalendarMonthViewController});
-        $routeProvider.when('/calendarDayView/:selectedDate', {templateUrl: 'partials/calendar-day-view.html', controller: CalendarDayViewController});
-        $routeProvider.otherwise({redirectTo: '/calendarMonthView/'});
+        /*$routeProvider.when('/processAuthenticateUserResponse', {templateUrl: 'partials/calendar-month-view.html', controller: CalendarMonthViewController, resolve: {"validSession": function(LoginService) { return LoginService.validateSession();}}});*/
+        $routeProvider.when('/login', {templateUrl: 'partials/login.html', controller: LoginController});
+        $routeProvider.when('/calendarMonthView/:selectedDate', {templateUrl: 'partials/calendar-month-view.html', controller: CalendarMonthViewController, resolve: {"validSession": function(LoginService) { return LoginService.validateSession();}}});
+        $routeProvider.when('/calendarDayView/:selectedDate', {templateUrl: 'partials/calendar-day-view.html', controller: CalendarDayViewController, resolve: {"validSession": function(LoginService) { return LoginService.validateSession();}}});
+        /*$routeProvider.otherwise({redirectTo: '/calendarMonthView/'});*/
     }]);
-
-

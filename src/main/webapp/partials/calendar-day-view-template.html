@@ -1,4 +1,4 @@
-<div id="calendar-day-view-container">
+<div id="calendar-day-view-container" ng-init="init()">
     <div class="calendar-day-nav-container">
         <div class="calendar-month-display-info">{{getSelectedDayDecoratedDisplayName()}}</div>
         <div class="calendar-month-nav-bar"><button ng-click="selectPreviousDay()"><<</button><button ng-click="selectToday()">Today</button><button ng-click="selectNextDay()">>></button></div>

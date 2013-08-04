@@ -21,8 +21,8 @@
         <js>/js/com.noesiscode.calendar.models.Week.js</js>
         <js>/js/com.noesiscode.calendar.models.Month.js</js>
         <js>/js/angular/com.noesiscode.calendar.app.js</js>
-        <js>/js/angular/com.noesiscode.calendar.controller.js</js>
-        <js>/js/angular/com.noesiscode.calendar.component.js</js>
-        <js>/js/angular/com.noesiscode.calendar.service.js</js>
+        <js>/js/angular/com.noesiscode.calendar.controllers.js</js>
+        <js>/js/angular/com.noesiscode.calendar.directives.js</js>
+        <js>/js/angular/com.noesiscode.calendar.services.js</js>
     </group>
 </groups>

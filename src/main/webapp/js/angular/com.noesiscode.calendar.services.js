@@ -40,7 +40,7 @@ angular.module('NoesisCodeCalendarApp.services', ['ngResource']).
                 }
             },
             processAccessToken = function (){
-                var queryString = $location.path().substring(1),  // $location.search()
+                var queryString = $location.hash().substring(2), //$location.path().substring(1),  // $location.search()
                     regex = /([^&=]+)=([^&]*)/g,
                     m;
 
@@ -59,12 +59,14 @@ angular.module('NoesisCodeCalendarApp.services', ['ngResource']).
                 if (accessToken.isEmpty()) {
                     throw "accessToken can not be empty";
                 }
-                if(accessToken && accessToken.access_token && accessToken.expires_in){
-                    //$scope.accessToken = accessToken.access_token;
-                    var currentTime = new Date();
+                if(accessToken && accessToken.access_token && accessToken.expires_in &&
+                    accessToken.state){
+                    var currentTime = new Date(),
+                        tempSession = null;
                     currentTime.setTime(currentTime.getTime() + (accessToken.expires_in * 1000));
                     $window.sessionStorage.accessToken = accessToken.access_token;
                     $window.sessionStorage.expiresAt = currentTime;
+                    $window.sessionStorage.state = accessToken.state;
                 }
             },
             resetSession = function () {
@@ -76,27 +78,32 @@ angular.module('NoesisCodeCalendarApp.services', ['ngResource']).
                     if ($window.sessionStorage.expiresAt) {
                         delete $window.sessionStorage.expiresAt;
                     }
+                    if ($window.sessionStorage.state) {
+                        delete $window.sessionStorage.state;
+                    }
                 }
             },
             processValidationResponse = function (validationResponse) {
                 //TODO: check for error attribute and save error message.
                 //TODO: save session state in the sessionStorage to be equal to valid or invalid.
                 //TODO: refresh session, if validationResponse has error message.
-                return true;
+                var deferred = $q.defer();
+                deferred.resolve(true);
+                return deferred.promise;
             },
             processAuthenticateUserResponse = function () {
                 resetSession();
                 processAccessToken();
                 saveAccessTokenToSession();
-                //sendValidationRequest();
             },
             sessionExist = function () {
                 var sessionExistStatus = false;
-                if ($window &&
-                    $window.sessionStorage &&
-                    $window.sessionStorage.accessToken &&
-                    $window.sessionStorage.expiresAt) {
-                    sessionExistStatus = true;
+                if ($window && $window.sessionStorage) {
+                    if ($window.sessionStorage.accessToken &&
+                        $window.sessionStorage.expiresAt &&
+                        $window.sessionStorage.state) {
+                        sessionExistStatus = true;
+                    }
                 }
 
                 return sessionExistStatus;
@@ -104,52 +111,20 @@ angular.module('NoesisCodeCalendarApp.services', ['ngResource']).
             getSession = function () {
                 var session = {
                     accessToken:null,
-                    expiresAt: null
+                    expiresAt: null,
+                    state: "None"
                 };
 
                 if(sessionExist()){
                     session.accessToken = $window.sessionStorage.accessToken;
                     session.expiresAt = $window.sessionStorage.expiresAt;
+                    session.state = $window.sessionStorage.state;
                 }
 
                 return session;
             },
-            getAccessToken = function () {
-                try {
-                    if ($window.sessionStorage) {
-                        return $window.sessionStorage.accessToken;
-                    } else {
-                        throw "Browser does not support Web Storage APIs."
-                    }
-                } catch (e) {
-                    throw "Access Token can not be undefined or null."
-                }
-            },
-            sendValidationRequest = function () {
-                var validationResponseProcessed = false;
-                //send validation request to google api.
-                $http.get('https://www.googleapis.com/oauth2/v1/tokeninfo', {params: {access_token: getAccessToken()}
-                }).success(function(data, status, headers, config) {
-                    // Do something successful.
-                    validationResponseProcessed = processValidationResponse(data);
-                }).error(function(data, status, headers, config) {
-                    // TODO: Handle the error
-                    $log.error("Error occurred during sendValidationRequest() method: " + status);
-                });
-                return validationResponseProcessed;
-            },
-            isSessionNotValid = function () {
-                var sessionStatus = "invalid";
-                if ($window &&
-                    $window.sessionStorage &&
-                    $window.sessionStorage.sessionStatus) {
-                    sessionStatus = $window.sessionStorage.sessionStatus;
-                }
-
-                return sessionStatus;
-            },
             getAction = function () {
-                var queryString = $location.path().substring(1),  // $location.search()
+                var queryString = $location.hash().substring(2),
                     regex = /([^&=]+)=([^&]*)/g,
                     m,
                     action = null;
@@ -164,23 +139,23 @@ angular.module('NoesisCodeCalendarApp.services', ['ngResource']).
                 return action;
             },
             sendAuthenticateUserRequest = function () {
-                var deferred = $q.defer()/*,
+                var deferred = $q.defer(),
                     oauth2 = {
                         endPointUrl: "https://accounts.google.com/o/oauth2/auth",
                         clientId: "1085080338310.apps.googleusercontent.com",
                         responseType: "token",
-                        redirectUrl: "http://localhost:8080/calendar-app/processAuthenticateUserResponse",
+                        redirectUrl: "http://localhost:8080/calendar-app/",
                         scope: "https://www.googleapis.com/auth/userinfo.profile",
-                        state: "ProcessAuthenticatedUserResponse"
-                    }*/;
+                        state: "Initializing"
+                    };
 
-                /*$window.open(oauth2.endPointUrl +
+                $window.open(oauth2.endPointUrl +
                     "?scope=" + oauth2.scope +
                     "&state=" + oauth2.state +
                     "&redirect_uri=" + oauth2.redirectUrl +
                     "&response_type=" + oauth2.responseType +
                     "&client_id=" + oauth2.clientId,
-                    "_self");*/
+                    "_self");
 
                 deferred.resolve(true);
 
@@ -191,7 +166,7 @@ angular.module('NoesisCodeCalendarApp.services', ['ngResource']).
                     action = getAction(),
                     accessToken = null;
 
-                if (action === "ProcessAuthenticatedUserResponse"){
+                if (action === "Initializing"){
                     processAuthenticateUserResponse();
                 }
 
@@ -199,9 +174,10 @@ angular.module('NoesisCodeCalendarApp.services', ['ngResource']).
                     accessToken = {};
                     accessToken.token = getSession().accessToken;
                     accessToken.expiresAt = getSession().expiresAt;
+                    accessToken.state = getSession().state;
                 }
 
-                if(accessToken == null){
+                if(accessToken === null || accessToken === undefined){
                     deferred.reject(new Error("No Access Token"));
                 } else {
                     deferred.resolve(accessToken);
@@ -209,25 +185,44 @@ angular.module('NoesisCodeCalendarApp.services', ['ngResource']).
 
                 return deferred.promise;
             },
-            validateAccessToken = function (){
-                var deferred = $q.defer(),
-                    accessTokenValidated = false;
+            validateAccessToken = function (accessToken){
+                var deferred = $q.defer();
 
-                if (sessionExist()) {
-                    accessTokenValidated = sendValidationRequest();
-                }
-
-                if (accessTokenValidated) {
-                    deferred.resolve(accessTokenValidated);
-                } else {
-                    deferred.reject(new Error("Access Token Validation Failed."));
-                }
+                accessToken.state = getSession().state = $window.sessionStorage.state = "ValidatingAccessToken";
+                $http.get('https://www.googleapis.com/oauth2/v1/tokeninfo', {params: {access_token: accessToken.token}})
+                    .success(function(data, status, headers, config) {
+                        // Do something successful.
+                        $log.info("sendValidationRequest() method: data: " + data);
+                        deferred.resolve(data);
+                        accessToken.state = getSession().state = $window.sessionStorage.state = "AccessTokenValidated";
+                    })
+                    .error(function(data, status, headers, config) {
+                        // TODO: Handle the error
+                        $log.error("Error occurred during sendValidationRequest() method: " + status);
+                        deferred.reject(new Error("Error occurred during sendValidationRequest() method: " + status));
+                        accessToken.state = getSession().state = $window.sessionStorage.state = "AccessTokenInValid";
+                    });
 
                 return deferred.promise;
             },
             validateSession = function () {
-                var promise = getAccessToken();
-                return promise.then(validateAccessToken());
+                var deferred = $q.defer();
+                deferred.resolve(getAccessToken().then(function (accessToken) {
+                    return validateAccessToken(accessToken).then(function (response){
+                        return processValidationResponse(response);
+                    }/* We do not handle error here because we want to route to redirect to the login page.
+                     If we handle the error, the route would not be redirected to the login page and
+                     the return value would be injected into the controller.
+                     , function (reason) {
+                        return false;
+                    }*/);
+                }/* We do not handle error here because we want to route to redirect to the login page.
+                    If we handle the error, the route would not be redirected to the login page and
+                    the return value would be injected into the controller.
+                 , function (reason) {
+                     return false;
+                }*/));
+                return deferred.promise;
             };
 
         $rootScope.$on("$routeChangeError", function (event, current, previous, rejection) {

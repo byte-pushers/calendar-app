@@ -6,7 +6,7 @@
  * Time: 12:02 AM
  * To change this template use File | Settings | File Templates.
  */
-function CalendarMonthViewController($scope, CalendarEventService, $routeParams, validSession) {
+function CalendarMonthViewController($scope, $location, $routeParams, CalendarEventService) {
     "use strict";
     if ($routeParams.selectedDate !== undefined &&
             $routeParams.selectedDate !== null &&
@@ -19,7 +19,7 @@ function CalendarMonthViewController($scope, CalendarEventService, $routeParams,
     }
 
     CalendarApp.getInstance().setCurrentMonth(new CalendarApp.models.Month($scope.targetDate));
-    CalendarApp.getInstance().setCachedMonth(new CalendarApp.models.Month());
+    CalendarApp.getInstance().setCachedMonth(new CalendarApp.models.Month($scope.targetDate));
     $scope.month = CalendarApp.getInstance().getCurrentMonth();
     $scope.weeks = $scope.month.getWeeks();
     $scope.todaysEvents = [];
@@ -35,6 +35,11 @@ function CalendarMonthViewController($scope, CalendarEventService, $routeParams,
         CalendarApp.getInstance().applyEvents();
         $scope.todaysEvents = CalendarApp.getInstance().findEventsByDate($scope.targetDate);
     });
+
+    $scope.go = function ( path ) {
+        path = path + CalendarApp.getInstance().getCurrentMonth().getSelectedDate().getTime();
+        $location.path(path);
+    };
 
     $scope.getCalendarDayClass = function (day) {
         var cssClass = ($scope.month.isLastWeekInMonth(day.getDate())) ? "calendar-day-top-border calendar-day-bottom-border " : "calendar-day-top-border ";
@@ -130,8 +135,8 @@ function CalendarMonthViewController($scope, CalendarEventService, $routeParams,
         //$scope.month.highLightSelectedDay(new Date($scope.month.getSelectedDate().getTime()));
     };
 }
-CalendarMonthViewController.$inject = ['$scope', 'CalendarEventService', '$routeParams', 'validSession'];
-function CalendarDayViewController($scope, CalendarEventService, /*CalendarDayHoursService,*/ $routeParams, validSession) {
+CalendarMonthViewController.$inject = ['$scope', '$location', '$routeParams', 'CalendarEventService'];
+function CalendarDayViewController($scope, CalendarEventService, /*CalendarDayHoursService,*/ $routeParams) {
     "use strict";
     $scope.selectedDate = new Date();
     if ($routeParams.selectedDate !== undefined &&
@@ -300,4 +305,4 @@ function CalendarDayViewController($scope, CalendarEventService, /*CalendarDayHo
         });
     };
 }
-CalendarDayViewController.$inject = ['$scope', 'CalendarEventService', /*'CalendarDayHoursService',*/'$routeParams', 'validSession'];
+CalendarDayViewController.$inject = ['$scope', 'CalendarEventService', /*'CalendarDayHoursService',*/'$routeParams'];

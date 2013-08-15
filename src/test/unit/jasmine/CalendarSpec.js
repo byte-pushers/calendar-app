@@ -447,4 +447,6 @@ describe("MyCalendar API", function(){
         expect(CalendarApp.com.noesiscode.calendar.models.Month).toBe(CalendarApp.models.Month);
         expect(CalendarApp.models.Month.getMonthIndex("Sep")).toBe(8);
     });
+
+
 });

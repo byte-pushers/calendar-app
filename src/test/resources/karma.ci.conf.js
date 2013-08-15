@@ -38,7 +38,8 @@ files = [
     'src/test/unit/jasmine/ArraySpec.js',
     'src/test/unit/jasmine/EventSpec.js',
     'src/test/unit/jasmine/PersonSpec.js',
-    'src/test/unit/jasmine/CalendarSpec.js'
+    'src/test/unit/jasmine/CalendarSpec.js',
+    'src/test/unit/jasmine/MonthUtilitySpec.js'
 ];
 // list of files to exclude
 exclude = ['src/main/webapp/lib/angular/angular-*.min.js'];

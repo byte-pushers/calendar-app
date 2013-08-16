@@ -36,7 +36,7 @@ function CalendarMonthViewController($scope, $location, $routeParams, CalendarEv
         $scope.todaysEvents = CalendarApp.getInstance().findEventsByDate($scope.targetDate);
     });
 
-    $scope.go = function ( path ) {
+    $scope.go = function (path) {
         path = path + CalendarApp.getInstance().getCurrentMonth().getSelectedDate().getTime();
         $location.path(path);
     };

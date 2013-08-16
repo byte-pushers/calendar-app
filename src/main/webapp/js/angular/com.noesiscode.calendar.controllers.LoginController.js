@@ -14,7 +14,8 @@ function LoginController($scope, LoginService, $location) {
             "token",
             "http://localhost:8080/calendar-app/",  //http://localhost:8080/calendar-app/
             "https://www.googleapis.com/auth/userinfo.profile", //https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email+" https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/calendar
-            "ProcessAuthenticatedUserResponse"*/);
+            "ProcessAuthenticatedUserResponse"*/
+        );
     };
 }
 LoginController.$inject = ['$scope', 'LoginService', '$location'];

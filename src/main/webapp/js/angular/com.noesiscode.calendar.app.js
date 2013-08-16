@@ -1,4 +1,4 @@
-/*global CalendarMonthViewController,CalendarDayViewController,console */
+/*global CalendarMonthViewController,CalendarDayViewController,LoginController,console,document */
 /**
  * Created with JetBrains WebStorm.
  * User: pouncilt
@@ -13,7 +13,7 @@ angular.module('NoesisCodeCalendarApp', ['NoesisCodeCalendarApp.services', 'Noes
             templateUrl: 'partials/calendar-month-view.html',
             controller: CalendarMonthViewController,
             resolve: {
-                'validSession': function($route, LoginService) {
+                'validSession': function ($route, LoginService) {
                     return LoginService.validateSession();
                 }
             }
@@ -22,7 +22,7 @@ angular.module('NoesisCodeCalendarApp', ['NoesisCodeCalendarApp.services', 'Noes
             templateUrl: 'partials/calendar-month-view.html',
             controller: CalendarMonthViewController,
             resolve: {
-                'validSession': function($route, LoginService) {
+                'validSession': function ($route, LoginService) {
                     return LoginService.validateSession();
                 }
             }
@@ -35,7 +35,7 @@ angular.module('NoesisCodeCalendarApp', ['NoesisCodeCalendarApp.services', 'Noes
             templateUrl: 'partials/calendar-month-view.html',
             controller: CalendarMonthViewController,
             resolve: {
-                'validSession': function($route, $log, LoginService) {
+                'validSession': function ($route, $log, LoginService) {
                     return LoginService.validateSession();
                 }
             }
@@ -44,7 +44,7 @@ angular.module('NoesisCodeCalendarApp', ['NoesisCodeCalendarApp.services', 'Noes
             templateUrl: 'partials/calendar-day-view.html',
             controller: CalendarDayViewController,
             resolve: {
-                'validSession': function(LoginService) {
+                'validSession': function (LoginService) {
                     return LoginService.validateSession();
                 }
             }
@@ -52,7 +52,7 @@ angular.module('NoesisCodeCalendarApp', ['NoesisCodeCalendarApp.services', 'Noes
         $routeProvider.otherwise({
             redirectTo: '/calendarMonthView/',
             resolve: {
-                sessionStatus:function ($q, $route, $location) {
+                sessionStatus: function ($q, $route, $location) {
                     var deferred = $q.defer();
 
                     if (document.location.hash !== null && document.location.hash !== undefined) {

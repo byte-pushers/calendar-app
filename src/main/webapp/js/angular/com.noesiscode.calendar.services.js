@@ -1,3 +1,4 @@
+/*jslint regexp: true */
 /**
  * Created with JetBrains WebStorm.
  * User: pouncilt
@@ -19,19 +20,21 @@ angular.module('NoesisCodeCalendarApp.services', ['ngResource']).
         });
     }).
     factory('LoginService', function ($window, $location, $log, $http, $q, $rootScope) {
+        "use strict";
         var accessToken = {
                 empty: true,
                 isEmpty: function () {
                     return this.empty;
                 },
-                reset: function (){
-                    for (var propName in this) {
+                reset: function () {
+                    var propName;
+                    for (propName in this) {
                         if (propName !== undefined &&
-                            propName !== null &&
-                            propName !== "empty" &&
-                            propName !== "isEmpty" &&
-                            propName !== "reset" &&
-                            this.hasOwnProperty(propName)) {
+                                propName !== null &&
+                                propName !== "empty" &&
+                                propName !== "isEmpty" &&
+                                propName !== "reset" &&
+                                this.hasOwnProperty(propName)) {
                             delete this[propName];
                         }
                     }
@@ -39,18 +42,18 @@ angular.module('NoesisCodeCalendarApp.services', ['ngResource']).
                     this.empty = true;
                 }
             },
-            processAccessToken = function (){
+            processAccessToken = function () {
                 var queryString = $location.hash().substring(2), //$location.path().substring(1),  // $location.search()
                     regex = /([^&=]+)=([^&]*)/g,
                     m;
 
-                    $log.info("url:"+$location.absUrl());
-                    while (m = regex.exec(queryString)) {
-                        accessToken[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
-                        if(accessToken.isEmpty()) {
-                            accessToken.empty = false;
-                        }
+                $log.info("url:" + $location.absUrl());
+                while (m = regex.exec(queryString)) {
+                    accessToken[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
+                    if (accessToken.isEmpty()) {
+                        accessToken.empty = false;
                     }
+                }
                 if (accessToken.isEmpty()) {
                     throw "accessToken can not be emtpy";
                 }
@@ -59,8 +62,8 @@ angular.module('NoesisCodeCalendarApp.services', ['ngResource']).
                 if (accessToken.isEmpty()) {
                     throw "accessToken can not be empty";
                 }
-                if(accessToken && accessToken.access_token && accessToken.expires_in &&
-                    accessToken.state){
+                if (accessToken && accessToken.access_token && accessToken.expires_in &&
+                    accessToken.state) {
                     var currentTime = new Date(),
                         tempSession = null;
                     currentTime.setTime(currentTime.getTime() + (accessToken.expires_in * 1000));
@@ -110,12 +113,12 @@ angular.module('NoesisCodeCalendarApp.services', ['ngResource']).
             },
             getSession = function () {
                 var session = {
-                    accessToken:null,
+                    accessToken: null,
                     expiresAt: null,
                     state: "None"
                 };
 
-                if(sessionExist()){
+                if (sessionExist()) {
                     session.accessToken = $window.sessionStorage.accessToken;
                     session.expiresAt = $window.sessionStorage.expiresAt;
                     session.state = $window.sessionStorage.state;
@@ -144,7 +147,7 @@ angular.module('NoesisCodeCalendarApp.services', ['ngResource']).
                         endPointUrl: "https://accounts.google.com/o/oauth2/auth",
                         clientId: "1085080338310.apps.googleusercontent.com",
                         responseType: "token",
-                        redirectUrl: "http://noesiscode.github.io/calendar-app/",
+                        redirectUrl: "http://calendar-app.noesiscode.cloudbees.net/",
                         scope: "https://www.googleapis.com/auth/userinfo.profile",
                         state: "Initializing"
                     };
@@ -166,18 +169,18 @@ angular.module('NoesisCodeCalendarApp.services', ['ngResource']).
                     action = getAction(),
                     accessToken = null;
 
-                if (action === "Initializing"){
+                if (action === "Initializing") {
                     processAuthenticateUserResponse();
                 }
 
-                if(sessionExist()){
+                if (sessionExist()) {
                     accessToken = {};
                     accessToken.token = getSession().accessToken;
                     accessToken.expiresAt = getSession().expiresAt;
                     accessToken.state = getSession().state;
                 }
 
-                if(accessToken === null || accessToken === undefined){
+                if (accessToken === null || accessToken === undefined) {
                     deferred.reject(new Error("No Access Token"));
                 } else {
                     deferred.resolve(accessToken);
@@ -185,12 +188,12 @@ angular.module('NoesisCodeCalendarApp.services', ['ngResource']).
 
                 return deferred.promise;
             },
-            validateAccessToken = function (accessToken){
+            validateAccessToken = function (accessToken) {
                 var deferred = $q.defer();
 
                 accessToken.state = getSession().state = $window.sessionStorage.state = "ValidatingAccessToken";
                 $http.get('https://www.googleapis.com/oauth2/v1/tokeninfo', {params: {access_token: accessToken.token}})
-                    .success(function(data, status, headers, config) {
+                    .success(function (data, status, headers, config) {
                         // Do something successful.
                         $log.info("sendValidationRequest() method: data: " + data);
                         deferred.resolve(data);
@@ -208,7 +211,7 @@ angular.module('NoesisCodeCalendarApp.services', ['ngResource']).
             validateSession = function () {
                 var deferred = $q.defer();
                 deferred.resolve(getAccessToken().then(function (accessToken) {
-                    return validateAccessToken(accessToken).then(function (response){
+                    return validateAccessToken(accessToken).then(function (response) {
                         return processValidationResponse(response);
                     }/* We do not handle error here because we want to route to redirect to the login page.
                      If we handle the error, the route would not be redirected to the login page and
@@ -227,7 +230,7 @@ angular.module('NoesisCodeCalendarApp.services', ['ngResource']).
 
         $rootScope.$on("$routeChangeError", function (event, current, previous, rejection) {
             if (current.loadedTemplateUrl !== "partials/login.html") {
-                $location.path( "/login" );
+                $location.path("/login");
             }
         });
 

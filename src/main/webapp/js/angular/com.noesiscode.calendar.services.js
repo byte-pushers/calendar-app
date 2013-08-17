@@ -7,6 +7,11 @@
  * To change this template use File | Settings | File Templates.
  */
 angular.module('NoesisCodeCalendarApp.services', ['ngResource']).
+    config(function($httpProvider){
+        // This is need for AngularJS 1.0.7 to get CORS request to work.
+        // See https://github.com/angular/angular.js/issues/1004 to detail discussion.
+        delete $httpProvider.defaults.headers.common['X-Requested-With'];
+    }).
     factory('CalendarEventService', function ($resource) {
         "use strict";
         return $resource('data/events/:eventId.json', {}, {
@@ -48,7 +53,7 @@ angular.module('NoesisCodeCalendarApp.services', ['ngResource']).
                     regex = /([^&=]+)=([^&]*)/g,
                     m;
 
-                $log.info("url:" + $location.absUrl());
+                $log.info("processAccessToken() method url:" + $location.absUrl());
                 do {
                     m = regex.exec(queryString);
                     if (m !== null) {
@@ -155,7 +160,7 @@ angular.module('NoesisCodeCalendarApp.services', ['ngResource']).
                         endPointUrl: "https://accounts.google.com/o/oauth2/auth",
                         clientId: "1085080338310.apps.googleusercontent.com",
                         responseType: "token",
-                        redirectUrl: "http://calendar-app.noesiscode.cloudbees.net/", //http://calendar-app.noesiscode.cloudbees.net/  "http://localhost:8080/calendar-app/"
+                        redirectUrl: "http://calendar-app.noesiscode.cloudbees.net/", //http://calendar-app.noesiscode.cloudbees.net/ http://localhost:8080/calendar-app/
                         scope: "https://www.googleapis.com/auth/userinfo.profile",
                         state: "Initializing"
                     };
@@ -191,6 +196,7 @@ angular.module('NoesisCodeCalendarApp.services', ['ngResource']).
                 if (accessToken === null || accessToken === undefined) {
                     deferred.reject(new Error("No Access Token"));
                 } else {
+                    $log.info("getAccessToken() method: found Access Token.");
                     deferred.resolve(accessToken);
                 }
 
@@ -198,9 +204,9 @@ angular.module('NoesisCodeCalendarApp.services', ['ngResource']).
             },
             validateAccessToken = function (accessToken) {
                 var deferred = $q.defer();
-
+                $log.info("sendValidationRequest() method: start.");
                 accessToken.state = getSession().state = $window.sessionStorage.state = "ValidatingAccessToken";
-                /*$http.get('https://www.googleapis.com/oauth2/v1/tokeninfo', {params: {access_token: accessToken.token}})
+                $http.get('https://www.googleapis.com/oauth2/v1/tokeninfo', {params: {access_token: accessToken.token}})
                     .success(function (data, status, headers, config) {
                         // Do something successful.
                         $log.info("sendValidationRequest() method: data: " + data);
@@ -213,8 +219,8 @@ angular.module('NoesisCodeCalendarApp.services', ['ngResource']).
                         deferred.reject(new Error("Error occurred during sendValidationRequest() method: " + status));
                         accessToken.state = getSession().state = $window.sessionStorage.state = "AccessTokenInValid";
                     });
-                */
-                deferred.resolve(true);
+
+                $log.info("sendValidationRequest() method: end.");
                 return deferred.promise;
             },
             validateSession = function () {

@@ -35,7 +35,7 @@ angular.module('NoesisCodeCalendarApp', ['NoesisCodeCalendarApp.services', 'Noes
             templateUrl: 'partials/calendar-month-view.html',
             controller: CalendarMonthViewController,
             resolve: {
-                'validSession': function ($route, $log, LoginService) {
+                'validSession': function ($route, LoginService) {
                     return LoginService.validateSession();
                 }
             }

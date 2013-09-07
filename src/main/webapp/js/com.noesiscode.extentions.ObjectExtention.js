@@ -1,5 +1,5 @@
 Object.isDate = function (someDate) {
-    "user strict";
+    "use strict";
     var result = false;
     if (Object.isDefined(someDate)) {
         if (typeof someDate === "object" && someDate instanceof Date) {
@@ -10,10 +10,10 @@ Object.isDate = function (someDate) {
     return result;
 };
 Object.isString = function (someString) {
-    "user strict";
+    "use strict";
     var result = false;
     if (Object.isDefined(someString)) {
-        if (typeof someString === "object" || (typeof someString === "object" && someString instanceof String)) {
+        if (typeof someString === "string" || (typeof someString === "object" && someString instanceof String)) {
             result = true;
         }
     }
@@ -21,7 +21,7 @@ Object.isString = function (someString) {
     return result;
 };
 Object.isNumber = function (someNumber) {
-    "user strict";
+    "use strict";
     var result = false;
     if (Object.isDefined(someNumber)) {
         if (typeof someNumber === "number" || (typeof someNumber === "object" && someNumber instanceof Number)) {
@@ -32,20 +32,20 @@ Object.isNumber = function (someNumber) {
     return result;
 };
 Object.isBoolean = function (someBoolean) {
+    "use strict";
     var result = false;
     if (Object.isDefined(someBoolean)) {
-        if (typeof someBoolean !== "boolean" || (typeof someBoolean === "object" && someBoolean instanceof Boolean)) {
-            throw new NoesisCode.exceptions.InvalidParameterException("boolean parameter must be of type Boolean.");
+        if (typeof someBoolean === "boolean" || (typeof someBoolean === "object" && someBoolean instanceof Boolean)) {
+            result = true;
         }
-        result = true;
     }
 
     return result;
 };
-Object.isDefined = function (someDate) {
-    "user strict";
+Object.isDefined = function (target) {
+    "use strict";
     var result = false;
-    if (someDate !== "undefined" && someDate !== null) {
+    if (target !== "undefined" && target !== null) {
         result = true;
     }
     return result;

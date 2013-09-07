@@ -13,7 +13,7 @@
 */
 var NoesisCode = NoesisCode || {};
 NoesisCode.models = NoesisCode.namespace("com.noesiscode.models");
-NoesisCode.models.Email = function Email(emailAddress, primaryEmail, type) {
+NoesisCode.models.Email = function (emailAddress, primaryEmail, type) {
 	"use strict";
 	/**
 	 * <p>Represents an email address.</p>
@@ -69,7 +69,7 @@ NoesisCode.models.Email = function Email(emailAddress, primaryEmail, type) {
 	};
 };
 NoesisCode.models.Email.isEmail = function (someEmail) {
-    "user strict";
+    "use strict";
     var result = false;
     if (Object.isDefined(someEmail)) {
         if (typeof someEmail === "object" && someEmail instanceof NoesisCode.models.Email) {
@@ -91,7 +91,7 @@ NoesisCode.models.Email.isEmail = function (someEmail) {
  * 
  * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 */
-NoesisCode.models.Person = function Person(firstName, middleName, lastName) {
+NoesisCode.models.Person = function (firstName, middleName, lastName) {
 	"use strict";
 	if (firstName === "undefined" || firstName === null) {
 		throw new NoesisCode.exceptions.NullPointerException("firstName can not be null.");
@@ -245,7 +245,7 @@ NoesisCode.models.Person = function Person(firstName, middleName, lastName) {
 	};
 };
 NoesisCode.models.Person.isPerson = function (somePerson) {
-    "user strict";
+    "use strict";
     var result = false;
     if (Object.isDefined(somePerson)) {
         if (typeof somePerson === "object" && somePerson instanceof NoesisCode.models.Person) {

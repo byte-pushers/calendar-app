@@ -72,13 +72,11 @@ function CalendarMonthViewController($scope, $location, $routeParams, CalendarEv
             todaysDate = new Date(),
             selectedDay;
 
+        selectedDay = $scope.month.selectDay(todaysDate);
+        $scope.todaysEvents = selectedDay.getEvents();
         if (CalendarApp.utils.MonthUtility.isDateNotInMonthView(todaysDate, cachedWeeks)) {
-            selectedDay = $scope.month.selectDay(todaysDate, true);
             $scope.weeks = $scope.month.getWeeks();
             CalendarApp.getInstance().setCachedMonth(new CalendarApp.models.Month(todaysDate));
-        } else {
-            selectedDay = $scope.month.selectDay(todaysDate);
-            $scope.todaysEvents = selectedDay.getEvents();
         }
     };
     $scope.selectNextDay = function () {

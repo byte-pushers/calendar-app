@@ -163,6 +163,7 @@ Date.prototype.getMonthName = function (index, getAbbr) {
         return this.monthNames[index].name;
     }
 };
+
 /**
  * <p>Static field for the list of month.</p>
  * @static

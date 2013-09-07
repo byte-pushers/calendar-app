@@ -68,7 +68,16 @@ NoesisCode.models.Email = function Email(emailAddress, primaryEmail, type) {
 		return this.emailAddress;
 	};
 };
+NoesisCode.models.Email.isEmail = function (someEmail) {
+    var result = false;
+    if (Object.isDefined(someEmail)) {
+        if (typeof someEmail === "object" && someEmail instanceof NoesisCode.models.Email) {
+            result = true;
+        }
+    }
 
+    return result;
+};
 /**
  * Creates a Person object that represents an actual person.
  * 
@@ -185,7 +194,7 @@ NoesisCode.models.Person = function Person(firstName, middleName, lastName) {
 	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 	*/
 	this.addEmail = function (email) {
-		if (email.getClassType() !== '[class Email]') {
+		if (!NoesisCode.models.Email.isEmail(email)) {
 			throw new NoesisCode.exceptions.InvalidParameterException("email must be of class type Email.");
 		}
 		this.emails[this.emails.length] = email;
@@ -233,4 +242,14 @@ NoesisCode.models.Person = function Person(firstName, middleName, lastName) {
 	this.setNickName = function (nickName) {
 		this.nickName = nickName;
 	};
+};
+NoesisCode.models.Person.isPerson = function (somePerson) {
+    var result = false;
+    if (Object.isDefined(somePerson)) {
+        if (typeof somePerson === "object" && somePerson instanceof NoesisCode.models.Person) {
+            result = true;
+        }
+    }
+
+    return result;
 };

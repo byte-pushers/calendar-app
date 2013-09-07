@@ -26,7 +26,7 @@ CalendarApp.models.Month = function (targetDate) {
          * @field
          * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
          */
-        selectedDate = (targetDate !== undefined && targetDate !== null && targetDate.getClassType() === "[class Date]") ? targetDate : new Date(),
+        selectedDate = (Object.isDate(targetDate)) ? targetDate : new Date(),
         /**
          * <p>Represents the name of the selected month a user has selected.
          * @private
@@ -259,7 +259,7 @@ CalendarApp.models.Month = function (targetDate) {
      * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
      */
     this.getNextDate = function (targetDate) {
-        var nextDate = (targetDate !== undefined && targetDate !== null && targetDate.getClassType() === "[class Date]") ? targetDate : new Date(selectedDate.getTime());
+        var nextDate = (Object.isDate(targetDate)) ? targetDate : new Date(selectedDate.getTime());
         nextDate.setDate(nextDate.getDate() + 1);
         return nextDate;
     };
@@ -271,7 +271,7 @@ CalendarApp.models.Month = function (targetDate) {
      * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
      */
     this.getPreviousDate = function (targetDate) {
-        var previousDate = (targetDate !== undefined && targetDate !== null && targetDate.getClassType() === "[class Date]") ? targetDate : new Date(selectedDate.getTime());
+        var previousDate = (Object.isDate(targetDate)) ? targetDate : new Date(selectedDate.getTime());
         previousDate.setDate(previousDate.getDate() - 1);
         return previousDate;
     };

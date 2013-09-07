@@ -14,21 +14,15 @@ var CalendarApp = CalendarApp || {};
 CalendarApp.models = CalendarApp.namespace("com.noesiscode.calendar.models");
 CalendarApp.models.DateRange = function (start, end) {
 	"use strict";
-	if (start === "undefined" || start === null) {
-		throw new NoesisCode.exceptions.NullPointerException("start can not be null.");
-	}
-
-    if (start.getClassType() !== "[class Date]") {
-		throw new NoesisCode.exceptions.InvalidParameterException("start must be an Date object.");
-	}
-	if (end !== undefined && end !== null) {
-		if (end.getClassType() !== "[class Date]") {
-			throw new NoesisCode.exceptions.InvalidParameterException("end must be an Date object.");
-		}
-		if (end.getTime() < start.getTime()) {
-			throw new NoesisCode.exceptions.InvalidDateRangeException("end date can not come before start date.");
-		}
-	}
+    if (!Object.isDate(start)) {
+        throw new NoesisCode.exceptions.InvalidParameterException("start parameter must be of type Date.");
+    }
+    if (!Object.isDate(end)) {
+        throw new NoesisCode.exceptions.InvalidParameterException("end parameter must be of type Date.");
+    }
+    if (end.getTime() < start.getTime()) {
+        throw new NoesisCode.exceptions.InvalidDateRangeException("end date parameter cannot come before start date parameter.");
+    }
 	this.start = start;
 	this.end = end;
 	this.getStartDate = function () {
@@ -141,10 +135,7 @@ CalendarApp.models.Attendee = function (person, organizer, /* self, resource,*/ 
     this.getClassName = function () {
         return "CalendarApp.models.Attendee";
     };
-	if (person === "undefined" || person === null) {
-		throw new NoesisCode.exceptions.NullPointerException("person can not be null.");
-	}
-	if (person.getClassType() !== "[class Person]") {
+	if (!NoesisCode.models.Person.isPerson(person)) {
 		throw new NoesisCode.exceptions.InvalidParameterException("person must be of class type NoesisCode.models.Person.");
 	}
 	this.person = person;
@@ -155,16 +146,16 @@ CalendarApp.models.Attendee = function (person, organizer, /* self, resource,*/ 
 	this.responseStatus = null;
 	this.comment = null;
 	this.additionalGuests = [];
-	if (organizer !== undefined || organizer !== null || organizer.getObjectType() === "[object Boolean]") {
+	if (Object.isBoolean(organizer)) {
 		this.organizer = organizer;
 	}
-	/*if (resource !== undefined || resource !== null || resource.getObjectType === "[object Boolean]") {
-		this.resource = true;
+	/*if (Object.isBoolean(resource)") {
+		this.resource = resource;
 	};
-	if (self !== undefined || self !== null || self.getObjectType() === "[object Boolean]") {
-		this.self = true;
+	if (Object.isBoolean(self)) {
+		this.self = self;
 	};*/
-	if (optional !== undefined || optional !== null || optional.getObjectType() === "[object Boolean]") {
+	if (Object.isBoolean(optional)) {
 		this.optional = optional;
 	}
 	/**
@@ -221,7 +212,7 @@ CalendarApp.models.Attendee = function (person, organizer, /* self, resource,*/ 
 	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 	*/
 	this.setResponseStatus = function (responseStatus) {
-		if (responseStatus !== undefined && responseStatus !== null && responseStatus.getObjectType() === "[object String]") {
+		if (Object.isString(responseStatus)) {
 			this.responseStatus = responseStatus;
 		}
 	};
@@ -243,7 +234,7 @@ CalendarApp.models.Attendee = function (person, organizer, /* self, resource,*/ 
 	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 	*/
 	this.setComment = function (comment) {
-		if (comment !== undefined && comment !== null && comment.getObjectType() === "[object String]") {
+		if (Object.isString(comment)) {
 			this.comment = comment;
 		}
 	};
@@ -283,11 +274,21 @@ CalendarApp.models.Attendee = function (person, organizer, /* self, resource,*/ 
 	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 	*/
 	this.addAdditionalGuest = function (attendee) {
-        if (attendee === undefined || attendee === null || attendee.getClassType() !== "[class CalendarApp.models.Attendee]") {
+        if (!CalendarApp.models.Attendee.isAttendee(attendee)) {
 			throw new NoesisCode.exceptions.InvalidParameterException("attendee must be of class type CalendarApp.models.Attendee.");
 		}
 		this.additionalGuests[this.additionalGuests.length] = attendee;
 	};
+};
+CalendarApp.models.Attendee.isAttendee = function (someAttendee) {
+    var result = false;
+    if (Object.isDefined(someAttendee)) {
+        if (typeof someAttendee === "object" && someAttendee instanceof CalendarApp.models.Attendee) {
+            result = true;
+        }
+    }
+
+    return result;
 };
 
 CalendarApp.models.Event = function (jsonObject) {
@@ -339,8 +340,8 @@ CalendarApp.models.Event = function (jsonObject) {
 	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 	*/
 	this.setId = function (id) {
-		if (id === undefined || id === null || id.getObjectType() !== "[object Number]") {
-			throw new NoesisCode.exceptions.InvalidParameterException("id must be of type Number.");
+		if (!Object.isNumber(id)) {
+			throw new NoesisCode.exceptions.InvalidParameterException("id parameter must be of type Number.");
 		}
 		this.id = id;
 	};
@@ -360,8 +361,8 @@ CalendarApp.models.Event = function (jsonObject) {
 	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 	*/
 	this.setStatus = function (status) {
-		if (status === undefined || status === null || status.getObjectType() !== "[object String]") {
-			throw new NoesisCode.exceptions.InvalidParameterException("status must be of type String.");
+		if (!Object.isString(status)) {
+			throw new NoesisCode.exceptions.InvalidParameterException("status parameter must be of type String.");
 		}
 		this.status = status;
 	};
@@ -381,8 +382,8 @@ CalendarApp.models.Event = function (jsonObject) {
 	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 	*/
 	this.setHtmlLink = function (htmlLink) {
-		if (htmlLink === undefined || htmlLink === null || htmlLink.getObjectType() !== "[object String]") {
-			throw new NoesisCode.exceptions.InvalidParameterException("htmlLink must be of type String.");
+		if (!Object.isString(htmlLink)) {
+			throw new NoesisCode.exceptions.InvalidParameterException("htmlLink parameter must be of type String.");
 		}
 		this.htmlLink = htmlLink;
 	};
@@ -402,8 +403,8 @@ CalendarApp.models.Event = function (jsonObject) {
 	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 	*/
 	this.setCreated = function (created) {
-		if (created === undefined || created === null || created.getObjectType() !== "[object Date]") {
-			throw new NoesisCode.exceptions.InvalidParameterException("created must be of type Date.");
+		if (!Object.isDate(created)) {
+			throw new NoesisCode.exceptions.InvalidParameterException("created parameter must be of type Date.");
 		}
 		this.created = created;
 	};
@@ -423,8 +424,8 @@ CalendarApp.models.Event = function (jsonObject) {
 	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 	*/
 	this.setUpdated = function (updated) {
-		if (updated === undefined || updated === null || updated.getObjectType() !== "[object Date]") {
-			throw new NoesisCode.exceptions.InvalidParameterException("updated must be of type Date.");
+		if (!Object.isDate(updated)) {
+			throw new NoesisCode.exceptions.InvalidParameterException("updated parameter must be of type Date.");
 		}
 		this.updated = updated;
 	};
@@ -444,8 +445,8 @@ CalendarApp.models.Event = function (jsonObject) {
 	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 	*/
 	this.setSummary = function (summary) {
-		if (summary === undefined || summary === null || summary.getObjectType() !== "[object String]") {
-			throw new NoesisCode.exceptions.InvalidParameterException("summary must be of type String.");
+		if (!Object.isString(summary)) {
+			throw new NoesisCode.exceptions.InvalidParameterException("summary parameter must be of type String.");
 		}
 		this.summary = summary;
 	};
@@ -465,8 +466,8 @@ CalendarApp.models.Event = function (jsonObject) {
 	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 	*/
 	this.setDescription = function (description) {
-		if (description === undefined || description === null || description.getObjectType() !== "[object String]") {
-			throw new NoesisCode.exceptions.InvalidParameterException("summary must be of type String.");
+		if (!Object.isString(description)) {
+			throw new NoesisCode.exceptions.InvalidParameterException("summary parameter must be of type String.");
 		}
 		this.description = description;
 	};
@@ -486,8 +487,8 @@ CalendarApp.models.Event = function (jsonObject) {
 	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 	*/
 	this.setLocation = function (location) {
-		if (location === undefined || location === null || location.getObjectType() !== "[object String]") {
-			throw new NoesisCode.exceptions.InvalidParameterException("location must be of type String.");
+		if (!Object.isString(location)) {
+			throw new NoesisCode.exceptions.InvalidParameterException("location parameter must be of type String.");
 		}
 		this.location = location;
 	};
@@ -507,8 +508,8 @@ CalendarApp.models.Event = function (jsonObject) {
 	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 	*/
 	this.setColorId = function (colorId) {
-		if (colorId === undefined || colorId === null || colorId.getObjectType() !== "[object String]") {
-			throw new NoesisCode.exceptions.InvalidParameterException("colorId must be of type String.");
+		if (!Object.isString(colorId)) {
+			throw new NoesisCode.exceptions.InvalidParameterException("colorId parameter must be of type String.");
 		}
 		this.colorId = colorId;
 	};
@@ -528,8 +529,8 @@ CalendarApp.models.Event = function (jsonObject) {
 	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 	*/
 	this.setCreator = function (creator) {
-		if (creator === undefined || creator === null || creator.getClassType() !== "[class Person]") {
-			throw new NoesisCode.exceptions.InvalidParameterException("creator must be of class type NoesisCodeModels.Person.");
+		if (!NoesisCode.models.Person.isPerson(creator)) {
+			throw new NoesisCode.exceptions.InvalidParameterException("creator parameter must be of class type NoesisCodeModels.Person.");
 		}
 		this.creator = creator;
 	};
@@ -549,8 +550,8 @@ CalendarApp.models.Event = function (jsonObject) {
 	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 	*/
 	this.setOrganizer = function (organizer) {
-		if (organizer === undefined || organizer === null || organizer.getClassType() !== "[class Person]") {
-			throw new NoesisCode.exceptions.InvalidParameterException("organizer must be of class type NoesisCodeModels.Person.");
+		if (!NoesisCode.models.Person.isPerson(organizer)) {
+			throw new NoesisCode.exceptions.InvalidParameterException("organizer parameter must be of class type NoesisCodeModels.Person.");
 		}
 		this.organizer = organizer;
 	};
@@ -610,7 +611,7 @@ CalendarApp.models.Event = function (jsonObject) {
 	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 	*/
 	this.setVisibility = function (visibility) {
-		if (visibility === undefined || visibility === null || visibility.getObjectType() !== "[object String]") {
+		if (!Object.isString(visibility)) {
 			throw new NoesisCode.exceptions.InvalidParameterException("visibility must be of type String.");
 		}
 		if (visibility !== "default" && visibility !== "public" && visibility !== "private" && visibility !== "confidential") {
@@ -635,7 +636,7 @@ CalendarApp.models.Event = function (jsonObject) {
 	*/
 	this.setAttendees = function (attendees) {
 		if (attendees === undefined || attendees === null || !attendees.isArray()) {
-			throw new NoesisCode.exceptions.InvalidParameterException("attendees must be of type Array.");
+			throw new NoesisCode.exceptions.InvalidParameterException("attendees parameter must be of type Array.");
 		}
 		this.attendees = attendees;
 	};
@@ -646,8 +647,8 @@ CalendarApp.models.Event = function (jsonObject) {
 	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 	*/
 	this.addAttendee = function (attendee) {
-		if (attendee === undefined || attendee === null || attendee.getClassType() !== "[class CalendarApp.models.Attendee]") {
-			throw new NoesisCode.exceptions.InvalidParameterException("attendees must be of class type Array.");
+		if (NoesisCode.models.Attendee.isAttendee(attendee)) {
+			throw new NoesisCode.exceptions.InvalidParameterException("attendees parameter must be of class type Array.");
 		}
 		this.attendees[this.attendees.length] = attendee;
 	};
@@ -667,8 +668,8 @@ CalendarApp.models.Event = function (jsonObject) {
 	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 	*/
 	this.anyOneCanAddSelf = function (anyOneCanAddSelfFlag) {
-		if ((anyOneCanAddSelfFlag === undefined || anyOneCanAddSelfFlag === null) && (anyOneCanAddSelfFlag.getObjectType() !== "[object Boolean]")) {
-			throw new NoesisCode.exceptions.InvalidParameterException("anyOneCanAddSelfFlag must be of type Boolean.");
+		if (!Object.isBoolean(anyOneCanAddSelfFlag)) {
+			throw new NoesisCode.exceptions.InvalidParameterException("anyOneCanAddSelfFlag parameter must be of type Boolean.");
 		}
 		this.anyOneCanAddSelfFlag = anyOneCanAddSelfFlag;
 	};
@@ -688,8 +689,8 @@ CalendarApp.models.Event = function (jsonObject) {
 	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 	*/
 	this.guestCanInviteOthers = function (guestCanInviteOthersFlag) {
-		if (guestCanInviteOthersFlag === undefined || guestCanInviteOthersFlag === null || guestCanInviteOthersFlag.getObjectType() !== "[object Boolean]") {
-			throw new NoesisCode.exceptions.InvalidParameterException("guestCanInviteOthersFlag must be of type Boolean.");
+		if (!Object.isBoolean(guestCanInviteOthersFlag)) {
+			throw new NoesisCode.exceptions.InvalidParameterException("guestCanInviteOthersFlag parameter must be of type Boolean.");
 		}
 		this.guestCanInviteOthersFlag = guestCanInviteOthersFlag;
 	};
@@ -709,8 +710,8 @@ CalendarApp.models.Event = function (jsonObject) {
 	 * @author <a href="mailto:pouncilt.developer@gmail.com">Tont&eacute; Pouncil</a>
 	*/
 	this.guestCanSeeOtherGuests = function (guestCanSeeOtherGuestsFlag) {
-		if (guestCanSeeOtherGuestsFlag === undefined || guestCanSeeOtherGuestsFlag === null || guestCanSeeOtherGuestsFlag.getObjectType() !== "[object Boolean]") {
-			throw new NoesisCode.exceptions.InvalidParameterException("guestCanSeeOtherGuestsFlag must be of type Boolean.");
+		if (!Object.isBoolean(guestCanSeeOtherGuestsFlag)) {
+			throw new NoesisCode.exceptions.InvalidParameterException("guestCanSeeOtherGuestsFlag parameter must be of type Boolean.");
 		}
 		this.guestCanSeeOtherGuestsFlag = guestCanSeeOtherGuestsFlag;
 	};

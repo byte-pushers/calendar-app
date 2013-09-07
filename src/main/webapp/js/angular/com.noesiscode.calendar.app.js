@@ -61,7 +61,7 @@ angular.module('NoesisCodeCalendarApp', ['ngRoute', 'NoesisCodeCalendarApp.servi
                     $log.info("route 'otherwise' method: url: " + $location.absUrl());
                     if (location.hash !== null && location.hash !== undefined) {
                         $location.hash(location.hash);
-                        location.hash = "";
+                        //location.hash = "";
                     }
                     deferred.resolve("Session Starting.");
                     return deferred.promise;

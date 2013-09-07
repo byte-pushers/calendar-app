@@ -8,14 +8,8 @@
 function LoginController($scope, LoginService, $location) {
     "use strict";
 
-    $scope.login = function (loginStrategy) {
-        LoginService.sendAuthenticateUserRequest(/*"https://accounts.google.com/o/oauth2/auth",
-            "1085080338310.apps.googleusercontent.com",
-            "token",
-            "http://localhost:8080/calendar-app/",  //http://localhost:8080/calendar-app/
-            "https://www.googleapis.com/auth/userinfo.profile", //https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email+" https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/calendar
-            "ProcessAuthenticatedUserResponse"*/
-        );
+    $scope.login = function (oauthStrategyProvider) {
+        LoginService.sendAuthenticateUserRequest(oauthStrategyProvider);
     };
 }
 LoginController.$inject = ['$scope', 'LoginService', '$location'];

@@ -10,6 +10,7 @@ var CalendarApp = (function () {
         this.lastDraggedEnterElement = [];
         this.lastDraggedEnterElementId = null;
         this.lastDraggedElementId = null;
+        this.registeredOAuthStrategies = [];
         /**
          * <p>Represents the current calendar month.</p>
          * @private
@@ -379,6 +380,58 @@ var CalendarApp = (function () {
         this.getCalendarMonthViewUrl = function (redirectTo) {
             location.href = redirectTo + this.currentMonth.getSelectedDate().getTime();
         };
+        this.findSelectedRegisteredOAuthStrategy = function () {
+            var oauthStrategy = null;
+
+            this.registeredOAuthStrategies.forEach(function (registeredOAuthStrategy, index) {
+                if (registeredOAuthStrategy !== undefined && registeredOAuthStrategy !== null) {
+                    if (registeredOAuthStrategy.selected) {
+                        oauthStrategy = registeredOAuthStrategy.strategy;
+
+                    }
+                }
+            });
+
+            if (oauthStrategy === null || oauthStrategy === undefined) {
+                throw new Error("Could not find selected OAuth provider.");
+            }
+
+            return oauthStrategy;
+        };
+        this.findRegisteredOAuthStrategy = function (oauthStrategyProvider) {
+            var oauthStrategy = null;
+
+            this.registeredOAuthStrategies.forEach(function (registeredOAuthStrategy, index) {
+                if (registeredOAuthStrategy !== undefined && registeredOAuthStrategy !== null) {
+                    if (registeredOAuthStrategy.provider === oauthStrategyProvider) {
+                        oauthStrategy = registeredOAuthStrategy.strategy;
+                    }
+                }
+            });
+
+            if (oauthStrategy === null || oauthStrategy === undefined) {
+                throw new Error("Could not find OAuth provider for " + oauthStrategyProvider);
+            }
+
+            return oauthStrategy;
+        };
+        this.registerOAuthStrategy = function (oauthStrategyProvider, oauthStrategy, selected) {
+            selected = (selected !== undefined && selected !== null && (selected === true || selected === false)) ? selected : false;
+            this.registeredOAuthStrategies.push({provider: oauthStrategyProvider, strategy:  oauthStrategy, selected: selected});
+        };
+        this.markRegisteredOAuthStrategyAsSelected = function (oauthStrategy) {
+            if (oauthStrategy !== null || oauthStrategy !== undefined) {
+                this.registeredOAuthStrategies.forEach(function (registeredOAuthStrategy, index) {
+                    if (registeredOAuthStrategy !== undefined && registeredOAuthStrategy !== null) {
+                        if (registeredOAuthStrategy === oauthStrategy) {
+                            registeredOAuthStrategy.selected = true;
+                        } else {
+                            registeredOAuthStrategy.selected = false;
+                        }
+                    }
+                });
+            }
+        };
     }
 
     var instance, // our this holder
@@ -422,3 +475,4 @@ var CalendarApp = (function () {
 
 CalendarApp.views = CalendarApp.views || CalendarApp.namespace("com.noesiscode.calendar.views");
 CalendarApp.models = CalendarApp.models || CalendarApp.namespace("com.noesiscode.calendar.models");
+CalendarApp.OAuth2Strategies = {YAHOO: "Yahoo", GOOGLE: "Google"};

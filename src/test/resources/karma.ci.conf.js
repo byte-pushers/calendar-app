@@ -27,8 +27,14 @@ files = [
     'src/main/webapp/js/com.noesiscode.calendar.models.Month.js',
     'src/main/webapp/js/angular/com.noesiscode.calendar.app.js',
     'src/main/webapp/js/angular/com.noesiscode.calendar.controllers.js',
+    'src/main/webapp/js/angular/com.noesiscode.calendar.controllers.LoginController.js',
     'src/main/webapp/js/angular/com.noesiscode.calendar.directives.js',
     'src/main/webapp/js/angular/com.noesiscode.calendar.services.js',
+    'src/main/webapp/js/angular/com.noesiscode.oauth.models.OAuth2Context.js',
+    'src/main/webapp/js/angular/com.noesiscode.oauth.models.OAuth2TokenInfo.js',
+    'src/main/webapp/js/angular/com.noesiscode.oauth.models.OAuth2TokenValidationResponseInfo.js',
+    'src/main/webapp/js/angular/com.noesiscode.oauth.OAuthStrategy.js',
+    'src/main/webapp/js/angular/com.noesiscode.oauth.OAuth2Strategy.js',
     'src/test/lib/angular/angular-mocks.js',
     'src/test/unit/Tester.js',
     'src/test/unit/jasmine/TesterSpec.js',
@@ -39,7 +45,9 @@ files = [
     'src/test/unit/jasmine/EventSpec.js',
     'src/test/unit/jasmine/PersonSpec.js',
     'src/test/unit/jasmine/CalendarSpec.js',
-    'src/test/unit/jasmine/MonthUtilitySpec.js'
+    'src/test/unit/jasmine/MonthUtilitySpec.js',
+    'src/test/unit/jasmine/SuperClassMethodSpec.js',
+    'src/test/unit/jasmine/angular/LoginServiceSpec.js'
 ];
 // list of files to exclude
 exclude = ['src/main/webapp/lib/angular/angular-*.min.js'];
@@ -47,7 +55,7 @@ exclude = ['src/main/webapp/lib/angular/angular-*.min.js'];
 // use dots reporter, as travis terminal does not support escaping sequences
 // possible values: 'dots', 'progress', 'junit'
 // CLI --reporters progress
-reporters = ['dots','junit'];
+reporters = ['dots','progress'];
 junitReporter = {
     outputFile: 'target/surefire/test-results.xml'
 };

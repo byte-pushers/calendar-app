@@ -1,4 +1,4 @@
-/*global CalendarMonthViewController,CalendarDayViewController,LoginController,console,document */
+/*global CalendarMonthViewController,CalendarDayViewController,LoginController,console,location */
 /**
  * Created with JetBrains WebStorm.
  * User: pouncilt
@@ -6,14 +6,15 @@
  * Time: 7:19 PM
  * To change this template use File | Settings | File Templates.
  */
-angular.module('NoesisCodeCalendarApp', ['NoesisCodeCalendarApp.services', 'NoesisCodeCalendarApp.directives']).
-    config(['$routeProvider', function ($routeProvider) {
+angular.module('NoesisCodeCalendarApp', ['ngRoute', 'NoesisCodeCalendarApp.services', 'NoesisCodeCalendarApp.directives']).
+    config(function ($routeProvider) {
         "use strict";
         $routeProvider.when('', {
             templateUrl: 'partials/calendar-month-view.html',
             controller: CalendarMonthViewController,
             resolve: {
-                'validSession': function ($route, LoginService) {
+                'validSession': function ($route, $log, $location, LoginService) {
+                    $log.info("route '' method: url: " + $location.absUrl());
                     return LoginService.validateSession();
                 }
             }
@@ -22,7 +23,8 @@ angular.module('NoesisCodeCalendarApp', ['NoesisCodeCalendarApp.services', 'Noes
             templateUrl: 'partials/calendar-month-view.html',
             controller: CalendarMonthViewController,
             resolve: {
-                'validSession': function ($route, LoginService) {
+                'validSession': function ($route, $log, $location, LoginService) {
+                    $log.info("route '/' method: url: " + $location.absUrl());
                     return LoginService.validateSession();
                 }
             }
@@ -35,7 +37,8 @@ angular.module('NoesisCodeCalendarApp', ['NoesisCodeCalendarApp.services', 'Noes
             templateUrl: 'partials/calendar-month-view.html',
             controller: CalendarMonthViewController,
             resolve: {
-                'validSession': function ($route, LoginService) {
+                'validSession': function ($route, $log, $location, LoginService) {
+                    $log.info("route '/calendarMonthView/' method: url: " + $location.absUrl());
                     return LoginService.validateSession();
                 }
             }
@@ -44,7 +47,8 @@ angular.module('NoesisCodeCalendarApp', ['NoesisCodeCalendarApp.services', 'Noes
             templateUrl: 'partials/calendar-day-view.html',
             controller: CalendarDayViewController,
             resolve: {
-                'validSession': function (LoginService) {
+                'validSession': function ($route, $log, $location, LoginService) {
+                    $log.info("route '/calendarDayView/' method: url: " + $location.absUrl());
                     return LoginService.validateSession();
                 }
             }
@@ -52,15 +56,16 @@ angular.module('NoesisCodeCalendarApp', ['NoesisCodeCalendarApp.services', 'Noes
         $routeProvider.otherwise({
             redirectTo: '/calendarMonthView/',
             resolve: {
-                sessionStatus: function ($q, $route, $location) {
-                    var deferred = $q.defer();
-
-                    if (document.location.hash !== null && document.location.hash !== undefined) {
-                        $location.hash(document.location.hash);
+                sessionStatus: function ($q, $route, $log, $location) {
+                    var deferred = $q.defer(), path = null, hash = null;
+                    $log.info("route 'otherwise' method: url: " + $location.absUrl());
+                    if (location.hash !== null && location.hash !== undefined) {
+                        $location.hash(location.hash);
+                        location.hash = "";
                     }
                     deferred.resolve("Session Starting.");
                     return deferred.promise;
                 }
             }
         });
-    }]);
+    });

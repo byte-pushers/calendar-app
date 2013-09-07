@@ -15,7 +15,6 @@ function CalendarMonthViewController($scope, $location, $routeParams, CalendarEv
         $scope.targetDate.setTime($routeParams.selectedDate);
     } else {
         $scope.targetDate = new Date();
-        $scope.todaysEvents = [];
     }
 
     CalendarApp.getInstance().setCurrentMonth(new CalendarApp.models.Month($scope.targetDate));

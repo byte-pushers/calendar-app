@@ -281,6 +281,7 @@ CalendarApp.models.Attendee = function (person, organizer, /* self, resource,*/ 
 	};
 };
 CalendarApp.models.Attendee.isAttendee = function (someAttendee) {
+    "user strict";
     var result = false;
     if (Object.isDefined(someAttendee)) {
         if (typeof someAttendee === "object" && someAttendee instanceof CalendarApp.models.Attendee) {

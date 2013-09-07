@@ -1,4 +1,5 @@
 Object.isDate = function (someDate) {
+    "user strict";
     var result = false;
     if (Object.isDefined(someDate)) {
         if (typeof someDate === "object" && someDate instanceof Date) {
@@ -9,6 +10,7 @@ Object.isDate = function (someDate) {
     return result;
 };
 Object.isString = function (someString) {
+    "user strict";
     var result = false;
     if (Object.isDefined(someString)) {
         if (typeof someString === "object" || (typeof someString === "object" && someString instanceof String)) {
@@ -19,6 +21,7 @@ Object.isString = function (someString) {
     return result;
 };
 Object.isNumber = function (someNumber) {
+    "user strict";
     var result = false;
     if (Object.isDefined(someNumber)) {
         if (typeof someNumber === "number" || (typeof someNumber === "object" && someNumber instanceof Number)) {
@@ -40,6 +43,7 @@ Object.isBoolean = function (someBoolean) {
     return result;
 };
 Object.isDefined = function (someDate) {
+    "user strict";
     var result = false;
     if (someDate !== "undefined" && someDate !== null) {
         result = true;

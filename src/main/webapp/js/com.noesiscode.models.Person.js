@@ -69,6 +69,7 @@ NoesisCode.models.Email = function Email(emailAddress, primaryEmail, type) {
 	};
 };
 NoesisCode.models.Email.isEmail = function (someEmail) {
+    "user strict";
     var result = false;
     if (Object.isDefined(someEmail)) {
         if (typeof someEmail === "object" && someEmail instanceof NoesisCode.models.Email) {
@@ -244,6 +245,7 @@ NoesisCode.models.Person = function Person(firstName, middleName, lastName) {
 	};
 };
 NoesisCode.models.Person.isPerson = function (somePerson) {
+    "user strict";
     var result = false;
     if (Object.isDefined(somePerson)) {
         if (typeof somePerson === "object" && somePerson instanceof NoesisCode.models.Person) {

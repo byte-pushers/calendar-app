@@ -1,110 +1,74 @@
-basePath = '../../../';
+module.exports = function(config){
+    config.set({
+        basePath : '../../../',
 
-files = [
-    JASMINE,
-    JASMINE_ADAPTER,
-    'src/main/webapp/lib/angular/angular.js',
-    'src/main/webapp/lib/angular/angular-*.js',
-    'src/main/webapp/lib/jquery/jquery-1.7.2.js',
-    'src/main/webapp/js/com.noesiscode.extentions.ArrayExtention.js',
-    'src/main/webapp/js/com.noesiscode.extentions.JQueryExtention.js',
-    'src/main/webapp/js/com.noesiscode.extentions.ObjectExtention.js',
-    'src/main/webapp/js/com.noesiscode.extentions.StringExtention.js',
-    'src/main/webapp/js/com.noesiscode.extentions.DateExtention.js',
-    'src/main/webapp/js/com.noesiscode.js',
-    'src/main/webapp/js/com.noesiscode.extentions.Console.js',
-    'src/main/webapp/js/com.noesiscode.exceptions.Errors.js',
-    'src/main/webapp/js/com.noesiscode.utils.NumberUtility.js',
-    'src/main/webapp/js/com.noesiscode.utils.converters.date.DateConverter.js',
-    'src/main/webapp/js/com.noesiscode.models.Person.js',
-    'src/main/webapp/js/com.noesiscode.calendar.CalendarAPI.js',
-    'src/main/webapp/js/com.noesiscode.calendar.utils.MonthUtility.js',
-    'src/main/webapp/js/com.noesiscode.calendar.models.exceptions.Errors.js',
-    'src/main/webapp/js/com.noesiscode.calendar.models.Event.js',
-    'src/main/webapp/js/com.noesiscode.calendar.models.EventTransformer.js',
-    'src/main/webapp/js/com.noesiscode.calendar.models.Day.js',
-    'src/main/webapp/js/com.noesiscode.calendar.models.Week.js',
-    'src/main/webapp/js/com.noesiscode.calendar.models.Month.js',
-    'src/main/webapp/js/angular/com.noesiscode.calendar.app.js',
-    'src/main/webapp/js/angular/com.noesiscode.calendar.controllers.js',
-    'src/main/webapp/js/angular/com.noesiscode.calendar.controllers.LoginController.js',
-    'src/main/webapp/js/angular/com.noesiscode.calendar.directives.js',
-    'src/main/webapp/js/angular/com.noesiscode.calendar.services.js',
-    'src/main/webapp/js/angular/com.noesiscode.oauth.models.OAuth2Context.js',
-    'src/main/webapp/js/angular/com.noesiscode.oauth.models.OAuth2TokenInfo.js',
-    'src/main/webapp/js/angular/com.noesiscode.oauth.models.OAuth2TokenValidationResponseInfo.js',
-    'src/main/webapp/js/angular/com.noesiscode.oauth.OAuthStrategy.js',
-    'src/main/webapp/js/angular/com.noesiscode.oauth.OAuth2Strategy.js',
-    'src/test/lib/angular/angular-mocks.js',
-    'src/test/unit/Tester.js',
-    'src/test/unit/jasmine/TesterSpec.js',
-    'src/test/unit/jasmine/DateConverterSpec.js',
-    'src/test/unit/jasmine/NumberUtilitySpec.js',
-    'src/test/unit/jasmine/NameSpaceSpec.js',
-    'src/test/unit/jasmine/ArraySpec.js',
-    'src/test/unit/jasmine/EventSpec.js',
-    'src/test/unit/jasmine/PersonSpec.js',
-    'src/test/unit/jasmine/CalendarSpec.js',
-    'src/test/unit/jasmine/MonthUtilitySpec.js',
-    'src/test/unit/jasmine/SuperClassMethodSpec.js',
-    'src/test/unit/jasmine/angular/LoginServiceSpec.js'
-];
-// list of files to exclude
-exclude = ['src/main/webapp/lib/angular/angular-*.min.js'];
+        files : [
+            'src/main/webapp/lib/angular/angular.js',
+            'src/main/webapp/lib/angular/angular-*.js',
+            'src/main/webapp/lib/jquery/jquery-1.7.2.js',
+            'src/main/webapp/js/com.noesiscode.extentions.ArrayExtention.js',
+            'src/main/webapp/js/com.noesiscode.extentions.JQueryExtention.js',
+            'src/main/webapp/js/com.noesiscode.extentions.ObjectExtention.js',
+            'src/main/webapp/js/com.noesiscode.extentions.StringExtention.js',
+            'src/main/webapp/js/com.noesiscode.extentions.DateExtention.js',
+            'src/main/webapp/js/com.noesiscode.js',
+            'src/main/webapp/js/com.noesiscode.extentions.Console.js',
+            'src/main/webapp/js/com.noesiscode.exceptions.Errors.js',
+            'src/main/webapp/js/com.noesiscode.utils.NumberUtility.js',
+            'src/main/webapp/js/com.noesiscode.utils.converters.date.DateConverter.js',
+            'src/main/webapp/js/com.noesiscode.models.Person.js',
+            'src/main/webapp/js/com.noesiscode.calendar.CalendarAPI.js',
+            'src/main/webapp/js/com.noesiscode.calendar.utils.MonthUtility.js',
+            'src/main/webapp/js/com.noesiscode.calendar.models.exceptions.Errors.js',
+            'src/main/webapp/js/com.noesiscode.calendar.models.Event.js',
+            'src/main/webapp/js/com.noesiscode.calendar.models.EventTransformer.js',
+            'src/main/webapp/js/com.noesiscode.calendar.models.Day.js',
+            'src/main/webapp/js/com.noesiscode.calendar.models.Week.js',
+            'src/main/webapp/js/com.noesiscode.calendar.models.Month.js',
+            'src/main/webapp/js/angular/com.noesiscode.calendar.app.js',
+            'src/main/webapp/js/angular/com.noesiscode.calendar.controllers.js',
+            'src/main/webapp/js/angular/com.noesiscode.calendar.controllers.LoginController.js',
+            'src/main/webapp/js/angular/com.noesiscode.calendar.directives.js',
+            'src/main/webapp/js/angular/com.noesiscode.calendar.services.js',
+            'src/main/webapp/js/angular/com.noesiscode.oauth.models.OAuth2Context.js',
+            'src/main/webapp/js/angular/com.noesiscode.oauth.models.OAuth2TokenInfo.js',
+            'src/main/webapp/js/angular/com.noesiscode.oauth.models.OAuth2TokenValidationResponseInfo.js',
+            'src/main/webapp/js/angular/com.noesiscode.oauth.OAuthStrategy.js',
+            'src/main/webapp/js/angular/com.noesiscode.oauth.OAuth2Strategy.js',
+            'src/test/lib/angular/angular-mocks.js',
+            'src/test/unit/Tester.js',
+            'src/test/unit/jasmine/TesterSpec.js',
+            'src/test/unit/jasmine/DateConverterSpec.js',
+            'src/test/unit/jasmine/NumberUtilitySpec.js',
+            'src/test/unit/jasmine/NameSpaceSpec.js',
+            'src/test/unit/jasmine/ArraySpec.js',
+            'src/test/unit/jasmine/EventSpec.js',
+            'src/test/unit/jasmine/PersonSpec.js',
+            'src/test/unit/jasmine/CalendarSpec.js',
+            'src/test/unit/jasmine/MonthUtilitySpec.js',
+            'src/test/unit/jasmine/SuperClassMethodSpec.js',
+            'src/test/unit/jasmine/angular/LoginServiceSpec.js'
+        ],
 
-// use dots reporter, as travis terminal does not support escaping sequences
-// possible values: 'dots', 'progress', 'junit'
-// CLI --reporters progress
-reporters = ['dots','progress'];
-junitReporter = {
-    outputFile: 'target/surefire/test-results.xml'
-};
+        // list of files to exclude
+        exclude: ['src/main/webapp/lib/angular/angular-*.min.js'],
 
-// web server port
-// CLI --port 9876
-port = 9876;
+        autoWatch : false,
 
-// cli runner port
-// CLI --runner-port 9100
-runnerPort = 9100;
+        frameworks: ['jasmine'],
 
-// enable / disable colors in the output (reporters and logs)
-// CLI --colors --no-colors
-colors = false;
+        browsers : ['Chrome','Firefox'],
 
-// level of logging
-// possible values: LOG_DISABLE || LOG_ERROR || LOG_WARN || LOG_INFO || LOG_DEBUG
-// CLI --log-level debug
-logLevel = LOG_INFO;
+        plugins : [
+            'karma-junit-reporter',
+            'karma-chrome-launcher',
+            'karma-firefox-launcher',
+            'karma-jasmine'
+        ],
 
-// enable / disable watching file and executing tests whenever any file changes
-// CLI --auto-watch --no-auto-watch
-autoWatch = false;
+        junitReporter : {
+            outputFile: 'test_out/unit.xml',
+            suite: 'unit'
+        }
 
-// Start these browsers, currently available:
-// - Chrome
-// - ChromeCanary
-// - Firefox
-// - Opera
-// - Safari (only Mac)
-// - PhantomJS
-// - IE (only Windows)
-// CLI --browsers Chrome,Firefox,Safari
-browsers = ['Firefox', 'Chrome'];   // /usr/bin/firefox, /usr/bin/google-chrome
-
-// If browser does not capture in given timeout [ms], kill it
-// CLI --capture-timeout 5000
-captureTimeout = 10000;
-
-// Auto run tests on start (when browsers are captured) and exit
-// CLI --single-run --no-single-run
-singleRun = true;
-
-// report which specs are slower than 500ms
-// CLI --report-slower-than 500
-reportSlowerThan = 500;
-
-// compile coffee scripts
-preprocessors = {
-    '**/*.coffee': 'coffee'
-};
+    })}

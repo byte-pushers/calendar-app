@@ -17,7 +17,7 @@ angular.module('NoesisCodeCalendarApp.services', ['ngResource', 'ng']).
                 endPointUrl: "https://accounts.google.com/o/oauth2/auth",
                 clientId: "1085080338310.apps.googleusercontent.com",
                 responseType: "token",
-                redirectUrl: "http://localhost:8080/calendar-app/",
+                redirectUrl: "http://calendar-app.noesiscode.cloudbees.net",
                 scopes: ["https://www.googleapis.com/auth/userinfo.profile"],
                 state: "Initializing",
                 accessTokenValidationUrl: "https://www.googleapis.com/oauth2/v1/tokeninfo"

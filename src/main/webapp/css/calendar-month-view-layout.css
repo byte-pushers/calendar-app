@@ -6,11 +6,22 @@
     width: 100%;
 	/*background: #F0F8FF;*/
 }
-
+#calendar-left-menu-container{
+    /*display: inline;*/
+    /*background: red;*/
+    /*border: 1px solid yellow;*/
+    width: 45%;
+    float:left;
+}
+#calendar-center-menu-container{
+	/*display: inline;*/
+	/*background: darkred;*/
+    /*border: 1px solid red;*/
+}
 #calendar-menu-container{
-	display: block;
-	background: #D2E9FF;
-    border: 1px solid #D2E9FF;
+    display: block;
+    background: #D2E9FF;
+    /*border: 1px solid black;*/
     margin: 0px;
     padding: 0px;
     width: 100%;

@@ -23,11 +23,6 @@ CalendarApp.models.DateRange = function (start, end) {
     if (end.getTime() < start.getTime()) {
         throw new NoesisCode.exceptions.InvalidDateRangeException("end date parameter cannot come before start date parameter.");
     }
-    var todaysDate = new Date();
-    start.setMonth(todaysDate.getMonth());
-    start.setFullYear(todaysDate.getFullYear());
-    end.setMonth(todaysDate.getMonth());
-    end.setFullYear(todaysDate.getFullYear());
 
 	this.start = start;
 	this.end = end;
@@ -332,6 +327,12 @@ CalendarApp.models.Event = function (jsonObject) {
     this.indentWidth = 5;
     this.indentWidthIncreasedStatus = false;
     this.eventsWithSameStartTime = [];
+
+    var todaysDate = new Date();
+    this.start.setMonth(todaysDate.getMonth());
+    this.start.setFullYear(todaysDate.getFullYear());
+    this.end.setMonth(todaysDate.getMonth());
+    this.end.setFullYear(todaysDate.getFullYear());
 	/**
 	 * <p>Gets the event id.</p>
 	 *

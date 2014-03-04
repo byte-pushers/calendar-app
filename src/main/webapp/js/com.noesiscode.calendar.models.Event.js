@@ -329,10 +329,10 @@ CalendarApp.models.Event = function (jsonObject) {
     this.eventsWithSameStartTime = [];
 
     var todaysDate = new Date();
-    this.start.setMonth(todaysDate.getMonth());
-    this.start.setFullYear(todaysDate.getFullYear());
-    this.end.setMonth(todaysDate.getMonth());
-    this.end.setFullYear(todaysDate.getFullYear());
+    if (this.start !== undefined  && this.start !== null) this.start.setMonth(todaysDate.getMonth());
+    if (this.start !== undefined  && this.start !== null) this.start.setFullYear(todaysDate.getFullYear());
+    if (this.end !== undefined  && this.end !== null) this.end.setMonth(todaysDate.getMonth());
+    if (this.end !== undefined  && this.end !== null) this.end.setFullYear(todaysDate.getFullYear());
 	/**
 	 * <p>Gets the event id.</p>
 	 *

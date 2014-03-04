@@ -23,8 +23,15 @@ CalendarApp.models.DateRange = function (start, end) {
     if (end.getTime() < start.getTime()) {
         throw new NoesisCode.exceptions.InvalidDateRangeException("end date parameter cannot come before start date parameter.");
     }
+    var todaysDate = new Date();
+    start.setMonth(todaysDate.getMonth());
+    start.setFullYear(todaysDate.getFullYear());
+    end.setMonth(todaysDate.getMonth());
+    end.setFullYear(todaysDate.getFullYear());
+
 	this.start = start;
 	this.end = end;
+
 	this.getStartDate = function () {
 		return this.start;
 	};
